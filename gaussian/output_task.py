@@ -1,3 +1,8 @@
+# coding: utf-8
+
+
+# This module parses Gaussian output files 
+
 import os
 import json
 
@@ -5,12 +10,18 @@ from fireworks import FiretaskBase, explicit_serialize, FWAction
 from pymatgen import Molecule, IMolecule
 from pymatgen.io.gaussian import GaussianOutput, GaussianInput
 
+__author__ = 'Rasha Atwi'
+__version__ = '0.1'
+__email__ = 'rasha.atwi@tufts.edu'
+__date__ = 'Aug 8, 2019'
+
+
 @explicit_serialize
 class ParseGaussianOutputFile(FiretaskBase):
     """
     This class reads a gaussian output file, converts it to an object, and saves its information to mongodb.
     """
-    # TODO: fix error in reading outputs containing word "error" in pyamtgen.io.gaussian (output)
+    
     def run_task(self, fw_spec):
         files_dir = fw_spec["filesDir"]
         flag = 0
