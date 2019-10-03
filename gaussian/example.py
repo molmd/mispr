@@ -3,6 +3,12 @@ from fireworks.core.rocket_launcher import rapidfire, launch_rocket
 from gaussian_input_task import ConvertToMoleculesTask, ConvertMoleculeToGaussianInputTask, RunGaussianDirect
 from gaussian_output_task import ParseGaussianOutputFile
 
+__author__ = 'Rasha Atwi'
+__version__ = '0.1'
+__email__ = 'rasha.atwi@tufts.edu'
+__date__ = 'Oct 3, 2019'
+
+
 if __name__ == "__main__":
     # set up the LaunchPad and reset it
     launchpad = LaunchPad(host="", uri_mode=True)
