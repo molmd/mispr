@@ -1,3 +1,8 @@
+# coding: utf-8
+
+
+# This module defines firetasks for writing Gaussian input files
+
 import os
 import subprocess
 from copy import deepcopy
@@ -6,6 +11,12 @@ from fireworks import FiretaskBase, explicit_serialize, FWAction
 from fireworks.core.rocket_launcher import rapidfire
 from pymatgen import Molecule, IMolecule
 from pymatgen.io.gaussian import GaussianInput
+
+__author__ = 'Rasha Atwi'
+__version__ = '0.1'
+__email__ = 'rasha.atwi@tufts.edu'
+__date__ = 'Aug 8, 2019'
+
 
 # Omitting _fw_name and identifying the class by the module name and class name
 @explicit_serialize
