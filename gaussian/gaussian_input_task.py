@@ -66,6 +66,7 @@ class ConvertMoleculeToGaussianInputTask(FiretaskBase):
         for name, var in var_dict.items():
             molecule = Molecule.from_sites(var)
             molecule_copy = deepcopy(molecule)
+            # TODO: find a way to calculate charge correctly
             molecule_copy.add_oxidation_state_by_element(
                 {"Mg": 2, "Cl": -1, "N": -1, "S": 0, "O": 0, "F": 0, "C": 0, "H": 0})
             molecule_copy.set_charge_and_spin(super(IMolecule, molecule_copy).charge)
