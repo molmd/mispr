@@ -38,6 +38,24 @@ class ParseGaussianOutputFile(FiretaskBase):
             print("No Gaussian output files found")
         return FWAction(stored_data={'outputs': outputs_dict}, mod_spec=[{'_push': {'outputs': outputs_dict}}])
 
+@explicit_serialize
+class ConvertTOXYZFile(FiretaskBase):
+    """
+    This class coverts a molecule object to xyz file.
+    """
+    def run_task(self, fw_spec):
+        files_dir = fw_spec["filesDir"]
+        var_dict = fw_spec[fw_spec['var']][0]
+        temp_dict = {}
+        if fw_spec['var'] == 'outputs':
+            for key in var_dict:
+                temp_dict[key] = var_dict[key]['output']['molecule']
+            var_dict = temp_dict
+        for name, var in var_dict.items():
+            molecule = Molecule.from_sites(var)
+            xyz_file = XYZ(molecule)
+            xyz_file.write_file(f'{files_dir}/{name}.xyz')
+
 # @explicit_serialize
 # class ConvertGaussianOutputToInput(FiretaskBase):
 #     """
