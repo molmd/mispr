@@ -39,7 +39,7 @@ class ParseGaussianOutputFile(FiretaskBase):
         return FWAction(stored_data={'outputs': outputs_dict}, mod_spec=[{'_push': {'outputs': outputs_dict}}])
 
 @explicit_serialize
-class ConvertTOXYZFile(FiretaskBase):
+class ConvertToXYZFile(FiretaskBase):
     """
     This class coverts a molecule object to xyz file.
     """
