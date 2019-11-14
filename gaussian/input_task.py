@@ -22,7 +22,13 @@ __date__ = 'Aug 8, 2019'
 @explicit_serialize
 class ConvertToMoleculesTask(FiretaskBase):
     """
-    This class takes an xyz file, converts it to a mol object, and saves it as dict to mongodb.
+    This class reads a molecule from a file, converts it to a mol object, and saves it as dict to mongodb.
+    Supported formats include
+        xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,
+        gaussian input (gjf|g03|g09|com|inp),
+        Gaussian output (.out), and
+        pymatgen's JSON serialized molecules.
+    Requires openbabel to be installed.
     """
     # _fw_name = "Convert To Molecules Task"
 
@@ -30,14 +36,13 @@ class ConvertToMoleculesTask(FiretaskBase):
         files_dir = fw_spec["filesDir"]
         mols_dict = {}
         flag = 0
-        for xyz_file in os.listdir(files_dir):
-            if xyz_file.endswith(".xyz"):
-                mol = Molecule.from_file(f'{files_dir}/{xyz_file}').as_dict()
-                name = os.path.splitext(xyz_file)[0]
-                mols_dict[name] = mol
-                flag = 1
+        for file in os.listdir(files_dir):
+            mol = Molecule.from_file(f'{files_dir}/{file}').as_dict()
+            name = os.path.splitext(file)[0]
+            mols_dict[name] = mol
+            flag = 1
         if flag == 0:
-            print("No .xyz files found")
+            print("No molecule files found")
         return FWAction(stored_data={'molecules': mols_dict}, mod_spec=[{'_push': {'molecules': mols_dict}}])
 
 
