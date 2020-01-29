@@ -32,6 +32,18 @@ class ConvertToMoleculeObject(FiretaskBase):
         mol_db = GaussianCalcDb(**fw_spec['db'])
         mol_db.insert_molecule(mol, update_duplicates=False)
         fw_spec['prev_calc_molecule'] = mol
+        return FWAction(update_spec={'smiles': mol_db.get_smiles(mol)})
+
+
+@explicit_serialize
+class RetrieveMoleculeObject(FiretaskBase):
+    """
+    Returns a molecule object from the database using the smiles as an identifier
+    """
+    optional_params = ['smiles', 'db']
+
+    def run_task(self, fw_spec):
+        smiles = fw_spec.get('smiles')
         mol_db = GaussianCalcDb(**fw_spec['db'])
         fw_spec['run'] = {'smiles': mol_db.get_smiles(mol)}
         mol_db.insert_molecule(mol, update_duplicates=False)
