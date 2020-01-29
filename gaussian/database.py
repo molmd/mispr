@@ -19,7 +19,7 @@ class GaussianCalcDb:
         self.user = username
         self.password = password
         self.port = int(port) if port else None
-
+        # TODO: read database credentials from a config file instead (atomate)
         try:
             if uri_mode:
                 self.connection = MongoClient(host)
@@ -95,19 +95,8 @@ class GaussianCalcDb:
             logger.info("Skipping duplicate {}".format(mol_smiles))
             return None
 
-    def insert_run(self, run, update_duplicates=True):
-        """
-        Insert the task document to the database collection.
-        Args:
-            d (dict): task document
-            update_duplicates (bool): whether to update the duplicates
-        """
-        query = {i:j for i, j in run.items() if i not in ['input', 'output']}
-        result = self.runs.find_one(query)
-        if result is None or update_duplicates:
-            run["last_updated"] = datetime.datetime.utcnow()
-            self.runs.update_one(query, {"$set": run}, upsert=True)
-            return query
-        else:
-            logger.info("Skipping duplicate")
-            return None
+    def retrieve_molecule(self, smiles):
+        return self.molecules.find_one({"smiles": smiles})
+
+    def delete_molecule(self, smiles):
+        return self.molecules.delete_one({"smiles": smiles})
