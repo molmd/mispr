@@ -45,5 +45,56 @@ class RetrieveMoleculeObject(FiretaskBase):
     def run_task(self, fw_spec):
         smiles = fw_spec.get('smiles')
         mol_db = GaussianCalcDb(**fw_spec['db'])
-        fw_spec['run'] = {'smiles': mol_db.get_smiles(mol)}
-        mol_db.insert_molecule(mol, update_duplicates=False)
+        mol = mol_db.retrieve_molecule(smiles)
+        if mol is None:
+            raise Exception("Molecule is not found in the database")
+        fw_spec['prev_calc_molecule'] = mol
+
+
+@explicit_serialize
+class RetrieveGaussianOutput(FiretaskBase):
+    """
+    Returns a Gaussian output object from the database and converts it to a
+    Gaussian input object
+    """
+    optional_params = ['smiles', 'functional', 'basis', 'type', 'db',
+                       "gaussian_input_params"]
+
+    def run_task(self, fw_spec):
+        smiles = fw_spec.get('smiles')
+        functional = fw_spec.get('functional', 'B3LYP')
+        basis = fw_spec.get('basis', '6-31+G*')
+        type_ = fw_spec.get('type', 'Opt')
+        run_db = GaussianCalcDb(**fw_spec['db'])
+        if 'tag' in fw_spec:
+            tag = fw_spec['tag']
+            run = run_db.retrieve_run(smiles, type_, functional, basis, tag=tag)
+        else:
+            run = run_db.retrieve_run(smiles, type_, functional, basis)
+        if not run:
+            raise Exception("Gaussian output is not in the database")
+        run = max(run, key=lambda i: i['last_updated'])
+
+        run['output']['charge'] = self.get("gaussian_input_params", {}).\
+            get('charge', run['output'].get('charge'))
+        run['output']['spin_multiplicity'] = \
+            self.get("gaussian_input_params", {}).\
+                get('spin_multiplicity', run['output'].get('spin_multiplicity'))
+        run['output']['title'] = self.get("gaussian_input_params", {}).\
+            get('title', run['output'].get('title'))
+        run['output']['input'] = {**run['output'].get('input', {}),
+                                  **self.get('gaussian_input_params', {})}
+        gaussin = GaussianOutput.from_dict_to_input(run['output'])
+        fw_spec["gaussian_input"] = gaussin
+
+
+@explicit_serialize
+class AttachFunctionalGroup(FiretaskBase):
+    """
+    Attaches a functional group to a molecule; requires the name of the functional
+    group and the smiles representation of the molecule to be read from the database
+    (can be taken from both the molecule collection or the runs collection)
+    """
+
+    def run_task(self, fw_spec):
+        pass
