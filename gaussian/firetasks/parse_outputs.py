@@ -9,6 +9,13 @@ import json
 from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
+logger = logging.getLogger(__name__)
+
+JOB_TYPES = {'SP', 'Opt', 'Freq', 'IRC', 'IRCMax', 'Scan', 'Polar', 'ADMP',
+             'BOMD', 'EET', 'Force', 'Stable', 'Volume', 'Density', 'Guess',
+             'Pop', 'SCRF', 'CPHF', 'Prop', 'NMR', 'CIS', 'ZIndo', 'TD', 'EOM',
+             'SAC-CI'}
+
 
 @explicit_serialize
 class GaussianToDB(FiretaskBase):
