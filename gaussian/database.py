@@ -100,3 +100,39 @@ class GaussianCalcDb:
 
     def delete_molecule(self, smiles):
         return self.molecules.delete_one({"smiles": smiles})
+
+    def insert_run(self, grun):
+        grun["last_updated"] = datetime.datetime.utcnow()
+        self.runs.insert_one(grun)
+        # query = {i:j for i, j in grun.items() if i not in ['input', 'output']}
+        # result = self.runs.find_one(query)
+        # if result is None or update_duplicates:
+        #     grun["last_updated"] = datetime.datetime.utcnow()
+        #     self.runs.update_one(query, {"$set": grun}, upsert=True)
+        #     return query
+        # else:
+        #     logger.info("Skipping duplicate")
+        #     return None
+
+    def retrieve_run(self, smiles=None, job_type=None, functional=None,
+                     basis=None, **kwargs):
+        query = {}
+        if smiles:
+            query['smiles'] = smiles
+        if job_type:
+            query['type'] = job_type
+        if job_type:
+            query['functional'] = functional
+        if job_type:
+            query['basis'] = basis
+        query = {**query, **kwargs}
+        print(query)
+        return list(self.runs.find(query))
+
+    def move_runs(self, new_collection, smiles=None, job_type=None,
+                  functional=None, basis=None, **kwargs):
+        runs = self.retrieve_run(smiles, job_type, functional, basis, **kwargs)
+        self.db[new_collection].insert_many(runs)
+
+
+    #TODO: check if a molecule has already been calculated in the database
