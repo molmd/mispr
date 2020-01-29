@@ -60,9 +60,35 @@ class GaussianToDB(FiretaskBase):
         #    "[99-181])":
         #     gout['input']['route'] =
 
-        # Save input file to database in a standard way
-        # Save output file to database in
-        # Easy searching for a molecule or a document and passing to a firetask,
-        # firework, and workflow
+        input_path = os.path.join(working_dir, input_file)
+        gin = GaussianInput.from_file(input_path).as_dict()
+
+        gout['input']['input_parameters'] = gin['input_parameters']
+        gout['input']['dieze_tag'] = gin['dieze_tag']
+        task_doc = {'input': gin, 'output': gout}
+
+        if "tag" in fw_spec:
+            task_doc.update({"tag": fw_spec["tag"]})
+
+        # Check for additional keys to set based on the fw_spec
+        if self.get("fw_spec_field"):
+            task_doc.update({self.get("fw_spec_field"):
+                                 fw_spec.get(self.get("fw_spec_field"))})
+
+        task_doc['smiles'] = \
+            GaussianCalcDb.get_smiles(Molecule.from_dict(gin['molecule']))
+
+        task_doc['functional'] = gin['functional']
+        task_doc['basis'] = gin['basis_set']
+
+        job_types = \
+            list(filter(lambda x: x in gin['route_parameters'], JOB_TYPES))
+        task_doc['type'] = ';'.join(job_types)
+        task_doc = json.loads(json.dumps(task_doc))
+        print(task_doc)
+
+        runs_db = GaussianCalcDb(**fw_spec['db'])
+        runs_db.insert_run(task_doc)
+        logger.info("Finished parsing output and saving to db")
 
 
