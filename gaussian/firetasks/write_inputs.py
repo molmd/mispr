@@ -72,27 +72,32 @@ class WriteInput(FiretaskBase):
                 if mol_graph.isomorphic_to(prev_mol_graph):
                     mol = prev_calc_mol
                 else:
-                    print("Not using prev_calc_mol as it is not isomorphic to passed molecule!")
+                    print(
+                        "Not using prev_calc_mol as it is not isomorphic to passed molecule!")
             else:
                 mol = prev_calc_mol
             self._update_charge(mol)
-            gaussin = GaussianInput(mol, **self.get("gaussian_input_params", {}))
+            gaussin = \
+                GaussianInput(mol, **self.get("gaussian_input_params", {}))
         # if a molecule is only included as an optional parameter
         elif self.get("molecule"):
             self._update_charge(self.get("molecule"))
-            gaussin = GaussianInput(self.get("molecule"), **self.get("gaussian_input_params", {}))
+            gaussin = GaussianInput(self.get("molecule"),
+                                    **self.get("gaussian_input_params", {}))
         # if no molecule is present raise an error
         else:
             raise KeyError(
                 "No molecule present, add as an optional param or check fw_spec"
             )
-        gaussin.write_file(input_file, self.get("cart_coords", False))
-        fw_spec['input_file_path'] = input_file
-        input_dict = gaussin.as_dict()
-        # fw_spec['run'].update({'input': input_dict })
-        del fw_spec['prev_calc_molecule']
-        print(fw_spec)
-        return FWAction(update_spec=fw_spec)
+        gaussin.write_file(input_path, self.get("cart_coords", False))
+        # delete fw_spec to avoid pymatgen import errors in the next task
+        # (running gaussian on a different partition)
+        if "prev_calc_molecule" in fw_spec:
+            del fw_spec["prev_calc_molecule"]
+        if "gaussian_input" in fw_spec:
+            del fw_spec["gaussian_input"]
+        return FWAction(update_spec={'working_dir': working_dir,
+                                     'input_file': input_file})
 
 # TODO: write a firetask for creating an input file using default parameters
 # and another one using custom ones that offer more flexibility
