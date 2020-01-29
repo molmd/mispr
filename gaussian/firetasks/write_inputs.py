@@ -53,6 +53,11 @@ class WriteInput(FiretaskBase):
         if self.get("gaussian_input") and \
                 isinstance(self.get("gaussian_input"), GaussianInput):
             gaussin = self["gaussian_input"]
+
+        # if a full Gaussian object is being passed through fw_spec
+        elif fw_spec.get("gaussian_input"):
+            gaussin = fw_spec.get("gaussian_input")
+
         # if a molecule is being passed through fw_spec
         elif fw_spec.get("prev_calc_molecule"):
             prev_calc_mol = fw_spec.get("prev_calc_molecule")
