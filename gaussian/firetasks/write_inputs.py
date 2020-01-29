@@ -1,4 +1,3 @@
-print('Write Inputs')
 # coding: utf-8
 
 
@@ -15,16 +14,18 @@ from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.io.gaussian import GaussianInput
 
 __author__ = 'Rasha Atwi'
-__version__ = '0.1'
+__version__ = '0.0.1'
 __email__ = 'rasha.atwi@tufts.edu'
 __date__ = 'Aug 8, 2019'
 
 
 @explicit_serialize
 class WriteInput(FiretaskBase):
+    _fw_name = "Write Gaussian Input File"
+
     required_params = []
     optional_params = ["gaussian_input", "molecule", "gaussian_input_params",
-                       "input_file", "write_to_dir", "cart_coords",
+                       "input_file", "working_dir", "cart_coords",
                        "oxidation_states"]
 
     def _update_charge(self, mol):
@@ -39,16 +40,18 @@ class WriteInput(FiretaskBase):
             mol_copy.set_charge_and_spin(super(IMolecule, mol_copy).charge)
             self["gaussian_input_params"] = \
                 {**self.get("gaussian_input_params", {}),
-                 'charge':  mol_copy.charge}
+                 'charge': mol_copy.charge}
 
     def run_task(self, fw_spec):
-        # TODO: PASS A MOLECULE FROM THE DATABASE
-        input_file = os.path.join(self.get("write_to_dir", ""),
-                                  self.get("input_file", "mol.com"))
+        working_dir = fw_spec. \
+            get('working_dir', self.get('working_dir', os.getcwd()))
+
+        input_file = self.get("input_file", "mol.com")
+        input_path = os.path.join(working_dir, input_file)
 
         # if a full Gaussian object is provided
-        if self.get("gaussian_input") and isinstance(self.get("gaussian_input"),
-                                                     GaussianInput):
+        if self.get("gaussian_input") and \
+                isinstance(self.get("gaussian_input"), GaussianInput):
             gaussin = self["gaussian_input"]
         # if a molecule is being passed through fw_spec
         elif fw_spec.get("prev_calc_molecule"):
@@ -92,50 +95,5 @@ class WriteInput(FiretaskBase):
         print(fw_spec)
         return FWAction(update_spec=fw_spec)
 
-
-@explicit_serialize
-class ConvertMoleculeToGaussianInput(FiretaskBase):
-    # TODO: allow taking a mol object from database directly and/or using the above class
-    def run_task(self, fw_spec):
-        files_dir = fw_spec["filesDir"]
-        var_dict = fw_spec[fw_spec['var']][0]
-        temp_dict = {}
-        if fw_spec['var'] == 'outputs':
-            for key in var_dict:
-                temp_dict[key] = var_dict[key]['output']['molecule']
-            var_dict = temp_dict
-        functional = fw_spec['functional']
-        basis_set = fw_spec['basis_set']
-        route_parameters = fw_spec['route_parameters']
-        link0_parameters = fw_spec['link0_parameters']
-        input_parameters = fw_spec['input_parameters']
-        # TODO: define job names for hybrid jobs
-        # TODO: remove job names from previous calculation
-        if 'Opt' in route_parameters:
-            job = 'Opt'
-        elif 'Freq' in route_parameters:
-            job = 'Freq'
-        elif 'NMR' in route_parameters:
-            job = 'NMR'
-        elif 'pop' in route_parameters and 'ESP' in input_parameters:
-            job = 'ESP'
-        for name, var in var_dict.items():
-            molecule = Molecule.from_sites(var)
-            molecule_copy = deepcopy(molecule)
-            # TODO: find a way to calculate charge correctly
-            molecule_copy.add_oxidation_state_by_element(
-                {"Mg": 2, "Cl": -1, "N": -1, "S": 0, "O": 0, "F": 0, "C": 0, "H": 0})
-            molecule_copy.set_charge_and_spin(super(IMolecule, molecule_copy).charge)
-            # TODO: automatic naming of the checkpoint files in link0_parameters
-            gau_in = GaussianInput(molecule, charge=molecule_copy.charge,
-                                   spin_multiplicity=None, title=None,
-                                   functional=functional, basis_set=basis_set,
-                                   route_parameters=route_parameters,
-                                   link0_parameters=link0_parameters,
-                                   input_parameters=input_parameters)
-            gau_in.write_file(f'{files_dir}/{name}_{job}.com', cart_coords=True)
-            # TODO: find a more efficient way to delete last 4 blank lines of input file
-            if not input_parameters:
-                lines = open(f'{files_dir}/{name}_{job}.com', 'r').readlines()
-                lines = lines[:-2]
-                open(f'{files_dir}/{name}_{job}.com', 'w').writelines(lines)
+# TODO: write a firetask for creating an input file using default parameters
+# and another one using custom ones that offer more flexibility
