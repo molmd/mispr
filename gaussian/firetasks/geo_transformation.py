@@ -19,20 +19,21 @@ class ConvertToMoleculeObject(FiretaskBase):
         pymatgen's JSON serialized molecules.
     Requires openbabel to be installed.
     """
-    optional_params = ['working_dir', 'mol_file', 'db']
+    required_params = ['mol_file']
+    optional_params = ['db', 'working_dir', 'save_to_db', 'update_duplicates']
 
     def run_task(self, fw_spec):
-        # TODO: Give the option to not save the molecule to the database
-        # TODO: Raise a warning that the molecule exists in the database
-        working_dir = fw_spec. \
-            get('working_dir', self.get('working_dir', os.getcwd()))
-        file_name = fw_spec.get("mol_file", self.get('mol_file'))
+        working_dir = self.get('working_dir', os.getcwd())
+        file_name = self["mol_file"]
         file_path = os.path.join(working_dir, file_name)
         mol = Molecule.from_file(file_path)
-        mol_db = GaussianCalcDb(**fw_spec['db'])
-        mol_db.insert_molecule(mol, update_duplicates=False)
-        fw_spec['prev_calc_molecule'] = mol
-        return FWAction(update_spec={'smiles': mol_db.get_smiles(mol)})
+        if self.get('save_to_db', True):
+            mol_db = GaussianCalcDb(**self.get('db'))
+            mol_db.insert_molecule(mol, update_duplicates=self.
+                                   get('update_duplicates', False))
+        fw_spec['prev_calc_molecule'] = mol  # Note: This should ideally be
+        # part of FWaction, however because mpi doesn't support pymatgen, we
+        # should be careful about what is being passed to the next firework
 
 
 @explicit_serialize
