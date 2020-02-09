@@ -1,13 +1,19 @@
 import datetime
 from abc import ABCMeta, abstractmethod
-from logging import getLogger, INFO
+import logging
+import sys
+
 from pymatgen.io.babel import BabelMolAdaptor
+from pymatgen.core.structure import Molecule
+from pymatgen.analysis.molecule_matcher import MoleculeMatcher
+
 import pybel as pb
 from pymongo import MongoClient, ReturnDocument, ASCENDING
 
-
-logger = getLogger(__name__)
-logger.setLevel(INFO)
+logger = logging.getLogger()
+ch = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(ch)
+logger.setLevel(20)
 
 
 class GaussianCalcDb:
@@ -70,22 +76,48 @@ class GaussianCalcDb:
              background (bool): Run in the background or not.
          """
         self.molecules.create_index("smiles", unique=True, background=background)
+        self.molecules.create_index("formula", unique=False,
+                                    background=background)
         self.runs.create_index([("smiles", ASCENDING),
                                 ("type", ASCENDING),
                                 ("functional", ASCENDING),
                                 ("basis", ASCENDING)],
                                unique=False, background=background)
 
-    def insert_molecule(self, molecule, update_duplicates=True):
+    def insert_molecule(self, molecule, update_duplicates=False):
         """
-        Insert the task document ot the database collection.
+        Insert the task document ot the database collection. Does not allow
+        inserting an existing molecule in a new document.
         Args:
             d (dict): task document
             update_duplicates (bool): whether to update the duplicates
         """
         mol_smiles = GaussianCalcDb.get_smiles(molecule)
         molecule_dict = molecule.as_dict()
+        molecule_dict['formula'] = molecule.composition.formula
+        # Check if smile is already in db
         result = self.molecules.find_one({"smiles": mol_smiles})
+        if result:
+            logger.info("{} already in database".format(mol_smiles))
+        # If smile is not in db, checks if the same molecule exists with a
+        # different smile representation
+        if result is None:
+            m = MoleculeMatcher()
+            result_list = \
+                self.molecules.find({'formula': molecule_dict['formula']})
+            if result_list:
+                logger.info("{} already in {} documents".format(mol_smiles,
+                                                                len(result_list)))
+            for i in result_list:
+                saved_mol = Molecule.from_dict(i)
+                if m.fit(saved_mol, molecule):
+                    result = i
+                    mol_smiles = i['smiles']
+                    break
+        # If update_duplicates is set to True, updates existing document with
+        # new geometry keeping the old smiles representation
+        if result and update_duplicates:
+            logger.info("Updating duplicate {}".format(mol_smiles))
         if result is None or update_duplicates:
             molecule_dict["last_updated"] = datetime.datetime.utcnow()
             self.molecules.update_one({"smiles": mol_smiles},
@@ -93,7 +125,7 @@ class GaussianCalcDb:
             return mol_smiles
         else:
             logger.info("Skipping duplicate {}".format(mol_smiles))
-            return None
+            return mol_smiles
 
     def retrieve_molecule(self, smiles):
         return self.molecules.find_one({"smiles": smiles})
