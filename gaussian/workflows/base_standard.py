@@ -87,54 +87,6 @@ def common_fw(mol_file,
     return mol, [fw1, fw2]
 
 
-# def common_fw(mol_file,
-#               db,
-#               working_dir,
-#               opt_gaussian_inputs,
-#               freq_gaussian_inputs,
-#               cart_coords,
-#               save_to_db,
-#               update_duplicates,
-#               oxidation_states,
-#               **kwargs):
-#     opt_gaussian_inputs = opt_gaussian_inputs or {}
-#     opt_gaussian_inputs = {**STANDARD_OPT_GUASSIAN_INPUT, **opt_gaussian_inputs}
-#     if "opt" not in [i.lower() for i in
-#                      opt_gaussian_inputs["route_parameters"]]:
-#         raise ValueError("The Opt keyword is missing from the input file")
-#
-#     fw1 = CalcFromMolFileFW(mol_file,
-#                             db,
-#                             name=get_job_name(mol_file, working_dir, "optimization"),
-#                             working_dir=working_dir,
-#                             input_file="mol_opt.com",
-#                             output_file="mol_opt.out",
-#                             gaussian_input_params=opt_gaussian_inputs,
-#                             cart_coords=cart_coords,
-#                             save_to_db=save_to_db,
-#                             update_duplicates=update_duplicates,
-#                             oxidation_states=oxidation_states,
-#                             **kwargs
-#                             )
-#     freq_gaussian_inputs = freq_gaussian_inputs or {}
-#     if "route_parameters" not in freq_gaussian_inputs:
-#         freq_gaussian_inputs.update({"route_parameters": {"Freq": None}})
-#     if "freq" not in [i.lower() for i in
-#                       freq_gaussian_inputs["route_parameters"]]:
-#         raise ValueError('The Freq keyword is missing from the input file')
-#     fw2 = CalcFromRunsDBFW(db,
-#                            input_file="mol_freq.com",
-#                            output_file="mol_freq.out",
-#                            name=get_job_name(mol_file, working_dir, "frequency"),
-#                            parents=fw1,
-#                            gaussian_input_params=freq_gaussian_inputs,
-#                            working_dir=working_dir,
-#                            cart_coords=cart_coords,
-#                            spec={"proceed": {"has_gaussian_completed": True}},
-#                            **kwargs
-#                            )
-#     return [fw1, fw2]
-
 def get_esp_charges(mol_file=None,
                     smiles=None,
                     db=None,
