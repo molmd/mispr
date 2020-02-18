@@ -7,9 +7,11 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 
 @explicit_serialize
 class RunGaussianDirect(FiretaskBase):
+    # required_params = ["gaussian_cmd"]
     optional_params = ["working_dir", "input_file", "output_file"]
 
     def run_task(self, fw_spec):
+        # cmd = self["gaussian_cmd"]
         working_dir = self.get("working_dir", os.getcwd())
 
         input_file = self.get('input_file', 'mol.com')
