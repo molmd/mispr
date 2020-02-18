@@ -1,14 +1,14 @@
 import datetime
-from abc import ABCMeta, abstractmethod
+from abc import abstractmethod
 import logging
 import sys
+import pandas as pd
 
-from pymatgen.io.babel import BabelMolAdaptor
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
-
-import pybel as pb
-from pymongo import MongoClient, ReturnDocument, ASCENDING
+from monty.serialization import loadfn
+from pymongo import MongoClient, ASCENDING
+from infrastructure.gaussian.utils.utils import get_chem_schema
 
 logger = logging.getLogger()
 ch = logging.StreamHandler(stream=sys.stdout)
@@ -34,13 +34,13 @@ class GaussianCalcDb:
                 self.db = self.connection[dbname]
             else:
                 self.connection = MongoClient(self.host, self.port,
-                                              ssl=kwargs.get('ssl'),
+                                              ssl=kwargs.get('ssl', False),
                                               ssl_ca_certs=kwargs.get('ssl_ca_certs'),
                                               ssl_certfile=kwargs.get('ssl_certfile'),
                                               ssl_keyfile=kwargs.get('ssl_keyfile'),
                                               ssl_pem_passphrase=kwargs.get('ssl_pem_passphrase'),
-                                              username=kwargs.get('user'),
-                                              password=kwargs.get('password'),
+                                              username=username,
+                                              password=password,
                                               authsource=kwargs.get('authsource'))
                 self.db = self.connection[self.db_name]
         except:
@@ -58,15 +58,6 @@ class GaussianCalcDb:
 
         self.build_indexes()
 
-    @staticmethod
-    def get_smiles(mol):
-        """
-        Returns canonical SMILES representation of a pymatgen molecule object.
-        """
-        a = BabelMolAdaptor(mol)
-        pm = pb.Molecule(a.openbabel_mol)
-        return pm.write("can").strip()
-
     @abstractmethod
     def build_indexes(self, indexes=None, background=True):
         """
@@ -76,15 +67,30 @@ class GaussianCalcDb:
              background (bool): Run in the background or not.
          """
         self.molecules.create_index("smiles", unique=True, background=background)
-        self.molecules.create_index("formula", unique=False,
-                                    background=background)
+        self.molecules.create_index(
+            "formula_alphabetical", unique=False, background=background)
+        self.molecules.create_index(
+            "chemsys", unique=False, background=background)
         self.runs.create_index([("smiles", ASCENDING),
                                 ("type", ASCENDING),
                                 ("functional", ASCENDING),
                                 ("basis", ASCENDING)],
                                unique=False, background=background)
 
-    def insert_molecule(self, molecule, update_duplicates=False):
+    def query_molecules(self, query):
+        projection = {'smiles': 1,
+                      "formula": 1,
+                      "formula_pretty": 1,
+                      "formula_anonymous": 1,
+                      "formula_alphabetical": 1,
+                      "chemsys": 1,
+                      "nsites": 1,
+                      "nelements": 1,
+                      "is_ordered": 1,
+                      "is_valid": 1}
+        return pd.DataFrame(list(self.molecules.find(query, projection)))
+
+    def insert_molecule(self, mol, update_duplicates=False):
         """
         Insert the task document ot the database collection. Does not allow
         inserting an existing molecule in a new document.
@@ -92,40 +98,38 @@ class GaussianCalcDb:
             d (dict): task document
             update_duplicates (bool): whether to update the duplicates
         """
-        mol_smiles = GaussianCalcDb.get_smiles(molecule)
-        molecule_dict = molecule.as_dict()
-        molecule_dict['formula'] = molecule.composition.formula
+        mol_dict = get_chem_schema(mol)
         # Check if smile is already in db
-        result = self.molecules.find_one({"smiles": mol_smiles})
+        result = self.molecules.find_one({"smiles": mol_dict["smiles"]})
         if result:
-            logger.info("{} already in database".format(mol_smiles))
+            logger.info("{} already in database".format(mol_dict["smiles"]))
         # If smile is not in db, checks if the same molecule exists with a
         # different smile representation
         if result is None:
             m = MoleculeMatcher()
-            result_list = \
-                self.molecules.find({'formula': molecule_dict['formula']})
+            result_list = list(self.molecules.
+                               find({'formula_alphabetical': mol_dict["formula_alphabetical"]}))
             if result_list:
-                logger.info("{} already in {} documents".format(mol_smiles,
+                logger.info("{} already in {} documents".format(mol_dict["smiles"],
                                                                 len(result_list)))
             for i in result_list:
                 saved_mol = Molecule.from_dict(i)
-                if m.fit(saved_mol, molecule):
+                if m.fit(saved_mol, mol):
                     result = i
-                    mol_smiles = i['smiles']
+                    mol_dict["smiles"] = i['smiles']
                     break
         # If update_duplicates is set to True, updates existing document with
         # new geometry keeping the old smiles representation
         if result and update_duplicates:
-            logger.info("Updating duplicate {}".format(mol_smiles))
+            logger.info("Updating duplicate {}".format(mol_dict["smiles"]))
         if result is None or update_duplicates:
-            molecule_dict["last_updated"] = datetime.datetime.utcnow()
-            self.molecules.update_one({"smiles": mol_smiles},
-                                       {"$set": molecule_dict}, upsert=True)
-            return mol_smiles
+            mol_dict["last_updated"] = datetime.datetime.utcnow()
+            self.molecules.update_one({"smiles": mol_dict["smiles"]},
+                                       {"$set": mol_dict}, upsert=True)
+            return mol_dict["smiles"]
         else:
-            logger.info("Skipping duplicate {}".format(mol_smiles))
-            return mol_smiles
+            logger.info("Skipping duplicate {}".format(mol_dict["smiles"]))
+            return mol_dict["smiles"]
 
     def retrieve_molecule(self, smiles):
         return self.molecules.find_one({"smiles": smiles})
@@ -134,31 +138,23 @@ class GaussianCalcDb:
         return self.molecules.delete_one({"smiles": smiles})
 
     def insert_run(self, grun):
+        # TODO: perform checks if a similar calculation is already in the db
         grun["last_updated"] = datetime.datetime.utcnow()
-        self.runs.insert_one(grun)
-        # query = {i:j for i, j in grun.items() if i not in ['input', 'output']}
-        # result = self.runs.find_one(query)
-        # if result is None or update_duplicates:
-        #     grun["last_updated"] = datetime.datetime.utcnow()
-        #     self.runs.update_one(query, {"$set": grun}, upsert=True)
-        #     return query
-        # else:
-        #     logger.info("Skipping duplicate")
-        #     return None
+        result = self.runs.insert_one(grun, bypass_document_validation=True)
+        return result.inserted_id
 
-    def retrieve_run(self, smiles=None, job_type=None, functional=None,
+    def retrieve_run(self, smiles, job_type=None, functional=None,
                      basis=None, **kwargs):
         query = {}
         if smiles:
             query['smiles'] = smiles
         if job_type:
             query['type'] = job_type
-        if job_type:
+        if functional:
             query['functional'] = functional
-        if job_type:
+        if basis:
             query['basis'] = basis
         query = {**query, **kwargs}
-        print(query)
         return list(self.runs.find(query))
 
     def move_runs(self, new_collection, smiles=None, job_type=None,
