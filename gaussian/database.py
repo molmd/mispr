@@ -162,5 +162,54 @@ class GaussianCalcDb:
         runs = self.retrieve_run(smiles, job_type, functional, basis, **kwargs)
         self.db[new_collection].insert_many(runs)
 
+    def update_run(self, new_values, smiles, job_type=None, functional=None,
+                   basis=None, **kwargs):
+        query = {'smiles': smiles}
+        if job_type:
+            query['type'] = job_type
+        if functional:
+            query['functional'] = functional
+        if basis:
+            query['basis'] = basis
+        query = {**query, **kwargs}
+        run_ = self.retrieve_run(smiles, job_type, functional,
+                                 basis, **kwargs)[0]
+        run_['output']['output'].update(new_values)
+        self.runs.update_one(query, {'$set': run_})
 
-    #TODO: check if a molecule has already been calculated in the database
+    @classmethod
+    def from_db_file(self, db_file, admin=True):
+        """
+        Create MMDB from database file. File requires host, port, database,
+        collection, and optionally admin_user/readonly_user and
+        admin_password/readonly_password
+        Args:
+            db_file (str): path to the file containing the credentials
+            admin (bool): whether to use the admin user
+        Returns:
+            MMDb object
+        """
+        creds = loadfn(db_file)
+
+        if admin and "admin_user" not in creds and "readonly_user" in creds:
+            raise ValueError("Trying to use admin credentials, "
+                             "but no admin credentials are defined. "
+                             "Use admin=False if only read_only "
+                             "credentials are available.")
+
+        if admin:
+            user = creds.get("admin_user")
+            password = creds.get("admin_password")
+        else:
+            user = creds.get("readonly_user")
+            password = creds.get("readonly_password")
+
+        kwargs = creds.get("mongoclient_kwargs", {})  # any other MongoClient kwargs can go here ...
+
+        if "authsource" in creds:
+            kwargs["authsource"] = creds["authsource"]
+        else:
+            kwargs["authsource"] = creds["database"]
+
+        return self(creds["host"], int(creds.get("port", 27017)), creds["database"],
+                   user, password, **kwargs)
