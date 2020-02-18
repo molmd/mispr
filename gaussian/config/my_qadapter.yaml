@@ -1,6 +1,6 @@
 _fw_name: CommonAdapter
 _fw_q_type: SLURM
-rocket_launch: rlaunch -l my_launchpad.yaml singleshot
+rocket_launch: rlaunch -l /cluster/kappa/90-days-archive/rajputlab/ratwi01/ftests/test_run/infrastructure/gaussian/config/my_launchpad.yaml singleshot
 nodes: 1
 ntasks_per_node: 24
 ntasks_per_core: 1
@@ -8,8 +8,9 @@ walltime: 7-00:00:00
 queue: rajputlab
 account: normal
 job_name: null
-pre_rocket: PYTHONPATH=$PYTHONPATH:/cluster/kappa/90-days-archive/rajputlab/ratwi01/ftests/test_run
+pre_rocket: |
+  PYTHONPATH=$PYTHONPATH:/cluster/kappa/90-days-archive/rajputlab/ratwi01/ftests/test_run
   export PYTHONPATH
   module load gaussian/g09
 post_rocket: null
-logdir: <<INSTALL_DIR>>/logs
+logdir: null
