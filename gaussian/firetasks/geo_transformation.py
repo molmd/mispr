@@ -79,25 +79,45 @@ class RetrieveGaussianOutput(FiretaskBase):
     Returns a Gaussian output object from the database and converts it to a
     Gaussian input object
     """
-    optional_params = ['smiles', 'functional', 'basis', 'type', 'db',
-                       "gaussian_input_params"]
+    required_params = ["db"]
+    optional_params = ["gaussian_input_params", "smiles", "functional", "basis",
+                       "type", "tag"]
 
     def run_task(self, fw_spec):
-        smiles = fw_spec.get('smiles')
-        functional = fw_spec.get('functional', 'B3LYP')
-        basis = fw_spec.get('basis', '6-31+G*')
-        type_ = fw_spec.get('type', 'Opt')
-        run_db = GaussianCalcDb(**fw_spec['db'])
-        if 'tag' in fw_spec:
-            tag = fw_spec['tag']
-            run = run_db.retrieve_run(smiles, type_, functional, basis, tag=tag)
+        # TODO: use optional parameters as task input
+        # TODO: use alphabetical formula as a search criteria
+        if isinstance(self.get('db'), dict):
+            run_db = GaussianCalcDb(**self['db'])
         else:
-            run = run_db.retrieve_run(smiles, type_, functional, basis)
-        if not run:
-            raise Exception("Gaussian output is not in the database")
-        run = max(run, key=lambda i: i['last_updated'])
+            run_db = GaussianCalcDb.from_db_file(self.get('db'))
 
-        run['output']['charge'] = self.get("gaussian_input_params", {}).\
+        # if a Gaussian output dict is passed through fw_spec
+        if fw_spec.get("gaussian_output_id"):
+            run = run_db.runs.\
+                find_one({"_id": ObjectId(fw_spec.get("gaussian_output_id"))})
+            proceed_keys = fw_spec.get("proceed")
+            for k, v in proceed_keys.items():
+                if run["output"].get(k, run["output"]["output"].get(k)) != v:
+                    raise ValueError(
+                        f"The condition for {k} is not met, Terminating"
+                    )
+
+        # if a Gaussian output dictionary is retrieved from db
+        else:
+            smiles = self['smiles']
+            functional = self.get('functional')
+            basis = self.get('basis')
+            type_ = self.get('type')
+            if 'tag' in self:
+                tag = self['tag']
+                run = run_db.retrieve_run(smiles, type_, functional, basis,
+                                          tag=tag)
+            else:
+                run = run_db.retrieve_run(smiles, type_, functional, basis)
+            if not run:
+                raise Exception("Gaussian output is not in the database")
+            run = max(run, key=lambda i: i['last_updated'])
+        run['output']['charge'] = self.get("gaussian_input_params", {}). \
             get('charge', run['output'].get('charge'))
         run['output']['spin_multiplicity'] = \
             self.get("gaussian_input_params", {}). \
@@ -105,6 +125,8 @@ class RetrieveGaussianOutput(FiretaskBase):
                     run['output'].get('spin_multiplicity'))
         run['output']['title'] = self.get("gaussian_input_params", {}). \
             get('title', run['output'].get('title'))
+        run['output']['input']['route'] = self.get("gaussian_input_params", {}). \
+            get('route_parameters', run['output']['input'].get('route'))
         run['output']['input'] = {**run['output'].get('input', {}),
                                   **self.get('gaussian_input_params', {})}
         gaussin = GaussianOutput.from_dict_to_input(run['output'])
