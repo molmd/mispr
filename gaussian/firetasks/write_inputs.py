@@ -55,7 +55,8 @@ class WriteInput(FiretaskBase):
             gaussin = self["gaussian_input"]
 
         # if a full Gaussian object is being passed through fw_spec
-        elif fw_spec.get("gaussian_input"):
+        elif fw_spec.get("gaussian_input") and \
+                isinstance(fw_spec.get("gaussian_input"), GaussianInput):
             gaussin = fw_spec.get("gaussian_input")
 
         # if a molecule is being passed through fw_spec
@@ -94,15 +95,13 @@ class WriteInput(FiretaskBase):
             raise KeyError(
                 "No molecule present, add as an optional param or check fw_spec"
             )
-        gaussin.write_file(input_path, self.get("cart_coords", False))
+        gaussin.write_file(input_path, self.get("cart_coords", True))
         # delete fw_spec to avoid pymatgen import errors in the next task
         # (running gaussian on a different partition)
         if "prev_calc_molecule" in fw_spec:
             del fw_spec["prev_calc_molecule"]
         if "gaussian_input" in fw_spec:
             del fw_spec["gaussian_input"]
-        return FWAction(update_spec={'working_dir': working_dir,
-                                     'input_file': input_file})
 
 # TODO: write a firetask for creating an input file using default parameters
 # and another one using custom ones that offer more flexibility
