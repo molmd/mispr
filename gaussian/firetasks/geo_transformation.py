@@ -1,9 +1,12 @@
 import os
 
+from bson.objectid import ObjectId
+
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianOutput
+
 from infrastructure.gaussian.database import GaussianCalcDb
 
 
@@ -28,9 +31,14 @@ class ConvertToMoleculeObject(FiretaskBase):
         file_path = os.path.join(working_dir, file_name)
         mol = Molecule.from_file(file_path)
         if self.get('save_to_db', True):
-            mol_db = GaussianCalcDb(**self.get('db'))
-            mol_db.insert_molecule(mol, update_duplicates=self.
-                                   get('update_duplicates', False))
+            if isinstance(self.get('db'), dict):
+                mol_db = GaussianCalcDb(**self.get('db'))
+            else:
+                mol_db = GaussianCalcDb.from_db_file(self.get('db'))
+            mol_db.insert_molecule(
+                mol,
+                update_duplicates=self.get('update_duplicates', False)
+            )
         fw_spec['prev_calc_molecule'] = mol  # Note: This should ideally be
         # part of FWaction, however because mpi doesn't support pymatgen, we
         # should be careful about what is being passed to the next firework
