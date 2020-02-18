@@ -8,6 +8,7 @@ import json
 
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
+from infrastructure.gaussian.utils.utils import get_chem_schema
 
 logger = logging.getLogger(__name__)
 
@@ -33,8 +34,6 @@ class GaussianToDB(FiretaskBase):
         from pymatgen.core.structure import Molecule
         from infrastructure.gaussian.database import GaussianCalcDb
         # TODO: Include multirun format
-        # TODO: modify to allow taking an output file only (in cases we do not
-        # have the input
         working_dir = self.get("working_dir", os.getcwd())
         input_file = self.get("input_file", "mol.com")
         output_file = self.get("output_file", "mol.out")
@@ -44,11 +43,17 @@ class GaussianToDB(FiretaskBase):
         output_path = os.path.join(working_dir, output_file)
         gout = GaussianOutput(output_path).as_dict()
 
-        input_path = os.path.join(working_dir, input_file)
-        gin = GaussianInput.from_file(input_path).as_dict()
+        if self.get("input_file"):
+            input_path = os.path.join(working_dir, input_file)
+            gin = GaussianInput.from_file(input_path).as_dict()
 
-        gout['input']['input_parameters'] = gin['input_parameters']
-        task_doc = {'input': gin, 'output': gout}
+            gout['input']['input_parameters'] = gin['input_parameters']
+            task_doc = {'input': gin, 'output': gout}
+        else:
+            task_doc = {'output': gout}
+            logger.info("Input parameters at the end of the Gaussian input "
+                        "section will not be saved to the database due to a "
+                        "missing input file")
 
         if "tag" in fw_spec:
             task_doc.update({"tag": fw_spec["tag"]})
@@ -58,20 +63,28 @@ class GaussianToDB(FiretaskBase):
             task_doc.update({self.get("fw_spec_field"):
                                  fw_spec.get(self.get("fw_spec_field"))})
 
-        task_doc['smiles'] = \
-            GaussianCalcDb.get_smiles(Molecule.from_dict(gin['molecule']))
-        task_doc['functional'] = gin['functional']
-        task_doc['basis'] = gin['basis_set']
+        task_doc.update(
+            get_chem_schema(Molecule.from_dict(gout['output']['molecule']))
+        )
+
+        task_doc['functional'] = gout['input']['functional']
+        task_doc['basis'] = gout['input']['basis_set']
 
         job_types = \
-            list(filter(lambda x: x in gin['route_parameters'], JOB_TYPES))
+            list(filter(lambda x: x in gout['input']['route'], JOB_TYPES))
         task_doc['type'] = ';'.join(job_types)
         task_doc = json.loads(json.dumps(task_doc))
-        print(task_doc)
-
-        runs_db = GaussianCalcDb(**fw_spec['db'])
-        runs_db.insert_run(task_doc)
+        if isinstance(self.get('db'), dict):
+            runs_db = GaussianCalcDb(**self['db'])
+        else:
+            runs_db = GaussianCalcDb.from_db_file(self.get('db'))
+        gout_id = runs_db.insert_run(task_doc)
         logger.info("Finished parsing output and saving to db")
-        return FWAction(update_spec={"gaussian_output": task_doc})
+        condition = True
+        if not fw_spec.get('additional_fields'):
+            condition = False
+        else:
+            for i in fw_spec['additional_fields']:
+                condition = condition and task_doc['output'][i]
 
-
+        return FWAction(update_spec={"gaussian_output_id": gout_id})
