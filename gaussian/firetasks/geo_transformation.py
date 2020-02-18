@@ -49,13 +49,18 @@ class RetrieveMoleculeObject(FiretaskBase):
     """
     Returns a molecule object from the database using the smiles as an identifier
     """
-    optional_params = ['smiles', 'db']
+    required_params = ["db", "smiles"]
+    optional_params = ["save_mol_file", "fmt", "filename", "working_dir"]
 
     def run_task(self, fw_spec):
-        smiles = fw_spec.get('smiles')
-        mol_db = GaussianCalcDb(**fw_spec['db'])
-        mol = mol_db.retrieve_molecule(smiles)
-        if mol is None:
+        # TODO: use alphabetical formula as a search criteria
+        smiles = self['smiles']
+        if isinstance(self.get('db'), dict):
+            mol_db = GaussianCalcDb(**self['db'])
+        else:
+            mol_db = GaussianCalcDb.from_db_file(self.get('db'))
+        mol_dict = mol_db.retrieve_molecule(smiles)
+        if mol_dict is None:
             raise Exception("Molecule is not found in the database")
         fw_spec['prev_calc_molecule'] = mol
 
@@ -87,9 +92,10 @@ class RetrieveGaussianOutput(FiretaskBase):
         run['output']['charge'] = self.get("gaussian_input_params", {}).\
             get('charge', run['output'].get('charge'))
         run['output']['spin_multiplicity'] = \
-            self.get("gaussian_input_params", {}).\
-                get('spin_multiplicity', run['output'].get('spin_multiplicity'))
-        run['output']['title'] = self.get("gaussian_input_params", {}).\
+            self.get("gaussian_input_params", {}). \
+                get('spin_multiplicity',
+                    run['output'].get('spin_multiplicity'))
+        run['output']['title'] = self.get("gaussian_input_params", {}). \
             get('title', run['output'].get('title'))
         run['output']['input'] = {**run['output'].get('input', {}),
                                   **self.get('gaussian_input_params', {})}
