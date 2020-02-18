@@ -1,11 +1,11 @@
 import os
 import logging
+
 from fireworks import Workflow
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFileFW, \
     CalcFromRunsDBFW, CalcFromMolDBFW
 from infrastructure.gaussian.utils.utils import get_mol_from_file, \
     get_mol_from_db, get_mol_formula, get_job_name
-from infrastructure.gaussian.config.config import DB_FILE
 
 logger = logging.getLogger(__name__)
 
@@ -52,8 +52,8 @@ def common_fw(mol_file,
     elif smiles is not None:
         print("smiles: yes")
         mol = get_mol_from_db(smiles, db)
-        fw1 = CalcFromMolDBFW(smiles,
-                              db,
+        fw1 = CalcFromMolDBFW(db,
+                              smiles,
                               name=get_job_name(mol, "optimization"),
                               working_dir=working_dir,
                               input_file="mol_opt.com",
@@ -149,7 +149,7 @@ def get_esp_charges(mol_file=None,
                     oxidation_states=None,
                     **kwargs):
     fws = []
-    # db = db.get("DB_FILE", DB_FILE)
+
     working_dir = working_dir or os.getcwd()
     mol, list_fws = common_fw(mol_file=mol_file,
                               smiles=smiles,
