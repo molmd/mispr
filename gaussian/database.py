@@ -2,7 +2,9 @@ import datetime
 from abc import abstractmethod
 import logging
 import sys
+
 import pandas as pd
+import json
 
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
@@ -54,6 +56,7 @@ class GaussianCalcDb:
             logger.error("Mongodb authentication failed")
             raise ValueError
         self.molecules = self.db['molecules']
+        self.functional_groups = self.db['functional_groups']
         self.runs = self.db['runs']
 
         self.build_indexes()
@@ -71,6 +74,8 @@ class GaussianCalcDb:
             "formula_alphabetical", unique=False, background=background)
         self.molecules.create_index(
             "chemsys", unique=False, background=background)
+        self.functional_groups.create_index("name", unique=True,
+                                            background=background)
         self.runs.create_index([("smiles", ASCENDING),
                                 ("type", ASCENDING),
                                 ("functional", ASCENDING),
@@ -213,3 +218,21 @@ class GaussianCalcDb:
 
         return self(creds["host"], int(creds.get("port", 27017)), creds["database"],
                    user, password, **kwargs)
+
+    def insert_fg(self, fg_file):
+        # file can contain one fg dictionary or multiple ones
+        with open(fg_file) as f:
+            func_group = json.load(f)
+        list_of_groups = []
+        search_query = []
+        for i, j in func_group.items():
+            list_of_groups.append({**j, 'name': i})
+            search_query.append(i)
+        existing = self.functional_groups.find({'name': {'$in': search_query}},
+                                               {'name': 1})
+        existing = set([i['name'] for i in existing])
+        list_of_groups = [i for i in list_of_groups if i['name'] not in existing]
+        self.functional_groups.insert_many(list_of_groups)
+
+    def retrieve_fg(self, name):
+        return self.functional_groups.find_one({'name': name})
