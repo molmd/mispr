@@ -69,9 +69,9 @@ class GaussianToDB(FiretaskBase):
 
         task_doc['functional'] = gout['input']['functional']
         task_doc['basis'] = gout['input']['basis_set']
-
         job_types = \
-            list(filter(lambda x: x in gout['input']['route'], JOB_TYPES))
+            list(filter(lambda x: x in gout['input']['route'],
+                        JOB_TYPES | set([i.lower() for i in JOB_TYPES])))
         task_doc['type'] = ';'.join(job_types)
         task_doc = json.loads(json.dumps(task_doc))
         if isinstance(self.get('db'), dict):
