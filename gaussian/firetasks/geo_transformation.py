@@ -63,7 +63,7 @@ class RetrieveMoleculeObject(FiretaskBase):
         if mol_dict is None:
             raise Exception("Molecule is not found in the database")
         mol = Molecule.from_dict(mol_dict)
-        if mol and self.get("save_mol_file", True):
+        if mol and self.get("save_mol_file", False):
             working_dir = self.get('working_dir', os.getcwd())
             file_name = self.get(
                 'filename.{}'.format(self.get('fmt', 'xyz')),
