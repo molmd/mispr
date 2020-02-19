@@ -2,10 +2,11 @@ import os
 import logging
 
 from fireworks import Workflow
+from fireworks.fw_config import CONFIG_FILE_DIR
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFileFW, \
     CalcFromRunsDBFW, CalcFromMolDBFW
 from infrastructure.gaussian.utils.utils import get_mol_from_file, \
-    get_mol_from_db, get_mol_formula, get_job_name
+    get_mol_from_db, get_job_name
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +35,6 @@ def common_fw(mol_file,
                      opt_gaussian_inputs["route_parameters"]]:
         raise ValueError("The Opt keyword is missing from the input file")
     if mol_file is not None:
-        print("mol_file: yes")
         mol = get_mol_from_file(mol_file, working_dir)
         fw1 = CalcFromMolFileFW(mol_file,
                                 db,
@@ -50,7 +50,6 @@ def common_fw(mol_file,
                                 **kwargs
                                 )
     elif smiles is not None:
-        print("smiles: yes")
         mol = get_mol_from_db(smiles, db)
         fw1 = CalcFromMolDBFW(db,
                               smiles,
@@ -65,7 +64,7 @@ def common_fw(mol_file,
                               )
     else:
         raise ValueError("No molecule provided. Either a molecule file or a "
-                         "smiles representation from the molecules collection"
+                         "smiles representation from the molecules collection "
                          "should be provided as an input")
     freq_gaussian_inputs = freq_gaussian_inputs or {}
     if "route_parameters" not in freq_gaussian_inputs:
@@ -101,7 +100,7 @@ def get_esp_charges(mol_file=None,
                     oxidation_states=None,
                     **kwargs):
     fws = []
-
+    db = db or f"{CONFIG_FILE_DIR}/db.json"
     working_dir = working_dir or os.getcwd()
     mol, list_fws = common_fw(mol_file=mol_file,
                               smiles=smiles,
@@ -142,7 +141,7 @@ def get_esp_charges(mol_file=None,
 
 def get_nmr_tensors(mol_file=None,
                     smiles=None,
-                    c=None,
+                    db=None,
                     name="nmr_tensor_calculation",
                     working_dir=None,
                     opt_gaussian_inputs=None,
@@ -154,8 +153,7 @@ def get_nmr_tensors(mol_file=None,
                     oxidation_states=None,
                     **kwargs):
     fws = []
-    c = c or {}
-    db = c.get("DB_FILE", DB_FILE)
+    db = db or f"{CONFIG_FILE_DIR}/db.json"
     mol, list_fws = common_fw(mol_file=mol_file,
                               smiles=smiles,
                               db=db,
