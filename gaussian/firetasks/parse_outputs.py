@@ -12,10 +12,11 @@ from infrastructure.gaussian.utils.utils import get_chem_schema
 
 logger = logging.getLogger(__name__)
 
-JOB_TYPES = {'SP', 'Opt', 'Freq', 'IRC', 'IRCMax', 'Scan', 'Polar', 'ADMP',
-             'BOMD', 'EET', 'Force', 'Stable', 'Volume', 'Density', 'Guess',
-             'Pop', 'SCRF', 'CPHF', 'Prop', 'NMR', 'CIS', 'ZIndo', 'TD', 'EOM',
-             'SAC-CI'}
+
+JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
+             'bomd', 'eet', 'force', 'stable', 'volume', 'density', 'guess',
+             'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
+             'sac-ci'}
 
 
 @explicit_serialize
@@ -34,6 +35,7 @@ class GaussianToDB(FiretaskBase):
         from pymatgen.core.structure import Molecule
         from infrastructure.gaussian.database import GaussianCalcDb
         # TODO: Include multirun format
+        # TODO: cleanup task_doc
         working_dir = self.get("working_dir", os.getcwd())
         input_file = self.get("input_file", "mol.com")
         output_file = self.get("output_file", "mol.out")
@@ -42,6 +44,8 @@ class GaussianToDB(FiretaskBase):
 
         output_path = os.path.join(working_dir, output_file)
         gout = GaussianOutput(output_path).as_dict()
+        gout['input']['charge'] = gout['charge']
+        gout['input']['spin_multiplicity'] = gout['spin_multiplicity']
 
         if self.get("input_file"):
             input_path = os.path.join(working_dir, input_file)
@@ -70,8 +74,10 @@ class GaussianToDB(FiretaskBase):
         task_doc['functional'] = gout['input']['functional']
         task_doc['basis'] = gout['input']['basis_set']
         job_types = \
-            list(filter(lambda x: x in gout['input']['route'],
-                        JOB_TYPES | set([i.lower() for i in JOB_TYPES])))
+            list(filter(lambda x: x in
+                                  {k.lower(): v for k, v in
+                                   gout['input']['route_parameters'].items()},
+                        JOB_TYPES))
         task_doc['type'] = ';'.join(job_types)
         task_doc = json.loads(json.dumps(task_doc))
         if isinstance(self.get('db'), dict):
