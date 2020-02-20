@@ -2,10 +2,10 @@ import os
 
 from bson.objectid import ObjectId
 
-from fireworks.core.firework import FiretaskBase, FWAction
+from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
-from pymatgen.io.gaussian import GaussianOutput
+from pymatgen.io.gaussian import GaussianOutput, GaussianInput
 
 from infrastructure.gaussian.database import GaussianCalcDb
 
@@ -63,6 +63,7 @@ class RetrieveMoleculeObject(FiretaskBase):
         if mol_dict is None:
             raise Exception("Molecule is not found in the database")
         mol = Molecule.from_dict(mol_dict)
+        # TODO: correct the way this is written
         if mol and self.get("save_mol_file", False):
             working_dir = self.get('working_dir', os.getcwd())
             file_name = self.get(
@@ -81,11 +82,12 @@ class RetrieveGaussianOutput(FiretaskBase):
     """
     required_params = ["db"]
     optional_params = ["gaussian_input_params", "smiles", "functional", "basis",
-                       "type", "tag"]
+                       "type", "phase", "tag"]
 
     def run_task(self, fw_spec):
-        # TODO: use optional parameters as task input
         # TODO: use alphabetical formula as a search criteria
+
+        # get db credentials
         if isinstance(self.get('db'), dict):
             run_db = GaussianCalcDb(**self['db'])
         else:
@@ -93,7 +95,7 @@ class RetrieveGaussianOutput(FiretaskBase):
 
         # if a Gaussian output dict is passed through fw_spec
         if fw_spec.get("gaussian_output_id"):
-            run = run_db.runs.\
+            run = run_db.runs. \
                 find_one({"_id": ObjectId(fw_spec.get("gaussian_output_id"))})
             proceed_keys = fw_spec.get("proceed")
             for k, v in proceed_keys.items():
@@ -108,28 +110,26 @@ class RetrieveGaussianOutput(FiretaskBase):
             functional = self.get('functional')
             basis = self.get('basis')
             type_ = self.get('type')
+            phase = self.get('phase')
             if 'tag' in self:
                 tag = self['tag']
                 run = run_db.retrieve_run(smiles, type_, functional, basis,
-                                          tag=tag)
+                                          phase, tag=tag)
             else:
-                run = run_db.retrieve_run(smiles, type_, functional, basis)
+                run = run_db.retrieve_run(smiles, type_, functional, basis,
+                                          phase)
             if not run:
                 raise Exception("Gaussian output is not in the database")
             run = max(run, key=lambda i: i['last_updated'])
-        run['output']['charge'] = self.get("gaussian_input_params", {}). \
-            get('charge', run['output'].get('charge'))
-        run['output']['spin_multiplicity'] = \
-            self.get("gaussian_input_params", {}). \
-                get('spin_multiplicity',
-                    run['output'].get('spin_multiplicity'))
-        run['output']['title'] = self.get("gaussian_input_params", {}). \
-            get('title', run['output'].get('title'))
-        run['output']['input']['route'] = self.get("gaussian_input_params", {}). \
-            get('route_parameters', run['output']['input'].get('route'))
-        run['output']['input'] = {**run['output'].get('input', {}),
-                                  **self.get('gaussian_input_params', {})}
-        gaussin = GaussianOutput.from_dict_to_input(run['output'])
+
+        # create a gaussian input object from run
+        inputs = {}
+        for k, v in run['input'].items():
+            # use gaussian_input_params if defined, otherwise use run parameters
+            inputs[f'{k}'] = self.get("gaussian_input_params", {}).\
+                get(f'{k}', run['input'].get(f'{k}'))
+        inputs['molecule'] = run['output']['output']['molecule']
+        gaussin = GaussianInput.from_dict(inputs)
         fw_spec["gaussian_input"] = gaussin
 
 
