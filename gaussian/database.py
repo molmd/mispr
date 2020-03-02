@@ -57,6 +57,7 @@ class GaussianCalcDb:
             raise ValueError
         self.molecules = self.db['molecules']
         self.functional_groups = self.db['functional_groups']
+        self.derived_molecules = self.db['derived_molecules']
         self.runs = self.db['runs']
 
         self.build_indexes()
@@ -76,10 +77,14 @@ class GaussianCalcDb:
             "chemsys", unique=False, background=background)
         self.functional_groups.create_index("name", unique=True,
                                             background=background)
+        self.derived_molecules.create_index(
+            "smiles", unique=True, background=background)
         self.runs.create_index([("smiles", ASCENDING),
                                 ("type", ASCENDING),
                                 ("functional", ASCENDING),
-                                ("basis", ASCENDING)],
+                                ("basis", ASCENDING),
+                                ("phase", ASCENDING),
+                                ("tag", ASCENDING)],
                                unique=False, background=background)
 
     def query_molecules(self, query):
@@ -149,7 +154,7 @@ class GaussianCalcDb:
         return result.inserted_id
 
     def retrieve_run(self, smiles, job_type=None, functional=None,
-                     basis=None, **kwargs):
+                     basis=None, phase=None, **kwargs):
         query = {}
         if smiles:
             query['smiles'] = smiles
@@ -163,12 +168,13 @@ class GaussianCalcDb:
         return list(self.runs.find(query))
 
     def move_runs(self, new_collection, smiles=None, job_type=None,
-                  functional=None, basis=None, **kwargs):
-        runs = self.retrieve_run(smiles, job_type, functional, basis, **kwargs)
+                  functional=None, basis=None, phase=None, **kwargs):
+        runs = self.retrieve_run(smiles, job_type, functional, basis, phase,
+                                 **kwargs)
         self.db[new_collection].insert_many(runs)
 
     def update_run(self, new_values, smiles, job_type=None, functional=None,
-                   basis=None, **kwargs):
+                   basis=None, phase=None, **kwargs):
         query = {'smiles': smiles}
         if job_type:
             query['type'] = job_type
@@ -176,9 +182,11 @@ class GaussianCalcDb:
             query['functional'] = functional
         if basis:
             query['basis'] = basis
+        if phase:
+            query['phase'] = phase
         query = {**query, **kwargs}
         run_ = self.retrieve_run(smiles, job_type, functional,
-                                 basis, **kwargs)[0]
+                                 basis, phase, **kwargs)[0]
         run_['output']['output'].update(new_values)
         self.runs.update_one(query, {'$set': run_})
 
