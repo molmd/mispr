@@ -2,7 +2,8 @@ import os
 import logging
 from fireworks import Firework
 from infrastructure.gaussian.firetasks.geo_transformation import \
-    ConvertToMoleculeObject, RetrieveMoleculeObject, RetrieveGaussianOutput
+    ConvertToMoleculeObject, RetrieveMoleculeObject, RetrieveGaussianOutput, \
+    AttachFunctionalGroup, LinkMolecules
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
 from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
 from infrastructure.gaussian.firetasks.parse_outputs import GaussianToDB
@@ -37,7 +38,7 @@ def common_tasks(db,
 class CalcFromMolFileFW(Firework):
     def __init__(self,
                  mol_file,
-                 db,
+                 db=None,
                  name="calc_from_mol_file",
                  parents=None,
                  working_dir=None,
@@ -49,6 +50,7 @@ class CalcFromMolFileFW(Firework):
                  update_duplicates=False,
                  oxidation_states=None,
                  fw_spec_field=None,
+                 tag="unknown",
                  **kwargs):
         t = []
         working_dir = working_dir or os.getcwd()
@@ -68,15 +70,18 @@ class CalcFromMolFileFW(Firework):
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states)
+        spec = kwargs.pop('spec', {})
+        spec.update({'tag': tag})
         super(CalcFromMolFileFW, self).__init__(t,
                                                 parents=parents,
                                                 name=name,
+                                                spec=spec,
                                                 **kwargs)
 
 
 class CalcFromRunsDBFW(Firework):
     def __init__(self,
-                 db,
+                 db=None,
                  name="calc_from_runs_db",
                  parents=None,
                  gaussian_input_params=None,
@@ -85,6 +90,7 @@ class CalcFromRunsDBFW(Firework):
                  output_file="mol.out",
                  cart_coords=True,
                  fw_spec_field=None,
+                 tag="unknown",
                  **kwargs):
         t = []
         working_dir = working_dir or os.getcwd()
@@ -101,15 +107,18 @@ class CalcFromRunsDBFW(Firework):
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states=None)
+        spec = kwargs.pop('spec', {})
+        spec.update({'tag': tag})
         super(CalcFromRunsDBFW, self).__init__(t,
                                                parents=parents,
                                                name=name,
+                                               spec=spec,
                                                **kwargs)
 
 
 class CalcFromMolDBFW(Firework):
     def __init__(self,
-                 db,
+                 db=None,
                  smiles=None,
                  name="calc_from_mol_db",
                  parents=None,
@@ -120,6 +129,7 @@ class CalcFromMolDBFW(Firework):
                  cart_coords=True,
                  oxidation_states=None,
                  fw_spec_field=None,
+                 tag="unknown",
                  **kwargs):
         t = []
         working_dir = working_dir or os.getcwd()
@@ -136,7 +146,10 @@ class CalcFromMolDBFW(Firework):
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states)
+        spec = kwargs.pop('spec', {})
+        spec.update({'tag': tag})
         super(CalcFromMolDBFW, self).__init__(t,
                                               parents=parents,
                                               name=name,
+                                              spec=spec,
                                               **kwargs)
