@@ -2,7 +2,6 @@ import os
 import logging
 
 from fireworks import Workflow
-from fireworks.fw_config import CONFIG_FILE_DIR
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFileFW, \
     CalcFromRunsDBFW, CalcFromMolDBFW
 from infrastructure.gaussian.utils.utils import get_mol_from_file, \
@@ -18,16 +17,16 @@ STANDARD_OPT_GUASSIAN_INPUT = {"functional": "B3LYP",
                                                     "%NProcShared": "24"}}
 
 
-def common_fw(mol_file,
-              smiles,
-              db,
-              working_dir,
+def common_fw(working_dir,
               opt_gaussian_inputs,
               freq_gaussian_inputs,
               cart_coords,
               save_to_db,
               update_duplicates,
               oxidation_states,
+              db=None,
+              mol_file=None,
+              smiles=None,
               **kwargs):
     opt_gaussian_inputs = opt_gaussian_inputs or {}
     opt_gaussian_inputs = {**STANDARD_OPT_GUASSIAN_INPUT, **opt_gaussian_inputs}
@@ -66,6 +65,8 @@ def common_fw(mol_file,
         raise ValueError("No molecule provided. Either a molecule file or a "
                          "smiles representation from the molecules collection "
                          "should be provided as an input")
+    # if no freq_gaussian_inputs are provided, parameters from prev opt are used
+    # except for the route parameters which are replaced with the Freq keyword
     freq_gaussian_inputs = freq_gaussian_inputs or {}
     if "route_parameters" not in freq_gaussian_inputs:
         freq_gaussian_inputs.update({"route_parameters": {"Freq": None}})
@@ -100,7 +101,6 @@ def get_esp_charges(mol_file=None,
                     oxidation_states=None,
                     **kwargs):
     fws = []
-    db = db or f"{CONFIG_FILE_DIR}/db.json"
     working_dir = working_dir or os.getcwd()
     mol, list_fws = common_fw(mol_file=mol_file,
                               smiles=smiles,
@@ -118,6 +118,7 @@ def get_esp_charges(mol_file=None,
     if "route_parameters" not in esp_gaussian_inputs:
         esp_gaussian_inputs.update({"route_parameters": {"pop": "MK",
                                                          "iop(6/50=1)": None}})
+    # input_parameters from a previous run are overwritten
     if "input_parameters" not in esp_gaussian_inputs:
         esp_gaussian_inputs.update({"input_parameters": {"molesp": None}})
     fws.append(
@@ -153,7 +154,6 @@ def get_nmr_tensors(mol_file=None,
                     oxidation_states=None,
                     **kwargs):
     fws = []
-    db = db or f"{CONFIG_FILE_DIR}/db.json"
     mol, list_fws = common_fw(mol_file=mol_file,
                               smiles=smiles,
                               db=db,
@@ -165,6 +165,7 @@ def get_nmr_tensors(mol_file=None,
                               update_duplicates=update_duplicates,
                               oxidation_states=oxidation_states,
                               **kwargs)
+    fws += list_fws
     nmr_gaussian_inputs = nmr_gaussian_inputs or {}
     if "route_parameters" not in nmr_gaussian_inputs:
         nmr_gaussian_inputs.update({"route_parameters": {"NMR": "GIAO"}})
