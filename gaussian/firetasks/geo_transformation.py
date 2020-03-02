@@ -134,6 +134,73 @@ class AttachFunctionalGroup(FiretaskBase):
     group and the smiles representation of the molecule to be read from the database
     (can be taken from both the molecule collection or the runs collection)
     """
+    required_params = ["func_grp", "index"]
+    optional_params = ["db", "smiles", "bond_order", "save_to_db",
+                       "update_duplicates",
+                       "save_mol_file", "fmt", "filename", "working_dir"]
+    # TODO: check if it is better to split this into multiple firetasks (one of
+    # which has already been created above (Retrieve Molecule from db)
 
     def run_task(self, fw_spec):
-        pass
+        db = get_db(self.get('db'))
+        if fw_spec.get("prev_calc_molecule"):
+            mol = fw_spec.get("prev_calc_molecule")
+        elif self.get("smiles"):
+            mol_dict = db.retrieve_molecule(self.get["smiles"])
+            mol = Molecule.from_dict(mol_dict)
+        func_grp = self['func_grp']
+        func_grp_dict = db.retrieve_fg(func_grp)
+        func_group = Molecule(func_grp_dict["species"], func_grp_dict["coords"])
+        derived_mol = Molecule.copy(mol)
+        derived_mol.substitute(index=self['index'], func_grp=func_group)
+        if self.get('save_to_db', True):
+            db.insert_derived_mol(derived_mol,
+                                  update_duplicates=self.get(
+                                      'update_duplicates', False))
+        if self.get("save_mol_file", False):
+            working_dir = self.get('working_dir', os.getcwd())
+            file_name = self.get(
+                'filename.{}'.format(self.get('fmt', 'xyz')),
+                'mol.{}'.format(self.get('fmt', 'xyz')))
+            derived_mol_file = os.path.join(working_dir, file_name)
+            derived_mol.to(self.get('fmt', 'xyz'), derived_mol_file)
+        fw_spec['prev_calc_molecule'] = derived_mol
+
+
+@explicit_serialize
+class LinkMolecules(FiretaskBase):
+    """
+    Links two molecules using one site from the first and another site from the
+    second molecule. Currently takes the molecules from the db using their
+    smiles representation.
+    """
+    required_params =["index1", "index2"]
+    optional_params = ["db", "smiles1", "smiles2", "bond_order", "save_to_db",
+                       "update_duplicates", "save_mol_file", "fmt",
+                       "filename", "working_dir"]
+
+    def run_task(self, fw_spec):
+        # TODO: take common things from functions
+        # TODO: take mol1 and mol2 from previous calculations
+        db = get_db(self.get("db"))
+        mol1_dict = db.retrieve_molecule(self.get["smiles1"])
+        mol1 = Molecule.from_dict(mol1_dict)
+        mol2_dict = db.retrieve_molecule(self.get["smiles2"])
+        mol2 = Molecule.from_dict(mol2_dict)
+        linked_mol = mol1.link(mol2, self["index1"], self["index2"],
+                               self.get["bond_order"])
+        if self.get("save_to_db", True):
+            db.insert_molecule(linked_mol, update_duplicates=self.
+                               get("update_duplicates", False))
+        if self.get("save_mol_file", False):
+            working_dir = self.get("working_dir", os.getcwd())
+            file_name = self.get("filename.{}".format(self.get("fmt", "xyz")),
+                                 "mol.{}".format(self.get("fmt", "xyz")))
+            linked_mol_file = os.path.join(working_dir, file_name)
+            linked_mol.to(self.get("fmt", "xyz"), linked_mol_file)
+        fw_spec["prev_calc_molecule"] = linked_mol
+
+
+
+
+
