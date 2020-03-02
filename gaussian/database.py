@@ -246,3 +246,24 @@ class GaussianCalcDb:
 
     def retrieve_fg(self, name):
         return self.functional_groups.find_one({'name': name})
+
+    def insert_derived_mol(self, derived_mol, update_duplicates):
+        if isinstance(derived_mol, Molecule):
+            derived_mol_dict = get_chem_schema(derived_mol)
+            result = self.derived_molecules.find_one(
+                {"smiles": derived_mol_dict["smiles"]})
+            if result:
+                logger.info(
+                    "{} already in database".format(derived_mol_dict["smiles"]))
+            if result and update_duplicates:
+                # TODO: not doing anything here?
+                logger.info(
+                    "Updating duplicate {}".format(derived_mol_dict["smiles"]))
+            if result is None or update_duplicates:
+                derived_mol_dict["last_updated"] = datetime.datetime.utcnow()
+                self.derived_molecules.update_one(
+                    {"smiles": derived_mol_dict["smiles"]},
+                    {"$set": derived_mol_dict}, upsert=True)
+                return derived_mol_dict["smiles"]
+        else:
+            logger.info("No molecule provided")
