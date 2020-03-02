@@ -164,6 +164,8 @@ class GaussianCalcDb:
             query['functional'] = functional
         if basis:
             query['basis'] = basis
+        if phase:
+            query['phase'] = phase
         query = {**query, **kwargs}
         return list(self.runs.find(query))
 
