@@ -1,13 +1,18 @@
 import os
+import logging
 
 from bson.objectid import ObjectId
 
 from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
-from pymatgen.io.gaussian import GaussianOutput, GaussianInput
+from pymatgen.io.gaussian import GaussianInput
 
 from infrastructure.gaussian.database import GaussianCalcDb
+from infrastructure.gaussian.utils.utils import get_db, get_mol_from_file, \
+    get_mol_from_db
+
+logger = logging.getLogger(__name__)
 
 
 @explicit_serialize
@@ -28,13 +33,9 @@ class ConvertToMoleculeObject(FiretaskBase):
     def run_task(self, fw_spec):
         working_dir = self.get('working_dir', os.getcwd())
         file_name = self["mol_file"]
-        file_path = os.path.join(working_dir, file_name)
-        mol = Molecule.from_file(file_path)
+        mol = get_mol_from_file(file_name, working_dir)
         if self.get('save_to_db', True):
-            if isinstance(self.get('db'), dict):
-                mol_db = GaussianCalcDb(**self.get('db'))
-            else:
-                mol_db = GaussianCalcDb.from_db_file(self.get('db'))
+            mol_db = get_db(self.get('db'))
             mol_db.insert_molecule(
                 mol,
                 update_duplicates=self.get('update_duplicates', False)
@@ -49,21 +50,14 @@ class RetrieveMoleculeObject(FiretaskBase):
     """
     Returns a molecule object from the database using the smiles as an identifier
     """
-    required_params = ["db", "smiles"]
-    optional_params = ["save_mol_file", "fmt", "filename", "working_dir"]
+    required_params = ["smiles"]
+    optional_params = ["db", "save_mol_file", "fmt", "filename", "working_dir"]
 
     def run_task(self, fw_spec):
         # TODO: use alphabetical formula as a search criteria
         smiles = self['smiles']
-        if isinstance(self.get('db'), dict):
-            mol_db = GaussianCalcDb(**self['db'])
-        else:
-            mol_db = GaussianCalcDb.from_db_file(self.get('db'))
-        mol_dict = mol_db.retrieve_molecule(smiles)
-        if mol_dict is None:
-            raise Exception("Molecule is not found in the database")
-        mol = Molecule.from_dict(mol_dict)
-        # TODO: correct the way this is written
+        mol_db = get_db(self.get('db'))
+        mol = get_mol_from_db(smiles, mol_db)
         if mol and self.get("save_mol_file", False):
             working_dir = self.get('working_dir', os.getcwd())
             file_name = self.get(
@@ -80,24 +74,21 @@ class RetrieveGaussianOutput(FiretaskBase):
     Returns a Gaussian output object from the database and converts it to a
     Gaussian input object
     """
-    required_params = ["db"]
-    optional_params = ["gaussian_input_params", "smiles", "functional", "basis",
-                       "type", "phase", "tag"]
+    required_params = []
+    optional_params = ["db", "gaussian_input_params", "smiles", "functional",
+                       "basis", "type", "phase", "tag"]
 
     def run_task(self, fw_spec):
         # TODO: use alphabetical formula as a search criteria
 
         # get db credentials
-        if isinstance(self.get('db'), dict):
-            run_db = GaussianCalcDb(**self['db'])
-        else:
-            run_db = GaussianCalcDb.from_db_file(self.get('db'))
+        run_db = get_db(self.get('db'))
 
         # if a Gaussian output dict is passed through fw_spec
         if fw_spec.get("gaussian_output_id"):
             run = run_db.runs. \
                 find_one({"_id": ObjectId(fw_spec.get("gaussian_output_id"))})
-            proceed_keys = fw_spec.get("proceed")
+            proceed_keys = fw_spec.get("proceed", {})
             for k, v in proceed_keys.items():
                 if run["output"].get(k, run["output"]["output"].get(k)) != v:
                     raise ValueError(
@@ -123,6 +114,9 @@ class RetrieveGaussianOutput(FiretaskBase):
             run = max(run, key=lambda i: i['last_updated'])
 
         # create a gaussian input object from run
+        if self.get("gaussian_input_params") is None:
+            logger.info("No gaussian input parameters provided; will use "
+                        "run parameters")
         inputs = {}
         for k, v in run['input'].items():
             # use gaussian_input_params if defined, otherwise use run parameters
