@@ -2,12 +2,12 @@ import os
 from pymatgen.core.structure import Molecule
 from pymatgen.io.babel import BabelMolAdaptor
 from fireworks.utilities.fw_utilities import get_slug
+from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks import FileWriteTask
 import pybel as pb
 
 
 def get_mol_from_file(mol_file, working_dir=None):
-    # TODO: use this function in the geo_transformation firetask
     working_dir = working_dir or os.getcwd()
     file_path = os.path.join(working_dir, mol_file)
     mol = Molecule.from_file(file_path)
@@ -15,12 +15,7 @@ def get_mol_from_file(mol_file, working_dir=None):
 
 
 def get_mol_from_db(smiles, db):
-    # TODO: use this function in the geo_transformation firetask
-    from infrastructure.gaussian.database import GaussianCalcDb
-    if isinstance(db, dict):
-        mol_db = GaussianCalcDb(**db)
-    else:
-        mol_db = GaussianCalcDb.from_db_file(db)
+    mol_db = get_db(db)
     mol_dict = mol_db.retrieve_molecule(smiles)
     if mol_dict is None:
         raise Exception("Molecule is not found in the database")
@@ -69,3 +64,16 @@ def add_namefile(original_wf, use_slug=True):
         original_wf.fws[idx].tasks.insert(0, t)
     return original_wf
 
+
+def get_db(input_db=None):
+    from infrastructure.gaussian.database import GaussianCalcDb
+    if not input_db:
+        input_db = f"{CONFIG_FILE_DIR}/db.json"
+        if not os.path.isfile(input_db):
+            raise FileNotFoundError("Please provide the database configurations")
+    if isinstance(input_db, dict):
+        db = GaussianCalcDb(**input_db)
+    else:
+        db = GaussianCalcDb.from_db_file(input_db)
+
+    return db
