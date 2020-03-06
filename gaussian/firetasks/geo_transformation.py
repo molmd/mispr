@@ -8,11 +8,34 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput
 
-from infrastructure.gaussian.database import GaussianCalcDb
-from infrastructure.gaussian.utils.utils import get_db, get_mol_from_file, \
-    get_mol_from_db
+from infrastructure.gaussian.utils.utils import get_db, process_mol
 
 logger = logging.getLogger(__name__)
+
+
+@explicit_serialize
+class ProcessMoleculeInput(FiretaskBase):
+    required_params = ["mol"]
+    optional_params = ["operation_type", "db", "working_dir", "save_to_db",
+                       "update_duplicates", "save_mol_file", "fmt", "filename"]
+
+    def run_task(self, fw_spec):
+        mol = self["mol"]
+        operation_type = self.get("operation_type", "get_from_mol")
+        working_dir = self.get('working_dir', os.getcwd())
+        db = self.get('db')
+        output_mol = process_mol(operation_type=operation_type, mol=mol,
+                                 working_dir=working_dir, db=db)
+        fw_spec['prev_calc_molecule'] = output_mol
+        if self.get("save_to_db"):
+            db = get_db(db) if db else get_db()
+            update_duplicates = self.get("update_duplicates", False)
+            db.insert_molecule(output_mol, update_duplicates=update_duplicates)
+        if self.get("save_mol_file"):
+            fmt = self.get("fmt", 'xyz')
+            filename = self.get("filename", 'mol')
+            file = os.path.join(working_dir, f"{filename}.{fmt}")
+            output_mol.to(fmt, file)
 
 
 @explicit_serialize
@@ -56,8 +79,7 @@ class RetrieveMoleculeObject(FiretaskBase):
     def run_task(self, fw_spec):
         # TODO: use alphabetical formula as a search criteria
         smiles = self['smiles']
-        mol_db = get_db(self.get('db'))
-        mol = get_mol_from_db(smiles, mol_db)
+        mol = process_mol(smiles, self.get('db'))
         if mol and self.get("save_mol_file", False):
             working_dir = self.get('working_dir', os.getcwd())
             file_name = self.get(
