@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 class ProcessMoleculeInput(FiretaskBase):
     required_params = ["mol"]
     optional_params = ["operation_type", "db", "working_dir", "save_to_db",
-                       "update_duplicates", "save_mol_file", "fmt", "filename"]
+                       "update_duplicates", "save_mol_file", "fmt", "filename",
+                       "from_fw_spec"]
 
     def run_task(self, fw_spec):
         mol = self["mol"]
@@ -56,7 +57,7 @@ class ConvertToMoleculeObject(FiretaskBase):
     def run_task(self, fw_spec):
         working_dir = self.get('working_dir', os.getcwd())
         file_name = self["mol_file"]
-        mol = get_mol_from_file(file_name, working_dir)
+        mol = process_mol(file_name, working_dir)
         if self.get('save_to_db', True):
             mol_db = get_db(self.get('db'))
             mol_db.insert_molecule(
@@ -119,7 +120,7 @@ class RetrieveGaussianOutput(FiretaskBase):
 
         # if a Gaussian output dictionary is retrieved from db
         else:
-            smiles = self['smiles']
+            smiles = self.get['smiles']
             functional = self.get('functional')
             basis = self.get('basis')
             type_ = self.get('type')
@@ -157,7 +158,7 @@ class AttachFunctionalGroup(FiretaskBase):
     (can be taken from both the molecule collection or the runs collection)
     """
     required_params = ["func_grp", "index"]
-    optional_params = ["db", "smiles", "bond_order", "save_to_db",
+    optional_params = ["db", "molecule", "bond_order", "save_to_db",
                        "update_duplicates",
                        "save_mol_file", "fmt", "filename", "working_dir"]
     # TODO: check if it is better to split this into multiple firetasks (one of
@@ -167,23 +168,20 @@ class AttachFunctionalGroup(FiretaskBase):
         db = get_db(self.get('db'))
         if fw_spec.get("prev_calc_molecule"):
             mol = fw_spec.get("prev_calc_molecule")
-        elif self.get("smiles"):
-            mol_dict = db.retrieve_molecule(self.get["smiles"])
-            mol = Molecule.from_dict(mol_dict)
-        func_grp = self['func_grp']
-        func_grp_dict = db.retrieve_fg(func_grp)
-        func_group = Molecule(func_grp_dict["species"], func_grp_dict["coords"])
+        elif self.get("molecule"):
+            mol = self.get("molecule")
+        func_grp_dict = db.retrieve_fg(self['func_grp'])
+        func_grp = Molecule(func_grp_dict["species"], func_grp_dict["coords"])
         derived_mol = Molecule.copy(mol)
-        derived_mol.substitute(index=self['index'], func_grp=func_group)
+        derived_mol.substitute(index=self['index'], func_grp=func_grp)
         if self.get('save_to_db', True):
             db.insert_derived_mol(derived_mol,
                                   update_duplicates=self.get(
                                       'update_duplicates', False))
         if self.get("save_mol_file", False):
             working_dir = self.get('working_dir', os.getcwd())
-            file_name = self.get(
-                'filename.{}'.format(self.get('fmt', 'xyz')),
-                'mol.{}'.format(self.get('fmt', 'xyz')))
+            file_name = self.get('filename', 'derived_mol')
+            file_name = '{}.{}'.format(file_name, self.get('fmt', 'xyz')),
             derived_mol_file = os.path.join(working_dir, file_name)
             derived_mol.to(self.get('fmt', 'xyz'), derived_mol_file)
         fw_spec['prev_calc_molecule'] = derived_mol
@@ -202,7 +200,6 @@ class LinkMolecules(FiretaskBase):
                        "filename", "working_dir"]
 
     def run_task(self, fw_spec):
-        # TODO: take common things from functions
         # TODO: take mol1 and mol2 from previous calculations
         db = get_db(self.get("db"))
         mol1_dict = db.retrieve_molecule(self.get["smiles1"])
