@@ -12,7 +12,6 @@ from infrastructure.gaussian.utils.utils import get_chem_schema, get_db
 
 logger = logging.getLogger(__name__)
 
-
 JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
              'bomd', 'eet', 'force', 'stable', 'volume', 'density', 'guess',
              'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
@@ -28,7 +27,7 @@ class GaussianToDB(FiretaskBase):
     """
     required_params = []
     optional_params = ["db", "working_dir", "input_file", "output_file",
-                       "fw_spec_field"]
+                       "fw_spec_field", "save_mol_file", "fmt", "filename"]
 
     def run_task(self, fw_spec):
         from pymatgen.io.gaussian import GaussianOutput, GaussianInput
@@ -77,15 +76,15 @@ class GaussianToDB(FiretaskBase):
         if self.get("fw_spec_field"):
             task_doc.update({self.get("fw_spec_field"):
                                  fw_spec.get(self.get("fw_spec_field"))})
-        task_doc.update(
-            get_chem_schema(Molecule.from_dict(gout['output']['molecule']))
-        )
+        mol = Molecule.from_dict(gout['output']['molecule'])
+        task_doc.update(get_chem_schema(mol))
         task_doc['functional'] = task_doc['input']['functional']
         task_doc['basis'] = task_doc['input']['basis_set']
         job_types = \
             list(filter(lambda x: x in
                                   {k.lower(): v for k, v in
-                                   task_doc['input']['route_parameters'].items()},
+                                   task_doc['input'][
+                                       'route_parameters'].items()},
                         JOB_TYPES))
         task_doc['type'] = ';'.join(job_types)
         task_doc['phase'] = phase
@@ -98,5 +97,12 @@ class GaussianToDB(FiretaskBase):
 
         gout_id = runs_db.insert_run(task_doc)
         logger.info("Finished parsing output and saving to db")
+
+        # TODO: check if there is a better way of doing this
+        if self.get("save_mol_file", False):
+            fmt = self.get("fmt", 'xyz')
+            filename = self.get("filename", 'mol_calculated')
+            file = os.path.join(working_dir, f"{filename}.{fmt}")
+            mol.to(fmt, file)
 
         return FWAction(update_spec={"gaussian_output_id": gout_id})
