@@ -1,4 +1,6 @@
 import os
+import logging
+from bson.objectid import ObjectId
 from pymatgen.core.structure import Molecule
 from pymatgen.io.babel import BabelMolAdaptor
 from fireworks.utilities.fw_utilities import get_slug
@@ -6,21 +8,100 @@ from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks import FileWriteTask
 import pybel as pb
 
-
-def get_mol_from_file(mol_file, working_dir=None):
-    working_dir = working_dir or os.getcwd()
-    file_path = os.path.join(working_dir, mol_file)
-    mol = Molecule.from_file(file_path)
-    return mol
+logger = logging.getLogger(__name__)
 
 
-def get_mol_from_db(smiles, db):
-    mol_db = get_db(db)
-    mol_dict = mol_db.retrieve_molecule(smiles)
-    if mol_dict is None:
-        raise Exception("Molecule is not found in the database")
-    mol = Molecule.from_dict(mol_dict)
-    return mol
+def process_mol(operation_type, mol, **kwargs):
+    working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
+        else os.getcwd()
+    db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
+
+    if operation_type == 'get_from_mol':
+        if not isinstance(mol, Molecule):
+            raise Exception("mol is not a Molecule object; either "
+                            "provide a Molecule object or use another "
+                            "operation type with its corresponding inputs")
+        output_mol = mol
+
+    elif operation_type == 'get_from_file':
+        # mol = file_path
+        file_path = os.path.join(working_dir, mol)
+        if not os.path.exists(file_path):
+            raise Exception("mol is not a valid path; either provide a valid "
+                            "path or use another operation type with its "
+                            "corresponding inputs")
+
+        output_mol = Molecule.from_file(file_path)
+
+    elif operation_type == 'get_from_smiles':
+        # mol = mol_smile
+        mol_dict = db.retrieve_molecule(mol)
+        if not mol_dict:
+            raise Exception(
+                "mol is not found in the database")
+        output_mol = Molecule.from_dict(mol_dict)
+
+    elif operation_type == 'get_from_run_id':
+        # mol = run_id
+        run = db.runs.find_one({"_id": ObjectId(mol)})
+        if not run:
+            raise Exception("Gaussian run is not in the database")
+        mol_dict = run['output']['output']['molecule']
+        output_mol = Molecule.from_dict(mol_dict)
+
+    elif operation_type == 'get_from_run_query':
+        # mol = {'smiles': smiles, 'type': type, 'functional': func,
+        #        'basis': basis, 'phase': phase, ...}
+        logger.info("If the query criteria satisfy more than "
+                    "one document, the last updated one will "
+                    "be used. To perform a more specific "
+                    "search, provide the document id using "
+                    "gout_id")
+        run = db.retrieve_run(**mol)
+        if not run:
+            raise Exception("Gaussian run is not in the database")
+        run = max(run, key=lambda i: i['last_updated'])
+        mol_dict = run['output']['output']['molecule']
+        output_mol = Molecule.from_dict(mol_dict)
+
+    elif operation_type == 'derive_molecule':
+        # mol = {'operation_type': 'get_from_file', 'mol': file_path,
+        #        'func_grp': func_group_name, ....}
+
+        func_grp_name = mol.get('func_grp')
+        if not func_grp_name:
+            raise Exception("No FG provided; Provide the name of the FG "
+                            "to be retrieved from the database")
+        fg_dict = db.retrieve_fg(func_grp_name)
+        if not fg_dict:
+            raise Exception("FG is not found in the database")
+        fg = Molecule(fg_dict["species"], fg_dict["coords"])
+
+        output_mol = process_mol(operation_type=mol['operation_type'],
+                                 mol=mol['mol'], **kwargs)
+        output_mol.substitute(mol["index"], fg, mol["bond_order"])
+
+    elif operation_type == 'link_molecules':
+        # mol = {'operation_type': ['get_from_file', 'get_from_smiles'],
+        #        'mol': ['kes/rasa/defe.xyz', 'mol_smiles'],
+        #        'index': [3, 5],
+        #        'bond_order': 2}
+
+        # mol = {'operation_type': ['get_from_file', 'derive_molecule'],
+        #        'mol': ['kes/rasa/defe.xyz', {'operation_type':
+        #        'get_from_smiles, 'mol': smile}],
+        #        'index': [3, 5],
+        #        'bond_order': 2}
+        linking_mol = process_mol(operation_type=mol['operation_type'][0],
+                                  mol=mol['mol'][0], **kwargs)
+        linked_mol = process_mol(operation_type=mol['operation_type'][1],
+                                 mol=mol['mol'][1], **kwargs)
+        output_mol = linking_mol.link(linked_mol, mol["index"][0],
+                                      mol["index"][1], mol["bond_order"])
+    else:
+        raise ValueError(f'operation type {operation_type} is not supported')
+
+    return output_mol
 
 
 def get_chem_schema(mol):
@@ -70,10 +151,13 @@ def get_db(input_db=None):
     if not input_db:
         input_db = f"{CONFIG_FILE_DIR}/db.json"
         if not os.path.isfile(input_db):
-            raise FileNotFoundError("Please provide the database configurations")
+            raise FileNotFoundError(
+                "Please provide the database configurations")
     if isinstance(input_db, dict):
         db = GaussianCalcDb(**input_db)
     else:
         db = GaussianCalcDb.from_db_file(input_db)
 
     return db
+
+
