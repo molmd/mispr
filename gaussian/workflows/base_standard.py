@@ -195,5 +195,72 @@ def get_nmr_tensors(mol_file=None,
                     **kwargs)
 
 
-def get_binding_energies():
-    pass
+def get_binding_energies(mol_operation_type,
+                         mol,
+                         index,
+                         bond_order=1,
+                         db=None,
+                         name="binding_energy_calculation",
+                         working_dir=None,
+                         opt_gaussian_inputs=None,
+                         freq_gaussian_inputs=None,
+                         cart_coords=True,
+                         save_to_db=False,
+                         update_duplicates=False,
+                         save_mol_file=True,
+                         oxidation_states=None,
+                         **kwargs):
+    # mol_operation_type = [], mol = [], index = []
+    # order of the indices should be consistent with the order of the mols
+
+    fws = []
+    molecules = []
+    working_dir = working_dir or os.getcwd()
+
+    for position, [operation, molecule] in \
+            enumerate(zip(mol_operation_type, mol)):
+        mol_object, list_fws = common_fw(mol_operation_type=operation,
+                                         mol=molecule,
+                                         working_dir=working_dir,
+                                         db=db,
+                                         opt_gaussian_inputs=opt_gaussian_inputs,
+                                         freq_gaussian_inputs=freq_gaussian_inputs,
+                                         cart_coords=cart_coords,
+                                         save_to_db=save_to_db,
+                                         update_duplicates=update_duplicates,
+                                         save_mol_file=save_mol_file,
+                                         oxidation_states=oxidation_states,
+                                         filename="mol_{}_opt".format(
+                                             position),
+                                         **kwargs)
+
+        fws += list_fws
+        molecules.append(mol_object)
+
+    _, list_fws_1 = common_fw(mol_operation_type="link_molecules",
+                              mol={"operation_type": ["get_from_file",
+                                                      "get_from_file"],
+                                   "mol": ["mol_0_opt.xyz",
+                                           "mol_1_opt.xyz"],
+                                   "index": index,
+                                   "bond_order": bond_order},
+                              working_dir=working_dir,
+                              opt_gaussian_inputs=opt_gaussian_inputs,
+                              freq_gaussian_inputs=freq_gaussian_inputs,
+                              cart_coords=cart_coords,
+                              save_to_db=save_to_db,
+                              update_duplicates=update_duplicates,
+                              save_mol_file=save_mol_file,
+                              oxidation_states=oxidation_states,
+                              db=db,
+                              process_mol_func=False)
+
+    fws += list_fws_1
+    name = "{}_{}".format((get_job_name(molecules[0], name)).strip(name),
+                          get_job_name(molecules[1], name))
+    links_dict = {fws[1]: fws[4], fws[3]: fws[4]}
+
+    return Workflow(fws,
+                    name=name,
+                    links_dict=links_dict,
+                    **kwargs)
