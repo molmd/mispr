@@ -2,13 +2,15 @@ import os
 import logging
 from fireworks import Firework
 from infrastructure.gaussian.firetasks.geo_transformation import \
-    ConvertToMoleculeObject, RetrieveMoleculeObject, RetrieveGaussianOutput, \
-    AttachFunctionalGroup, LinkMolecules
+    ProcessMoleculeInput, RetrieveGaussianOutput
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
 from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
 from infrastructure.gaussian.firetasks.parse_outputs import GaussianToDB
 
 logger = logging.getLogger(__name__)
+
+FIREWORK_KWARGS = ["spec", "name", "launches", "archived_launches", "state",
+                   "created_on", "fw_id", "parents", "updated_on"]
 
 
 def common_tasks(db,
@@ -18,36 +20,45 @@ def common_tasks(db,
                  fw_spec_field,
                  gaussian_input_params,
                  cart_coords,
-                 oxidation_states):
+                 oxidation_states,
+                 **kwargs):
     return \
         [WriteInput(input_file=input_file,
                     working_dir=working_dir,
                     gaussian_input_params=gaussian_input_params,
                     cart_coords=cart_coords,
-                    oxidation_states=oxidation_states),
+                    oxidation_states=oxidation_states,
+                    **{i: j for i, j in kwargs.items() if i in
+                       WriteInput.required_params +
+                       WriteInput.optional_params}),
          RunGaussianDirect(working_dir=working_dir,
                            input_file=input_file,
-                           output_file=output_file),
+                           output_file=output_file,
+                           **{i: j for i, j in kwargs.items() if i in
+                              RunGaussianDirect.required_params +
+                              RunGaussianDirect.optional_params}),
          GaussianToDB(db=db,
                       working_dir=working_dir,
                       input_file=input_file,
                       output_file=output_file,
-                      fw_spec_field=fw_spec_field)]
+                      fw_spec_field=fw_spec_field,
+                      **{i: j for i, j in kwargs.items() if i in
+                         GaussianToDB.required_params +
+                         GaussianToDB.optional_params})]
 
 
-class CalcFromMolFileFW(Firework):
+class CalcFromMolFW(Firework):
     def __init__(self,
-                 mol_file,
+                 mol,
+                 mol_operation_type="get_from_mol",
                  db=None,
-                 name="calc_from_mol_file",
+                 name="calc_from_mol",
                  parents=None,
                  working_dir=None,
                  input_file="mol.com",
                  output_file="mol.out",
-                 gaussian_input_params=None,
+                 gaussian_input_params={},
                  cart_coords=True,
-                 save_to_db=False,
-                 update_duplicates=False,
                  oxidation_states=None,
                  fw_spec_field=None,
                  tag="unknown",
@@ -55,13 +66,16 @@ class CalcFromMolFileFW(Firework):
         t = []
         working_dir = working_dir or os.getcwd()
 
-        t.append(
-            ConvertToMoleculeObject(db=db,
-                                    mol_file=mol_file,
-                                    working_dir=working_dir,
-                                    save_to_db=save_to_db,
-                                    update_duplicates=update_duplicates)
-        )
+        t.append(ProcessMoleculeInput(mol=mol,
+                                      operation_type=mol_operation_type,
+                                      db=db,
+                                      working_dir=working_dir,
+                                      **{i: j for i, j in kwargs.items() if i in
+                                         ProcessMoleculeInput.required_params +
+                                         ProcessMoleculeInput.optional_params}
+                                      )
+                 )
+
         t += common_tasks(db,
                           input_file,
                           output_file,
@@ -69,14 +83,16 @@ class CalcFromMolFileFW(Firework):
                           fw_spec_field,
                           gaussian_input_params,
                           cart_coords,
-                          oxidation_states)
+                          oxidation_states,
+                          **kwargs)
         spec = kwargs.pop('spec', {})
         spec.update({'tag': tag})
-        super(CalcFromMolFileFW, self).__init__(t,
-                                                parents=parents,
-                                                name=name,
-                                                spec=spec,
-                                                **kwargs)
+        super(CalcFromMolFW, self).__init__(t,
+                                            parents=parents,
+                                            name=name,
+                                            spec=spec,
+                                            **{i: j for i, j in kwargs.items()
+                                               if i in FIREWORK_KWARGS})
 
 
 class CalcFromRunsDBFW(Firework):
@@ -97,7 +113,11 @@ class CalcFromRunsDBFW(Firework):
 
         t.append(
             RetrieveGaussianOutput(db=db,
-                                   gaussian_input_params=gaussian_input_params)
+                                   gaussian_input_params=gaussian_input_params,
+                                   **{i: j for i, j in kwargs.items() if i in
+                                      RetrieveGaussianOutput.required_params +
+                                      RetrieveGaussianOutput.optional_params}
+                                   )
         )
         t += common_tasks(db,
                           input_file,
@@ -106,50 +126,14 @@ class CalcFromRunsDBFW(Firework):
                           fw_spec_field,
                           gaussian_input_params,
                           cart_coords,
-                          oxidation_states=None)
+                          oxidation_states=None,
+                          **kwargs)
         spec = kwargs.pop('spec', {})
         spec.update({'tag': tag})
         super(CalcFromRunsDBFW, self).__init__(t,
                                                parents=parents,
                                                name=name,
                                                spec=spec,
-                                               **kwargs)
-
-
-class CalcFromMolDBFW(Firework):
-    def __init__(self,
-                 db=None,
-                 smiles=None,
-                 name="calc_from_mol_db",
-                 parents=None,
-                 gaussian_input_params=None,
-                 working_dir=None,
-                 input_file="mol.com",
-                 output_file="mol.out",
-                 cart_coords=True,
-                 oxidation_states=None,
-                 fw_spec_field=None,
-                 tag="unknown",
-                 **kwargs):
-        t = []
-        working_dir = working_dir or os.getcwd()
-
-        t.append(
-            RetrieveMoleculeObject(db=db,
-                                   smiles=smiles)
-        )
-        t += common_tasks(db,
-                          input_file,
-                          output_file,
-                          working_dir,
-                          fw_spec_field,
-                          gaussian_input_params,
-                          cart_coords,
-                          oxidation_states)
-        spec = kwargs.pop('spec', {})
-        spec.update({'tag': tag})
-        super(CalcFromMolDBFW, self).__init__(t,
-                                              parents=parents,
-                                              name=name,
-                                              spec=spec,
-                                              **kwargs)
+                                               **{i: j for i, j in
+                                                  kwargs.items() if i in
+                                                  FIREWORK_KWARGS})
