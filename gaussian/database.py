@@ -175,9 +175,11 @@ class GaussianCalcDb:
                                  **kwargs)
         self.db[new_collection].insert_many(runs)
 
-    def update_run(self, new_values, smiles, job_type=None, functional=None,
+    def update_run(self, new_values, smiles=None, job_type=None, functional=None,
                    basis=None, phase=None, **kwargs):
-        query = {'smiles': smiles}
+        query = {}
+        if smiles:
+            query['smiles'] =  smiles
         if job_type:
             query['type'] = job_type
         if functional:

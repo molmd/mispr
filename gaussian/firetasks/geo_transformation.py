@@ -8,9 +8,12 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput
 
-from infrastructure.gaussian.utils.utils import get_db, process_mol
+from infrastructure.gaussian.utils.utils import get_db, process_mol, \
+    get_run_from_fw_spec
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_KEY = 'gout_key'
 
 
 @explicit_serialize
@@ -20,14 +23,30 @@ class ProcessMoleculeInput(FiretaskBase):
                        "update_duplicates", "save_mol_file", "fmt", "filename",
                        "from_fw_spec"]
 
+    @staticmethod
+    def _from_fw_spec(mol, fw_spec):
+        available_runs = fw_spec['gaussian_output_id']
+        if not isinstance(mol, dict):
+            mol = available_runs[mol]
+        else:
+            if isinstance(mol['mol'], list):
+                mol['mol'] = [available_runs[i] for i in mol['mol']]
+            else:
+                mol['mol'] = available_runs[mol['mol']]
+        return mol
+
     def run_task(self, fw_spec):
         mol = self["mol"]
         operation_type = self.get("operation_type", "get_from_mol")
         working_dir = self.get('working_dir', os.getcwd())
         db = self.get('db')
+
+        if self.get('from_fw_spec'):
+            mol = self._from_fw_spec(mol, fw_spec)
+
         output_mol = process_mol(operation_type=operation_type, mol=mol,
                                  working_dir=working_dir, db=db)
-        fw_spec['prev_calc_molecule'] = output_mol
+
         if self.get("save_to_db"):
             db = get_db(db) if db else get_db()
             update_duplicates = self.get("update_duplicates", False)
@@ -37,6 +56,7 @@ class ProcessMoleculeInput(FiretaskBase):
             filename = self.get("filename", 'mol')
             file = os.path.join(working_dir, f"{filename}.{fmt}")
             output_mol.to(fmt, file)
+        fw_spec['prev_calc_molecule'] = output_mol
 
 
 @explicit_serialize
@@ -109,14 +129,7 @@ class RetrieveGaussianOutput(FiretaskBase):
 
         # if a Gaussian output dict is passed through fw_spec
         if fw_spec.get("gaussian_output_id"):
-            run = run_db.runs. \
-                find_one({"_id": ObjectId(fw_spec.get("gaussian_output_id"))})
-            proceed_keys = fw_spec.get("proceed", {})
-            for k, v in proceed_keys.items():
-                if run["output"].get(k, run["output"]["output"].get(k)) != v:
-                    raise ValueError(
-                        f"The condition for {k} is not met, Terminating"
-                    )
+            run = get_run_from_fw_spec(fw_spec, DEFAULT_KEY, run_db)
 
         # if a Gaussian output dictionary is retrieved from db
         else:
@@ -218,7 +231,6 @@ class LinkMolecules(FiretaskBase):
             linked_mol_file = os.path.join(working_dir, file_name)
             linked_mol.to(self.get("fmt", "xyz"), linked_mol_file)
         fw_spec["prev_calc_molecule"] = linked_mol
-
 
 
 
