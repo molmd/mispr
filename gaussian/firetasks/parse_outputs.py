@@ -6,9 +6,13 @@ import os
 import logging
 import json
 
+from bson.objectid import ObjectId
+
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
-from infrastructure.gaussian.utils.utils import get_chem_schema, get_db
+from infrastructure.gaussian.utils.utils import get_chem_schema, get_db, \
+    get_run_from_fw_spec
+
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +20,7 @@ JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
              'bomd', 'eet', 'force', 'stable', 'volume', 'density', 'guess',
              'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
              'sac-ci'}
-
+DEFAULT_KEY = 'gout_key'
 
 @explicit_serialize
 class GaussianToDB(FiretaskBase):
@@ -27,7 +31,8 @@ class GaussianToDB(FiretaskBase):
     """
     required_params = []
     optional_params = ["db", "working_dir", "input_file", "output_file",
-                       "fw_spec_field", "save_mol_file", "fmt", "filename"]
+                       "fw_spec_field", "save_mol_file", "fmt", "filename",
+                       "gout_id_key"]
 
     def run_task(self, fw_spec):
         from pymatgen.io.gaussian import GaussianOutput, GaussianInput
@@ -98,11 +103,25 @@ class GaussianToDB(FiretaskBase):
         gout_id = runs_db.insert_run(task_doc)
         logger.info("Finished parsing output and saving to db")
 
-        # TODO: check if there is a better way of doing this
-        if self.get("save_mol_file", False):
-            fmt = self.get("fmt", 'xyz')
-            filename = self.get("filename", 'mol_calculated')
-            file = os.path.join(working_dir, f"{filename}.{fmt}")
-            mol.to(fmt, file)
+        uid = self.get("gout_id_key")
+        set_dict = {f"gaussian_output_id->{DEFAULT_KEY}": gout_id}
+        if uid:
+            set_dict[f"gaussian_output_id->{uid}"] = gout_id
 
-        return FWAction(update_spec={"gaussian_output_id": gout_id})
+        return FWAction(mod_spec={'_set': set_dict})
+
+
+@explicit_serialize
+class BindingEnergytoDB(FiretaskBase):
+    required_params = ["keys", 'main_run_key', 'new_prop']
+    optional_params = ["db"]
+
+    def run_task(self, fw_spec):
+        run_db = get_db(self.get('db'))
+        runs = [get_run_from_fw_spec(fw_spec, i, run_db) for i in self['keys']]
+        props = [i['output']['output']["final_energy"] for i in runs]
+        result = (props[2] - (props[0] + props[1])) * 27.2114
+        main_run = get_run_from_fw_spec(fw_spec, self['main_run_key'], run_db)
+        run_db.update_run(new_values={self["new_prop"]: result},
+                          _id=ObjectId(main_run['_id']))
+        logger.info("binding energy calculation complete")
