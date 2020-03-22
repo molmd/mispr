@@ -11,7 +11,7 @@ from bson.objectid import ObjectId
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from infrastructure.gaussian.utils.utils import get_chem_schema, get_db, \
-    get_run_from_fw_spec
+    get_run_from_fw_spec, process_run
 
 
 logger = logging.getLogger(__name__)
@@ -125,3 +125,99 @@ class BindingEnergytoDB(FiretaskBase):
         run_db.update_run(new_values={self["new_prop"]: result},
                           _id=ObjectId(main_run['_id']))
         logger.info("binding energy calculation complete")
+
+
+@explicit_serialize
+class ProcessRun(FiretaskBase):
+    required_params = ["run"]
+    optional_params = ["operation_type", "db", "working_dir", "save_to_db",
+                       "save_to_file", "filename", "input_file", "gout_key"]
+
+    @staticmethod
+    def _recursive_signature_remove(d):
+        if isinstance(d, dict):
+            return {i:  ProcessRun._recursive_signature_remove(j)
+                    for i, j in d.items() if not i.startswith('@')}
+        else:
+            return d
+
+    @staticmethod
+    def _modify_gout(gout):
+        gout['input']['charge'] = gout['charge']
+        gout['input']['spin_multiplicity'] = gout['spin_multiplicity']
+        del_keys_out = ('nsites', 'unit_cell_formula',
+                        'reduced_cell_formula', 'pretty_formula',
+                        'elements', 'nelements', 'charge',
+                        'spin_multiplicity')
+        [gout.pop(k, None) for k in del_keys_out]
+
+    @staticmethod
+    def _create_gin(gout, working_dir, input_file):
+        from pymatgen.io.gaussian import GaussianInput
+        if input_file:
+            input_path = os.path.join(working_dir, input_file)
+            gin = GaussianInput.from_file(input_path).as_dict()
+            gin['nbasisfunctions'] = gout['input']['nbasisfunctions']
+            gin['pcm_parameters'] = gout['input']['pcm_parameters']
+            return gin
+        else:
+            gin = gout['input']
+            gin['input_parameters'] = None
+            gin['@class'] = 'GaussianInput'
+            gin['@module'] = 'pymatgen.io.gaussian'
+            logger.info("Input parameters at the end of the Gaussian input "
+                        "section will not be saved to the database due to "
+                        "a missing input file")
+            return gin
+
+    @staticmethod
+    def _job_types(gin):
+        return list(filter(lambda x: x in {k.lower(): v for k, v in
+                                           gin['route_parameters'].items()},
+                           JOB_TYPES))
+
+    def run_task(self, fw_spec):
+        from pymatgen.core.structure import Molecule
+
+        run = self["run"]
+        operation_type = self.get("operation_type", "get_from_gout")
+        working_dir = self.get('working_dir', os.getcwd())
+        db = self.get('db')
+
+        gout = process_run(operation_type=operation_type, run=run,
+                           working_dir=working_dir, db=db)
+        task_doc = {'output': gout}
+        if self.get('save_to_db') or self.get('save_to_file'):
+            # TODO: check if other solvation models are supported
+            self._modify_gout(gout)
+            gin = self._create_gin(gout, working_dir, self.get("input_file"))
+            del gout['input']
+            job_types = self._job_types(gin)
+            mol = Molecule.from_dict(gout['output']['molecule'])
+
+            task_doc = {'input': gin, 'output': gout, 'tag': fw_spec["tag"],
+                        'functional': gin['functional'],
+                        'basis': gin['basis_set'],
+                        'phase': 'solution' if gout['is_pcm'] else 'gas',
+                        'type': ';'.join(job_types),
+                        **get_chem_schema(mol)}
+            task_doc = {i: j for i, j in task_doc.items() if i not in
+                        ['sites', '@module', '@class', 'charge',
+                         'spin_multiplicity']}
+            task_doc = json.loads(json.dumps(task_doc))
+
+        if self.get('save_to_db'):
+            runs_db = get_db(db)
+            runs_db.insert_run(task_doc)
+            logger.info("Saved parsed file to db")
+        if self.get('save_to_file'):
+            json.dump(task_doc, self.get('file_name', 'run.json'))
+            logger.info("Save parsed output to json file")
+
+        task_doc = self._recursive_signature_remove(task_doc)
+
+        uid = self.get("gout_key")
+        set_dict = {f"gaussian_output->{DEFAULT_KEY}": task_doc}
+        if uid:
+            set_dict[f"gaussian_output->{uid}"] = task_doc
+        return FWAction(mod_spec={'_set': set_dict})
