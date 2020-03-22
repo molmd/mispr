@@ -2,6 +2,7 @@ import os
 import logging
 from bson.objectid import ObjectId
 from pymatgen.core.structure import Molecule
+from pymatgen.io.gaussian import GaussianOutput
 from pymatgen.io.babel import BabelMolAdaptor
 from fireworks.utilities.fw_utilities import get_slug
 from fireworks.fw_config import CONFIG_FILE_DIR
@@ -102,6 +103,55 @@ def process_mol(operation_type, mol, **kwargs):
         raise ValueError(f'operation type {operation_type} is not supported')
 
     return output_mol
+
+
+def process_run(operation_type, run, **kwargs):
+    working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
+        else os.getcwd()
+    db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
+
+    if operation_type == 'get_from_gout':
+        if not isinstance(run, GaussianOutput):
+            raise Exception("run is not a GaussianOutput object; either "
+                            "provide a GaussianOutput object or use another "
+                            "operation type with its corresponding inputs")
+        output_run = run.as_dict()
+
+    elif operation_type == 'get_from_file':
+        # run = file_path
+        file_path = os.path.join(working_dir, run)
+        if not os.path.exists(file_path):
+            raise Exception("run is not a valid path; either provide a valid "
+                            "path or use another operation type with its "
+                            "corresponding inputs")
+
+        output_run = GaussianOutput(file_path).as_dict()
+
+    elif operation_type == 'get_from_run_id':
+        # run = run_id
+        run = db.runs.find_one({"_id": ObjectId(run)})
+        if not run:
+            raise Exception("Gaussian run is not in the database")
+        output_run = run['output']
+
+    elif operation_type == 'get_from_run_query':
+        # run = {'smiles': smiles, 'type': type, 'functional': func,
+        #        'basis': basis, 'phase': phase, ...}
+        logger.info("If the query criteria satisfy more than "
+                    "on    e document, the last updated one will "
+                    "be used. To perform a more specific "
+                    "search, provide the document id using "
+                    "gout_id")
+        run = db.retrieve_run(**run)
+        if not run:
+            raise Exception("Gaussian run is not in the database")
+        run = max(run, key=lambda i: i['last_updated'])
+        output_run = run['output']
+
+    else:
+        raise ValueError(f'operation type {operation_type} is not supported')
+
+    return output_run
 
 
 def get_run_from_fw_spec(fw_spec, key, run_db):
