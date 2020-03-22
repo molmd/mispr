@@ -104,6 +104,19 @@ def process_mol(operation_type, mol, **kwargs):
     return output_mol
 
 
+def get_run_from_fw_spec(fw_spec, key, run_db):
+    gout_id = fw_spec.get("gaussian_output_id", {}).get(key)
+    run = run_db.runs. \
+        find_one({"_id": ObjectId(gout_id)})
+    proceed_keys = fw_spec.get("proceed", {})
+    for k, v in proceed_keys.items():
+        if run["output"].get(k, run["output"]["output"].get(k)) != v:
+            raise ValueError(
+                f"The condition for {k} is not met, Terminating"
+            )
+    return run
+
+
 def get_chem_schema(mol):
     mol_dict = mol.as_dict()
     comp = mol.composition
