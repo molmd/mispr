@@ -9,7 +9,7 @@ from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput
 
 from infrastructure.gaussian.utils.utils import get_db, process_mol, \
-    get_run_from_fw_spec
+    get_run_from_fw_spec, process_run
 
 logger = logging.getLogger(__name__)
 
@@ -124,30 +124,19 @@ class RetrieveGaussianOutput(FiretaskBase):
     def run_task(self, fw_spec):
         # TODO: use alphabetical formula as a search criteria
 
-        # get db credentials
-        run_db = get_db(self.get('db'))
-
         # if a Gaussian output dict is passed through fw_spec
-        if fw_spec.get("gaussian_output_id"):
-            run = get_run_from_fw_spec(fw_spec, DEFAULT_KEY, run_db)
+        if fw_spec.get("gaussian_output"):
+            run = fw_spec["gaussian_output"][DEFAULT_KEY]
 
         # if a Gaussian output dictionary is retrieved from db
         else:
-            smiles = self.get['smiles']
-            functional = self.get('functional')
-            basis = self.get('basis')
-            type_ = self.get('type')
-            phase = self.get('phase')
+            query = {'smiles': self.get('smiles'), 'type': self.get('type'),
+                     'functional': self.get('functional'),
+                     'basis': self.get('basis'), 'phase': self.get('phase')}
             if 'tag' in self:
-                tag = self['tag']
-                run = run_db.retrieve_run(smiles, type_, functional, basis,
-                                          phase, tag=tag)
-            else:
-                run = run_db.retrieve_run(smiles, type_, functional, basis,
-                                          phase)
-            if not run:
-                raise Exception("Gaussian output is not in the database")
-            run = max(run, key=lambda i: i['last_updated'])
+                query['tag'] = self['tag']
+            run = process_run(operation_type="get_from_run_query", run=query,
+                              db=self.get('db'))
 
         # create a gaussian input object from run
         if self.get("gaussian_input_params") is None:
