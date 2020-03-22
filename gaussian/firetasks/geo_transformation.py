@@ -164,6 +164,24 @@ class RetrieveGaussianOutput(FiretaskBase):
 
 
 @explicit_serialize
+class BindingEnergytoDB(FiretaskBase):
+    required_params = ["keys", "prop", 'main_run_key', 'new_prop']
+    optional_params = ["db"]
+
+    def run_task(self, fw_spec):
+        run_db = get_db(self.get('db'))
+        runs = [get_run_from_fw_spec(fw_spec, i, run_db) for i in self['keys']]
+        prop = self['prop']
+        props = [i['output']['output'][prop] for i in runs]
+        result = (props[2] - (props[0] + props[1])) * 27.2114
+        main_run = get_run_from_fw_spec(fw_spec, self['main_run_key'], run_db)
+        print(main_run)
+        run_db.update_run(new_values={self["new_prop"]: result},
+                          _id=ObjectId(main_run['_id']))
+        logger.info("{} calculation complete".format(self["new_prop"]))
+
+
+@explicit_serialize
 class AttachFunctionalGroup(FiretaskBase):
     """
     Attaches a functional group to a molecule; requires the name of the functional
