@@ -2,6 +2,8 @@ import os
 import logging
 
 from fireworks import Firework, Workflow
+from infrastructure.gaussian.firetasks.geo_transformation import \
+    BindingEnergytoDB
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW, \
     CalcFromRunsDBFW
 from infrastructure.gaussian.utils.utils import process_mol, get_job_name, \
@@ -26,6 +28,7 @@ def common_fw(mol_operation_type,
               oxidation_states,
               db=None,
               process_mol_func=True,
+              mol_name=None,
               **kwargs):
     if process_mol_func:
         mol = process_mol(mol_operation_type, mol, db=db,
@@ -34,18 +37,20 @@ def common_fw(mol_operation_type,
         mol_formula = get_mol_formula(mol)
         opt_job_name = get_job_name(mol, "optimization")
         freq_job_name = get_job_name(mol, "frequency")
-        opt_input_file = "{}_opt.com".format(mol_formula)
-        opt_output_file = "{}_opt.out".format(mol_formula)
-        freq_input_file = "{}_freq.com".format(mol_formula)
-        freq_output_file = "{}_freq.out".format(mol_formula)
+        label = mol_formula
+    elif mol_name:
+        opt_job_name = "{}_optimization".format(mol_name)
+        freq_job_name = "{}_frequency".format(mol_name)
+        label = mol_name
     else:
         opt_job_name = "optimization"
         freq_job_name = "frequency"
-        opt_input_file = "mol_opt.com"
-        opt_output_file = "mol_opt.out"
-        freq_input_file = "mol_freq.com"
-        freq_output_file = "mol_freq.out"
-    print(mol_operation_type, mol)
+        label = "mol"
+    opt_input_file = f"{label}_opt.com"
+    opt_output_file = f"{label}_opt.out"
+    freq_input_file = f"{label}_freq.com"
+    freq_output_file = f"{label}_freq.out"
+
     opt_gaussian_inputs = opt_gaussian_inputs or {}
     opt_gaussian_inputs = {**STANDARD_OPT_GUASSIAN_INPUT, **opt_gaussian_inputs}
     if "opt" not in [i.lower() for i in
@@ -207,7 +212,6 @@ def get_binding_energies(mol_operation_type,
                          cart_coords=True,
                          save_to_db=False,
                          update_duplicates=False,
-                         save_mol_file=True,
                          oxidation_states=None,
                          **kwargs):
     # mol_operation_type = [], mol = [], index = []
@@ -216,32 +220,34 @@ def get_binding_energies(mol_operation_type,
     fws = []
     molecules = []
     working_dir = working_dir or os.getcwd()
+    key1 = 'linking_mol'
+    key2 = 'linked_mol'
+    key3 = 'final_mol'
+    for position, [operation, molecule, key] in \
+            enumerate(zip(mol_operation_type, mol, [key1, key2])):
+        mol_object, list_fws_1 = common_fw(mol_operation_type=operation,
+                                           mol=molecule,
+                                           working_dir=working_dir,
+                                           db=db,
+                                           opt_gaussian_inputs=opt_gaussian_inputs,
+                                           freq_gaussian_inputs=freq_gaussian_inputs,
+                                           cart_coords=cart_coords,
+                                           save_to_db=save_to_db,
+                                           update_duplicates=update_duplicates,
+                                           oxidation_states=oxidation_states,
+                                           gout_id_key=key,
+                                           **kwargs)
 
-    for position, [operation, molecule] in \
-            enumerate(zip(mol_operation_type, mol)):
-        mol_object, list_fws = common_fw(mol_operation_type=operation,
-                                         mol=molecule,
-                                         working_dir=working_dir,
-                                         db=db,
-                                         opt_gaussian_inputs=opt_gaussian_inputs,
-                                         freq_gaussian_inputs=freq_gaussian_inputs,
-                                         cart_coords=cart_coords,
-                                         save_to_db=save_to_db,
-                                         update_duplicates=update_duplicates,
-                                         save_mol_file=save_mol_file,
-                                         oxidation_states=oxidation_states,
-                                         filename="mol_{}_opt".format(
-                                             position),
-                                         **kwargs)
-
-        fws += list_fws
+        fws += list_fws_1
         molecules.append(mol_object)
 
-    _, list_fws_1 = common_fw(mol_operation_type="link_molecules",
-                              mol={"operation_type": ["get_from_file",
-                                                      "get_from_file"],
-                                   "mol": ["mol_0_opt.xyz",
-                                           "mol_1_opt.xyz"],
+    mol_name = "{}_{}".format(get_mol_formula(molecules[0]),
+                              get_mol_formula(molecules[1]))
+
+    _, list_fws_2 = common_fw(mol_operation_type="link_molecules",
+                              mol={"operation_type": ["get_from_run_id",
+                                                      "get_from_run_id"],
+                                   "mol": [key1, key2],
                                    "index": index,
                                    "bond_order": bond_order},
                               working_dir=working_dir,
@@ -250,17 +256,35 @@ def get_binding_energies(mol_operation_type,
                               cart_coords=cart_coords,
                               save_to_db=save_to_db,
                               update_duplicates=update_duplicates,
-                              save_mol_file=save_mol_file,
                               oxidation_states=oxidation_states,
                               db=db,
-                              process_mol_func=False)
+                              process_mol_func=False,
+                              mol_name=mol_name,
+                              gout_id_key=key3,
+                              from_fw_spec=True)
 
-    fws += list_fws_1
-    name = "{}_{}".format((get_job_name(molecules[0], name)).strip(name),
-                          get_job_name(molecules[1], name))
+    fws += list_fws_2
+
+    fw_analysis = Firework(BindingEnergytoDB(keys=[key1, key2, key3],
+                                             prop="final_energy",
+                                             main_run_key=key3,
+                                             new_prop="binding_energy_{}_{}_eV".
+                                             format(molecules[0].species[index[0]],
+                                                    molecules[1].species[index[1]]),
+                                             db=db),
+                           parents=fws[:],
+                           name="{}-{}".format(mol_name,
+                                               "binding_energy_analysis"))
+    fws.append(fw_analysis)
+
+    name = "{}_{}".format(mol_name, name)
     links_dict = {fws[1]: fws[4], fws[3]: fws[4]}
 
     return Workflow(fws,
                     name=name,
                     links_dict=links_dict,
                     **kwargs)
+
+
+def binding_energy_cal(props):
+    return (props[3] - (props[0] + props[1])) * 27.2114
