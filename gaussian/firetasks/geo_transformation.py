@@ -24,15 +24,22 @@ class ProcessMoleculeInput(FiretaskBase):
                        "from_fw_spec"]
 
     @staticmethod
+    def _run_to_mol_object(run):
+        return Molecule.from_dict(run['output']['output']['molecule'])
+
+    @staticmethod
     def _from_fw_spec(mol, fw_spec):
-        available_runs = fw_spec['gaussian_output_id']
+        available_runs = fw_spec['gaussian_output']
         if not isinstance(mol, dict):
-            mol = available_runs[mol]
+            mol = ProcessMoleculeInput._run_to_mol_object(available_runs[mol])
         else:
             if isinstance(mol['mol'], list):
-                mol['mol'] = [available_runs[i] for i in mol['mol']]
+                mol['mol'] = \
+                    [ProcessMoleculeInput._run_to_mol_object(available_runs[i])
+                     for i in mol['mol']]
             else:
-                mol['mol'] = available_runs[mol['mol']]
+                mol['mol'] = ProcessMoleculeInput.\
+                    _run_to_mol_object(available_runs[mol['mol']])
         return mol
 
     def run_task(self, fw_spec):
