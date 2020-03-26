@@ -8,10 +8,13 @@ import json
 
 from bson.objectid import ObjectId
 
+from pymatgen.io.gaussian import GaussianInput
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
+from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 from infrastructure.gaussian.utils.utils import get_chem_schema, get_db, \
     get_run_from_fw_spec, process_run
+from infrastructure.gaussian.utils.utils import recursive_signature_remove
 
 
 logger = logging.getLogger(__name__)
@@ -21,6 +24,7 @@ JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
              'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
              'sac-ci'}
 DEFAULT_KEY = 'gout_key'
+
 
 @explicit_serialize
 class GaussianToDB(FiretaskBase):
@@ -134,14 +138,6 @@ class ProcessRun(FiretaskBase):
                        "save_to_file", "filename", "input_file", "gout_key"]
 
     @staticmethod
-    def _recursive_signature_remove(d):
-        if isinstance(d, dict):
-            return {i:  ProcessRun._recursive_signature_remove(j)
-                    for i, j in d.items() if not i.startswith('@')}
-        else:
-            return d
-
-    @staticmethod
     def _modify_gout(gout):
         gout['input']['charge'] = gout['charge']
         gout['input']['spin_multiplicity'] = gout['spin_multiplicity']
@@ -204,20 +200,65 @@ class ProcessRun(FiretaskBase):
             task_doc = {i: j for i, j in task_doc.items() if i not in
                         ['sites', '@module', '@class', 'charge',
                          'spin_multiplicity']}
-            task_doc = json.loads(json.dumps(task_doc))
+        task_doc = json.loads(json.dumps(task_doc))
 
         if self.get('save_to_db'):
             runs_db = get_db(db)
             runs_db.insert_run(task_doc)
             logger.info("Saved parsed file to db")
         if self.get('save_to_file'):
-            json.dump(task_doc, self.get('file_name', 'run.json'))
-            logger.info("Save parsed output to json file")
+            with open(self.get('filename', 'run.json'), "w") as f:
+                f.write(json.dumps(task_doc, default=DATETIME_HANDLER))
+            logger.info("Saved parsed output to json file")
 
-        task_doc = self._recursive_signature_remove(task_doc)
+        task_doc = recursive_signature_remove(task_doc)
 
         uid = self.get("gout_key")
         set_dict = {f"gaussian_output->{DEFAULT_KEY}": task_doc}
         if uid:
             set_dict[f"gaussian_output->{uid}"] = task_doc
         return FWAction(mod_spec={'_set': set_dict})
+
+
+@explicit_serialize
+class RetrieveGaussianOutput(FiretaskBase):
+    """
+    Returns a Gaussian output object from the database and converts it to a
+    Gaussian input object
+    """
+    required_params = []
+    optional_params = ["db", "gaussian_input_params", "run_id", "smiles",
+                       "functional", "basis", "type", "phase", "tag"]
+
+    def run_task(self, fw_spec):
+
+        # if a Gaussian output dict is passed through fw_spec
+        if fw_spec.get("gaussian_output"):
+            run = fw_spec["gaussian_output"][DEFAULT_KEY]
+
+        elif self.get("run_id"):
+            run = process_run(operation_type="get_from_run_id",
+                              run=self.get("run_id"), db=self.get("db"))
+
+        # if a Gaussian output dictionary is retrieved from db
+        else:
+            query = {'smiles': self.get('smiles'), 'type': self.get('type'),
+                     'functional': self.get('functional'),
+                     'basis': self.get('basis'), 'phase': self.get('phase')}
+            if 'tag' in self:
+                query['tag'] = self['tag']
+            run = process_run(operation_type="get_from_run_query", run=query,
+                              db=self.get('db'))
+
+        # create a gaussian input object from run
+        if self.get("gaussian_input_params") is None:
+            logger.info("No gaussian input parameters provided; will use "
+                        "run parameters")
+        inputs = {}
+        for k, v in run['input'].items():
+            # use gaussian_input_params if defined, otherwise use run parameters
+            inputs[f'{k}'] = self.get("gaussian_input_params", {}).\
+                get(f'{k}', run['input'].get(f'{k}'))
+        inputs['molecule'] = run['output']['output']['molecule']
+        gaussin = GaussianInput.from_dict(inputs)
+        fw_spec["gaussian_input"] = gaussin
