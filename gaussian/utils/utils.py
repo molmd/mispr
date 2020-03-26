@@ -1,5 +1,6 @@
 import os
 import logging
+import json
 from bson.objectid import ObjectId
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianOutput
@@ -40,6 +41,23 @@ def process_mol(operation_type, mol, **kwargs):
         if not mol_dict:
             raise Exception(
                 "mol is not found in the database")
+        output_mol = Molecule.from_dict(mol_dict)
+
+    elif operation_type == 'get_from_gout':
+        if not isinstance(mol, GaussianOutput):
+            raise Exception("mol is not a GaussianOutput object; either "
+                            "provide a GaussianOutput object or use another "
+                            "operation type with its corresponding inputs")
+        output_run = mol.as_dict()
+        output_mol = Molecule.from_dict(output_run["output"]["molecule"])
+
+    elif operation_type == 'get_from_run_dict':
+        if not isinstance(mol, dict) and "output" not in mol:
+            raise Exception("mol is not a GaussianOutput dictionary; either"
+                            "provide a GaussianOutput dictionary or use another"
+                            "operation type with its corresponding inputs")
+        # TODO: sometimes it is mol['output']['output']['molecule']
+        mol_dict = mol['output']['molecule']
         output_mol = Molecule.from_dict(mol_dict)
 
     elif operation_type == 'get_from_run_id':
@@ -127,6 +145,13 @@ def process_run(operation_type, run, **kwargs):
 
         output_run = GaussianOutput(file_path).as_dict()
 
+    elif operation_type == 'get_from_run_dict':
+        if not isinstance(run, dict) and "output" not in run:
+            raise Exception("run is not a GaussianOutput dictionary; either"
+                            "provide a GaussianOutput dictionary or use another"
+                            "operation type with its corresponding inputs")
+        output_run = run
+
     elif operation_type == 'get_from_run_id':
         # run = run_id
         run = db.runs.find_one({"_id": ObjectId(run)})
@@ -138,7 +163,7 @@ def process_run(operation_type, run, **kwargs):
         # run = {'smiles': smiles, 'type': type, 'functional': func,
         #        'basis': basis, 'phase': phase, ...}
         logger.info("If the query criteria satisfy more than "
-                    "on    e document, the last updated one will "
+                    "one document, the last updated one will "
                     "be used. To perform a more specific "
                     "search, provide the document id using "
                     "gout_id")
@@ -150,7 +175,8 @@ def process_run(operation_type, run, **kwargs):
 
     else:
         raise ValueError(f'operation type {operation_type} is not supported')
-
+    output_run = json.loads(json.dumps(output_run))
+    output_run = recursive_signature_remove(output_run)
     return output_run
 
 
@@ -224,3 +250,9 @@ def get_db(input_db=None):
     return db
 
 
+def recursive_signature_remove(d):
+    if isinstance(d, dict):
+        return {i: recursive_signature_remove(j)
+                for i, j in d.items() if not i.startswith('@')}
+    else:
+        return d
