@@ -64,12 +64,6 @@ class GaussianCalcDb:
 
     @abstractmethod
     def build_indexes(self, indexes=None, background=True):
-        """
-         Build the indexes.
-         Args:
-             indexes (list): list of single field indexes to be built.
-             background (bool): Run in the background or not.
-         """
         self.molecules.create_index("smiles", unique=True, background=background)
         self.molecules.create_index(
             "formula_alphabetical", unique=False, background=background)
@@ -196,16 +190,6 @@ class GaussianCalcDb:
 
     @classmethod
     def from_db_file(self, db_file, admin=True):
-        """
-        Create MMDB from database file. File requires host, port, database,
-        collection, and optionally admin_user/readonly_user and
-        admin_password/readonly_password
-        Args:
-            db_file (str): path to the file containing the credentials
-            admin (bool): whether to use the admin user
-        Returns:
-            MMDb object
-        """
         creds = loadfn(db_file)
 
         if admin and "admin_user" not in creds and "readonly_user" in creds:
