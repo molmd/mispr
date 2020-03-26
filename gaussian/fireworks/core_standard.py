@@ -2,10 +2,11 @@ import os
 import logging
 from fireworks import Firework
 from infrastructure.gaussian.firetasks.geo_transformation import \
-    ProcessMoleculeInput, RetrieveGaussianOutput
+    ProcessMoleculeInput
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
 from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
-from infrastructure.gaussian.firetasks.parse_outputs import GaussianToDB
+from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun, \
+    RetrieveGaussianOutput
 
 logger = logging.getLogger(__name__)
 
@@ -17,11 +18,11 @@ def common_tasks(db,
                  input_file,
                  output_file,
                  working_dir,
-                 fw_spec_field,
                  gaussian_input_params,
                  cart_coords,
                  oxidation_states,
                  **kwargs):
+
     return \
         [WriteInput(input_file=input_file,
                     working_dir=working_dir,
@@ -37,14 +38,14 @@ def common_tasks(db,
                            **{i: j for i, j in kwargs.items() if i in
                               RunGaussianDirect.required_params +
                               RunGaussianDirect.optional_params}),
-         GaussianToDB(db=db,
-                      working_dir=working_dir,
-                      input_file=input_file,
-                      output_file=output_file,
-                      fw_spec_field=fw_spec_field,
-                      **{i: j for i, j in kwargs.items() if i in
-                         GaussianToDB.required_params +
-                         GaussianToDB.optional_params})]
+         ProcessRun(run=output_file,
+                    operation_type="get_from_file",
+                    db=db,
+                    working_dir=working_dir,
+                    input_file=input_file,
+                    **{i: j for i, j in kwargs.items() if i in
+                       ProcessRun.required_params +
+                       ProcessRun.optional_params})]
 
 
 class CalcFromMolFW(Firework):
@@ -60,7 +61,6 @@ class CalcFromMolFW(Firework):
                  gaussian_input_params={},
                  cart_coords=True,
                  oxidation_states=None,
-                 fw_spec_field=None,
                  tag="unknown",
                  **kwargs):
         t = []
@@ -80,7 +80,6 @@ class CalcFromMolFW(Firework):
                           input_file,
                           output_file,
                           working_dir,
-                          fw_spec_field,
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states,
@@ -105,7 +104,6 @@ class CalcFromRunsDBFW(Firework):
                  input_file="mol.com",
                  output_file="mol.out",
                  cart_coords=True,
-                 fw_spec_field=None,
                  tag="unknown",
                  **kwargs):
         t = []
@@ -123,7 +121,6 @@ class CalcFromRunsDBFW(Firework):
                           input_file,
                           output_file,
                           working_dir,
-                          fw_spec_field,
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states=None,
