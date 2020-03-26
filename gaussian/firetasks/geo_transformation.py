@@ -6,7 +6,6 @@ from bson.objectid import ObjectId
 from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
-from pymatgen.io.gaussian import GaussianInput
 
 from infrastructure.gaussian.utils.utils import get_db, process_mol, \
     get_run_from_fw_spec, process_run
@@ -20,7 +19,7 @@ DEFAULT_KEY = 'gout_key'
 class ProcessMoleculeInput(FiretaskBase):
     required_params = ["mol"]
     optional_params = ["operation_type", "db", "working_dir", "save_to_db",
-                       "update_duplicates", "save_mol_file", "fmt", "filename",
+                       "update_duplicates", "save_to_file", "fmt", "filename",
                        "from_fw_spec"]
 
     @staticmethod
@@ -58,12 +57,15 @@ class ProcessMoleculeInput(FiretaskBase):
             db = get_db(db) if db else get_db()
             update_duplicates = self.get("update_duplicates", False)
             db.insert_molecule(output_mol, update_duplicates=update_duplicates)
-        if self.get("save_mol_file"):
+
+        if self.get("save_to_file"):
             fmt = self.get("fmt", 'xyz')
             filename = self.get("filename", 'mol')
             file = os.path.join(working_dir, f"{filename}.{fmt}")
             output_mol.to(fmt, file)
-        fw_spec['prev_calc_molecule'] = output_mol
+        fw_spec['prev_calc_molecule'] = output_mol # Note: This should ideally
+        # be part of FWaction, however because mpi doesn't support pymatgen, we
+        # should be careful about what is being passed to the next firework
 
 
 @explicit_serialize
@@ -116,65 +118,6 @@ class RetrieveMoleculeObject(FiretaskBase):
             mol_file = os.path.join(working_dir, file_name)
             mol.to(self.get('fmt', 'xyz'), mol_file)
         fw_spec['prev_calc_molecule'] = mol
-
-
-@explicit_serialize
-class RetrieveGaussianOutput(FiretaskBase):
-    """
-    Returns a Gaussian output object from the database and converts it to a
-    Gaussian input object
-    """
-    required_params = []
-    optional_params = ["db", "gaussian_input_params", "smiles", "functional",
-                       "basis", "type", "phase", "tag"]
-
-    def run_task(self, fw_spec):
-        # TODO: use alphabetical formula as a search criteria
-
-        # if a Gaussian output dict is passed through fw_spec
-        if fw_spec.get("gaussian_output"):
-            run = fw_spec["gaussian_output"][DEFAULT_KEY]
-
-        # if a Gaussian output dictionary is retrieved from db
-        else:
-            query = {'smiles': self.get('smiles'), 'type': self.get('type'),
-                     'functional': self.get('functional'),
-                     'basis': self.get('basis'), 'phase': self.get('phase')}
-            if 'tag' in self:
-                query['tag'] = self['tag']
-            run = process_run(operation_type="get_from_run_query", run=query,
-                              db=self.get('db'))
-
-        # create a gaussian input object from run
-        if self.get("gaussian_input_params") is None:
-            logger.info("No gaussian input parameters provided; will use "
-                        "run parameters")
-        inputs = {}
-        for k, v in run['input'].items():
-            # use gaussian_input_params if defined, otherwise use run parameters
-            inputs[f'{k}'] = self.get("gaussian_input_params", {}).\
-                get(f'{k}', run['input'].get(f'{k}'))
-        inputs['molecule'] = run['output']['output']['molecule']
-        gaussin = GaussianInput.from_dict(inputs)
-        fw_spec["gaussian_input"] = gaussin
-
-
-@explicit_serialize
-class BindingEnergytoDB(FiretaskBase):
-    required_params = ["keys", "prop", 'main_run_key', 'new_prop']
-    optional_params = ["db"]
-
-    def run_task(self, fw_spec):
-        run_db = get_db(self.get('db'))
-        runs = [get_run_from_fw_spec(fw_spec, i, run_db) for i in self['keys']]
-        prop = self['prop']
-        props = [i['output']['output'][prop] for i in runs]
-        result = (props[2] - (props[0] + props[1])) * 27.2114
-        main_run = get_run_from_fw_spec(fw_spec, self['main_run_key'], run_db)
-        print(main_run)
-        run_db.update_run(new_values={self["new_prop"]: result},
-                          _id=ObjectId(main_run['_id']))
-        logger.info("{} calculation complete".format(self["new_prop"]))
 
 
 @explicit_serialize
@@ -245,6 +188,25 @@ class LinkMolecules(FiretaskBase):
             linked_mol_file = os.path.join(working_dir, file_name)
             linked_mol.to(self.get("fmt", "xyz"), linked_mol_file)
         fw_spec["prev_calc_molecule"] = linked_mol
+
+
+@explicit_serialize
+class BindingEnergytoDB(FiretaskBase):
+    required_params = ["keys", "prop", 'main_run_key', 'new_prop']
+    optional_params = ["db"]
+
+    def run_task(self, fw_spec):
+        run_db = get_db(self.get('db'))
+        runs = [get_run_from_fw_spec(fw_spec, i, run_db) for i in self['keys']]
+        prop = self['prop']
+        props = [i['output']['output'][prop] for i in runs]
+        result = (props[2] - (props[0] + props[1])) * 27.2114
+        main_run = get_run_from_fw_spec(fw_spec, self['main_run_key'], run_db)
+        print(main_run)
+        run_db.update_run(new_values={self["new_prop"]: result},
+                          _id=ObjectId(main_run['_id']))
+        logger.info("{} calculation complete".format(self["new_prop"]))
+
 
 
 
