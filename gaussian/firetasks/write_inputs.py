@@ -65,7 +65,6 @@ class WriteInput(FiretaskBase):
             # if a molecule is also passed as an optional parameter
             if self.get("molecule"):
                 mol = self.get("molecule")
-                # check if mol and prev_calc_mol are isomorphic
                 mol_graph = MoleculeGraph. \
                     with_local_env_strategy(mol, OpenBabelNN(), reorder=False,
                                             extend_structure=False)
@@ -73,8 +72,6 @@ class WriteInput(FiretaskBase):
                     with_local_env_strategy(prev_calc_mol, OpenBabelNN(),
                                             reorder=False,
                                             extend_structure=False)
-                # If they are isomorphic, aka a previous FW has not changed bonding,
-                # then we will use prev_calc_mol. If bonding has changed, we will use mol.
                 if mol_graph.isomorphic_to(prev_mol_graph):
                     mol = prev_calc_mol
                 else:

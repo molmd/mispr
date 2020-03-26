@@ -27,7 +27,6 @@ class GaussianCalcDb:
         self.user = username
         self.password = password
         self.port = int(port) if port else None
-        # TODO: read database credentials from a config file instead (atomate)
         try:
             if uri_mode:
                 self.connection = MongoClient(host)
@@ -95,13 +94,6 @@ class GaussianCalcDb:
         return pd.DataFrame(list(self.molecules.find(query, projection)))
 
     def insert_molecule(self, mol, update_duplicates=False):
-        """
-        Insert the task document ot the database collection. Does not allow
-        inserting an existing molecule in a new document.
-        Args:
-            d (dict): task document
-            update_duplicates (bool): whether to update the duplicates
-        """
         mol_dict = get_chem_schema(mol)
         # Check if smile is already in db
         result = self.molecules.find_one({"smiles": mol_dict["smiles"]})
