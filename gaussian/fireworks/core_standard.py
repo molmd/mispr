@@ -10,8 +10,7 @@ from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun, \
 
 logger = logging.getLogger(__name__)
 
-FIREWORK_KWARGS = ["spec", "name", "launches", "archived_launches", "state",
-                   "created_on", "fw_id", "parents", "updated_on"]
+FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
 
 def common_tasks(db,
