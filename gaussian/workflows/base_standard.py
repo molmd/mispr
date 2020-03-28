@@ -3,7 +3,7 @@ import logging
 
 from fireworks import Firework, Workflow
 from pymatgen.core.structure import Molecule
-from infrastructure.gaussian.firetasks.geo_transformation import \
+from infrastructure.gaussian.firetasks.parse_outputs import \
     BindingEnergytoDB
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW, \
@@ -13,8 +13,7 @@ from infrastructure.gaussian.utils.utils import process_mol, get_job_name, \
 
 logger = logging.getLogger(__name__)
 
-WORKFLOW_KWARGS = ["links_dict", "name", "metadata", "created_on",
-                   "updated_on", "fw_states"]
+WORKFLOW_KWARGS = Workflow.__init__.__code__.co_varnames
 
 STANDARD_OPT_GUASSIAN_INPUT = {"functional": "B3LYP",
                                "basis_set": "6-31G(d)",
@@ -108,27 +107,32 @@ def common_fw(mol_operation_type,
         # mol_operation_type = get_from_file, get_from_gout, get_from_run_id,
         # get_from_run query, get_from_gout, get_from_run_dict only
         # I'm repeating the same thing twice here!
-        # TODO: raise error if the mol_operation_type is not from above
-        run = process_run(mol_operation_type, mol, db=db,
-                          working_dir=working_dir)
-        mol = process_mol("get_from_run_dict", run, db=db,
-                          working_dir=working_dir)
-        spec = kwargs.pop('spec', {})
-        if "tag" in kwargs:
-            spec.update({'tag': kwargs["tag"]})
-        print(kwargs)
-        fws.append(Firework(ProcessRun(run=run,
-                                       operation_type="get_from_run_dict",
-                                       db=db,
-                                       working_dir=working_dir,
-                                       **{i: j for i, j in kwargs.items() if
-                                          i in
-                                          ProcessRun.required_params +
-                                          ProcessRun.optional_params}),
-                            name=get_job_name(mol, "process_run"),
-                            spec=spec)
-                   )
-        print(kwargs)
+        if mol_operation_type not in ["get_from_gout", "get_from_file",
+                                      "get_from_run_dict", "get_from_run_id",
+                                      "get_from_run_query"]:
+            raise ValueError("no Gaussian output provided; to skip "
+                             "optimization and frequency, you need to input "
+                             "the molecule in any of the supported Gaussian "
+                             "output formats")
+        else:
+            run = process_run(mol_operation_type, mol, db=db,
+                              working_dir=working_dir)
+            mol = process_mol("get_from_run_dict", run, db=db,
+                              working_dir=working_dir)
+            spec = kwargs.pop('spec', {})
+            if "tag" in kwargs:
+                spec.update({'tag': kwargs["tag"]})
+            fws.append(Firework(ProcessRun(run=run,
+                                           operation_type="get_from_run_dict",
+                                           db=db,
+                                           working_dir=working_dir,
+                                           **{i: j for i, j in kwargs.items() if
+                                              i in
+                                              ProcessRun.required_params +
+                                              ProcessRun.optional_params}),
+                                name=get_job_name(mol, "process_run"),
+                                spec=spec)
+                       )
     return mol, fws
 
 
@@ -141,12 +145,9 @@ def get_esp_charges(mol_operation_type,
                     freq_gaussian_inputs=None,
                     esp_gaussian_inputs=None,
                     cart_coords=True,
-                    save_to_db=False,
-                    update_duplicates=False,
                     oxidation_states=None,
                     skip_opt_freq=False,
                     **kwargs):
-    print(kwargs)
     fws = []
     working_dir = working_dir or os.getcwd()
 
@@ -157,22 +158,26 @@ def get_esp_charges(mol_operation_type,
                                   opt_gaussian_inputs=opt_gaussian_inputs,
                                   freq_gaussian_inputs=freq_gaussian_inputs,
                                   cart_coords=cart_coords,
-                                  save_to_db=save_to_db,
-                                  update_duplicates=update_duplicates,
                                   oxidation_states=oxidation_states,
                                   skip_opt_freq=skip_opt_freq,
                                   **kwargs)
-    print(kwargs)
     fws += opt_freq_fws
+    mol_formula = get_mol_formula(mol)
     esp_gaussian_inputs = esp_gaussian_inputs or {}
     if "route_parameters" not in esp_gaussian_inputs:
         esp_gaussian_inputs.update({"route_parameters": {"pop": "MK",
                                                          "iop(6/50=1)": None}})
     # input_parameters from a previous run are overwritten
     if "input_parameters" not in esp_gaussian_inputs:
-        esp_gaussian_inputs.update({"input_parameters": {"molesp": None}})
-    mol_formula = get_mol_formula(mol)
-    print(kwargs)
+        mol_esp = os.path.join(working_dir, "{}_esp".format(mol_formula))
+        esp_gaussian_inputs.update({"input_parameters": {mol_esp: None}})
+
+    if not skip_opt_freq:
+        spec = {"proceed": {"has_gaussian_completed": True,
+                            "stationary_type": "Minimum"}}
+    else:
+        spec = {"proceed": {"has_gaussian_completed": True}}
+
     esp_fw = CalcFromRunsDBFW(db,
                               input_file="{}_esp.com".format(mol_formula),
                               output_file="{}_esp.out".format(mol_formula),
@@ -181,14 +186,14 @@ def get_esp_charges(mol_operation_type,
                               gaussian_input_params=esp_gaussian_inputs,
                               working_dir=working_dir,
                               cart_coords=cart_coords,
-                              spec={"proceed": {"has_gaussian_completed": True,
-                                                "stationary_type": "Minimum"}},
+                              spec=spec,
                               **kwargs
                               )
     fws.append(esp_fw)
     return Workflow(fws,
                     name=get_job_name(mol, name),
-                    **kwargs)
+                    **{i: j for i, j in kwargs.items()
+                       if i in WORKFLOW_KWARGS})
 
 
 def get_nmr_tensors(mol_operation_type,
@@ -200,8 +205,6 @@ def get_nmr_tensors(mol_operation_type,
                     freq_gaussian_inputs=None,
                     nmr_gaussian_inputs=None,
                     cart_coords=True,
-                    save_to_db=False,
-                    update_duplicates=False,
                     oxidation_states=None,
                     skip_opt_freq=False,
                     **kwargs):
@@ -215,27 +218,30 @@ def get_nmr_tensors(mol_operation_type,
                                   opt_gaussian_inputs=opt_gaussian_inputs,
                                   freq_gaussian_inputs=freq_gaussian_inputs,
                                   cart_coords=cart_coords,
-                                  save_to_db=save_to_db,
-                                  update_duplicates=update_duplicates,
                                   oxidation_states=oxidation_states,
                                   skip_opt_freq=skip_opt_freq,
                                   **kwargs)
     fws += opt_freq_fws
+    mol_formula = get_mol_formula(mol)
     nmr_gaussian_inputs = nmr_gaussian_inputs or {}
     if "route_parameters" not in nmr_gaussian_inputs:
         nmr_gaussian_inputs.update({"route_parameters": {"NMR": "GIAO"}})
-    mol_formula = get_mol_formula(mol)
+
+    if not skip_opt_freq:
+        spec = {"proceed": {"has_gaussian_completed": True,
+                            "stationary_type": "Minimum"}}
+    else:
+        spec = {"proceed": {"has_gaussian_completed": True}}
 
     nmr_fw = CalcFromRunsDBFW(db,
                               input_file="{}_nmr.com".format(mol_formula),
                               output_file="{}_nmr.out".format(mol_formula),
                               name=get_job_name(mol, "nmr"),
-                              parents=fws[1],
+                              parents=fws[:],
                               gaussian_input_params=nmr_gaussian_inputs,
                               working_dir=working_dir,
                               cart_coords=cart_coords,
-                              spec={"proceed": {"has_gaussian_completed": True,
-                                                "stationary_type": "Minimum"}},
+                              spec=spec,
                               **kwargs
                               )
     fws.append(nmr_fw)
@@ -255,8 +261,6 @@ def get_binding_energies(mol_operation_type,
                          opt_gaussian_inputs=None,
                          freq_gaussian_inputs=None,
                          cart_coords=True,
-                         save_to_db=False,
-                         update_duplicates=False,
                          oxidation_states=None,
                          skip_opt_freq=None,
                          **kwargs):
@@ -282,8 +286,6 @@ def get_binding_energies(mol_operation_type,
                                            opt_gaussian_inputs=opt_gaussian_inputs,
                                            freq_gaussian_inputs=freq_gaussian_inputs,
                                            cart_coords=cart_coords,
-                                           save_to_db=save_to_db,
-                                           update_duplicates=update_duplicates,
                                            oxidation_states=oxidation_states,
                                            gout_key=key,
                                            skip_opt_freq=skip,
@@ -306,8 +308,6 @@ def get_binding_energies(mol_operation_type,
                               opt_gaussian_inputs=opt_gaussian_inputs,
                               freq_gaussian_inputs=freq_gaussian_inputs,
                               cart_coords=cart_coords,
-                              save_to_db=save_to_db,
-                              update_duplicates=update_duplicates,
                               oxidation_states=oxidation_states,
                               process_mol_func=False,
                               mol_name=final_mol_name,
