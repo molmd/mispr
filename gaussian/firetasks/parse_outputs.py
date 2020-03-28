@@ -161,7 +161,7 @@ class ProcessRun(FiretaskBase):
             gin['input_parameters'] = None
             gin['@class'] = 'GaussianInput'
             gin['@module'] = 'pymatgen.io.gaussian'
-            logger.info("Input parameters at the end of the Gaussian input "
+            logger.info("input parameters at the end of the Gaussian input "
                         "section will not be saved to the database due to "
                         "a missing input file")
             return gin
@@ -182,24 +182,22 @@ class ProcessRun(FiretaskBase):
 
         gout = process_run(operation_type=operation_type, run=run,
                            working_dir=working_dir, db=db)
-        task_doc = {'output': gout}
-        if self.get('save_to_db') or self.get('save_to_file'):
-            # TODO: check if other solvation models are supported
-            self._modify_gout(gout)
-            gin = self._create_gin(gout, working_dir, self.get("input_file"))
-            del gout['input']
-            job_types = self._job_types(gin)
-            mol = Molecule.from_dict(gout['output']['molecule'])
+        # TODO: check if other solvation models are supported
+        self._modify_gout(gout)
+        gin = self._create_gin(gout, working_dir, self.get("input_file"))
+        del gout['input']
+        job_types = self._job_types(gin)
+        mol = Molecule.from_dict(gout['output']['molecule'])
 
-            task_doc = {'input': gin, 'output': gout, 'tag': fw_spec["tag"],
-                        'functional': gin['functional'],
-                        'basis': gin['basis_set'],
-                        'phase': 'solution' if gout['is_pcm'] else 'gas',
-                        'type': ';'.join(job_types),
-                        **get_chem_schema(mol)}
-            task_doc = {i: j for i, j in task_doc.items() if i not in
-                        ['sites', '@module', '@class', 'charge',
-                         'spin_multiplicity']}
+        task_doc = {'input': gin, 'output': gout, 'tag': fw_spec["tag"],
+                    'functional': gin['functional'],
+                    'basis': gin['basis_set'],
+                    'phase': 'solution' if gout['is_pcm'] else 'gas',
+                    'type': ';'.join(job_types),
+                    **get_chem_schema(mol)}
+        task_doc = {i: j for i, j in task_doc.items() if i not in
+                    ['sites', '@module', '@class', 'charge',
+                     'spin_multiplicity']}
         task_doc = json.loads(json.dumps(task_doc))
 
         if self.get('save_to_db'):
