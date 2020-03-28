@@ -57,8 +57,7 @@ def process_mol(operation_type, mol, **kwargs):
                             "provide a GaussianOutput dictionary or use another"
                             "operation type with its corresponding inputs")
         # TODO: sometimes it is mol['output']['output']['molecule']
-        mol_dict = mol['output']['molecule']
-        output_mol = Molecule.from_dict(mol_dict)
+        output_mol = Molecule.from_dict(mol["output"]["molecule"])
 
     elif operation_type == 'get_from_run_id':
         # mol = run_id
@@ -142,8 +141,13 @@ def process_run(operation_type, run, **kwargs):
             raise Exception("run is not a valid path; either provide a valid "
                             "path or use another operation type with its "
                             "corresponding inputs")
-
-        output_run = GaussianOutput(file_path).as_dict()
+        try:
+            output_run = GaussianOutput(file_path).as_dict()
+        except IndexError:
+            raise ValueError("run is not a Gaussian output file; either "
+                             "provide a valid Gaussian output file or use "
+                             "another operation type with its corresponding "
+                             "inputs")
 
     elif operation_type == 'get_from_run_dict':
         if not isinstance(run, dict) and "output" not in run:
@@ -157,7 +161,7 @@ def process_run(operation_type, run, **kwargs):
         run = db.runs.find_one({"_id": ObjectId(run)})
         if not run:
             raise Exception("Gaussian run is not in the database")
-        output_run = run['output']
+        output_run = run["output"]
 
     elif operation_type == 'get_from_run_query':
         # run = {'smiles': smiles, 'type': type, 'functional': func,
@@ -172,6 +176,7 @@ def process_run(operation_type, run, **kwargs):
             raise Exception("Gaussian run is not in the database")
         run = max(run, key=lambda i: i['last_updated'])
         output_run = run['output']
+
 
     else:
         raise ValueError(f'operation type {operation_type} is not supported')
