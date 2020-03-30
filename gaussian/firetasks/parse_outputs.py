@@ -27,7 +27,6 @@ class ProcessRun(FiretaskBase):
                        "save_to_file", "filename", "input_file", "gout_key"]
 
     def run_task(self, fw_spec):
-        # TODO: prevent redundant saving (if operation type is from db)
         run = self["run"]
         operation_type = self.get("operation_type", "get_from_gout")
         input_file = self.get("input_file")
