@@ -135,11 +135,15 @@ class GaussianCalcDb:
 
     def insert_run(self, grun):
         # TODO: perform checks if a similar calculation is already in the db
+        if "_id" in grun:
+            stored_run = self.retrieve_run(_id=grun["_id"])
+            if stored_run:
+                return grun["_id"]
         grun["last_updated"] = datetime.datetime.utcnow()
         result = self.runs.insert_one(grun, bypass_document_validation=True)
         return result.inserted_id
 
-    def retrieve_run(self, smiles, job_type=None, functional=None,
+    def retrieve_run(self, smiles=None, job_type=None, functional=None,
                      basis=None, phase=None, **kwargs):
         query = {}
         if smiles:
