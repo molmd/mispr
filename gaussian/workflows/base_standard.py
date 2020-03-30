@@ -104,9 +104,6 @@ def common_fw(mol_operation_type,
         fws.append(freq_fw)
 
     else:
-        # mol_operation_type = get_from_file, get_from_gout, get_from_run_id,
-        # get_from_run query, get_from_gout, get_from_run_dict only
-        # I'm repeating the same thing twice here!
         if mol_operation_type not in ["get_from_gout", "get_from_file",
                                       "get_from_run_dict", "get_from_run_id",
                                       "get_from_run_query"]:
@@ -266,9 +263,6 @@ def get_binding_energies(mol_operation_type,
                          **kwargs):
     # mol_operation_type = [], mol = [], index = []
     # order of the indices should be consistent with the order of the mols
-
-    if skip_opt_freq is None:
-        skip_opt_freq = [False, False]
     fws = []
     molecules = []
     working_dir = working_dir or os.getcwd()
@@ -276,45 +270,49 @@ def get_binding_energies(mol_operation_type,
     key2 = 'linked_mol'
     key3 = 'final_mol'
 
+    if skip_opt_freq is None:
+        skip_opt_freq = [False, False]
+
     for position, [operation, molecule, key, skip] in \
             enumerate(
                 zip(mol_operation_type, mol, [key1, key2], skip_opt_freq)):
-        mol_object, list_fws_1 = common_fw(mol_operation_type=operation,
-                                           mol=molecule,
-                                           working_dir=working_dir,
-                                           db=db,
-                                           opt_gaussian_inputs=opt_gaussian_inputs,
-                                           freq_gaussian_inputs=freq_gaussian_inputs,
-                                           cart_coords=cart_coords,
-                                           oxidation_states=oxidation_states,
-                                           gout_key=key,
-                                           skip_opt_freq=skip,
-                                           **kwargs)
-
-        fws += list_fws_1
+        mol_object, opt_freq_init_fws = \
+            common_fw(mol_operation_type=operation,
+                      mol=molecule,
+                      working_dir=working_dir,
+                      db=db,
+                      opt_gaussian_inputs=opt_gaussian_inputs,
+                      freq_gaussian_inputs=freq_gaussian_inputs,
+                      cart_coords=cart_coords,
+                      oxidation_states=oxidation_states,
+                      gout_key=key,
+                      skip_opt_freq=skip,
+                      **kwargs)
+        fws += opt_freq_init_fws
         molecules.append(mol_object)
 
-    final_mol_name = "{}_{}".format(get_mol_formula(molecules[0]),
-                                    get_mol_formula(molecules[1]))
+    final_mol_formula = "{}_{}".format(get_mol_formula(molecules[0]),
+                                       get_mol_formula(molecules[1]))
 
-    _, list_fws_2 = common_fw(mol_operation_type="link_molecules",
-                              mol={"operation_type": ["get_from_run_dict",
-                                                      "get_from_run_dict"],
-                                   "mol": [key1, key2],
-                                   "index": index,
-                                   "bond_order": bond_order},
-                              working_dir=working_dir,
-                              db=db,
-                              opt_gaussian_inputs=opt_gaussian_inputs,
-                              freq_gaussian_inputs=freq_gaussian_inputs,
-                              cart_coords=cart_coords,
-                              oxidation_states=oxidation_states,
-                              process_mol_func=False,
-                              mol_name=final_mol_name,
-                              gout_key=key3,
-                              from_fw_spec=True)
-
-    fws += list_fws_2
+    _, opt_freq_final_fws = common_fw(mol_operation_type="link_molecules",
+                                      mol={"operation_type": [
+                                          "get_from_run_dict",
+                                          "get_from_run_dict"],
+                                           "mol": [key1, key2],
+                                           "index": index,
+                                           "bond_order": bond_order},
+                                      working_dir=working_dir,
+                                      db=db,
+                                      opt_gaussian_inputs=opt_gaussian_inputs,
+                                      freq_gaussian_inputs=freq_gaussian_inputs,
+                                      cart_coords=cart_coords,
+                                      oxidation_states=oxidation_states,
+                                      process_mol_func=False,
+                                      mol_name=final_mol_formula,
+                                      gout_key=key3,
+                                      from_fw_spec=True,
+                                      **kwargs)
+    fws += opt_freq_final_fws
 
     fw_analysis = Firework(BindingEnergytoDB(keys=[key1, key2, key3],
                                              prop="final_energy",
@@ -322,15 +320,14 @@ def get_binding_energies(mol_operation_type,
                                              new_prop="binding_energy_{}_{}_eV".
                                              format(
                                                  molecules[0].species[index[0]],
-                                                 molecules[1].species[
-                                                     index[1]]),
+                                                 molecules[1].species[index[1]]),
                                              db=db),
                            parents=fws[:],
-                           name="{}-{}".format(final_mol_name,
+                           name="{}-{}".format(final_mol_formula,
                                                "binding_energy_analysis"))
     fws.append(fw_analysis)
 
-    name = "{}_{}".format(final_mol_name, name)
+    name = "{}_{}".format(final_mol_formula, name)
     links_dict = {fws[1]: fws[4], fws[3]: fws[4]}
 
     return Workflow(fws,
