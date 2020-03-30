@@ -3,7 +3,7 @@ import logging
 import json
 from bson.objectid import ObjectId
 from pymatgen.core.structure import Molecule
-from pymatgen.io.gaussian import GaussianOutput
+from pymatgen.io.gaussian import GaussianInput, GaussianOutput
 from pymatgen.io.babel import BabelMolAdaptor
 from fireworks.utilities.fw_utilities import get_slug
 from fireworks.fw_config import CONFIG_FILE_DIR
@@ -11,6 +11,11 @@ from fireworks import FileWriteTask
 import pybel as pb
 
 logger = logging.getLogger(__name__)
+
+JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
+             'bomd', 'eet', 'force', 'stable', 'volume', 'density', 'guess',
+             'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
+             'sac-ci'}
 
 
 def process_mol(operation_type, mol, **kwargs):
@@ -57,7 +62,7 @@ def process_mol(operation_type, mol, **kwargs):
                             "provide a GaussianOutput dictionary or use another"
                             "operation type with its corresponding inputs")
         # TODO: sometimes it is mol['output']['output']['molecule']
-        output_mol = Molecule.from_dict(mol["output"]["molecule"])
+        output_mol = Molecule.from_dict(mol["output"]["output"]["molecule"])
 
     elif operation_type == 'get_from_run_id':
         # mol = run_id
@@ -122,7 +127,7 @@ def process_mol(operation_type, mol, **kwargs):
     return output_mol
 
 
-def process_run(operation_type, run, **kwargs):
+def process_run(operation_type, run, input_file=None, **kwargs):
     working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
         else os.getcwd()
     db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
@@ -132,7 +137,8 @@ def process_run(operation_type, run, **kwargs):
             raise Exception("run is not a GaussianOutput object; either "
                             "provide a GaussianOutput object or use another "
                             "operation type with its corresponding inputs")
-        output_run = run.as_dict()
+        gout = run.as_dict()
+        gout_dict = _cleanup_gout(gout, working_dir, input_file)
 
     elif operation_type == 'get_from_file':
         # run = file_path
@@ -142,7 +148,8 @@ def process_run(operation_type, run, **kwargs):
                             "path or use another operation type with its "
                             "corresponding inputs")
         try:
-            output_run = GaussianOutput(file_path).as_dict()
+            gout = GaussianOutput(file_path).as_dict()
+            gout_dict = _cleanup_gout(gout, working_dir, input_file)
         except IndexError:
             raise ValueError("run is not a Gaussian output file; either "
                              "provide a valid Gaussian output file or use "
@@ -154,14 +161,14 @@ def process_run(operation_type, run, **kwargs):
             raise Exception("run is not a GaussianOutput dictionary; either"
                             "provide a GaussianOutput dictionary or use another"
                             "operation type with its corresponding inputs")
-        output_run = run
+        gout_dict = run
 
     elif operation_type == 'get_from_run_id':
         # run = run_id
         run = db.runs.find_one({"_id": ObjectId(run)})
         if not run:
             raise Exception("Gaussian run is not in the database")
-        output_run = run["output"]
+        gout_dict = run
 
     elif operation_type == 'get_from_run_query':
         # run = {'smiles': smiles, 'type': type, 'functional': func,
@@ -175,14 +182,19 @@ def process_run(operation_type, run, **kwargs):
         if not run:
             raise Exception("Gaussian run is not in the database")
         run = max(run, key=lambda i: i['last_updated'])
-        output_run = run['output']
-
+        gout_dict = run
 
     else:
         raise ValueError(f'operation type {operation_type} is not supported')
-    output_run = json.loads(json.dumps(output_run))
-    output_run = recursive_signature_remove(output_run)
-    return output_run
+    # TODO: find a better way; seems hacky!
+    if "_id" in gout_dict:
+        gout_dict["_id"] = str(gout_dict["_id"])
+    if "last_updated" in gout_dict:
+        del gout_dict["last_updated"]
+    gout_dict = json.loads(json.dumps(gout_dict))
+    gout_dict = recursive_signature_remove(gout_dict)
+
+    return gout_dict
 
 
 def get_run_from_fw_spec(fw_spec, key, run_db):
@@ -253,6 +265,60 @@ def get_db(input_db=None):
         db = GaussianCalcDb.from_db_file(input_db)
 
     return db
+
+
+def _modify_gout(gout):
+    gout['input']['charge'] = gout['charge']
+    gout['input']['spin_multiplicity'] = gout['spin_multiplicity']
+    del_keys_out = ('nsites', 'unit_cell_formula',
+                    'reduced_cell_formula', 'pretty_formula',
+                    'elements', 'nelements', 'charge',
+                    'spin_multiplicity')
+    [gout.pop(k, None) for k in del_keys_out]
+    return gout
+
+
+def _create_gin(gout, working_dir, input_file):
+    if input_file:
+        input_path = os.path.join(working_dir, input_file)
+        gin = GaussianInput.from_file(input_path).as_dict()
+        gin['nbasisfunctions'] = gout['input']['nbasisfunctions']
+        gin['pcm_parameters'] = gout['input']['pcm_parameters']
+        return gin
+    else:
+        gin = gout['input']
+        gin['input_parameters'] = None
+        gin['@class'] = 'GaussianInput'
+        gin['@module'] = 'pymatgen.io.gaussian'
+        logger.info("input parameters at the end of the Gaussian input "
+                    "section will not be saved to the database due to "
+                    "a missing input file")
+        return gin
+
+
+def _job_types(gin):
+    return list(filter(lambda x: x in {k.lower(): v for k, v in
+                                       gin['route_parameters'].items()},
+                       JOB_TYPES))
+
+
+def _cleanup_gout(gout, working_dir, input_file):
+    gout = _modify_gout(gout)
+    gin = _create_gin(gout, working_dir, input_file)
+    del gout['input']
+    job_types = _job_types(gin)
+    mol = Molecule.from_dict(gout['output']['molecule'])
+    # TODO: check if other solvation models are supported
+    gout_dict = {'input': gin, 'output': gout,
+                 'functional': gin['functional'],
+                 'basis': gin['basis_set'],
+                 'phase': 'solution' if gout['is_pcm'] else 'gas',
+                 'type': ';'.join(job_types),
+                 **get_chem_schema(mol)}
+    gout_dict = {i: j for i, j in gout_dict.items() if i not in
+                 ['sites', '@module', '@class', 'charge',
+                  'spin_multiplicity']}
+    return gout_dict
 
 
 def recursive_signature_remove(d):
