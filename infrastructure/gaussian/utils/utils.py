@@ -270,31 +270,36 @@ def get_db(input_db=None):
 
 
 def label_atoms(mol):
-    # currently does not support Mg, Li, ..., and
+    # supports all atom types and molecules as large as 999 atoms; does not
+    # support clusters
     a = BabelMolAdaptor(mol)
     pm = pb.Molecule(a.openbabel_mol)
     mol_smiles = pm.write("smi").strip()
-    atoms = set(str(i) for i in mol.species)
-    print(atoms)
     i = 1
     count_1 = ''
     count_2 = ''
     count_3 = ''
+    smiles = mol_smiles
     for atom in mol.species:
-        ch = str(atom)
-        if ch in atoms and ch in mol_smiles:
+        smiles = smiles.replace(str(atom), '!')
+    atoms = [str(i) for i in mol.species if str(i) in mol_smiles]
+    counter = 0
+    for ch in smiles:
+        if ch == '!':
+            atom = atoms[counter]
+            counter += 1
             if i < 10:
-                count_1 += str(i)
-                count_2 += ' '
-                count_3 += ' '
+                count_1 += f"{i: >{len(atom)}}"
+                count_2 += ' '*len(atom)
+                count_3 += ' '*len(atom)
             elif i < 100:
-                count_1 += str(i // 10)
-                count_2 += str(i % 10)
-                count_3 += ' '
+                count_1 += f"{i // 10: >{len(atom)}}"
+                count_2 += f"{i % 10: >{len(atom)}}"
+                count_3 += ' '*len(atom)
             else:
-                count_1 += str(i // 10 // 10)
-                count_2 += str(i % 100 // 10)
-                count_3 += str(i % 10)
+                count_1 += f"{i // 10 // 10: >{len(atom)}}"
+                count_2 += f"{i % 100 // 10: >{len(atom)}}"
+                count_3 += f"{i % 10: >{len(atom)}}"
             i += 1
         else:
             count_1 += ' '
