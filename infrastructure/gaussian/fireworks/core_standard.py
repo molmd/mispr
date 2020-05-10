@@ -1,6 +1,9 @@
 import os
 import logging
+
+
 from fireworks import Firework
+
 from infrastructure.gaussian.firetasks.geo_transformation import \
     ProcessMoleculeInput
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput

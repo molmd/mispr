@@ -1,14 +1,12 @@
 import os
 import logging
 
-from bson.objectid import ObjectId
 
 from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import Molecule
 
-from infrastructure.gaussian.utils.utils import get_db, process_mol, \
-    get_run_from_fw_spec, process_run
+from infrastructure.gaussian.utils.utils import get_db, process_mol
 
 logger = logging.getLogger(__name__)
 
@@ -28,17 +26,19 @@ class ProcessMoleculeInput(FiretaskBase):
 
     @staticmethod
     def _from_fw_spec(mol, fw_spec):
+        # mol = key in this case
         available_runs = fw_spec['gaussian_output']
         if not isinstance(mol, dict):
-            mol = ProcessMoleculeInput._run_to_mol_object(available_runs[mol])
+            print("mol is not a dict")
+            mol = available_runs[mol]
         else:
             if isinstance(mol['mol'], list):
-                mol['mol'] = \
-                    [ProcessMoleculeInput._run_to_mol_object(available_runs[i])
-                     for i in mol['mol']]
+                print("mol is a list")
+                mol['mol'] = [available_runs[i] for i in mol['mol']]
+                print(mol)
             else:
-                mol['mol'] = ProcessMoleculeInput.\
-                    _run_to_mol_object(available_runs[mol['mol']])
+                print("mol is neither a list nor a dict")
+                mol['mol'] = available_runs[mol['mol']]
         return mol
 
     def run_task(self, fw_spec):
@@ -48,10 +48,13 @@ class ProcessMoleculeInput(FiretaskBase):
         db = self.get('db')
 
         if self.get('from_fw_spec'):
+            print("from_fw_spec: True")
             mol = self._from_fw_spec(mol, fw_spec)
+            print(mol)
 
         output_mol = process_mol(operation_type=operation_type, mol=mol,
                                  working_dir=working_dir, db=db)
+        print(output_mol)
 
         if self.get("save_to_db"):
             db = get_db(db) if db else get_db()

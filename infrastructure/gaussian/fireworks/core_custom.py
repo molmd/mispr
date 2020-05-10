@@ -5,7 +5,7 @@ from infrastructure.gaussian.firetasks.geo_transformation import \
     ConvertToMoleculeObject
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
 from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
-from infrastructure.gaussian.firetasks.parse_outputs import GaussianToDB
+from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
 
 
 class MolFileToInput(Firework):
@@ -13,7 +13,6 @@ class MolFileToInput(Firework):
                  working_dir=None, input_file='mol.com', save_to_db=False,
                  gaussian_input_params=None, cart_coords=None,
                  oxidation_states=None, **kwargs):
-
         t = []
 
         working_dir = working_dir or os.getcwd()
@@ -38,7 +37,6 @@ class MolFileToInput(Firework):
 class RunCalc(Firework):
     def __init__(self, name='runCalc', parents=None, working_dir=None,
                  input_file='mol.com', output_file='mol.out', **kwargs):
-
         t = [RunGaussianDirect(working_dir=working_dir, input_file=input_file,
                                output_file=output_file)]
 
@@ -53,9 +51,8 @@ class SaveToDB(Firework):
     def __init__(self, db, name='saveToDb', parents=None, working_dir=None,
                  input_file='mol.com', output_file='mol.out',
                  fw_spec_field=None, **kwargs):
-
-        t = [GaussianToDB(db=db, working_dir=working_dir, input_file=input_file,
-                          output_file=output_file, fw_spec_field=fw_spec_field)]
+        t = [ProcessRun(db=db, working_dir=working_dir, input_file=input_file,
+                        output_file=output_file, fw_spec_field=fw_spec_field)]
 
         super(SaveToDB, self).__init__(
             t,

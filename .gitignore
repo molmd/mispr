@@ -1,3 +1,7 @@
 *.xml
 *.iml
-*/config
+/infrastructure/gaussian/config/*
+/build/*
+/dist/*
+*.egg-info/*
+/tests/*

@@ -6,9 +6,9 @@
 import os
 from copy import deepcopy
 
-from fireworks.core.firework import FiretaskBase, FWAction
+from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
-from pymatgen.core.structure import Molecule, IMolecule
+from pymatgen.core.structure import IMolecule
 from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.io.gaussian import GaussianInput

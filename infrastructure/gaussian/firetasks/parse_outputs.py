@@ -12,8 +12,8 @@ from pymatgen.io.gaussian import GaussianInput
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
-from infrastructure.gaussian.utils.utils import get_chem_schema, get_db, \
-    get_run_from_fw_spec, process_run
+from infrastructure.gaussian.utils.utils import get_db, process_run, \
+    process_mol, pass_gout_dict
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +46,9 @@ class ProcessRun(FiretaskBase):
             runs_db.insert_run(gout_dict)
             logger.info("Saved parsed output to db")
         if self.get('save_to_file'):
-            with open(self.get('filename', 'run.json'), "w") as f:
+            filename = self.get("filename", 'run')
+            file = os.path.join(working_dir, f"{filename}.json")
+            with open(file, "w") as f:
                 f.write(json.dumps(gout_dict, default=DATETIME_HANDLER))
             logger.info("Saved parsed output to json file")
 
@@ -54,6 +56,7 @@ class ProcessRun(FiretaskBase):
         set_dict = {f"gaussian_output->{DEFAULT_KEY}": gout_dict}
         if uid:
             set_dict[f"gaussian_output->{uid}"] = gout_dict
+        # fw_spec = {'gaussian_output: {DEFAULT_KEY: gout_dict, uid: gout_dict}}
         return FWAction(mod_spec={'_set': set_dict})
 
 
@@ -97,21 +100,47 @@ class RetrieveGaussianOutput(FiretaskBase):
             inputs[f'{k}'] = self.get("gaussian_input_params", {}). \
                 get(f'{k}', run['input'].get(f'{k}'))
         inputs['molecule'] = run['output']['output']['molecule']
+        # TODO: check if this works in all cases
+        #  (if we are saving to db and removing the class)
+        # inputs["molecule"] = process_mol("get_from_run_dict", run)
         gaussin = GaussianInput.from_dict(inputs)
         fw_spec["gaussian_input"] = gaussin
 
 
 @explicit_serialize
 class BindingEnergytoDB(FiretaskBase):
-    required_params = ["keys", 'main_run_key', 'new_prop']
-    optional_params = ["db"]
+    required_params = ["index"]
+    optional_params = ["db", "save_to_db", "save_to_file"]
 
     def run_task(self, fw_spec):
-        run_db = get_db(self.get('db'))
-        runs = [get_run_from_fw_spec(fw_spec, i, run_db) for i in self['keys']]
-        props = [i['output']['output']["final_energy"] for i in runs]
-        result = (props[2] - (props[0] + props[1])) * 27.2114
-        main_run = get_run_from_fw_spec(fw_spec, self['main_run_key'], run_db)
-        run_db.update_run(new_values={self["new_prop"]: result},
-                          _id=ObjectId(main_run['_id']))
+        db = self.get("db")
+        index = self["index"]
+        keys = ["mol_1", "mol_2", "mol_linked"]
+        gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
+        molecules = [process_mol("get_from_run_dict", gout) for gout in
+                     gout_dict]
+        final_energies = [gout['output']['output']["final_energy"] for gout in
+                          gout_dict]
+        be_key = "binding_energy_{}_{}_eV".format(
+            molecules[0].species[index[0]],
+            molecules[1].species[index[1]])
+        be_value = (final_energies[2] -
+                                (final_energies[0] + final_energies[1])
+                                ) * 27.2114
+
+        be_dict = {"molecule": molecules[2].as_dict(),
+                   "formula_pretty": molecules[2].composition.reduced_formula,
+                   "energy": final_energies[2],
+                   be_key: be_value,
+                   "state": "successful"}
+
+        if self.get('save_to_db'):
+            db = get_db(db)
+            db.insert_property("binding_energy", be_dict,
+                               molecules[2].composition.reduced_formula)
+        if self.get('save_to_file'):
+            with open('binding_energy.json', "w") as f:
+                f.write(json.dumps(be_dict, default=DATETIME_HANDLER))
         logger.info("binding energy calculation complete")
+        return FWAction()
+
