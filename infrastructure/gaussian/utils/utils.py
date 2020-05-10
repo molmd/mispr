@@ -1,7 +1,9 @@
 import os
 import logging
 import json
+
 from bson.objectid import ObjectId
+
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput, GaussianOutput
 from pymatgen.io.babel import BabelMolAdaptor
@@ -61,7 +63,6 @@ def process_mol(operation_type, mol, **kwargs):
             raise Exception("mol is not a GaussianOutput dictionary; either"
                             "provide a GaussianOutput dictionary or use another"
                             "operation type with its corresponding inputs")
-        # TODO: sometimes it is mol['output']['output']['molecule']
         output_mol = Molecule.from_dict(mol["output"]["output"]["molecule"])
 
     elif operation_type == 'get_from_run_id':
@@ -121,6 +122,7 @@ def process_mol(operation_type, mol, **kwargs):
                                  mol=mol['mol'][1], **kwargs)
         output_mol = linking_mol.link(linked_mol, mol["index"][0],
                                       mol["index"][1], mol["bond_order"])
+
     else:
         raise ValueError(f'operation type {operation_type} is not supported')
 
@@ -197,17 +199,17 @@ def process_run(operation_type, run, input_file=None, **kwargs):
     return gout_dict
 
 
-def get_run_from_fw_spec(fw_spec, key, run_db):
-    gout_id = fw_spec.get("gaussian_output_id", {}).get(key)
-    run = run_db.runs. \
-        find_one({"_id": ObjectId(gout_id)})
+def pass_gout_dict(fw_spec, key):
+    # TODO: check this again
+    gout_dict = fw_spec.get("gaussian_output", {}).get(key)
     proceed_keys = fw_spec.get("proceed", {})
     for k, v in proceed_keys.items():
-        if run["output"].get(k, run["output"]["output"].get(k)) != v:
+        if gout_dict["output"].get(k,
+                                   gout_dict["output"]["output"].get(k)) != v:
             raise ValueError(
                 f"The condition for {k} is not met, Terminating"
             )
-    return run
+    return gout_dict
 
 
 def get_chem_schema(mol):
@@ -216,7 +218,7 @@ def get_chem_schema(mol):
     a = BabelMolAdaptor(mol)
     pm = pb.Molecule(a.openbabel_mol)
     # svg = pm.write("svg")
-    mol_dict.update({"smiles": pm.write("can").strip(),
+    mol_dict.update({"smiles": pm.write("smi").strip(),
                      "formula": comp.formula,
                      "formula_pretty": comp.reduced_formula,
                      "formula_anonymous": comp.anonymized_formula,
@@ -265,6 +267,40 @@ def get_db(input_db=None):
         db = GaussianCalcDb.from_db_file(input_db)
 
     return db
+
+
+def label_atoms(mol):
+    # currently does not support Mg, Li, ..., and
+    a = BabelMolAdaptor(mol)
+    pm = pb.Molecule(a.openbabel_mol)
+    mol_smiles = pm.write("smi").strip()
+    atoms = set(str(i) for i in mol.species)
+    print(atoms)
+    i = 1
+    count_1 = ''
+    count_2 = ''
+    count_3 = ''
+    for atom in mol.species:
+        ch = str(atom)
+        if ch in atoms and ch in mol_smiles:
+            if i < 10:
+                count_1 += str(i)
+                count_2 += ' '
+                count_3 += ' '
+            elif i < 100:
+                count_1 += str(i // 10)
+                count_2 += str(i % 10)
+                count_3 += ' '
+            else:
+                count_1 += str(i // 10 // 10)
+                count_2 += str(i % 100 // 10)
+                count_3 += str(i % 10)
+            i += 1
+        else:
+            count_1 += ' '
+            count_2 += ' '
+            count_3 += ' '
+    print(f"{mol_smiles}\n{count_1}\n{count_2}\n{count_3}")
 
 
 def _modify_gout(gout):
