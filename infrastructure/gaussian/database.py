@@ -10,6 +10,7 @@ from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
 from monty.serialization import loadfn
 from pymongo import MongoClient, ASCENDING
+
 from infrastructure.gaussian.utils.utils import get_chem_schema
 
 logger = logging.getLogger()
@@ -134,7 +135,6 @@ class GaussianCalcDb:
         return self.molecules.delete_one({"smiles": smiles})
 
     def insert_run(self, grun):
-        # TODO: perform checks if a similar calculation is already in the db
         if "_id" in grun:
             stored_run = self.retrieve_run(_id=grun["_id"])
             if stored_run:
@@ -249,3 +249,8 @@ class GaussianCalcDb:
                 return derived_mol_dict["smiles"]
         else:
             logger.info("No molecule provided")
+
+    def insert_property(self, collection_name, property_dict, index, **kwargs):
+        collection = self.db[collection_name]
+        collection.create_index(index, **kwargs)
+        collection.insert_one(property_dict)
