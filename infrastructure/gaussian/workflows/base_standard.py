@@ -67,7 +67,8 @@ def common_fw(mol_operation_type,
                                mol_operation_type=mol_operation_type,
                                db=db,
                                name=opt_job_name,
-                               working_dir=working_dir,
+                               working_dir=os.path.join(working_dir, label,
+                                                        "Optimization"),
                                input_file=opt_input_file,
                                output_file=opt_output_file,
                                gaussian_input_params=opt_gaussian_inputs,
@@ -91,7 +92,8 @@ def common_fw(mol_operation_type,
                                    name=freq_job_name,
                                    parents=opt_fw,
                                    gaussian_input_params=freq_gaussian_inputs,
-                                   working_dir=working_dir,
+                                   working_dir=os.path.join(working_dir, label,
+                                                            "Frequency"),
                                    input_file=freq_input_file,
                                    output_file=freq_output_file,
                                    cart_coords=cart_coords,
@@ -180,7 +182,8 @@ def get_esp_charges(mol_operation_type,
                               name=get_job_name(mol, "esp"),
                               parents=fws[:],
                               gaussian_input_params=esp_gaussian_inputs,
-                              working_dir=working_dir,
+                              working_dir=os.path.join(working_dir, mol_formula,
+                                                       "ESP"),
                               cart_coords=cart_coords,
                               spec=spec,
                               **kwargs
@@ -235,7 +238,8 @@ def get_nmr_tensors(mol_operation_type,
                               name=get_job_name(mol, "nmr"),
                               parents=fws[:],
                               gaussian_input_params=nmr_gaussian_inputs,
-                              working_dir=working_dir,
+                              working_dir=os.path.join(working_dir, mol_formula,
+                                                       "NMR"),
                               cart_coords=cart_coords,
                               spec=spec,
                               **kwargs
@@ -260,7 +264,6 @@ def get_binding_energies(mol_operation_type,
                          oxidation_states=None,
                          skip_opt_freq=None,
                          **kwargs):
-
     # mol_operation_type = [], mol = [], index = []
     # order of the indices should be consistent with the order of the mols
     fws = []
@@ -313,7 +316,7 @@ def get_binding_energies(mol_operation_type,
                                       from_fw_spec=True,
                                       **kwargs)
     fws += opt_freq_final_fws
-    links_dict = {fws[i-1]: fws[-len(opt_freq_final_fws)] for i in parents}
+    links_dict = {fws[i - 1]: fws[-len(opt_freq_final_fws)] for i in parents}
     fw_analysis = Firework(
         BindingEnergytoDB(index=index,
                           db=db,
