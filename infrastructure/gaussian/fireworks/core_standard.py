@@ -67,6 +67,8 @@ class CalcFromMolFW(Firework):
                  **kwargs):
         t = []
         working_dir = working_dir or os.getcwd()
+        if not os.path.exists(working_dir):
+            os.makedirs(working_dir)
 
         t.append(ProcessMoleculeInput(mol=mol,
                                       operation_type=mol_operation_type,
@@ -110,6 +112,8 @@ class CalcFromRunsDBFW(Firework):
                  **kwargs):
         t = []
         working_dir = working_dir or os.getcwd()
+        if not os.path.exists(working_dir):
+            os.makedirs(working_dir)
 
         t.append(
             RetrieveGaussianOutput(db=db,
