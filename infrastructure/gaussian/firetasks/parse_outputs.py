@@ -5,6 +5,7 @@
 import os
 import logging
 import json
+import datetime
 
 from bson.objectid import ObjectId
 
@@ -13,7 +14,7 @@ from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 from infrastructure.gaussian.utils.utils import get_db, process_run, \
-    process_mol, pass_gout_dict
+    process_mol, pass_gout_dict, get_chem_schema
 
 logger = logging.getLogger(__name__)
 
@@ -41,15 +42,19 @@ class ProcessRun(FiretaskBase):
         if "tag" in fw_spec:
             gout_dict["tag"] = fw_spec["tag"]
 
+        run_list = {}
         if self.get('save_to_db'):
             runs_db = get_db(db)
-            runs_db.insert_run(gout_dict)
+            run_id = runs_db.insert_run(gout_dict)
+            run_list['run_id_list'] = run_id
             logger.info("Saved parsed output to db")
+
         if self.get('save_to_file'):
             filename = self.get("filename", 'run')
             file = os.path.join(working_dir, f"{filename}.json")
             with open(file, "w") as f:
                 f.write(json.dumps(gout_dict, default=DATETIME_HANDLER))
+            run_list['run_loc_list'] = file
             logger.info("Saved parsed output to json file")
 
         uid = self.get("gout_key")
@@ -57,7 +62,10 @@ class ProcessRun(FiretaskBase):
         if uid:
             set_dict[f"gaussian_output->{uid}"] = gout_dict
         # fw_spec = {'gaussian_output: {DEFAULT_KEY: gout_dict, uid: gout_dict}}
-        return FWAction(mod_spec={'_set': set_dict})
+        mod_dict = {'_set': set_dict}
+        if run_list:
+            mod_dict.update({'_push': run_list})
+        return FWAction(mod_spec=mod_dict)
 
 
 @explicit_serialize
@@ -110,7 +118,8 @@ class RetrieveGaussianOutput(FiretaskBase):
 @explicit_serialize
 class BindingEnergytoDB(FiretaskBase):
     required_params = ["index"]
-    optional_params = ["db", "save_to_db", "save_to_file"]
+    optional_params = ["db", "working_dir", "save_to_db", "save_to_file",
+                       "additional_prop_doc_fields"]
 
     def run_task(self, fw_spec):
         db = self.get("db")
@@ -122,25 +131,48 @@ class BindingEnergytoDB(FiretaskBase):
         final_energies = [gout['output']['output']["final_energy"] for gout in
                           gout_dict]
         be_key = "binding_energy_{}_{}_eV".format(
-            molecules[0].species[index[0]],
-            molecules[1].species[index[1]])
+            str(molecules[0].species[index[0]]) + str(index[0]),
+            str(molecules[1].species[index[1]]) + str(len(molecules[0]) +
+                                                      index[1]))
         be_value = (final_energies[2] -
-                                (final_energies[0] + final_energies[1])
-                                ) * 27.2114
+                    (final_energies[0] + final_energies[1])
+                    ) * 27.2114
+        mol_schema = get_chem_schema(molecules[2])
 
         be_dict = {"molecule": molecules[2].as_dict(),
-                   "formula_pretty": molecules[2].composition.reduced_formula,
+                   "smiles": mol_schema["smiles"],
+                   "formula_pretty": mol_schema["formula_pretty"],
                    "energy": final_energies[2],
                    be_key: be_value,
-                   "state": "successful"}
+                   "functional": gout_dict[-1]["functional"],
+                   "basis": gout_dict[-1]["basis"],
+                   "charge": gout_dict[-1]["input"]["charge"],
+                   "spin_multiplicity":
+                       gout_dict[-1]["input"]["spin_multiplicity"],
+                   "phase": gout_dict[-1]["phase"],
+                   "tag": gout_dict[-1]["tag"],
+                   "state": "successful",
+                   "last_updated": datetime.datetime.utcnow()}
+
+        if self.get("additional_prop_doc_fields"):
+            be_dict.update(self.get("additional_prop_doc_fields"))
+
+        if fw_spec.get("run_id_list"):
+            be_dict["run_ids"] = fw_spec["run_id_list"]
 
         if self.get('save_to_db'):
             db = get_db(db)
             db.insert_property("binding_energy", be_dict,
                                molecules[2].composition.reduced_formula)
+
+        if fw_spec.get("run_loc_list"):
+            be_dict["run_locs"] = fw_spec["run_loc_list"]
         if self.get('save_to_file'):
-            with open('binding_energy.json', "w") as f:
+            working_dir = self.get('working_dir', os.getcwd())
+            if "run_ids" in be_dict:
+                del be_dict["run_ids"]
+            be_file = os.path.join(working_dir, 'binding_energy.json')
+            with open(be_file, "w") as f:
                 f.write(json.dumps(be_dict, default=DATETIME_HANDLER))
         logger.info("binding energy calculation complete")
         return FWAction()
-
