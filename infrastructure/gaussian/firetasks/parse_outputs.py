@@ -21,6 +21,10 @@ logger = logging.getLogger(__name__)
 DEFAULT_KEY = 'gout_key'
 
 
+# TODO: create a util function to do the common things in the PropertiestoDB
+#  Firetasks
+
+
 @explicit_serialize
 class ProcessRun(FiretaskBase):
     required_params = ["run"]
@@ -175,4 +179,74 @@ class BindingEnergytoDB(FiretaskBase):
             with open(be_file, "w") as f:
                 f.write(json.dumps(be_dict, default=DATETIME_HANDLER))
         logger.info("binding energy calculation complete")
+        return FWAction()
+
+
+@explicit_serialize
+class IPEAtoDB(FiretaskBase):
+    required_params = ["num_electrons"]
+    optional_params = ["db", "working_dir", "save_to_db", "save_to_file",
+                       "additional_prop_doc_fields"]
+
+    def run_task(self, fw_spec):
+        db = self.get("db")
+        num_electrons = self["num_electrons"]
+        keys = ["neutral_gas", "anion_gas", "cation_gas",
+                "neutral_sol", "anion_sol", "cation_sol"]
+        gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
+        molecule = process_mol("get_from_run_dict", gout_dict[0])
+        free_energies = [gout['output']['output']["corrections"]
+                         ["Gibbs Free Energy"] for gout in gout_dict]
+        delta_gibss_sol_neutral = free_energies[3] - free_energies[0]
+        delta_gibss_sol_anion = free_energies[4] - free_energies[1]
+        delta_gibss_sol_cation = free_energies[5] - free_energies[2]
+        delta_gibbs_ox_gas = free_energies[2] - free_energies[0]
+        delta_gibbs_red_gas = free_energies[1] - free_energies[0]
+        delta_gibbs_ox_sol = delta_gibbs_ox_gas + delta_gibss_sol_cation - \
+                             delta_gibss_sol_neutral
+        delta_gibbs_red_sol = delta_gibbs_red_gas + delta_gibss_sol_anion - \
+                              delta_gibss_sol_neutral
+        ea = -delta_gibbs_red_sol * 4.36 * 10 ** -18 * 6.02 * 10 ** 23 / \
+             (num_electrons * 9.65 * 10 ** 4)
+        ip = -delta_gibbs_ox_sol * 4.36 * 10 ** -18 * 6.02 * 10 ** 23 / \
+             (num_electrons * 9.65 * 10 ** 4)
+
+        mol_schema = get_chem_schema(molecule)
+        ipea_dict = {"molecule": molecule.as_dict(),
+                     "smiles": mol_schema["smiles"],
+                     "formula_pretty": mol_schema["formula_pretty"],
+                     "IP_ev": ip,
+                     "EA_ev": ea,
+                     "num_electrons": num_electrons,
+                     "functional": gout_dict[0]["functional"],
+                     "basis": gout_dict[0]["basis"],
+                     "charge": gout_dict[0]["input"]["charge"],
+                     "spin_multiplicity":
+                         gout_dict[0]["input"]["spin_multiplicity"],
+                     "tag": gout_dict[0]["tag"],
+                     "state": "successful",
+                     "last_updated": datetime.datetime.utcnow()}
+
+        if self.get("additional_prop_doc_fields"):
+            ipea_dict.update(self.get("additional_prop_doc_fields"))
+
+        if fw_spec.get("run_id_list"):
+            ipea_dict["run_ids"] = fw_spec["run_id_list"]
+
+        if self.get('save_to_db'):
+            db = get_db(db)
+            db.insert_property("ip_ea", ipea_dict,
+                               molecule.composition.reduced_formula)
+
+        if fw_spec.get("run_loc_list"):
+            ipea_dict["run_locs"] = fw_spec["run_loc_list"]
+        if self.get('save_to_file'):
+            working_dir = self.get('working_dir', os.getcwd())
+            if "run_ids" in ipea_dict:
+                del ipea_dict["run_ids"]
+            be_file = os.path.join(working_dir, 'binding_energy.json')
+            with open(be_file, "w") as f:
+                f.write(json.dumps(ipea_dict, default=DATETIME_HANDLER))
+
+        logger.info("ip/ea calculation complete")
         return FWAction()
