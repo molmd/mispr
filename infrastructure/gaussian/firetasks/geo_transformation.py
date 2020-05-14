@@ -16,7 +16,7 @@ DEFAULT_KEY = 'gout_key'
 @explicit_serialize
 class ProcessMoleculeInput(FiretaskBase):
     required_params = ["mol"]
-    optional_params = ["operation_type", "db", "working_dir", "save_to_db",
+    optional_params = ["operation_type", "db", "save_to_db",
                        "update_duplicates", "save_to_file", "fmt", "filename",
                        "from_fw_spec"]
 
@@ -44,13 +44,12 @@ class ProcessMoleculeInput(FiretaskBase):
     def run_task(self, fw_spec):
         mol = self["mol"]
         operation_type = self.get("operation_type", "get_from_mol")
-        working_dir = self.get('working_dir', os.getcwd())
+        working_dir = os.getcwd()
         db = self.get('db')
 
         if self.get('from_fw_spec'):
             print("from_fw_spec: True")
             mol = self._from_fw_spec(mol, fw_spec)
-            print(mol)
 
         output_mol = process_mol(operation_type=operation_type, mol=mol,
                                  working_dir=working_dir, db=db)
@@ -84,10 +83,10 @@ class ConvertToMoleculeObject(FiretaskBase):
     Requires openbabel to be installed.
     """
     required_params = ['mol_file']
-    optional_params = ['db', 'working_dir', 'save_to_db', 'update_duplicates']
+    optional_params = ['db', 'save_to_db', 'update_duplicates']
 
     def run_task(self, fw_spec):
-        working_dir = self.get('working_dir', os.getcwd())
+        working_dir = os.getcwd()
         file_name = self["mol_file"]
         mol = process_mol(file_name, working_dir)
         if self.get('save_to_db', True):
@@ -107,14 +106,14 @@ class RetrieveMoleculeObject(FiretaskBase):
     Returns a molecule object from the database using the smiles as an identifier
     """
     required_params = ["smiles"]
-    optional_params = ["db", "save_mol_file", "fmt", "filename", "working_dir"]
+    optional_params = ["db", "save_mol_file", "fmt", "filename"]
 
     def run_task(self, fw_spec):
         # TODO: use alphabetical formula as a search criteria
         smiles = self['smiles']
         mol = process_mol(smiles, self.get('db'))
         if mol and self.get("save_mol_file", False):
-            working_dir = self.get('working_dir', os.getcwd())
+            working_dir = os.getcwd()
             file_name = self.get(
                 'filename.{}'.format(self.get('fmt', 'xyz')),
                 'mol.{}'.format(self.get('fmt', 'xyz')))
@@ -133,7 +132,7 @@ class AttachFunctionalGroup(FiretaskBase):
     required_params = ["func_grp", "index"]
     optional_params = ["db", "molecule", "bond_order", "save_to_db",
                        "update_duplicates",
-                       "save_mol_file", "fmt", "filename", "working_dir"]
+                       "save_mol_file", "fmt", "filename"]
     # TODO: check if it is better to split this into multiple firetasks (one of
     # which has already been created above (Retrieve Molecule from db)
 
@@ -152,7 +151,7 @@ class AttachFunctionalGroup(FiretaskBase):
                                   update_duplicates=self.get(
                                       'update_duplicates', False))
         if self.get("save_mol_file", False):
-            working_dir = self.get('working_dir', os.getcwd())
+            working_dir = os.getcwd()
             file_name = self.get('filename', 'derived_mol')
             file_name = '{}.{}'.format(file_name, self.get('fmt', 'xyz')),
             derived_mol_file = os.path.join(working_dir, file_name)
@@ -170,7 +169,7 @@ class LinkMolecules(FiretaskBase):
     required_params =["index1", "index2"]
     optional_params = ["db", "smiles1", "smiles2", "bond_order", "save_to_db",
                        "update_duplicates", "save_mol_file", "fmt",
-                       "filename", "working_dir"]
+                       "filename"]
 
     def run_task(self, fw_spec):
         # TODO: take mol1 and mol2 from previous calculations
@@ -185,7 +184,7 @@ class LinkMolecules(FiretaskBase):
             db.insert_molecule(linked_mol, update_duplicates=self.
                                get("update_duplicates", False))
         if self.get("save_mol_file", False):
-            working_dir = self.get("working_dir", os.getcwd())
+            working_dir = os.getcwd()
             file_name = self.get("filename.{}".format(self.get("fmt", "xyz")),
                                  "mol.{}".format(self.get("fmt", "xyz")))
             linked_mol_file = os.path.join(working_dir, file_name)

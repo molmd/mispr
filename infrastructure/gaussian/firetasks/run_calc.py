@@ -13,11 +13,10 @@ logger = logging.getLogger(__name__)
 @explicit_serialize
 class RunGaussianDirect(FiretaskBase):
     required_params = []
-    optional_params = ["working_dir", "input_file", "output_file",
-                       "gaussian_cmd"]
+    optional_params = ["input_file", "output_file", "gaussian_cmd"]
 
     def run_task(self, fw_spec):
-        working_dir = self.get("working_dir", os.getcwd())
+        working_dir = os.getcwd()
 
         input_file = self.get('input_file', 'mol.com')
         input_path = os.path.join(working_dir, input_file)

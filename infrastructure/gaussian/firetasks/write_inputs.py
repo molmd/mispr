@@ -25,8 +25,7 @@ class WriteInput(FiretaskBase):
 
     required_params = []
     optional_params = ["gaussian_input", "molecule", "gaussian_input_params",
-                       "input_file", "working_dir", "cart_coords",
-                       "oxidation_states"]
+                       "input_file", "cart_coords", "oxidation_states"]
 
     def _update_charge(self, mol):
         """
@@ -43,8 +42,7 @@ class WriteInput(FiretaskBase):
                  'charge': mol_copy.charge}
 
     def run_task(self, fw_spec):
-        working_dir = fw_spec. \
-            get('working_dir', self.get('working_dir', os.getcwd()))
+        working_dir = os.getcwd()
 
         input_file = self.get("input_file", "mol.com")
         input_path = os.path.join(working_dir, input_file)

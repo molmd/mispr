@@ -28,14 +28,14 @@ DEFAULT_KEY = 'gout_key'
 @explicit_serialize
 class ProcessRun(FiretaskBase):
     required_params = ["run"]
-    optional_params = ["operation_type", "db", "working_dir", "save_to_db",
+    optional_params = ["operation_type", "db", "save_to_db",
                        "save_to_file", "filename", "input_file", "gout_key"]
 
     def run_task(self, fw_spec):
         run = self["run"]
         operation_type = self.get("operation_type", "get_from_gout")
         input_file = self.get("input_file")
-        working_dir = self.get('working_dir', os.getcwd())
+        working_dir = os.getcwd()
         db = self.get('db')
 
         gout_dict = process_run(operation_type=operation_type, run=run,
@@ -122,7 +122,7 @@ class RetrieveGaussianOutput(FiretaskBase):
 @explicit_serialize
 class BindingEnergytoDB(FiretaskBase):
     required_params = ["index"]
-    optional_params = ["db", "working_dir", "save_to_db", "save_to_file",
+    optional_params = ["db", "save_to_db", "save_to_file",
                        "additional_prop_doc_fields"]
 
     def run_task(self, fw_spec):
@@ -172,7 +172,7 @@ class BindingEnergytoDB(FiretaskBase):
         if fw_spec.get("run_loc_list"):
             be_dict["run_locs"] = fw_spec["run_loc_list"]
         if self.get('save_to_file'):
-            working_dir = self.get('working_dir', os.getcwd())
+            working_dir = os.getcwd()
             if "run_ids" in be_dict:
                 del be_dict["run_ids"]
             be_file = os.path.join(working_dir, 'binding_energy.json')
@@ -185,7 +185,7 @@ class BindingEnergytoDB(FiretaskBase):
 @explicit_serialize
 class IPEAtoDB(FiretaskBase):
     required_params = ["num_electrons"]
-    optional_params = ["db", "working_dir", "save_to_db", "save_to_file",
+    optional_params = ["db", "save_to_db", "save_to_file",
                        "additional_prop_doc_fields"]
 
     def run_task(self, fw_spec):
@@ -241,7 +241,7 @@ class IPEAtoDB(FiretaskBase):
         if fw_spec.get("run_loc_list"):
             ipea_dict["run_locs"] = fw_spec["run_loc_list"]
         if self.get('save_to_file'):
-            working_dir = self.get('working_dir', os.getcwd())
+            working_dir = os.getcwd()
             if "run_ids" in ipea_dict:
                 del ipea_dict["run_ids"]
             be_file = os.path.join(working_dir, 'binding_energy.json')

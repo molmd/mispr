@@ -19,7 +19,6 @@ FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 def common_tasks(db,
                  input_file,
                  output_file,
-                 working_dir,
                  gaussian_input_params,
                  cart_coords,
                  oxidation_states,
@@ -27,15 +26,13 @@ def common_tasks(db,
 
     return \
         [WriteInput(input_file=input_file,
-                    working_dir=working_dir,
                     gaussian_input_params=gaussian_input_params,
                     cart_coords=cart_coords,
                     oxidation_states=oxidation_states,
                     **{i: j for i, j in kwargs.items() if i in
                        WriteInput.required_params +
                        WriteInput.optional_params}),
-         RunGaussianDirect(working_dir=working_dir,
-                           input_file=input_file,
+         RunGaussianDirect(input_file=input_file,
                            output_file=output_file,
                            **{i: j for i, j in kwargs.items() if i in
                               RunGaussianDirect.required_params +
@@ -43,7 +40,6 @@ def common_tasks(db,
          ProcessRun(run=output_file,
                     operation_type="get_from_file",
                     db=db,
-                    working_dir=working_dir,
                     input_file=input_file,
                     **{i: j for i, j in kwargs.items() if i in
                        ProcessRun.required_params +
@@ -73,7 +69,6 @@ class CalcFromMolFW(Firework):
         t.append(ProcessMoleculeInput(mol=mol,
                                       operation_type=mol_operation_type,
                                       db=db,
-                                      working_dir=working_dir,
                                       **{i: j for i, j in kwargs.items() if i in
                                          ProcessMoleculeInput.required_params +
                                          ProcessMoleculeInput.optional_params}
@@ -83,13 +78,12 @@ class CalcFromMolFW(Firework):
         t += common_tasks(db,
                           input_file,
                           output_file,
-                          working_dir,
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states,
                           **kwargs)
         spec = kwargs.pop('spec', {})
-        spec.update({'tag': tag})
+        spec.update({'tag': tag, '_launch_dir': working_dir})
         super(CalcFromMolFW, self).__init__(t,
                                             parents=parents,
                                             name=name,
@@ -126,13 +120,12 @@ class CalcFromRunsDBFW(Firework):
         t += common_tasks(db,
                           input_file,
                           output_file,
-                          working_dir,
                           gaussian_input_params,
                           cart_coords,
                           oxidation_states=None,
                           **kwargs)
         spec = kwargs.pop('spec', {})
-        spec.update({'tag': tag})
+        spec.update({'tag': tag, '_launch_dir': working_dir})
         super(CalcFromRunsDBFW, self).__init__(t,
                                                parents=parents,
                                                name=name,
