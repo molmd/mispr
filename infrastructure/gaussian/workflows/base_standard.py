@@ -1,9 +1,10 @@
 import os
 import logging
+import datetime
 
 from fireworks import Firework, Workflow
 from infrastructure.gaussian.firetasks.parse_outputs import \
-    BindingEnergytoDB
+    BindingEnergytoDB, IPEAtoDB
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW, \
     CalcFromRunsDBFW
@@ -52,6 +53,8 @@ def common_fw(mol_operation_type,
             opt_job_name = "optimization"
             freq_job_name = "frequency"
             label = "mol"
+        dir_struct = [label] + kwargs.get('dir_structure', [])
+        working_dir = os.path.join(working_dir, *dir_struct)
         opt_input_file = f"{label}_opt.com"
         opt_output_file = f"{label}_opt.out"
         freq_input_file = f"{label}_freq.com"
@@ -67,7 +70,7 @@ def common_fw(mol_operation_type,
                                mol_operation_type=mol_operation_type,
                                db=db,
                                name=opt_job_name,
-                               working_dir=os.path.join(working_dir, label,
+                               working_dir=os.path.join(working_dir,
                                                         "Optimization"),
                                input_file=opt_input_file,
                                output_file=opt_output_file,
@@ -92,7 +95,7 @@ def common_fw(mol_operation_type,
                                    name=freq_job_name,
                                    parents=opt_fw,
                                    gaussian_input_params=freq_gaussian_inputs,
-                                   working_dir=os.path.join(working_dir, label,
+                                   working_dir=os.path.join(working_dir,
                                                             "Frequency"),
                                    input_file=freq_input_file,
                                    output_file=freq_output_file,
@@ -167,7 +170,9 @@ def get_esp_charges(mol_operation_type,
                                                          "iop(6/50=1)": None}})
     # input_parameters from a previous run are overwritten
     if "input_parameters" not in esp_gaussian_inputs:
-        mol_esp = os.path.join(working_dir, "{}_esp".format(mol_formula))
+        mol_esp = os.path.join(
+            working_dir, "{}_esp".format(
+                os.path.join(working_dir, mol_formula, "ESP", mol_formula)))
         esp_gaussian_inputs.update({"input_parameters": {mol_esp: None}})
 
     if not skip_opt_freq:
@@ -264,6 +269,7 @@ def get_binding_energies(mol_operation_type,
                          oxidation_states=None,
                          skip_opt_freq=None,
                          **kwargs):
+    # TODO: test with different charges and spin multiplicities when deriving molecules
     # mol_operation_type = [], mol = [], index = []
     # order of the indices should be consistent with the order of the mols
     fws = []
@@ -330,6 +336,199 @@ def get_binding_energies(mol_operation_type,
 
     return Workflow(fws,
                     name="{}_{}".format(final_mol_formula, name),
+                    links_dict=links_dict,
+                    **{i: j for i, j in kwargs.items()
+                       if i in WORKFLOW_KWARGS})
+
+
+def get_ip_ea(mol_operation_type,
+              mol,
+              ref_charge,
+              spin_multiplicities,
+              num_electrons=1,
+              solvent_gaussian_inputs=None,
+              solvent_properties=None,
+              db=None,
+              name="ip_ea_calculation",
+              working_dir=None,
+              opt_gaussian_inputs=None,
+              freq_gaussian_inputs=None,
+              cart_coords=True,
+              skip_opt_freq=False,
+              **kwargs):
+    # TODO: check the working dirs ; they are wrong
+    # TODO: check the links between the fireworks
+    # TODO: check with the group if they want to skip opt and freq
+    # TODO: check with the group if the order of optimizations is correct
+    # TODO: cleanup the messy code
+    # TODO: check with the group if one electron is exchanged only
+    # TODO: check if the group if we want to skip either IP or EA
+
+    fws = []
+    parents = []
+    working_dir = working_dir or os.getcwd()
+
+    keys = ["neutral_gas", "anion_gas", "cation_gas",
+            "neutral_sol", "anion_sol", "cation_sol"]
+
+    if ref_charge != opt_gaussian_inputs.get("charge", ref_charge):
+        raise Exception("The provided reference charge is not consistent with "
+                        "the one found in the gaussian input parameters.")
+    sol_opt_gaussian_inputs = opt_gaussian_inputs
+    sol_freq_gaussian_inputs = freq_gaussian_inputs
+    gaussian_inputs = [opt_gaussian_inputs, freq_gaussian_inputs,
+                       sol_opt_gaussian_inputs, sol_freq_gaussian_inputs]
+    for i in gaussian_inputs:
+        i["charge"] = ref_charge
+        i["spin_multiplicity"] = spin_multiplicities["neutral"]
+
+    if "generic" in solvent_gaussian_inputs.lower() and not solvent_properties:
+        raise Exception("A generic solvent is provided as an input without "
+                        "specifying its parameters.")
+    sol_opt_gaussian_inputs["route_parameters"]["SCRF"] = \
+        solvent_gaussian_inputs
+    sol_freq_gaussian_inputs["route_parameters"]["SCRF"] = \
+        solvent_gaussian_inputs
+    if solvent_properties:
+        if "input_parameters" not in sol_opt_gaussian_inputs:
+            sol_opt_gaussian_inputs["input_parameters"] = {}
+        sol_opt_gaussian_inputs["input_parameters"].update(solvent_properties)
+
+    mol, neutral_gas_fws = common_fw(mol_operation_type=mol_operation_type,
+                                     mol=mol,
+                                     working_dir=working_dir,
+                                     db=db,
+                                     opt_gaussian_inputs=opt_gaussian_inputs,
+                                     freq_gaussian_inputs=freq_gaussian_inputs,
+                                     cart_coords=cart_coords,
+                                     oxidation_states=None,
+                                     gout_key="neutral_gas",
+                                     skip_opt_freq=skip_opt_freq,
+                                     dir_structure=["Neutral", "Gas"],
+                                     **kwargs)
+    fws += neutral_gas_fws
+    mol_formula = get_mol_formula(mol)
+    #parents.append(len(fws))
+
+    _, neutral_sol_fws = common_fw(mol_operation_type="get_from_run_dict",
+                                   mol="neutral_gas",
+                                   working_dir=working_dir,
+                                   db=db,
+                                   opt_gaussian_inputs=sol_opt_gaussian_inputs,
+                                   freq_gaussian_inputs=sol_freq_gaussian_inputs,
+                                   cart_coords=cart_coords,
+                                   oxidation_states=None,
+                                   process_mol_func=False,
+                                   mol_name="{}_sol".format(mol_formula),
+                                   gout_key="neutral_sol",
+                                   skip_opt_freq=False,
+                                   dir_structure=["Neutral", "Solution"],
+                                   **kwargs)
+    fws += neutral_sol_fws
+    #parents.append(len(fws))
+
+    for i in gaussian_inputs[:2]:
+        i["charge"] = ref_charge - num_electrons
+        i["spin_multiplicity"] = spin_multiplicities["anion"]
+
+    _, anion_gas_fws = common_fw(mol_operation_type="get_from_run_dict",
+                                 mol="neutral_gas",
+                                 working_dir=os.path.join(working_dir,
+                                                          "Anion",
+                                                          "Gas"),
+                                 db=db,
+                                 opt_gaussian_inputs=opt_gaussian_inputs,
+                                 freq_gaussian_inputs=freq_gaussian_inputs,
+                                 cart_coords=cart_coords,
+                                 oxidation_states=None,
+                                 process_mol_func=False,
+                                 mol_name="{}-".format(mol_formula),
+                                 gout_key="anion_gas",
+                                 skip_opt_freq=False,
+                                 **kwargs)
+    fws += anion_gas_fws
+    #parents.append(len(fws))
+
+    for i in gaussian_inputs[:2]:
+        i["charge"] = ref_charge + num_electrons
+        i["spin_multiplicity"] = spin_multiplicities["cation"]
+
+    _, cation_gas_fws = common_fw(mol_operation_type="get_from_run_dict",
+                                  mol="neutral_gas",
+                                  working_dir=os.path.join(working_dir,
+                                                           "Cation",
+                                                           "Gas"),
+                                  db=db,
+                                  opt_gaussian_inputs=opt_gaussian_inputs,
+                                  freq_gaussian_inputs=freq_gaussian_inputs,
+                                  cart_coords=cart_coords,
+                                  oxidation_states=None,
+                                  process_mol_func=False,
+                                  mol_name="{}+".format(mol_formula),
+                                  gout_key="cation_gas",
+                                  skip_opt_freq=False,
+                                  **kwargs)
+    fws += cation_gas_fws
+    #parents.append(len(fws))
+
+    for i in gaussian_inputs[2:]:
+        i["charge"] = ref_charge - num_electrons
+        i["spin_multiplicity"] = spin_multiplicities["anion"]
+
+    _, anion_sol_fws = common_fw(mol_operation_type="get_from_run_dict",
+                                 mol="anion_gas",
+                                 working_dir=os.path.join(working_dir,
+                                                          "Anion",
+                                                          "Solution"),
+                                 db=db,
+                                 opt_gaussian_inputs=opt_gaussian_inputs,
+                                 freq_gaussian_inputs=freq_gaussian_inputs,
+                                 cart_coords=cart_coords,
+                                 oxidation_states=None,
+                                 process_mol_func=False,
+                                 mol_name="{}-_sol".format(mol_formula),
+                                 gout_key="anion_sol",
+                                 skip_opt_freq=False,
+                                 **kwargs)
+    fws += anion_sol_fws
+    #parents.append(len(fws))
+
+    for i in gaussian_inputs[2:]:
+        i["charge"] = ref_charge + num_electrons
+        i["spin_multiplicity"] = spin_multiplicities["cation"]
+
+    _, cation_sol_fws = common_fw(mol_operation_type="get_from_run_dict",
+                                  mol="cation_gas",
+                                  working_dir=os.path.join(working_dir,
+                                                           "Cation",
+                                                           "Solution"),
+                                  db=db,
+                                  opt_gaussian_inputs=opt_gaussian_inputs,
+                                  freq_gaussian_inputs=freq_gaussian_inputs,
+                                  cart_coords=cart_coords,
+                                  oxidation_states=None,
+                                  process_mol_func=False,
+                                  mol_name="{}+_sol".format(mol_formula),
+                                  gout_key="cation_sol",
+                                  skip_opt_freq=False,
+                                  **kwargs)
+    fws += anion_sol_fws
+    #parents.append(len(fws))
+    links_dict = {fws[1]: fws[3], fws[1]: fws[5], fws[1]: fws[7],
+                  fws[5]: fws[9], fws[7]: fws[11]}
+    fw_analysis = Firework(
+        IPEAtoDB(num_electrons=num_electrons,
+                 db=db,
+                 **{i: j for i, j in kwargs.items()
+                    if i in BindingEnergytoDB.required_params +
+                    BindingEnergytoDB.optional_params}),
+        parents=fws[:],
+        name="{}-{}".format(mol_formula,
+                            "ip_ea_analysis"))
+    fws.append(fw_analysis)
+
+    return Workflow(fws,
+                    name="{}_{}".format(mol_formula, name),
                     links_dict=links_dict,
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
