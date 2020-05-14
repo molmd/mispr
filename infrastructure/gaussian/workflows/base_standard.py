@@ -9,7 +9,7 @@ from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
 from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW, \
     CalcFromRunsDBFW
 from infrastructure.gaussian.utils.utils import process_mol, get_job_name, \
-    get_mol_formula, process_run
+    get_mol_formula, process_run, recursive_relative_to_absolute_path
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +33,7 @@ def common_fw(mol_operation_type,
               db=None,
               process_mol_func=True,
               mol_name=None,
+              dir_head=None,
               skip_opt_freq=False,
               **kwargs):
     fws = []
@@ -53,7 +54,9 @@ def common_fw(mol_operation_type,
             opt_job_name = "optimization"
             freq_job_name = "frequency"
             label = "mol"
-        dir_struct = [label] + kwargs.get('dir_structure', [])
+        if not dir_head:
+            dir_head = label
+        dir_struct = [dir_head] + kwargs.get('dir_structure', [])
         working_dir = os.path.join(working_dir, *dir_struct)
         opt_input_file = f"{label}_opt.com"
         opt_output_file = f"{label}_opt.out"
@@ -121,12 +124,17 @@ def common_fw(mol_operation_type,
             mol = process_mol("get_from_run_dict", run, db=db,
                               working_dir=working_dir)
             spec = kwargs.pop('spec', {})
+            label = get_mol_formula(mol)
+            if not dir_head:
+                dir_head = label
+            dir_struct = [dir_head] + kwargs.get('dir_structure', [])
+            working_dir = os.path.join(working_dir, *dir_struct)
             if "tag" in kwargs:
                 spec.update({'tag': kwargs["tag"]})
+            spec.update({'_launch_dir': working_dir})
             fws.append(Firework(ProcessRun(run=run,
                                            operation_type="get_from_run_dict",
                                            db=db,
-                                           working_dir=working_dir,
                                            **{i: j for i, j in kwargs.items() if
                                               i in
                                               ProcessRun.required_params +
@@ -151,6 +159,7 @@ def get_esp_charges(mol_operation_type,
                     **kwargs):
     fws = []
     working_dir = working_dir or os.getcwd()
+    mol = recursive_relative_to_absolute_path(mol, working_dir)
 
     mol, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
                                   mol=mol,
@@ -214,6 +223,7 @@ def get_nmr_tensors(mol_operation_type,
                     **kwargs):
     fws = []
     working_dir = working_dir or os.getcwd()
+    mol = recursive_relative_to_absolute_path(mol, working_dir)
 
     mol, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
                                   mol=mol,
@@ -276,6 +286,7 @@ def get_binding_energies(mol_operation_type,
     molecules = []
     working_dir = working_dir or os.getcwd()
     keys = ["mol_1", "mol_2", "mol_linked"]
+    mol = recursive_relative_to_absolute_path(mol, working_dir)
 
     if skip_opt_freq is None:
         skip_opt_freq = [False, False]
@@ -331,7 +342,9 @@ def get_binding_energies(mol_operation_type,
                              BindingEnergytoDB.optional_params}),
         parents=fws[:],
         name="{}-{}".format(final_mol_formula,
-                            "binding_energy_analysis"))
+                            "binding_energy_analysis"),
+        spec={'_launch_dir': os.path.join(working_dir, final_mol_formula,
+                                          'analysis')})
     fws.append(fw_analysis)
 
     return Workflow(fws,
@@ -367,6 +380,7 @@ def get_ip_ea(mol_operation_type,
     fws = []
     parents = []
     working_dir = working_dir or os.getcwd()
+    mol = recursive_relative_to_absolute_path(mol, working_dir)
 
     keys = ["neutral_gas", "anion_gas", "cation_gas",
             "neutral_sol", "anion_sol", "cation_sol"]
@@ -408,7 +422,7 @@ def get_ip_ea(mol_operation_type,
                                      **kwargs)
     fws += neutral_gas_fws
     mol_formula = get_mol_formula(mol)
-    #parents.append(len(fws))
+    # parents.append(len(fws))
 
     _, neutral_sol_fws = common_fw(mol_operation_type="get_from_run_dict",
                                    mol="neutral_gas",
@@ -420,12 +434,14 @@ def get_ip_ea(mol_operation_type,
                                    oxidation_states=None,
                                    process_mol_func=False,
                                    mol_name="{}_sol".format(mol_formula),
+                                   dir_head=mol_formula,
                                    gout_key="neutral_sol",
                                    skip_opt_freq=False,
                                    dir_structure=["Neutral", "Solution"],
+                                   from_fw_spec=True,
                                    **kwargs)
     fws += neutral_sol_fws
-    #parents.append(len(fws))
+    # parents.append(len(fws))
 
     for i in gaussian_inputs[:2]:
         i["charge"] = ref_charge - num_electrons
@@ -433,21 +449,22 @@ def get_ip_ea(mol_operation_type,
 
     _, anion_gas_fws = common_fw(mol_operation_type="get_from_run_dict",
                                  mol="neutral_gas",
-                                 working_dir=os.path.join(working_dir,
-                                                          "Anion",
-                                                          "Gas"),
+                                 working_dir=working_dir,
                                  db=db,
                                  opt_gaussian_inputs=opt_gaussian_inputs,
                                  freq_gaussian_inputs=freq_gaussian_inputs,
                                  cart_coords=cart_coords,
                                  oxidation_states=None,
                                  process_mol_func=False,
-                                 mol_name="{}-".format(mol_formula),
+                                 mol_name="{}-_gas".format(mol_formula),
+                                 dir_head=mol_formula,
                                  gout_key="anion_gas",
                                  skip_opt_freq=False,
+                                 dir_structure=["Anion", "Gas"],
+                                 from_fw_spec=True,
                                  **kwargs)
     fws += anion_gas_fws
-    #parents.append(len(fws))
+    # parents.append(len(fws))
 
     for i in gaussian_inputs[:2]:
         i["charge"] = ref_charge + num_electrons
@@ -455,21 +472,22 @@ def get_ip_ea(mol_operation_type,
 
     _, cation_gas_fws = common_fw(mol_operation_type="get_from_run_dict",
                                   mol="neutral_gas",
-                                  working_dir=os.path.join(working_dir,
-                                                           "Cation",
-                                                           "Gas"),
+                                  working_dir=working_dir,
                                   db=db,
                                   opt_gaussian_inputs=opt_gaussian_inputs,
                                   freq_gaussian_inputs=freq_gaussian_inputs,
                                   cart_coords=cart_coords,
                                   oxidation_states=None,
                                   process_mol_func=False,
-                                  mol_name="{}+".format(mol_formula),
+                                  mol_name="{}+_gas".format(mol_formula),
+                                  dir_head=mol_formula,
                                   gout_key="cation_gas",
                                   skip_opt_freq=False,
+                                  dir_structure=["Cation", "Gas"],
+                                  from_fw_spec=True,
                                   **kwargs)
     fws += cation_gas_fws
-    #parents.append(len(fws))
+    # parents.append(len(fws))
 
     for i in gaussian_inputs[2:]:
         i["charge"] = ref_charge - num_electrons
@@ -477,9 +495,7 @@ def get_ip_ea(mol_operation_type,
 
     _, anion_sol_fws = common_fw(mol_operation_type="get_from_run_dict",
                                  mol="anion_gas",
-                                 working_dir=os.path.join(working_dir,
-                                                          "Anion",
-                                                          "Solution"),
+                                 working_dir=working_dir,
                                  db=db,
                                  opt_gaussian_inputs=opt_gaussian_inputs,
                                  freq_gaussian_inputs=freq_gaussian_inputs,
@@ -487,11 +503,14 @@ def get_ip_ea(mol_operation_type,
                                  oxidation_states=None,
                                  process_mol_func=False,
                                  mol_name="{}-_sol".format(mol_formula),
+                                 dir_head=mol_formula,
                                  gout_key="anion_sol",
                                  skip_opt_freq=False,
+                                 dir_structure=["Anion", "Solution"],
+                                 from_fw_spec=True,
                                  **kwargs)
     fws += anion_sol_fws
-    #parents.append(len(fws))
+    # parents.append(len(fws))
 
     for i in gaussian_inputs[2:]:
         i["charge"] = ref_charge + num_electrons
@@ -499,9 +518,7 @@ def get_ip_ea(mol_operation_type,
 
     _, cation_sol_fws = common_fw(mol_operation_type="get_from_run_dict",
                                   mol="cation_gas",
-                                  working_dir=os.path.join(working_dir,
-                                                           "Cation",
-                                                           "Solution"),
+                                  working_dir=working_dir,
                                   db=db,
                                   opt_gaussian_inputs=opt_gaussian_inputs,
                                   freq_gaussian_inputs=freq_gaussian_inputs,
@@ -509,13 +526,16 @@ def get_ip_ea(mol_operation_type,
                                   oxidation_states=None,
                                   process_mol_func=False,
                                   mol_name="{}+_sol".format(mol_formula),
+                                  dir_head=mol_formula,
                                   gout_key="cation_sol",
                                   skip_opt_freq=False,
+                                  dir_structure=["Cation", "Solution"],
+                                  from_fw_spec=True,
                                   **kwargs)
-    fws += anion_sol_fws
-    #parents.append(len(fws))
-    links_dict = {fws[1]: fws[3], fws[1]: fws[5], fws[1]: fws[7],
-                  fws[5]: fws[9], fws[7]: fws[11]}
+    fws += cation_sol_fws
+    # parents.append(len(fws))
+    links_dict = {fws[1]: [fws[2], fws[4], fws[6]], fws[5]: fws[8],
+                  fws[7]: fws[10]}
     fw_analysis = Firework(
         IPEAtoDB(num_electrons=num_electrons,
                  db=db,
@@ -524,7 +544,8 @@ def get_ip_ea(mol_operation_type,
                     BindingEnergytoDB.optional_params}),
         parents=fws[:],
         name="{}-{}".format(mol_formula,
-                            "ip_ea_analysis"))
+                            "ip_ea_analysis"),
+        spec={'_launch_dir': os.path.join(working_dir, mol_formula, "analysis")})
     fws.append(fw_analysis)
 
     return Workflow(fws,
