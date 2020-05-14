@@ -33,8 +33,10 @@ def process_mol(operation_type, mol, **kwargs):
         output_mol = mol
 
     elif operation_type == 'get_from_file':
-        # mol = file_path
-        file_path = os.path.join(working_dir, mol)
+        if not os.path.isabs(mol):
+            file_path = os.path.join(working_dir, mol)
+        else:
+            file_path = mol
         if not os.path.exists(file_path):
             raise Exception("mol is not a valid path; either provide a valid "
                             "path or use another operation type with its "
@@ -130,8 +132,7 @@ def process_mol(operation_type, mol, **kwargs):
 
 
 def process_run(operation_type, run, input_file=None, **kwargs):
-    working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
-        else os.getcwd()
+    working_dir = kwargs.get("working_dir", os.getcwd())
     db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
 
     if operation_type == 'get_from_gout':
@@ -143,8 +144,10 @@ def process_run(operation_type, run, input_file=None, **kwargs):
         gout_dict = _cleanup_gout(gout, working_dir, input_file)
 
     elif operation_type == 'get_from_file':
-        # run = file_path
-        file_path = os.path.join(working_dir, run)
+        if not os.path.isabs(run):
+            file_path = os.path.join(working_dir, run)
+        else:
+            file_path = run
         if not os.path.exists(file_path):
             raise Exception("run is not a valid path; either provide a valid "
                             "path or use another operation type with its "
@@ -321,7 +324,10 @@ def _modify_gout(gout):
 
 def _create_gin(gout, working_dir, input_file):
     if input_file:
-        input_path = os.path.join(working_dir, input_file)
+        if not os.path.isabs(input_file):
+            input_path = os.path.join(working_dir, input_file)
+        else:
+            input_path = input_file
         gin = GaussianInput.from_file(input_path).as_dict()
         gin['nbasisfunctions'] = gout['input']['nbasisfunctions']
         gin['pcm_parameters'] = gout['input']['pcm_parameters']
@@ -368,3 +374,25 @@ def recursive_signature_remove(d):
                 for i, j in d.items() if not i.startswith('@')}
     else:
         return d
+
+
+def recursive_relative_to_absolute_path(operand, working_dir):
+    if isinstance(operand, str):
+        if os.path.isabs(operand):
+            return operand
+        elif os.path.exists(operand):
+            return os.path.join(os.getcwd(), operand)
+        else:
+            full_path = os.path.join(working_dir, operand)
+            if os.path.exists(full_path):
+                return full_path
+            else:
+                return operand
+    elif isinstance(operand, dict):
+        return {i: recursive_relative_to_absolute_path(j, working_dir)
+                for i, j in operand.items()}
+    elif isinstance(operand, list):
+        return [recursive_relative_to_absolute_path(i, working_dir)
+                for i in operand]
+    else:
+        return operand
