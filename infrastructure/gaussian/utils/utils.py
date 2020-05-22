@@ -278,19 +278,40 @@ def label_atoms(mol):
     a = BabelMolAdaptor(mol)
     pm = pb.Molecule(a.openbabel_mol)
     mol_smiles = pm.write("smi").strip()
-    i = 1
+    mol_smiles_copy = mol_smiles.lower()
+    counter = 1
     count_1 = ''
     count_2 = ''
     count_3 = ''
-    smiles = mol_smiles
-    for atom in mol.species:
-        smiles = smiles.replace(str(atom), '!')
-    atoms = [str(i) for i in mol.species if str(i) in mol_smiles]
-    counter = 0
+    smiles = mol_smiles.lower()
+    atoms = [str(i).lower() for i in mol.species]
+    sorted_atoms = sorted(atoms, key=lambda x: len(x), reverse=True)
+    index_atom_map = {}
+    h_index = [i for i, j in enumerate(mol_smiles_copy) if j == 'h']
+    for atom in sorted_atoms:
+        if atom == 'h':
+            smiles = smiles.replace(atom, '!', 1)
+            continue
+        index = smiles.find(atom)
+        if index != -1:
+            smiles = smiles.replace(atom, '!', 1)
+            index_atom_map[index] = atom
+    existing_atoms = [index_atom_map[i] for i in sorted(index_atom_map)]
     for ch in smiles:
         if ch == '!':
-            atom = atoms[counter]
-            counter += 1
+            flag = 0
+            if len(count_1) in h_index:
+                atom = 'h'
+                flag = 1
+            else:
+                atom = atoms[counter - 1]
+                while atom not in existing_atoms:
+                    counter += 1
+                    atom = atoms[counter - 1]
+            if atom.lower() == 'h':
+                i = 0
+            else:
+                i = counter
             if i < 10:
                 count_1 += f"{i: >{len(atom)}}"
                 count_2 += ' '*len(atom)
@@ -303,7 +324,8 @@ def label_atoms(mol):
                 count_1 += f"{i // 10 // 10: >{len(atom)}}"
                 count_2 += f"{i % 100 // 10: >{len(atom)}}"
                 count_3 += f"{i % 10: >{len(atom)}}"
-            i += 1
+            if flag == 0:
+                counter += 1
         else:
             count_1 += ' '
             count_2 += ' '
