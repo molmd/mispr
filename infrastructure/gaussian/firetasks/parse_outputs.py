@@ -19,6 +19,7 @@ from infrastructure.gaussian.utils.utils import get_db, process_run, \
 logger = logging.getLogger(__name__)
 
 DEFAULT_KEY = 'gout_key'
+HARTREE_TO_EV = 27.2114
 
 
 # TODO: create a util function to do the common things in the PropertiestoDB
@@ -45,6 +46,8 @@ class ProcessRun(FiretaskBase):
             gout_dict["_id"] = ObjectId(gout_dict["_id"])
         if "tag" in fw_spec:
             gout_dict["tag"] = fw_spec["tag"]
+        if "run_time" in fw_spec:
+            gout_dict["wall_time (s)"] = fw_spec["run_time"]
 
         run_list = {}
         if self.get('save_to_db'):
@@ -53,13 +56,13 @@ class ProcessRun(FiretaskBase):
             run_list['run_id_list'] = run_id
             logger.info("Saved parsed output to db")
 
-        if self.get('save_to_file'):
-            filename = self.get("filename", 'run')
-            file = os.path.join(working_dir, f"{filename}.json")
-            with open(file, "w") as f:
-                f.write(json.dumps(gout_dict, default=DATETIME_HANDLER))
-            run_list['run_loc_list'] = file
-            logger.info("Saved parsed output to json file")
+            if self.get('save_to_file'):
+                filename = self.get("filename", 'run')
+                file = os.path.join(working_dir, f"{filename}.json")
+                with open(file, "w") as f:
+                    f.write(json.dumps(gout_dict, default=DATETIME_HANDLER))
+                run_list['run_loc_list'] = file
+                logger.info("Saved parsed output to json file")
 
         uid = self.get("gout_key")
         set_dict = {f"gaussian_output->{DEFAULT_KEY}": gout_dict}
@@ -86,7 +89,8 @@ class RetrieveGaussianOutput(FiretaskBase):
 
         # if a Gaussian output dict is passed through fw_spec
         if fw_spec.get("gaussian_output"):
-            run = fw_spec["gaussian_output"][DEFAULT_KEY]
+            run = pass_gout_dict(fw_spec, DEFAULT_KEY)
+            # run = fw_spec["gaussian_output"][DEFAULT_KEY]
 
         elif self.get("run_id"):
             run = process_run(operation_type="get_from_run_id",
@@ -140,8 +144,10 @@ class BindingEnergytoDB(FiretaskBase):
                                                       index[1]))
         be_value = (final_energies[2] -
                     (final_energies[0] + final_energies[1])
-                    ) * 27.2114
+                    ) * HARTREE_TO_EV
         mol_schema = get_chem_schema(molecules[2])
+        # if one calculation is skipped, wall time is considered zero
+        run_time = sum([gout.get("wall_time (s)", 0) for gout in gout_dict])
 
         be_dict = {"molecule": molecules[2].as_dict(),
                    "smiles": mol_schema["smiles"],
@@ -156,6 +162,7 @@ class BindingEnergytoDB(FiretaskBase):
                    "phase": gout_dict[-1]["phase"],
                    "tag": gout_dict[-1]["tag"],
                    "state": "successful",
+                   "wall_time (s)": run_time,
                    "last_updated": datetime.datetime.utcnow()}
 
         if self.get("additional_prop_doc_fields"):
@@ -215,8 +222,6 @@ class IPEAtoDB(FiretaskBase):
         ipea_dict = {"molecule": molecule.as_dict(),
                      "smiles": mol_schema["smiles"],
                      "formula_pretty": mol_schema["formula_pretty"],
-                     "IP_ev": ip,
-                     "EA_ev": ea,
                      "num_electrons": num_electrons,
                      "functional": gout_dict[0]["functional"],
                      "basis": gout_dict[0]["basis"],
@@ -225,6 +230,7 @@ class IPEAtoDB(FiretaskBase):
                          gout_dict[0]["input"]["spin_multiplicity"],
                      "tag": gout_dict[0]["tag"],
                      "state": "successful",
+                     "wall_time (s)": run_time,
                      "last_updated": datetime.datetime.utcnow()}
 
         if self.get("additional_prop_doc_fields"):
