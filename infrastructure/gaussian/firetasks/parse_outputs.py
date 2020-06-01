@@ -49,12 +49,13 @@ class ProcessRun(FiretaskBase):
         if "run_time" in fw_spec:
             gout_dict["wall_time (s)"] = fw_spec["run_time"]
 
-        run_list = {}
-        if self.get('save_to_db'):
-            runs_db = get_db(db)
-            run_id = runs_db.insert_run(gout_dict)
-            run_list['run_id_list'] = run_id
-            logger.info("Saved parsed output to db")
+        if gout_dict["output"]["output"]["has_gaussian_completed"]:
+            run_list = {}
+            if self.get('save_to_db'):
+                runs_db = get_db(db)
+                run_id = runs_db.insert_run(gout_dict)
+                run_list['run_id_list'] = run_id
+                logger.info("Saved parsed output to db")
 
             if self.get('save_to_file'):
                 filename = self.get("filename", 'run')
@@ -64,15 +65,17 @@ class ProcessRun(FiretaskBase):
                 run_list['run_loc_list'] = file
                 logger.info("Saved parsed output to json file")
 
-        uid = self.get("gout_key")
-        set_dict = {f"gaussian_output->{DEFAULT_KEY}": gout_dict}
-        if uid:
-            set_dict[f"gaussian_output->{uid}"] = gout_dict
-        # fw_spec = {'gaussian_output: {DEFAULT_KEY: gout_dict, uid: gout_dict}}
-        mod_dict = {'_set': set_dict}
-        if run_list:
-            mod_dict.update({'_push': run_list})
-        return FWAction(mod_spec=mod_dict)
+            uid = self.get("gout_key")
+            set_dict = {f"gaussian_output->{DEFAULT_KEY}": gout_dict}
+            if uid:
+                set_dict[f"gaussian_output->{uid}"] = gout_dict
+            # fw_spec = {'gaussian_output: {DEFAULT_KEY: gout_dict, uid: gout_dict}}
+            mod_dict = {'_set': set_dict}
+            if run_list:
+                mod_dict.update({'_push': run_list})
+            return FWAction(mod_spec=mod_dict)
+        else:
+            raise ValueError(f"Gaussian did not complete normally, Terminating")
 
 
 @explicit_serialize
