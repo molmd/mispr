@@ -1,7 +1,9 @@
 import os
 import logging
 import subprocess
+
 from configparser import ConfigParser
+from timeit import default_timer as timer
 
 from fireworks.core.firework import FiretaskBase
 from fireworks.fw_config import CONFIG_FILE_DIR
@@ -33,8 +35,11 @@ class RunGaussianDirect(FiretaskBase):
             replace('$output_path$', output_path)
 
         logger.info("Running command: {}".format(cmd))
+        st = timer()
         return_code = subprocess.call(cmd, shell=True)
+        run_time = timer() - st
         logger.info("Finished running with return code: {}".format(return_code))
+        fw_spec["run_time"] = run_time
 
 
 @explicit_serialize
