@@ -5,6 +5,7 @@
 import os
 import logging
 import json
+import itertools
 import datetime
 
 from bson.objectid import ObjectId
@@ -48,8 +49,7 @@ class ProcessRun(FiretaskBase):
             gout_dict["tag"] = fw_spec["tag"]
         if "run_time" in fw_spec:
             gout_dict["wall_time (s)"] = fw_spec["run_time"]
-
-        if gout_dict["output"]["output"]["has_gaussian_completed"]:
+        if gout_dict["output"]["has_gaussian_completed"]:
             run_list = {}
             if self.get('save_to_db'):
                 runs_db = get_db(db)
@@ -194,32 +194,88 @@ class BindingEnergytoDB(FiretaskBase):
 
 @explicit_serialize
 class IPEAtoDB(FiretaskBase):
-    required_params = ["num_electrons"]
+    # TODO: cleanup this firetask without assuming we have specific calcs
+    required_params = ["num_electrons", "states", "phases", "parents_dict"]
     optional_params = ["db", "save_to_db", "save_to_file",
+                       "solvent_gaussian_inputs",
+                       "solvent_properties",
+                       "electrode_potentials",
                        "additional_prop_doc_fields"]
 
     def run_task(self, fw_spec):
         db = self.get("db")
         num_electrons = self["num_electrons"]
-        keys = ["neutral_gas", "anion_gas", "cation_gas",
-                "neutral_sol", "anion_sol", "cation_sol"]
-        gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
+        states = self["states"]
+        phases = self["phases"]
+        parents_dict = self["parents_dict"]
+        if "solution" in phases:
+            if not self.get("solvent_gaussian_inputs"):
+                solvent = "water"
+            else:
+                solvent_inputs = [
+                    i.lower() for i in
+                    self.get("solvent_gaussian_inputs").strip("()").split(",")]
+                solvent = [
+                    string for string in solvent_inputs if "solvent" in
+                                                           string][0].split("=")[1]
+                solvent_properties = self.get("solvent_properties", {})
+
+        ref_potentials = {'hydrogen': 4.44,
+                          'magnesium': 2.07,
+                          'lithium': 1.40}
+        electrode_potentials = {
+            k.lower(): v for k, v in
+            self.get("electrode_potentials", {}).items()}
+        electrode_potentials = {**ref_potentials,
+                                **electrode_potentials}
+
+        delta_g = {}
+        keys = ["{}_{}".format(i.lower(), j.lower())
+                for i, j in itertools.product(states, phases)]
+        gout_dict = {i: pass_gout_dict(fw_spec, i) for i in keys}
         molecule = process_mol("get_from_run_dict", gout_dict[0])
-        free_energies = [gout['output']['output']["corrections"]
-                         ["Gibbs Free Energy"] for gout in gout_dict]
-        delta_gibss_sol_neutral = free_energies[3] - free_energies[0]
-        delta_gibss_sol_anion = free_energies[4] - free_energies[1]
-        delta_gibss_sol_cation = free_energies[5] - free_energies[2]
-        delta_gibbs_ox_gas = free_energies[2] - free_energies[0]
-        delta_gibbs_red_gas = free_energies[1] - free_energies[0]
-        delta_gibbs_ox_sol = delta_gibbs_ox_gas + delta_gibss_sol_cation - \
-                             delta_gibss_sol_neutral
-        delta_gibbs_red_sol = delta_gibbs_red_gas + delta_gibss_sol_anion - \
-                              delta_gibss_sol_neutral
-        ea = -delta_gibbs_red_sol * 4.36 * 10 ** -18 * 6.02 * 10 ** 23 / \
-             (num_electrons * 9.65 * 10 ** 4)
-        ip = -delta_gibbs_ox_sol * 4.36 * 10 ** -18 * 6.02 * 10 ** 23 / \
-             (num_electrons * 9.65 * 10 ** 4)
+        final_energies = {i: j['output']['output']["final_energy"]
+                          for i, j in gout_dict}
+        run_time = sum([gout["wall_time (s)"] for gout in gout_dict])
+        for i, j in parents_dict.items():
+            delta_g[i + '-' + j] = final_energies[i] - final_energies[j]
+        for phase in phases:
+            filtered_states = [i.lower() for i in states if i.lower()
+                               in ['anion', 'cation']]
+            for state in filtered_states:
+                key_1 = "{}_{}".format(state, phase.lower())
+                key_2 = "reference_{}".format(phase.lower())
+                key = key_1 + '-' + key_2
+                if key in delta_g:
+                    continue
+                delta_g[key] = 0
+                for i, sign_i in zip([key_1, key_2], [1, -1]):
+                    current = i
+                    while current:
+                        new = parents_dict.get(current)
+                        if new:
+                            delta_g[key] += sign_i * delta_g[
+                                current + '-' + new]
+                        current = new
+
+        # TODO: cleanup this part
+        ip_gas = delta_g[
+                     "cation_gas-reference_gas"] * HARTREE_TO_EV / num_electrons
+        ip_sol = delta_g[
+                     "cation_solution-reference_solution"] * HARTREE_TO_EV / num_electrons
+        ea_sol = -delta_g[
+            "anion_solution-reference_solution"] * HARTREE_TO_EV / num_electrons
+        ea_gas = -delta_g[
+            "anion_gas-reference_gas"] * HARTREE_TO_EV / num_electrons
+        oxidation_sol = {}
+        oxidation_gas = {}
+        reduction_sol = {}
+        reduction_gas = {}
+        for key, value in electrode_potentials.items():
+            oxidation_sol[key] = ip_sol - value
+            oxidation_gas[key] = ip_gas - value
+            reduction_sol[key] = ea_sol - value
+            reduction_gas[key] = ea_gas - value
 
         mol_schema = get_chem_schema(molecule)
         ipea_dict = {"molecule": molecule.as_dict(),
@@ -231,6 +287,21 @@ class IPEAtoDB(FiretaskBase):
                      "charge": gout_dict[0]["input"]["charge"],
                      "spin_multiplicity":
                          gout_dict[0]["input"]["spin_multiplicity"],
+                     "phase": phases,
+                     "solvent": solvent,
+                     "solvent_properties": solvent_properties,
+                     "solution": {"IP": ip_sol,
+                                  "EA": ea_sol,
+                                  "electrode_potentials": {
+                                      "oxidation": oxidation_sol,
+                                      "reduction": reduction_sol}
+                                  },
+                     "gas": {"IP": ip_gas,
+                             "EA": ea_gas,
+                             "electrode_potentials": {
+                                 "oxidation": oxidation_gas,
+                                 "reduction": reduction_gas}
+                             },
                      "tag": gout_dict[0]["tag"],
                      "state": "successful",
                      "wall_time (s)": run_time,
@@ -253,8 +324,8 @@ class IPEAtoDB(FiretaskBase):
             working_dir = os.getcwd()
             if "run_ids" in ipea_dict:
                 del ipea_dict["run_ids"]
-            be_file = os.path.join(working_dir, 'binding_energy.json')
-            with open(be_file, "w") as f:
+            ipea_file = os.path.join(working_dir, 'ip_ea.json')
+            with open(ipea_file, "w") as f:
                 f.write(json.dumps(ipea_dict, default=DATETIME_HANDLER))
 
         logger.info("ip/ea calculation complete")
