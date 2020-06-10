@@ -257,6 +257,35 @@ def add_namefile(original_wf, use_slug=True):
     return original_wf
 
 
+def get_list_fireworks_and_tasks(workflow):
+    list_fireworks_and_tasks = []
+    for i_firework, firework in enumerate(workflow.fws):
+        for i_task, task in enumerate(firework.tasks):
+            list_fireworks_and_tasks.append((i_firework, i_task))
+    return list_fireworks_and_tasks
+
+
+def modify_queue_parameters(workflow, ntasks_per_node=None, walltime=None,
+                            queue=None, pre_rocket=None, other_parameters=None):
+    queue_parameters = {}
+    if ntasks_per_node:
+        queue_parameters.update({"ntasks_per_node": ntasks_per_node})
+    if walltime:
+        queue_parameters.update({"walltime": walltime})
+    if queue:
+        queue_parameters.update({"queue": queue})
+    if pre_rocket:
+        queue_parameters.update({"pre_rocket": pre_rocket})
+    if other_parameters:
+        queue_parameters.update(other_parameters)
+
+    list_fireworks_and_tasks = get_list_fireworks_and_tasks(workflow)
+    for i_firework, i_task in list_fireworks_and_tasks:
+        workflow.fws[i_firework].spec.update({"_queueadapter":
+                                                  queue_parameters})
+    return workflow
+
+
 def get_db(input_db=None):
     from infrastructure.gaussian.database import GaussianCalcDb
     if not input_db:
@@ -279,7 +308,7 @@ def label_atoms(mol):
     pm = pb.Molecule(a.openbabel_mol)
     mol_smiles = pm.write("smi").strip()
     mol_smiles_copy = mol_smiles.lower()
-    counter = 1
+    counter = 0
     count_1 = ''
     count_2 = ''
     count_3 = ''
@@ -304,22 +333,22 @@ def label_atoms(mol):
                 atom = 'h'
                 flag = 1
             else:
-                atom = atoms[counter - 1]
+                atom = atoms[counter]
                 while atom not in existing_atoms:
                     counter += 1
-                    atom = atoms[counter - 1]
+                    atom = atoms[counter]
             if atom.lower() == 'h':
                 i = 0
             else:
                 i = counter
             if i < 10:
                 count_1 += f"{i: >{len(atom)}}"
-                count_2 += ' '*len(atom)
-                count_3 += ' '*len(atom)
+                count_2 += ' ' * len(atom)
+                count_3 += ' ' * len(atom)
             elif i < 100:
                 count_1 += f"{i // 10: >{len(atom)}}"
                 count_2 += f"{i % 10: >{len(atom)}}"
-                count_3 += ' '*len(atom)
+                count_3 += ' ' * len(atom)
             else:
                 count_1 += f"{i // 10 // 10: >{len(atom)}}"
                 count_2 += f"{i % 100 // 10: >{len(atom)}}"
