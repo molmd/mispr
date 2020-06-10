@@ -39,7 +39,7 @@ class WriteInput(FiretaskBase):
             mol_copy.set_charge_and_spin(super(IMolecule, mol_copy).charge)
             self["gaussian_input_params"] = \
                 {**self.get("gaussian_input_params", {}),
-                 'charge': mol_copy.charge}
+                 'charge': int(mol_copy.charge)}
 
     def run_task(self, fw_spec):
         working_dir = os.getcwd()

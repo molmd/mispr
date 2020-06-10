@@ -1,6 +1,7 @@
 import os
 import logging
-import datetime
+import itertools
+from copy import deepcopy
 
 from fireworks import Firework, Workflow
 from infrastructure.gaussian.firetasks.parse_outputs import \
@@ -30,12 +31,14 @@ def common_fw(mol_operation_type,
               freq_gaussian_inputs,
               cart_coords,
               oxidation_states,
+              gout_key=None,
               db=None,
               process_mol_func=True,
               mol_name=None,
               dir_head=None,
               skip_opt_freq=False,
               **kwargs):
+    # TODO: checking criteria not working
     fws = []
     if not skip_opt_freq:
         if process_mol_func:
@@ -80,6 +83,7 @@ def common_fw(mol_operation_type,
                                gaussian_input_params=opt_gaussian_inputs,
                                cart_coords=cart_coords,
                                oxidation_states=oxidation_states,
+                               gout_key=gout_key+"_opt",
                                **kwargs
                                )
         fws.append(opt_fw)
@@ -103,6 +107,7 @@ def common_fw(mol_operation_type,
                                    input_file=freq_input_file,
                                    output_file=freq_output_file,
                                    cart_coords=cart_coords,
+                                   gout_key=gout_key,
                                    spec={
                                        "proceed": {
                                            "has_gaussian_completed": True}},
@@ -135,6 +140,7 @@ def common_fw(mol_operation_type,
             fws.append(Firework(ProcessRun(run=run,
                                            operation_type="get_from_run_dict",
                                            db=db,
+                                           gout_key=gout_key,
                                            **{i: j for i, j in kwargs.items() if
                                               i in
                                               ProcessRun.required_params +
@@ -279,7 +285,8 @@ def get_binding_energies(mol_operation_type,
                          oxidation_states=None,
                          skip_opt_freq=None,
                          **kwargs):
-    # TODO: test with different charges and spin multiplicities when deriving molecules
+    # TODO: test with different charges and spin multiplicities when
+    #  deriving molecules
     # mol_operation_type = [], mol = [], index = []
     # order of the indices should be consistent with the order of the mols
     fws = []
@@ -344,7 +351,7 @@ def get_binding_energies(mol_operation_type,
         name="{}-{}".format(final_mol_formula,
                             "binding_energy_analysis"),
         spec={'_launch_dir': os.path.join(working_dir, final_mol_formula,
-                                          'analysis')})
+                                          'Analysis')})
     fws.append(fw_analysis)
 
     return Workflow(fws,
@@ -545,7 +552,8 @@ def get_ip_ea(mol_operation_type,
         parents=fws[:],
         name="{}-{}".format(mol_formula,
                             "ip_ea_analysis"),
-        spec={'_launch_dir': os.path.join(working_dir, mol_formula, "analysis")})
+        spec={
+            '_launch_dir': os.path.join(working_dir, mol_formula, "Analysis")})
     fws.append(fw_analysis)
 
     return Workflow(fws,

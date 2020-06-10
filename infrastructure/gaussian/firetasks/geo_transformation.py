@@ -18,7 +18,7 @@ class ProcessMoleculeInput(FiretaskBase):
     required_params = ["mol"]
     optional_params = ["operation_type", "db", "save_to_db",
                        "update_duplicates", "save_to_file", "fmt", "filename",
-                       "from_fw_spec"]
+                       "from_fw_spec", "local_opt", "force_field", "steps"]
 
     @staticmethod
     def _run_to_mol_object(run):
@@ -29,15 +29,11 @@ class ProcessMoleculeInput(FiretaskBase):
         # mol = key in this case
         available_runs = fw_spec['gaussian_output']
         if not isinstance(mol, dict):
-            print("mol is not a dict")
             mol = available_runs[mol]
         else:
             if isinstance(mol['mol'], list):
-                print("mol is a list")
                 mol['mol'] = [available_runs[i] for i in mol['mol']]
-                print(mol)
             else:
-                print("mol is neither a list nor a dict")
                 mol['mol'] = available_runs[mol['mol']]
         return mol
 
@@ -48,12 +44,13 @@ class ProcessMoleculeInput(FiretaskBase):
         db = self.get('db')
 
         if self.get('from_fw_spec'):
-            print("from_fw_spec: True")
             mol = self._from_fw_spec(mol, fw_spec)
 
         output_mol = process_mol(operation_type=operation_type, mol=mol,
-                                 working_dir=working_dir, db=db)
-        print(output_mol)
+                                 working_dir=working_dir, db=db,
+                                 local_opt=self.get("local_opt"),
+                                 force_field=self.get("force_field"),
+                                 steps=self.get("steps"))
 
         if self.get("save_to_db"):
             db = get_db(db) if db else get_db()
