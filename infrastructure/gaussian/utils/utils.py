@@ -20,7 +20,7 @@ JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
              'sac-ci'}
 
 
-def process_mol(operation_type, mol, **kwargs):
+def process_mol(operation_type, mol, local_opt=False, **kwargs):
     working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
         else os.getcwd()
     db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
@@ -128,6 +128,15 @@ def process_mol(operation_type, mol, **kwargs):
     else:
         raise ValueError(f'operation type {operation_type} is not supported')
 
+    if local_opt:
+        force_field = kwargs["force_field"] if "force_field" in kwargs \
+            else "mmff94"
+        steps = kwargs["steps"] if "steps" in kwargs else 500
+        output_mol = perform_local_opt(output_mol, force_field, steps)
+
+    output_mol.set_charge_and_spin(kwargs["charge"] if "charge" in kwargs else
+                                   output_mol.charge)
+
     return output_mol
 
 
@@ -200,6 +209,13 @@ def process_run(operation_type, run, input_file=None, **kwargs):
     gout_dict = recursive_signature_remove(gout_dict)
 
     return gout_dict
+
+
+def perform_local_opt(mol, force_field="uff", steps=200):
+    a = BabelMolAdaptor(mol)
+    a.localopt(forcefield=force_field, steps=steps)
+    mol_opt = a.pymatgen_mol
+    return mol_opt
 
 
 def pass_gout_dict(fw_spec, key):
