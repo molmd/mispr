@@ -253,12 +253,15 @@ def get_chem_schema(mol):
 
 def get_mol_formula(mol):
     mol_schema = get_chem_schema(mol)
-    return mol_schema["formula_pretty"]
+    return mol_schema["formula_alphabetical"].replace(" ", "")
 
 
 def get_job_name(mol, name):
-    mol_formula = get_mol_formula(mol)
-    job_name = "{}_{}".format(mol_formula, name)
+    if not isinstance(mol, Molecule):
+        job_name = "{}_{}".format(mol, name)
+    else:
+        mol_formula = get_mol_formula(mol)
+        job_name = "{}_{}".format(mol_formula, name)
     return job_name
 
 
@@ -274,6 +277,7 @@ def add_namefile(original_wf, use_slug=True):
 
 
 def get_list_fireworks_and_tasks(workflow):
+    # TODO: put a constraint on what fireworks to return
     list_fireworks_and_tasks = []
     for i_firework, firework in enumerate(workflow.fws):
         for i_task, task in enumerate(firework.tasks):
