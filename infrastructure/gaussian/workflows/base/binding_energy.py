@@ -27,6 +27,7 @@ def get_binding_energies(mol_operation_type,
                          **kwargs):
     # TODO: test with different charges and spin multiplicities when
     #  deriving molecules
+    # TODO: should set process_mol_func to True in the first call of common_fw
     # mol_operation_type = [], mol = [], index = []
     # order of the indices should be consistent with the order of the mols
     fws = []
@@ -41,7 +42,7 @@ def get_binding_energies(mol_operation_type,
     for position, [operation, molecule, key, skip] in \
             enumerate(
                 zip(mol_operation_type, mol, keys[:2], skip_opt_freq)):
-        mol_object, opt_freq_init_fws = \
+        mol_object, _, opt_freq_init_fws = \
             common_fw(mol_operation_type=operation,
                       mol=molecule,
                       working_dir=working_dir,
@@ -60,25 +61,25 @@ def get_binding_energies(mol_operation_type,
     final_mol_formula = "{}_{}".format(get_mol_formula(molecules[0]),
                                        get_mol_formula(molecules[1]))
 
-    _, opt_freq_final_fws = common_fw(mol_operation_type="link_molecules",
-                                      mol={"operation_type": [
-                                          "get_from_run_dict",
-                                          "get_from_run_dict"],
-                                          "mol": keys[:2],
-                                          "index": index,
-                                          "bond_order": bond_order},
-                                      working_dir=working_dir,
-                                      db=db,
-                                      filename=final_mol_formula,
-                                      opt_gaussian_inputs=opt_gaussian_inputs,
-                                      freq_gaussian_inputs=freq_gaussian_inputs,
-                                      cart_coords=cart_coords,
-                                      oxidation_states=oxidation_states,
-                                      process_mol_func=False,
-                                      mol_name=final_mol_formula,
-                                      gout_key=keys[-1],
-                                      from_fw_spec=True,
-                                      **kwargs)
+    _, _, opt_freq_final_fws = common_fw(mol_operation_type="link_molecules",
+                                         mol={"operation_type": [
+                                             "get_from_run_dict",
+                                             "get_from_run_dict"],
+                                             "mol": keys[:2],
+                                             "index": index,
+                                             "bond_order": bond_order},
+                                         working_dir=working_dir,
+                                         db=db,
+                                         filename=final_mol_formula,
+                                         opt_gaussian_inputs=opt_gaussian_inputs,
+                                         freq_gaussian_inputs=freq_gaussian_inputs,
+                                         cart_coords=cart_coords,
+                                         oxidation_states=oxidation_states,
+                                         process_mol_func=False,
+                                         mol_name=final_mol_formula,
+                                         gout_key=keys[-1],
+                                         from_fw_spec=True,
+                                         **kwargs)
     fws += opt_freq_final_fws
     links_dict = {fws[i - 1]: fws[-len(opt_freq_final_fws)] for i in parents}
     fw_analysis = Firework(
@@ -90,8 +91,7 @@ def get_binding_energies(mol_operation_type,
         parents=fws[:],
         name="{}-{}".format(final_mol_formula,
                             "binding_energy_analysis"),
-        spec={'_launch_dir': os.path.join(working_dir, final_mol_formula,
-                                          'Analysis')})
+        spec={'_launch_dir': os.path.join(working_dir, 'Analysis')})
     fws.append(fw_analysis)
 
     return Workflow(fws,
