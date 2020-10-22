@@ -302,6 +302,16 @@ def modify_queue_parameters(workflow, ntasks_per_node=None, walltime=None,
     return workflow
 
 
+def control_worker(workflow, fworker=None, category=None):
+    list_fireworks_and_tasks = get_list_fireworks_and_tasks(workflow)
+    for i_firework, i_task in list_fireworks_and_tasks:
+        if fworker:
+            workflow.fws[i_firework].spec["_fworker"] = fworker
+        if category:
+            workflow.fws[i_firework].spec["_category"] = category
+    return workflow
+
+
 def get_db(input_db=None):
     from infrastructure.gaussian.database import GaussianCalcDb
     if not input_db:
@@ -463,3 +473,4 @@ def recursive_relative_to_absolute_path(operand, working_dir):
                 for i in operand]
     else:
         return operand
+
