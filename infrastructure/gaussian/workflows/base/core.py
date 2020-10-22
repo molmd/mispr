@@ -21,6 +21,8 @@ STANDARD_OPT_GUASSIAN_INPUT = {"functional": "B3LYP",
                                                     "%NProcShared": "24"}}
 
 
+# TODO: avoid overwriting a directory if it exists (happens when molecules have
+#  same mol formula)
 def common_fw(mol_operation_type,
               mol,
               working_dir,
@@ -35,8 +37,13 @@ def common_fw(mol_operation_type,
               dir_head=None,
               skip_opt_freq=False,
               **kwargs):
-    # TODO: checking criteria not working
+    # TODO: checking criteria not working TODO: gout_key looks like it should
+    #  be required TODO: mol is not returned if process_mol_func is set to
+    #   False TODO: this function is changed to return three outputs, should
+    #    change everything
     fws = []
+    if not gout_key:
+        gout_key = "gaussian"
     if not skip_opt_freq:
         if process_mol_func:
             mol = process_mol(mol_operation_type, mol, db=db,
@@ -145,7 +152,7 @@ def common_fw(mol_operation_type,
                                 name=get_job_name(mol, "process_run"),
                                 spec=spec)
                        )
-    return mol, fws
+    return mol, label, fws
 
 
 
