@@ -42,6 +42,8 @@ class WriteInput(FiretaskBase):
                  'charge': int(mol_copy.charge)}
 
     def run_task(self, fw_spec):
+        # TODO: allow taking an input file, probably no because the user would
+        #  start directly with the run task
         working_dir = os.getcwd()
 
         input_file = self.get("input_file", "mol.com")
