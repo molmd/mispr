@@ -28,18 +28,18 @@ def get_nmr_tensors(mol_operation_type,
     working_dir = working_dir or os.getcwd()
     mol = recursive_relative_to_absolute_path(mol, working_dir)
 
-    mol, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
-                                  mol=mol,
-                                  working_dir=working_dir,
-                                  db=db,
-                                  opt_gaussian_inputs=opt_gaussian_inputs,
-                                  freq_gaussian_inputs=freq_gaussian_inputs,
-                                  cart_coords=cart_coords,
-                                  oxidation_states=oxidation_states,
-                                  skip_opt_freq=skip_opt_freq,
-                                  **kwargs)
+    _, label, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
+                                       mol=mol,
+                                       working_dir=working_dir,
+                                       db=db,
+                                       opt_gaussian_inputs=opt_gaussian_inputs,
+                                       freq_gaussian_inputs=freq_gaussian_inputs,
+                                       cart_coords=cart_coords,
+                                       oxidation_states=oxidation_states,
+                                       skip_opt_freq=skip_opt_freq,
+                                       **kwargs)
     fws += opt_freq_fws
-    mol_formula = get_mol_formula(mol)
+    # mol_formula = get_mol_formula(mol)
     nmr_gaussian_inputs = nmr_gaussian_inputs or {}
     if "route_parameters" not in nmr_gaussian_inputs:
         nmr_gaussian_inputs.update({"route_parameters": {"NMR": "GIAO"}})
@@ -51,12 +51,12 @@ def get_nmr_tensors(mol_operation_type,
         spec = {"proceed": {"has_gaussian_completed": True}}
 
     nmr_fw = CalcFromRunsDBFW(db,
-                              input_file="{}_nmr.com".format(mol_formula),
-                              output_file="{}_nmr.out".format(mol_formula),
-                              name=get_job_name(mol, "nmr"),
+                              input_file="{}_nmr.com".format(label),
+                              output_file="{}_nmr.out".format(label),
+                              name=get_job_name(label, "nmr"),
                               parents=fws[:],
                               gaussian_input_params=nmr_gaussian_inputs,
-                              working_dir=os.path.join(working_dir, mol_formula,
+                              working_dir=os.path.join(working_dir, label,
                                                        "NMR"),
                               cart_coords=cart_coords,
                               spec=spec,
@@ -64,6 +64,6 @@ def get_nmr_tensors(mol_operation_type,
                               )
     fws.append(nmr_fw)
     return Workflow(fws,
-                    name=get_job_name(mol, name),
+                    name=get_job_name(label, name),
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
