@@ -15,24 +15,29 @@ from infrastructure.gaussian.workflows.base.core import common_fw, \
 logger = logging.getLogger(__name__)
 
 
-def get_ip_ea(mol_operation_type,
-              mol,
-              ref_charge,
-              spin_multiplicities,
-              num_electrons=1,
-              solvent_gaussian_inputs=None,
-              solvent_properties=None,
-              states=None,
-              phases=None,
-              electrode_potentials=None,
-              db=None,
-              name="ip_ea_calculation",
-              working_dir=None,
-              opt_gaussian_inputs=None,
-              freq_gaussian_inputs=None,
-              cart_coords=True,
-              skip_opt_freq=False,
-              **kwargs):
+def _recursive_create_fireworks(num_steps):
+    if num_steps == 1:
+        pass
+
+
+def get_ip_ea_single_step(mol_operation_type,
+                          mol,
+                          ref_charge,
+                          spin_multiplicities,
+                          num_electrons=1,
+                          solvent_gaussian_inputs=None,
+                          solvent_properties=None,
+                          states=None,
+                          phases=None,
+                          electrode_potentials=None,
+                          db=None,
+                          name="ip_ea_calculation",
+                          working_dir=None,
+                          opt_gaussian_inputs=None,
+                          freq_gaussian_inputs=None,
+                          cart_coords=True,
+                          skip_opt_freq=False,
+                          **kwargs):
     def _create_fireworks(local_state, local_phase):
         local_key = "{}_{}".format(local_state.lower(), local_phase.lower())
         parent_state, parent_phase = _get_parent(local_state, local_phase)
@@ -103,7 +108,9 @@ def get_ip_ea(mol_operation_type,
         fireworks_dict[local_key] = local_fws
         if parent_key:
             parents_dict[local_key] = parent_key
-        return local_fws  # local_mol, local_fws, fireworks_dict
+            return local_fws  # local_mol, local_fws, fireworks_dict
+        else:
+            return local_mol, local_fws
 
     def _get_parent(local_state, local_phase):
         if local_phase.lower() == "solution":
@@ -118,6 +125,7 @@ def get_ip_ea(mol_operation_type,
     fireworks_dict = {}
     links_dict = {}
     parents_dict = {}
+    mol_object = None
     working_dir = working_dir or os.getcwd()
     mol = recursive_relative_to_absolute_path(mol, working_dir)
 
@@ -125,7 +133,6 @@ def get_ip_ea(mol_operation_type,
         raise Exception("The provided reference charge is not consistent with "
                         "the one found in the gaussian input parameters.")
 
-    # TODO: Cleanup this part
     if states is None:
         states = ["reference", "cation", "anion"]
     if phases is None:
@@ -141,8 +148,13 @@ def get_ip_ea(mol_operation_type,
                              "ones are gas and/or solution.")
 
     for state, phase in itertools.product(states, phases):
-        fws += _create_fireworks(state, phase)
-    mol_formula = get_mol_formula(mol)
+        cr_out = _create_fireworks(state, phase)
+        if len(cr_out) == 2:
+            mol_object, opt_freq_fws = cr_out
+        else:
+            opt_freq_fws = cr_out
+        fws += opt_freq_fws
+    mol_formula = get_mol_formula(mol_object)
     for i, j in parents_dict.items():
         links_dict[fireworks_dict[j][1]] = \
             links_dict.get(fireworks_dict[j][1], []) + [fireworks_dict[j][0]]
@@ -170,3 +182,44 @@ def get_ip_ea(mol_operation_type,
                     links_dict=links_dict,
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
+
+
+def get_ip_ea_multi_step(mol_operation_type,
+                         mol,
+                         ref_charge,
+                         spin_multiplicities,
+                         num_electrons=1,
+                         solvent_gaussian_inputs=None,
+                         solvent_properties=None,
+                         states=None,
+                         phases=None,
+                         electrode_potentials=None,
+                         db=None,
+                         name="ip_ea_calculation",
+                         working_dir=None,
+                         opt_gaussian_inputs=None,
+                         freq_gaussian_inputs=None,
+                         cart_coords=True,
+                         skip_opt_freq=False,
+                         **kwargs):
+    for i in range(num_electrons):
+        local_num_electrons = i + 1
+        wf = get_ip_ea_single_step(mol_operation_type=mol_operation_type,
+                                   mol=mol,
+                                   ref_charge=ref_charge,
+                                   spin_multiplicities=spin_multiplicities,
+                                   num_electrons=1,
+                                   solvent_gaussian_inputs=solvent_gaussian_inputs,
+                                   solvent_properties=solvent_properties,
+                                   states=states,
+                                   phases=phases,
+                                   electrode_potentials=electrode_potentials,
+                                   db=db,
+                                   name=name,
+                                   working_dir=working_dir,
+                                   opt_gaussian_inputs=opt_gaussian_inputs,
+                                   freq_gaussian_inputs=freq_gaussian_inputs,
+                                   cart_coords=cart_coords,
+                                   skip_opt_freq=skip_opt_freq,
+                                   **kwargs)
+    pass
