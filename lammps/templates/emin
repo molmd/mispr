@@ -1,0 +1,29 @@
+# Initialization
+units				real
+boundary			p p p
+atom_style			full
+log					log.lammps
+
+# Force Fields
+neighbor			2.0 bin
+neigh_modify		delay 10 every 1 check yes
+special_bonds		$special_bonds_style $special_bonds_value
+bond_style			$bond_style $bond_style_args
+angle_style			$angle_style
+dihedral_style		$dihedral_style
+improper_style		$improper_style
+pair_style			$pair_style $pair_style_args
+kspace_style		$kspace_style $kspace_style_args
+
+read_data			$data_file_name
+
+thermo				1
+thermo_style		custom step etotal pe ebond eangle edihed eimp evdwl ecoul elong press fmax fnorm
+min_style			sd
+minimize			1e-6 1000 10 10000
+min_style			cg
+minimize			1e-6 100 99990 990000
+#unfix 				1
+write_restart		$restart_final_name
+
+write_dump			all custom dump.emin.lammpstrj id type element mol x y z mass q modify element $dump_modify_elements
