@@ -4,7 +4,7 @@ import logging
 from fireworks import Firework, Workflow
 
 from infrastructure.gaussian.utils.utils import get_job_name, \
-    get_mol_formula, recursive_relative_to_absolute_path
+    recursive_relative_to_absolute_path
 from infrastructure.gaussian.fireworks.core_standard import CalcFromRunsDBFW
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
@@ -28,18 +28,18 @@ def get_esp_charges(mol_operation_type,
     working_dir = working_dir or os.getcwd()
     mol = recursive_relative_to_absolute_path(mol, working_dir)
 
-    mol, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
-                                  mol=mol,
-                                  working_dir=working_dir,
-                                  db=db,
-                                  opt_gaussian_inputs=opt_gaussian_inputs,
-                                  freq_gaussian_inputs=freq_gaussian_inputs,
-                                  cart_coords=cart_coords,
-                                  oxidation_states=oxidation_states,
-                                  skip_opt_freq=skip_opt_freq,
-                                  **kwargs)
+    _, label, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
+                                       mol=mol,
+                                       working_dir=working_dir,
+                                       db=db,
+                                       opt_gaussian_inputs=opt_gaussian_inputs,
+                                       freq_gaussian_inputs=freq_gaussian_inputs,
+                                       cart_coords=cart_coords,
+                                       oxidation_states=oxidation_states,
+                                       skip_opt_freq=skip_opt_freq,
+                                       **kwargs)
     fws += opt_freq_fws
-    mol_formula = get_mol_formula(mol)
+
     esp_gaussian_inputs = esp_gaussian_inputs or {}
     if "route_parameters" not in esp_gaussian_inputs:
         esp_gaussian_inputs.update({"route_parameters": {"pop": "MK",
@@ -48,7 +48,7 @@ def get_esp_charges(mol_operation_type,
     if "input_parameters" not in esp_gaussian_inputs:
         mol_esp = os.path.join(
             working_dir, "{}_esp".format(
-                os.path.join(working_dir, mol_formula, "ESP", mol_formula)))
+                os.path.join(working_dir, label, "ESP", label)))
         esp_gaussian_inputs.update({"input_parameters": {mol_esp: None}})
 
     if not skip_opt_freq:
@@ -58,12 +58,12 @@ def get_esp_charges(mol_operation_type,
         spec = {"proceed": {"has_gaussian_completed": True}}
 
     esp_fw = CalcFromRunsDBFW(db,
-                              input_file="{}_esp.com".format(mol_formula),
-                              output_file="{}_esp.out".format(mol_formula),
-                              name=get_job_name(mol, "esp"),
+                              input_file="{}_esp.com".format(label),
+                              output_file="{}_esp.out".format(label),
+                              name=get_job_name(label, "esp"),
                               parents=fws[:],
                               gaussian_input_params=esp_gaussian_inputs,
-                              working_dir=os.path.join(working_dir, mol_formula,
+                              working_dir=os.path.join(working_dir, label,
                                                        "ESP"),
                               cart_coords=cart_coords,
                               spec=spec,
@@ -71,6 +71,6 @@ def get_esp_charges(mol_operation_type,
                               )
     fws.append(esp_fw)
     return Workflow(fws,
-                    name=get_job_name(mol, name),
+                    name=get_job_name(label, name),
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
