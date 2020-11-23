@@ -5,7 +5,6 @@
 import os
 import logging
 import json
-import itertools
 import datetime
 
 from bson.objectid import ObjectId
@@ -137,6 +136,10 @@ class BindingEnergytoDB(FiretaskBase):
         index = self["index"]
         keys = ["mol_1", "mol_2", "mol_linked"]
         gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
+        # include opt fireworks in the list of gout_dict to calculate run time
+        full_gout_dict = gout_dict + \
+                         [pass_gout_dict(fw_spec, i + "_opt") for i in keys]
+        full_gout_dict = [i for i in full_gout_dict if i is not None]
         molecules = [process_mol("get_from_run_dict", gout) for gout in
                      gout_dict]
         final_energies = [gout['output']['output']["final_energy"] for gout in
@@ -150,7 +153,8 @@ class BindingEnergytoDB(FiretaskBase):
                     ) * HARTREE_TO_EV
         mol_schema = get_chem_schema(molecules[2])
         # if one calculation is skipped, wall time is considered zero
-        run_time = sum([gout.get("wall_time (s)", 0) for gout in gout_dict])
+        run_time = \
+            sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
 
         be_dict = {"molecule": molecules[2].as_dict(),
                    "smiles": mol_schema["smiles"],
@@ -177,7 +181,8 @@ class BindingEnergytoDB(FiretaskBase):
         if self.get('save_to_db'):
             db = get_db(db)
             db.insert_property("binding_energy", be_dict,
-                               molecules[2].composition.reduced_formula)
+                               ['formula_pretty',
+                                'smiles'])
 
         if fw_spec.get("run_loc_list"):
             be_dict["run_locs"] = fw_spec["run_loc_list"]
