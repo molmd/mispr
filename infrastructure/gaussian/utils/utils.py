@@ -117,6 +117,8 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
         output_mol.substitute(mol["index"], fg, mol["bond_order"])
 
     elif operation_type == 'link_molecules':
+        # TODO: add a checking step in the original molecule to make sure no
+        #  overlapping happens
         # mol = {'operation_type': ['get_from_file', 'get_from_smiles'],
         #        'mol': ['kes/rasa/defe.xyz', 'mol_smiles'],
         #        'index': [3, 5],
@@ -138,14 +140,13 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
         raise ValueError(f'operation type {operation_type} is not supported')
 
     if local_opt:
-        force_field = kwargs["force_field"] if "force_field" in kwargs \
-            else "mmff94"
-        steps = kwargs["steps"] if "steps" in kwargs else 500
+        force_field = kwargs.get("force_field", "mmff94")
+        steps = kwargs.get("steps", 500)
         output_mol = perform_local_opt(output_mol, force_field, steps)
 
-    output_mol.set_charge_and_spin(kwargs["charge"] if "charge" in kwargs else
-                                   output_mol.charge)
-
+    charge = kwargs.get("charge")
+    charge = charge if charge is not None else output_mol.charge
+    output_mol.set_charge_and_spin(charge)
     return output_mol
 
 
