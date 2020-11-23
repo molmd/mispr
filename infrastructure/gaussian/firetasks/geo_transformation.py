@@ -16,9 +16,10 @@ DEFAULT_KEY = 'gout_key'
 @explicit_serialize
 class ProcessMoleculeInput(FiretaskBase):
     required_params = ["mol"]
-    optional_params = ["operation_type", "db", "save_to_db",
+    optional_params = ["operation_type", "db", "save_to_db", "charge",
                        "update_duplicates", "save_to_file", "fmt", "filename",
-                       "from_fw_spec", "local_opt", "force_field", "steps"]
+                       "from_fw_spec", "local_opt", "force_field", "steps",
+                       "str_type"]
 
     @staticmethod
     def _run_to_mol_object(run):
@@ -29,12 +30,14 @@ class ProcessMoleculeInput(FiretaskBase):
         # mol = key in this case
         available_runs = fw_spec['gaussian_output']
         if not isinstance(mol, dict):
-            mol = available_runs[mol]
+            mol = available_runs.get(mol, mol)
         else:
             if isinstance(mol['mol'], list):
-                mol['mol'] = [available_runs[i] for i in mol['mol']]
+                mol['mol'] = [ProcessMoleculeInput._from_fw_spec(i, fw_spec)
+                              for i in mol['mol']]
             else:
-                mol['mol'] = available_runs[mol['mol']]
+                mol['mol'] = ProcessMoleculeInput._from_fw_spec(mol['mol'],
+                                                                fw_spec)
         return mol
 
     def run_task(self, fw_spec):
@@ -48,9 +51,11 @@ class ProcessMoleculeInput(FiretaskBase):
 
         output_mol = process_mol(operation_type=operation_type, mol=mol,
                                  working_dir=working_dir, db=db,
-                                 local_opt=self.get("local_opt"),
+                                 local_opt=self.get("local_opt", False),
                                  force_field=self.get("force_field"),
-                                 steps=self.get("steps"))
+                                 steps=self.get("steps"),
+                                 charge=self.get("charge"),
+                                 str_type=self.get("str_type"))
 
         if self.get("save_to_db"):
             db = get_db(db) if db else get_db()
