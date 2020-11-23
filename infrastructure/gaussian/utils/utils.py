@@ -21,6 +21,7 @@ JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
 
 
 def process_mol(operation_type, mol, local_opt=False, **kwargs):
+    # TODO: seems like it is not taking kwargs correctly, if None, correct?
     working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
         else os.getcwd()
     db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
@@ -44,6 +45,14 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
 
         output_mol = Molecule.from_file(file_path)
 
+    elif operation_type == 'get_from_str':
+        str_type = kwargs.get("str_type")
+        if str_type is None:
+            raise ValueError("a mol string format must be specified to process "
+                             "the input string")
+        output_mol = Molecule.from_str(mol, str_type)
+
+    # TODO: change name of this operation_type to reflect db
     elif operation_type == 'get_from_smiles':
         # mol = mol_smile
         mol_dict = db.retrieve_molecule(mol)
