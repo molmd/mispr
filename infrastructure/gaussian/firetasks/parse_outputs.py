@@ -20,6 +20,8 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_KEY = 'gout_key'
 HARTREE_TO_EV = 27.2114
+HARTREE_TO_KJ = 2600
+FARAD = 96.5
 
 
 # TODO: create a util function to do the common things in the PropertiestoDB
@@ -200,19 +202,28 @@ class BindingEnergytoDB(FiretaskBase):
 @explicit_serialize
 class IPEAtoDB(FiretaskBase):
     # TODO: cleanup this firetask without assuming we have specific calcs
-    required_params = ["num_electrons", "states", "phases", "parents_dict"]
+    required_params = ["num_electrons", "states", "phases", "steps",
+                       "root_node_key", "keys", "branch_cation_on_anion"]
     optional_params = ["db", "save_to_db", "save_to_file",
                        "solvent_gaussian_inputs",
                        "solvent_properties",
                        "electrode_potentials",
-                       "additional_prop_doc_fields"]
+                       "additional_prop_doc_fields",
+                       "gibbs_elec"]
 
     def run_task(self, fw_spec):
         db = self.get("db")
         num_electrons = self["num_electrons"]
         states = self["states"]
         phases = self["phases"]
-        parents_dict = self["parents_dict"]
+        steps = self["steps"]
+        root_node_key = self['root_node_key']
+        branch_cation_on_anion = self["branch_cation_on_anion"]
+        keys = self["keys"]
+        gibbs_elec = self.get("gibbs_elec")
+        solvent = None
+        solvent_properties = None
+
         if "solution" in phases:
             if not self.get("solvent_gaussian_inputs"):
                 solvent = "water"
@@ -222,92 +233,132 @@ class IPEAtoDB(FiretaskBase):
                     self.get("solvent_gaussian_inputs").strip("()").split(",")]
                 solvent = [
                     string for string in solvent_inputs if "solvent" in
-                                                           string][0].split("=")[1]
+                                                           string][0].split(
+                    "=")[1]
                 solvent_properties = self.get("solvent_properties", {})
 
         ref_potentials = {'hydrogen': 4.44,
                           'magnesium': 2.07,
                           'lithium': 1.40}
+        electrode_potentials = self.get("electrode_potentials") or {}
         electrode_potentials = {
-            k.lower(): v for k, v in
-            self.get("electrode_potentials", {}).items()}
+            k.lower(): v for k, v in electrode_potentials.items()}
         electrode_potentials = {**ref_potentials,
                                 **electrode_potentials}
-
-        delta_g = {}
-        keys = ["{}_{}".format(i.lower(), j.lower())
-                for i, j in itertools.product(states, phases)]
+        # TODO: get full_gout_dict list including opt to calculate run time
         gout_dict = {i: pass_gout_dict(fw_spec, i) for i in keys}
-        molecule = process_mol("get_from_run_dict", gout_dict[0])
+        molecule = process_mol("get_from_run_dict",
+                               gout_dict[root_node_key])
         final_energies = {i: j['output']['output']["final_energy"]
-                          for i, j in gout_dict}
-        run_time = sum([gout["wall_time (s)"] for gout in gout_dict])
-        for i, j in parents_dict.items():
-            delta_g[i + '-' + j] = final_energies[i] - final_energies[j]
+                          for i, j in gout_dict.items()}
+        run_time = sum([gout["wall_time (s)"] for gout in gout_dict.values()])
+
+        ip_ea_leafs = {}
+        for state in states:
+            ip_ea_leafs[state] = {}
+            sign = 1 if state == 'anion' else -1
+            for phase in phases:
+                ip_ea_leafs[state][phase] = {}
+                if not branch_cation_on_anion or sign > 0:
+                    ip_ea_leafs[state][phase]['full'] = \
+                        [f"{phase.lower()}_0_0",
+                         f"{phase.lower()}_{sign * num_electrons}_0"]
+                    if steps == "multi":
+                        for i in range(num_electrons):
+                            ip_ea_leafs[state][phase][
+                                f'{sign * i}_{sign * (i + 1)}'] = \
+                                [f"{phase.lower()}_{sign * i}_0",
+                                 f"{phase.lower()}_{sign * (i + 1)}_0"]
+                else:
+                    ip_ea_leafs[state][phase]['full'] = \
+                        [f"{phase.lower()}_0_0",
+                         f"{phase.lower()}_0_{num_electrons}"]
+                    if steps == "multi":
+                        for i in range(num_electrons):
+                            ip_ea_leafs[state][phase][f'{i}_{i + 1}'] = \
+                                [f"{phase.lower()}_0_{i}",
+                                 f"{phase.lower()}_0_{i + 1}"]
+        pcet_energy_leafs = {}
+        pcet_pka_leafs = {}
+        if branch_cation_on_anion:
+            for i in range(num_electrons):
+                # i = hydrogen if pcet_energy else electron
+                for j in range(num_electrons):
+                    # j = electron if pcet_energy else hydrogen
+                    pcet_energy_leafs[f'{i}_{j}_{j + 1}'] = \
+                        [f"solution_{j}_{i}", f"solution_{j + 1}_{i}"]
+                    pcet_pka_leafs[f"{i}_{j}_{j + 1}"] = \
+                        [f"solution_{i}_{j}", f"solution_{i}_{j + 1}"]
+
+        ip_ea_results = {}
         for phase in phases:
-            filtered_states = [i.lower() for i in states if i.lower()
-                               in ['anion', 'cation']]
-            for state in filtered_states:
-                key_1 = "{}_{}".format(state, phase.lower())
-                key_2 = "reference_{}".format(phase.lower())
-                key = key_1 + '-' + key_2
-                if key in delta_g:
-                    continue
-                delta_g[key] = 0
-                for i, sign_i in zip([key_1, key_2], [1, -1]):
-                    current = i
-                    while current:
-                        new = parents_dict.get(current)
-                        if new:
-                            delta_g[key] += sign_i * delta_g[
-                                current + '-' + new]
-                        current = new
+            ip_ea_results[phase] = {}
+            for state in states:
+                sign = 1 if state == "cation" else -1
+                prefix = 'IP' if state == 'cation' else 'EA'
+                for k, v in ip_ea_leafs[state][phase].items():
+                    res_key = prefix
+                    if k != 'full':
+                        res_key += '_' + k
+                    ip_ea_results[phase][res_key] = \
+                        sign * (final_energies[v[1]] - final_energies[v[0]])
+
+                    loc_num_electrons = 1 if k != 'full' else num_electrons
+                    if gibbs_elec:
+                        if state == "anion":
+                            ip_ea_results[phase][res_key] += \
+                                gibbs_elec * loc_num_electrons
+                        else:
+                            ip_ea_results[phase][res_key] -= \
+                                gibbs_elec * loc_num_electrons
+                    ip_ea_results[phase][res_key] /= \
+                        (1 / HARTREE_TO_KJ) * loc_num_electrons * FARAD
 
         # TODO: cleanup this part
-        ip_gas = delta_g[
-                     "cation_gas-reference_gas"] * HARTREE_TO_EV / num_electrons
-        ip_sol = delta_g[
-                     "cation_solution-reference_solution"] * HARTREE_TO_EV / num_electrons
-        ea_sol = -delta_g[
-            "anion_solution-reference_solution"] * HARTREE_TO_EV / num_electrons
-        ea_gas = -delta_g[
-            "anion_gas-reference_gas"] * HARTREE_TO_EV / num_electrons
+        ip_gas = ip_ea_results.get('gas', {}).get('IP')
+        ip_sol = ip_ea_results.get('solution', {}).get('IP')
+
+        ea_gas = ip_ea_results.get('gas', {}).get('EA')
+        ea_sol = ip_ea_results.get('solution', {}).get('EA')
         oxidation_sol = {}
         oxidation_gas = {}
         reduction_sol = {}
         reduction_gas = {}
         for key, value in electrode_potentials.items():
-            oxidation_sol[key] = ip_sol - value
-            oxidation_gas[key] = ip_gas - value
-            reduction_sol[key] = ea_sol - value
-            reduction_gas[key] = ea_gas - value
+            if ip_sol is not None:
+                oxidation_sol[key] = ip_sol - value
+            if ip_gas is not None:
+                oxidation_gas[key] = ip_gas - value
+            if ea_sol is not None:
+                reduction_sol[key] = ea_sol - value
+            if ea_gas is not None:
+                reduction_gas[key] = ea_gas - value
 
         mol_schema = get_chem_schema(molecule)
         ipea_dict = {"molecule": molecule.as_dict(),
                      "smiles": mol_schema["smiles"],
                      "formula_pretty": mol_schema["formula_pretty"],
                      "num_electrons": num_electrons,
-                     "functional": gout_dict[0]["functional"],
-                     "basis": gout_dict[0]["basis"],
-                     "charge": gout_dict[0]["input"]["charge"],
+                     "functional": gout_dict[root_node_key]["functional"],
+                     "basis": gout_dict[root_node_key]["basis"],
+                     "charge": gout_dict[root_node_key]["input"]["charge"],
                      "spin_multiplicity":
-                         gout_dict[0]["input"]["spin_multiplicity"],
+                         gout_dict[root_node_key]["input"]["spin_multiplicity"],
                      "phase": phases,
                      "solvent": solvent,
+                     "steps": steps,
                      "solvent_properties": solvent_properties,
-                     "solution": {"IP": ip_sol,
-                                  "EA": ea_sol,
-                                  "electrode_potentials": {
-                                      "oxidation": oxidation_sol,
-                                      "reduction": reduction_sol}
-                                  },
-                     "gas": {"IP": ip_gas,
-                             "EA": ea_gas,
-                             "electrode_potentials": {
-                                 "oxidation": oxidation_gas,
-                                 "reduction": reduction_gas}
-                             },
-                     "tag": gout_dict[0]["tag"],
+                     "gas": {**ip_ea_results['gas'],
+                         "electrode_potentials": {
+                             "oxidation": oxidation_gas,
+                             "reduction": reduction_gas}
+                     },
+                     "solution": {**ip_ea_results['solution'],
+                         "electrode_potentials": {
+                             "oxidation": oxidation_sol,
+                             "reduction": reduction_sol}
+                     },
+                     "tag": gout_dict[root_node_key]["tag"],
                      "state": "successful",
                      "wall_time (s)": run_time,
                      "last_updated": datetime.datetime.utcnow()}
