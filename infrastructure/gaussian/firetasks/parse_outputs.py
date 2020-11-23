@@ -128,15 +128,75 @@ class RetrieveGaussianOutput(FiretaskBase):
 
 
 @explicit_serialize
-class BindingEnergytoDB(FiretaskBase):
-    required_params = ["index"]
+class NMRtoDB(FiretaskBase):
+    required_params = ["keys"]
     optional_params = ["db", "save_to_db", "save_to_file",
                        "additional_prop_doc_fields"]
 
     def run_task(self, fw_spec):
+        keys = self["keys"]
         db = self.get("db")
+        gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
+        # include opt fireworks in the list of gout_dict to calculate run time
+        full_gout_dict = gout_dict + \
+                         [pass_gout_dict(fw_spec, i + "_opt") for i in keys]
+        full_gout_dict = [i for i in full_gout_dict if i is not None]
+        molecule = process_mol("get_from_run_dict", gout_dict[-1])
+
+        mol_schema = get_chem_schema(molecule)
+        # if one calculation is skipped, wall time is considered zero
+        run_time = \
+            sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
+
+        nmr_dict = {"molecule": molecule.as_dict(),
+                    "smiles": mol_schema["smiles"],
+                    "formula_pretty": mol_schema["formula_pretty"],
+                    "energy": gout_dict[-1]['output']['output']["final_energy"],
+                    "tensor": gout_dict[-1]["output"]["output"]["tensor"],
+                    "functional": gout_dict[-1]["functional"],
+                    "basis": gout_dict[-1]["basis"],
+                    "charge": gout_dict[-1]["input"]["charge"],
+                    "spin_multiplicity":
+                        gout_dict[-1]["input"]["spin_multiplicity"],
+                    "phase": gout_dict[-1]["phase"],
+                    "tag": gout_dict[-1]["tag"],
+                    "state": "successful",
+                    "wall_time (s)": run_time,
+                    "last_updated": datetime.datetime.utcnow()}
+
+        if self.get("additional_prop_doc_fields"):
+            nmr_dict.update(self.get("additional_prop_doc_fields"))
+
+        if fw_spec.get("run_id_list"):
+            nmr_dict["run_ids"] = fw_spec["run_id_list"]
+
+        if self.get('save_to_db'):
+            db = get_db(db)
+            db.insert_property("nmr", nmr_dict, ['formula_pretty', 'smiles'])
+
+        if fw_spec.get("run_loc_list"):
+            nmr_dict["run_locs"] = fw_spec["run_loc_list"]
+        if self.get('save_to_file'):
+            working_dir = os.getcwd()
+            if "run_ids" in nmr_dict:
+                del nmr_dict["run_ids"]
+            be_file = os.path.join(working_dir, 'nmr.json')
+            with open(be_file, "w") as f:
+                f.write(json.dumps(nmr_dict, default=DATETIME_HANDLER))
+        logger.info("nmr calculation complete")
+        return FWAction()
+
+
+@explicit_serialize
+class BindingEnergytoDB(FiretaskBase):
+    required_params = ["index", "keys"]
+    optional_params = ["db", "save_to_db", "save_to_file",
+                       "additional_prop_doc_fields"]
+
+    def run_task(self, fw_spec):
         index = self["index"]
-        keys = ["mol_1", "mol_2", "mol_linked"]
+        keys = self["keys"]
+        db = self.get("db")
         gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
         # include opt fireworks in the list of gout_dict to calculate run time
         full_gout_dict = gout_dict + \
@@ -183,8 +243,7 @@ class BindingEnergytoDB(FiretaskBase):
         if self.get('save_to_db'):
             db = get_db(db)
             db.insert_property("binding_energy", be_dict,
-                               ['formula_pretty',
-                                'smiles'])
+                               ['formula_pretty', 'smiles'])
 
         if fw_spec.get("run_loc_list"):
             be_dict["run_locs"] = fw_spec["run_loc_list"]
@@ -247,11 +306,15 @@ class IPEAtoDB(FiretaskBase):
                                 **electrode_potentials}
         # TODO: get full_gout_dict list including opt to calculate run time
         gout_dict = {i: pass_gout_dict(fw_spec, i) for i in keys}
+        # include opt fireworks in the list of gout_dict to calculate run time
+        full_gout_dict = list(gout_dict.values()) + \
+                         [pass_gout_dict(fw_spec, i + "_opt") for i in keys]
+        full_gout_dict = [i for i in full_gout_dict if i is not None]
         molecule = process_mol("get_from_run_dict",
                                gout_dict[root_node_key])
         final_energies = {i: j['output']['output']["final_energy"]
                           for i, j in gout_dict.items()}
-        run_time = sum([gout["wall_time (s)"] for gout in gout_dict.values()])
+        run_time = sum([gout["wall_time (s)"] for gout in full_gout_dict])
 
         ip_ea_leafs = {}
         for state in states:
@@ -371,8 +434,7 @@ class IPEAtoDB(FiretaskBase):
 
         if self.get('save_to_db'):
             db = get_db(db)
-            db.insert_property("ip_ea", ipea_dict,
-                               molecule.composition.reduced_formula)
+            db.insert_property("ip_ea", ipea_dict, ['formula_pretty', 'smiles'])
 
         if fw_spec.get("run_loc_list"):
             ipea_dict["run_locs"] = fw_spec["run_loc_list"]
