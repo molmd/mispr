@@ -18,6 +18,8 @@ JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
              'bomd', 'eet', 'force', 'stable', 'volume', 'density', 'guess',
              'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
              'sac-ci'}
+SCRF_MODELS = {"pcm", "iefpcm", "cpcm", "dipole", "ipcm", "isodensity",
+               "scipcm", "smd"}
 
 
 def process_mol(operation_type, mol, local_opt=False, **kwargs):
@@ -402,6 +404,55 @@ def label_atoms(mol):
     print(f"{mol_smiles}\n{count_1}\n{count_2}\n{count_3}")
 
 
+def check_solvent_inputs(gaussian_inputs):
+    route_params = {}
+    for i in gaussian_inputs:
+        if i:
+            route_params.update(i.get("route_parameters", {}))
+    assert "SCRF" not in route_params, \
+        "solvent inputs should be provided as separate inputs via " \
+        "solvent_gaussian_inputs and solvent_properties"
+
+
+def add_solvent_inputs(gaussian_inputs, solvent_gaussian_inputs,
+                       solvent_properties=None):
+    if "generic" in solvent_gaussian_inputs.lower() \
+            and not solvent_properties:
+        raise Exception(
+            "A generic solvent is provided as an input without "
+            "specifying its parameters.")
+    gaussian_inputs = [i or {} for i in gaussian_inputs]
+    for gaussian_input in gaussian_inputs:
+        if "route_parameters" not in gaussian_input:
+            gaussian_input["route_parameters"] = {}
+        gaussian_input["route_parameters"]["SCRF"] = \
+            solvent_gaussian_inputs
+        if solvent_properties:
+            if "input_parameters" not in gaussian_input:
+                gaussian_input["input_parameters"] = {}
+            gaussian_input["input_parameters"].update(solvent_properties)
+    return gaussian_inputs
+
+
+def add_solvent_to_prop_dict(prop_dict, solvent_gaussian_inputs,
+                             solvent_properties):
+    if not solvent_gaussian_inputs:
+        solvent = "water"
+        solvent_model = "pcm"
+    else:
+        solvent_inputs = [
+            i.lower() for i in solvent_gaussian_inputs.strip("()").split(",")]
+        solvent = [string.split("=")[1] for string in solvent_inputs
+                   if "solvent" in string] or ["water"]
+        solvent_model = \
+            list(filter(lambda x: x in {i for i in solvent_inputs},
+                        SCRF_MODELS)) or ["pcm"]
+    prop_dict["solvent"] = "".join(solvent)
+    prop_dict["solvent_model"] = "".join(solvent_model)
+    prop_dict["solvent_properties"] = solvent_properties
+    return prop_dict
+
+
 def _modify_gout(gout):
     gout['input']['charge'] = gout['charge']
     gout['input']['spin_multiplicity'] = gout['spin_multiplicity']
@@ -487,4 +538,3 @@ def recursive_relative_to_absolute_path(operand, working_dir):
                 for i in operand]
     else:
         return operand
-
