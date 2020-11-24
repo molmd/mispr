@@ -78,6 +78,20 @@ def get_nmr_tensors(mol_operation_type,
                               **kwargs
                               )
     fws.append(nmr_fw)
+
+    fw_analysis = Firework(
+        NMRtoDB(db=db,
+                keys=gout_keys,
+                solvent_gaussian_inputs=solvent_gaussian_inputs,
+                solvent_properties=solvent_properties,
+                **{i: j for i, j in kwargs.items()
+                   if i in NMRtoDB.required_params +
+                   NMRtoDB.optional_params}),
+        parents=fws[:],
+        name="{}-{}".format(label, "nmr_analysis"),
+        spec={'_launch_dir': os.path.join(working_dir, 'analysis')})
+    fws.append(fw_analysis)
+
     return Workflow(fws,
                     name=get_job_name(label, name),
                     **{i: j for i, j in kwargs.items()
