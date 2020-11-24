@@ -14,7 +14,7 @@ from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 from infrastructure.gaussian.utils.utils import get_db, process_run, \
-    process_mol, pass_gout_dict, get_chem_schema
+    process_mol, pass_gout_dict, get_chem_schema, add_solvent_to_prop_dict
 
 logger = logging.getLogger(__name__)
 
@@ -131,7 +131,9 @@ class RetrieveGaussianOutput(FiretaskBase):
 class NMRtoDB(FiretaskBase):
     required_params = ["keys"]
     optional_params = ["db", "save_to_db", "save_to_file",
-                       "additional_prop_doc_fields"]
+                       "additional_prop_doc_fields",
+                       "solvent_gaussian_inputs",
+                       "solvent_properties"]
 
     def run_task(self, fw_spec):
         keys = self["keys"]
@@ -144,6 +146,8 @@ class NMRtoDB(FiretaskBase):
         molecule = process_mol("get_from_run_dict", gout_dict[-1])
 
         mol_schema = get_chem_schema(molecule)
+        phase = gout_dict[-1]["phase"]
+
         # if one calculation is skipped, wall time is considered zero
         run_time = \
             sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
@@ -158,11 +162,18 @@ class NMRtoDB(FiretaskBase):
                     "charge": gout_dict[-1]["input"]["charge"],
                     "spin_multiplicity":
                         gout_dict[-1]["input"]["spin_multiplicity"],
-                    "phase": gout_dict[-1]["phase"],
+                    "phase": phase,
                     "tag": gout_dict[-1]["tag"],
                     "state": "successful",
                     "wall_time (s)": run_time,
                     "last_updated": datetime.datetime.utcnow()}
+
+        if phase == "solution":
+            solvent_gaussian_inputs = self.get("solvent_gaussian_inputs")
+            solvent_properties = self.get("solvent_properties", {})
+            nmr_dict = add_solvent_to_prop_dict(nmr_dict,
+                                                solvent_gaussian_inputs,
+                                                solvent_properties)
 
         if self.get("additional_prop_doc_fields"):
             nmr_dict.update(self.get("additional_prop_doc_fields"))
@@ -172,7 +183,8 @@ class NMRtoDB(FiretaskBase):
 
         if self.get('save_to_db'):
             db = get_db(db)
-            db.insert_property("nmr", nmr_dict, ['formula_pretty', 'smiles'])
+            db.insert_property("nmr", nmr_dict,
+                               [('formula_pretty', 1), ('smiles', 1)])
 
         if fw_spec.get("run_loc_list"):
             nmr_dict["run_locs"] = fw_spec["run_loc_list"]
@@ -243,7 +255,7 @@ class BindingEnergytoDB(FiretaskBase):
         if self.get('save_to_db'):
             db = get_db(db)
             db.insert_property("binding_energy", be_dict,
-                               ['formula_pretty', 'smiles'])
+                               [('formula_pretty', 1), ('smiles', 1)])
 
         if fw_spec.get("run_loc_list"):
             be_dict["run_locs"] = fw_spec["run_loc_list"]
