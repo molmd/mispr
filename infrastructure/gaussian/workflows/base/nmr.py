@@ -57,6 +57,9 @@ def get_nmr_tensors(mol_operation_type,
     nmr_gaussian_inputs = nmr_gaussian_inputs or {}
     if "route_parameters" not in nmr_gaussian_inputs:
         nmr_gaussian_inputs.update({"route_parameters": {"NMR": "GIAO"}})
+    if "nmr" not in \
+            [i.lower() for i in nmr_gaussian_inputs["route_parameters"]]:
+        nmr_gaussian_inputs["route_parameters"].update({"NMR": "GIAO"})
 
     if not skip_opt_freq:
         spec = {"proceed": {"has_gaussian_completed": True,
