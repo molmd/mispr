@@ -4,7 +4,8 @@ import logging
 from fireworks import Firework, Workflow
 
 from infrastructure.gaussian.utils.utils import get_mol_formula, \
-    recursive_relative_to_absolute_path
+    recursive_relative_to_absolute_path, add_solvent_inputs, \
+    check_solvent_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import BindingEnergytoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
@@ -21,6 +22,8 @@ def get_binding_energies(mol_operation_type,
                          working_dir=None,
                          opt_gaussian_inputs=None,
                          freq_gaussian_inputs=None,
+                         solvent_gaussian_inputs=None,
+                         solvent_properties=None,
                          cart_coords=True,
                          oxidation_states=None,
                          skip_opt_freq=None,
@@ -33,15 +36,24 @@ def get_binding_energies(mol_operation_type,
     fws = []
     molecules = []
     working_dir = working_dir or os.getcwd()
-    keys = ["mol_1", "mol_2", "mol_linked"]
+    gout_keys = ["mol_1", "mol_2", "mol_linked"]
     mol = recursive_relative_to_absolute_path(mol, working_dir)
 
     if skip_opt_freq is None:
         skip_opt_freq = [False, False]
+
+    gins = [opt_gaussian_inputs, freq_gaussian_inputs]
+    check_solvent_inputs(gins)
+
+    if solvent_gaussian_inputs:
+        opt_gaussian_inputs, freq_gaussian_inputs = \
+            add_solvent_inputs(gins, solvent_gaussian_inputs,
+                               solvent_properties)
+
     parents = []
     for position, [operation, molecule, key, skip] in \
             enumerate(
-                zip(mol_operation_type, mol, keys[:2], skip_opt_freq)):
+                zip(mol_operation_type, mol, gout_keys[:2], skip_opt_freq)):
         mol_object, _, opt_freq_init_fws = \
             common_fw(mol_operation_type=operation,
                       mol=molecule,
@@ -65,7 +77,7 @@ def get_binding_energies(mol_operation_type,
                                          mol={"operation_type": [
                                              "get_from_run_dict",
                                              "get_from_run_dict"],
-                                             "mol": keys[:2],
+                                             "mol": gout_keys[:2],
                                              "index": index,
                                              "bond_order": bond_order},
                                          working_dir=working_dir,
@@ -77,7 +89,7 @@ def get_binding_energies(mol_operation_type,
                                          oxidation_states=oxidation_states,
                                          process_mol_func=False,
                                          mol_name=final_mol_formula,
-                                         gout_key=keys[-1],
+                                         gout_key=gout_keys[-1],
                                          from_fw_spec=True,
                                          **kwargs)
     fws += opt_freq_final_fws
@@ -85,13 +97,16 @@ def get_binding_energies(mol_operation_type,
     fw_analysis = Firework(
         BindingEnergytoDB(index=index,
                           db=db,
+                          keys=gout_keys,
+                          solvent_gaussian_inputs=solvent_gaussian_inputs,
+                          solvent_properties=solvent_properties,
                           **{i: j for i, j in kwargs.items()
                              if i in BindingEnergytoDB.required_params +
                              BindingEnergytoDB.optional_params}),
         parents=fws[:],
         name="{}-{}".format(final_mol_formula,
                             "binding_energy_analysis"),
-        spec={'_launch_dir': os.path.join(working_dir, 'Analysis')})
+        spec={'_launch_dir': os.path.join(working_dir, 'analysis')})
     fws.append(fw_analysis)
 
     return Workflow(fws,
