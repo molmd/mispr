@@ -203,7 +203,9 @@ class NMRtoDB(FiretaskBase):
 class BindingEnergytoDB(FiretaskBase):
     required_params = ["index", "keys"]
     optional_params = ["db", "save_to_db", "save_to_file",
-                       "additional_prop_doc_fields"]
+                       "additional_prop_doc_fields",
+                       "solvent_gaussian_inputs",
+                       "solvent_properties"]
 
     def run_task(self, fw_spec):
         index = self["index"]
@@ -226,6 +228,7 @@ class BindingEnergytoDB(FiretaskBase):
                     (final_energies[0] + final_energies[1])
                     ) * HARTREE_TO_EV
         mol_schema = get_chem_schema(molecules[2])
+        phase = gout_dict[-1]["phase"]
         # if one calculation is skipped, wall time is considered zero
         run_time = \
             sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
@@ -245,6 +248,13 @@ class BindingEnergytoDB(FiretaskBase):
                    "state": "successful",
                    "wall_time (s)": run_time,
                    "last_updated": datetime.datetime.utcnow()}
+
+        if phase == "solution":
+            solvent_gaussian_inputs = self.get("solvent_gaussian_inputs")
+            solvent_properties = self.get("solvent_properties", {})
+            be_dict = add_solvent_to_prop_dict(be_dict,
+                                               solvent_gaussian_inputs,
+                                               solvent_properties)
 
         if self.get("additional_prop_doc_fields"):
             be_dict.update(self.get("additional_prop_doc_fields"))
@@ -292,21 +302,6 @@ class IPEAtoDB(FiretaskBase):
         branch_cation_on_anion = self["branch_cation_on_anion"]
         keys = self["keys"]
         gibbs_elec = self.get("gibbs_elec")
-        solvent = None
-        solvent_properties = None
-
-        if "solution" in phases:
-            if not self.get("solvent_gaussian_inputs"):
-                solvent = "water"
-            else:
-                solvent_inputs = [
-                    i.lower() for i in
-                    self.get("solvent_gaussian_inputs").strip("()").split(",")]
-                solvent = [
-                    string for string in solvent_inputs if "solvent" in
-                                                           string][0].split(
-                    "=")[1]
-                solvent_properties = self.get("solvent_properties", {})
 
         ref_potentials = {'hydrogen': 4.44,
                           'magnesium': 2.07,
@@ -410,53 +405,58 @@ class IPEAtoDB(FiretaskBase):
                 reduction_gas[key] = ea_gas - value
 
         mol_schema = get_chem_schema(molecule)
-        ipea_dict = {"molecule": molecule.as_dict(),
-                     "smiles": mol_schema["smiles"],
-                     "formula_pretty": mol_schema["formula_pretty"],
-                     "num_electrons": num_electrons,
-                     "functional": gout_dict[root_node_key]["functional"],
-                     "basis": gout_dict[root_node_key]["basis"],
-                     "charge": gout_dict[root_node_key]["input"]["charge"],
-                     "spin_multiplicity":
-                         gout_dict[root_node_key]["input"]["spin_multiplicity"],
-                     "phase": phases,
-                     "solvent": solvent,
-                     "steps": steps,
-                     "solvent_properties": solvent_properties,
-                     "gas": {**ip_ea_results['gas'],
-                         "electrode_potentials": {
-                             "oxidation": oxidation_gas,
-                             "reduction": reduction_gas}
-                     },
-                     "solution": {**ip_ea_results['solution'],
-                         "electrode_potentials": {
-                             "oxidation": oxidation_sol,
-                             "reduction": reduction_sol}
-                     },
-                     "tag": gout_dict[root_node_key]["tag"],
-                     "state": "successful",
-                     "wall_time (s)": run_time,
-                     "last_updated": datetime.datetime.utcnow()}
+        ip_ea_dict = {"molecule": molecule.as_dict(),
+                      "smiles": mol_schema["smiles"],
+                      "formula_pretty": mol_schema["formula_pretty"],
+                      "num_electrons": num_electrons,
+                      "functional": gout_dict[root_node_key]["functional"],
+                      "basis": gout_dict[root_node_key]["basis"],
+                      "charge": gout_dict[root_node_key]["input"]["charge"],
+                      "spin_multiplicity":
+                          gout_dict[root_node_key]["input"][
+                              "spin_multiplicity"],
+                      "phase": phases,
+                      "steps": steps,
+                      "gas": {**ip_ea_results['gas'],
+                              "electrode_potentials": {
+                                  "oxidation": oxidation_gas,
+                                  "reduction": reduction_gas}},
+                      "solution": {**ip_ea_results['solution'],
+                                   "electrode_potentials": {
+                                       "oxidation": oxidation_sol,
+                                       "reduction": reduction_sol}},
+                      "tag": gout_dict[root_node_key]["tag"],
+                      "state": "successful",
+                      "wall_time (s)": run_time,
+                      "last_updated": datetime.datetime.utcnow()}
+
+        if "solution" in phases:
+            solvent_gaussian_inputs = self.get("solvent_gaussian_inputs")
+            solvent_properties = self.get("solvent_properties", {})
+            ip_ea_dict = add_solvent_to_prop_dict(ip_ea_dict,
+                                                  solvent_gaussian_inputs,
+                                                  solvent_properties)
 
         if self.get("additional_prop_doc_fields"):
-            ipea_dict.update(self.get("additional_prop_doc_fields"))
+            ip_ea_dict.update(self.get("additional_prop_doc_fields"))
 
         if fw_spec.get("run_id_list"):
-            ipea_dict["run_ids"] = fw_spec["run_id_list"]
+            ip_ea_dict["run_ids"] = fw_spec["run_id_list"]
 
         if self.get('save_to_db'):
             db = get_db(db)
-            db.insert_property("ip_ea", ipea_dict, ['formula_pretty', 'smiles'])
+            db.insert_property("ip_ea", ip_ea_dict,
+                               ['formula_pretty', 'smiles'])
 
         if fw_spec.get("run_loc_list"):
-            ipea_dict["run_locs"] = fw_spec["run_loc_list"]
+            ip_ea_dict["run_locs"] = fw_spec["run_loc_list"]
         if self.get('save_to_file'):
             working_dir = os.getcwd()
-            if "run_ids" in ipea_dict:
-                del ipea_dict["run_ids"]
+            if "run_ids" in ip_ea_dict:
+                del ip_ea_dict["run_ids"]
             ipea_file = os.path.join(working_dir, 'ip_ea.json')
             with open(ipea_file, "w") as f:
-                f.write(json.dumps(ipea_dict, default=DATETIME_HANDLER))
+                f.write(json.dumps(ip_ea_dict, default=DATETIME_HANDLER))
 
         logger.info("ip/ea calculation complete")
         return FWAction()
