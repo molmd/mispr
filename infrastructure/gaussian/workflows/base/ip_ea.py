@@ -6,10 +6,9 @@ from copy import deepcopy
 
 from fireworks import Firework, Workflow
 
-from pymatgen.core.structure import Molecule
-
 from infrastructure.gaussian.utils.utils import \
-    recursive_relative_to_absolute_path
+    recursive_relative_to_absolute_path, add_solvent_inputs, \
+    check_solvent_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import IPEAtoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
@@ -109,20 +108,13 @@ class Node:
         opt_gins = deepcopy(opt_gaussian_inputs)
         freq_gins = deepcopy(freq_gaussian_inputs)
 
+        gins = [opt_gins, freq_gins]
+        check_solvent_inputs(gins)
+
         if self.phase.lower() == 'solution':
-            if "generic" in solvent_gaussian_inputs.lower() \
-                    and not solvent_properties:
-                raise Exception(
-                    "A generic solvent is provided as an input without "
-                    "specifying its parameters.")
-            opt_gins["route_parameters"]["SCRF"] = \
-                solvent_gaussian_inputs
-            freq_gins["route_parameters"]["SCRF"] = \
-                solvent_gaussian_inputs
-            if solvent_properties:
-                if "input_parameters" not in opt_gins:
-                    opt_gins["input_parameters"] = {}
-                opt_gins["input_parameters"].update(solvent_properties)
+            opt_gins, freq_gins = add_solvent_inputs(gins,
+                                                     solvent_gaussian_inputs,
+                                                     solvent_properties)
         dir_structure = [self.phase]
         sec_dir_name = f'{self.added_e}e'
         if branch_cation_from_anion:
@@ -311,7 +303,7 @@ def get_ip_ea(mol_operation_type,
                             "ip_ea_analysis"),
         spec={
             '_launch_dir': os.path.join(working_dir, root_node.dir_head,
-                                        "Analysis")})
+                                        "analysis")})
     fws.append(fw_analysis)
     return Workflow(fws,
                     name="{}_{}".format(root_node.dir_head, name),
