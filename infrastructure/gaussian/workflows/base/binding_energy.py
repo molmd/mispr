@@ -34,7 +34,7 @@ def get_binding_energies(mol_operation_type,
     # mol_operation_type = [], mol = [], index = []
     # order of the indices should be consistent with the order of the mols
     fws = []
-    molecules = []
+    labels = []
     working_dir = working_dir or os.getcwd()
     gout_keys = ["mol_1", "mol_2", "mol_linked"]
     mol = recursive_relative_to_absolute_path(mol, working_dir)
@@ -54,7 +54,7 @@ def get_binding_energies(mol_operation_type,
     for position, [operation, molecule, key, skip] in \
             enumerate(
                 zip(mol_operation_type, mol, gout_keys[:2], skip_opt_freq)):
-        mol_object, _, opt_freq_init_fws = \
+        _, label, opt_freq_init_fws = \
             common_fw(mol_operation_type=operation,
                       mol=molecule,
                       working_dir=working_dir,
@@ -68,10 +68,9 @@ def get_binding_energies(mol_operation_type,
                       **kwargs)
         fws += opt_freq_init_fws
         parents.append(len(fws))
-        molecules.append(mol_object)
+        labels.append(label)
 
-    final_mol_formula = "{}_{}".format(get_mol_formula(molecules[0]),
-                                       get_mol_formula(molecules[1]))
+    final_mol_label = "{}_{}".format(labels[0], labels[1])
 
     _, _, opt_freq_final_fws = common_fw(mol_operation_type="link_molecules",
                                          mol={"operation_type": [
@@ -82,13 +81,13 @@ def get_binding_energies(mol_operation_type,
                                              "bond_order": bond_order},
                                          working_dir=working_dir,
                                          db=db,
-                                         filename=final_mol_formula,
+                                         filename=final_mol_label,
                                          opt_gaussian_inputs=opt_gaussian_inputs,
                                          freq_gaussian_inputs=freq_gaussian_inputs,
                                          cart_coords=cart_coords,
                                          oxidation_states=oxidation_states,
                                          process_mol_func=False,
-                                         mol_name=final_mol_formula,
+                                         mol_name=final_mol_label,
                                          gout_key=gout_keys[-1],
                                          from_fw_spec=True,
                                          **kwargs)
@@ -104,13 +103,13 @@ def get_binding_energies(mol_operation_type,
                              if i in BindingEnergytoDB.required_params +
                              BindingEnergytoDB.optional_params}),
         parents=fws[:],
-        name="{}-{}".format(final_mol_formula,
+        name="{}-{}".format(final_mol_label,
                             "binding_energy_analysis"),
         spec={'_launch_dir': os.path.join(working_dir, 'analysis')})
     fws.append(fw_analysis)
 
     return Workflow(fws,
-                    name="{}_{}".format(final_mol_formula, name),
+                    name="{}_{}".format(final_mol_label, name),
                     links_dict=links_dict,
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
