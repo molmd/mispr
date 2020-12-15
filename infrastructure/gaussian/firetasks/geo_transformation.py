@@ -1,12 +1,18 @@
 import os
+import copy
 import logging
+import itertools
 
-
-from fireworks.core.firework import FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
+from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.core.structure import Molecule
+from pymatgen.analysis.graphs import MoleculeGraph
 
-from infrastructure.gaussian.utils.utils import get_db, process_mol
+from fireworks.core.firework import FiretaskBase, FWAction
+from fireworks.utilities.fw_utilities import explicit_serialize
+
+from infrastructure.gaussian.utils.utils import get_db, process_mol, \
+    get_job_name, get_mol_formula
+from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +73,7 @@ class ProcessMoleculeInput(FiretaskBase):
             filename = self.get("filename", 'mol')
             file = os.path.join(working_dir, f"{filename}.{fmt}")
             output_mol.to(fmt, file)
-        fw_spec['prev_calc_molecule'] = output_mol # Note: This should ideally
+        fw_spec['prev_calc_molecule'] = output_mol  # Note: This should ideally
         # be part of FWaction, however because mpi doesn't support pymatgen, we
         # should be careful about what is being passed to the next firework
 
@@ -135,6 +141,7 @@ class AttachFunctionalGroup(FiretaskBase):
     optional_params = ["db", "molecule", "bond_order", "save_to_db",
                        "update_duplicates",
                        "save_mol_file", "fmt", "filename"]
+
     # TODO: check if it is better to split this into multiple firetasks (one of
     # which has already been created above (Retrieve Molecule from db)
 
@@ -168,7 +175,7 @@ class LinkMolecules(FiretaskBase):
     second molecule. Currently takes the molecules from the db using their
     smiles representation.
     """
-    required_params =["index1", "index2"]
+    required_params = ["index1", "index2"]
     optional_params = ["db", "smiles1", "smiles2", "bond_order", "save_to_db",
                        "update_duplicates", "save_mol_file", "fmt",
                        "filename"]
@@ -192,3 +199,168 @@ class LinkMolecules(FiretaskBase):
             linked_mol_file = os.path.join(working_dir, file_name)
             linked_mol.to(self.get("fmt", "xyz"), linked_mol_file)
         fw_spec["prev_calc_molecule"] = linked_mol
+
+
+@explicit_serialize
+class BreakMolecule(FiretaskBase):
+    """
+    credits: Samuel Blau
+    """
+    required_params = []
+    optional_params = ["mol", "bonds", "ref_charge", "working_dir", "db",
+                       "opt_gaussian_inputs", "freq_gaussian_inputs",
+                       "cart_coord", "oxidation_states", "kwargs"]
+
+    def _define_charges(self, mol):
+        ref_charge = self.get("ref_charge", mol.charge)
+        # get a list of possible charges that each fragment can take
+        possible_charges = []
+        if ref_charge == 0:
+            possible_charges.extend((-1, 0, 1))
+        elif ref_charge > 0:
+            for i in range(ref_charge + 1):
+                possible_charges.append(ref_charge - i)
+        else:
+            for i in range(abs(ref_charge - 1)):
+                possible_charges.append(ref_charge + i)
+        # find possible charge pairs upon breaking a bond; sum = ref_charge
+        charge_pairs = [pair for pair in
+                        list(itertools.product(possible_charges, repeat=2))
+                        if sum(pair) == ref_charge]
+
+        charge_ind_map = {j: i for i, j in enumerate(possible_charges)}
+        return possible_charges, charge_pairs, charge_ind_map
+
+    def _workflow(self, mol):
+        from infrastructure.gaussian.workflows.base.core import common_fw
+        print("testing a dynamic workflow: {}")
+        working_dir = self.get("working_dir", os.getcwd())
+        db = self.get("db")
+        # TODO: if the BreakMolecule firetask is used alone, we would still need
+        #  to process solvent inputs?
+        opt_gaussian_inputs = self.get("opt_gaussian_inputs")
+        freq_gaussian_inputs = self.get("freq_gaussian_inputs")
+        cart_coords = self.get("cart_coords")
+        oxidation_states = self.get("oxidation_states")
+        kwargs = self.get("kwargs", {})
+        dir_structure = ["charge_{}".format(str(mol.charge))]
+        if len(mol) == 1:
+            mol_formula = get_mol_formula(mol)
+            dir_struct = [mol_formula] + dir_structure
+            working_dir = os.path.join(working_dir, *dir_struct)
+            # TODO: modify opt_gaussian_inputs to be those of SP
+            frag_fws = CalcFromMolFW(mol=mol,
+                                     mol_operation_type="get_from_mol",
+                                     db=db,
+                                     name=get_job_name(mol, "sp"),
+                                     working_dir=working_dir,
+                                     input_file=f"{mol_formula}_sp.com",
+                                     output_file=f"{mol_formula}_sp.out",
+                                     gaussian_input_params=opt_gaussian_inputs,
+                                     cart_coords=cart_coords,
+                                     oxidation_states=oxidation_states,
+                                     gout_key="mol_sp",
+                                     **kwargs
+                                     )
+        else:
+            _, _, frag_fws = common_fw(
+                mol_operation_type="get_from_mol",
+                mol=mol,
+                working_dir=working_dir,
+                dir_structure=dir_structure,
+                db=db,
+                opt_gaussian_inputs=opt_gaussian_inputs,
+                freq_gaussian_inputs=freq_gaussian_inputs,
+                cart_coords=cart_coords,
+                oxidation_states=oxidation_states,
+                process_mol_func=True,
+                from_fw_spec=False,
+                skip_opt_freq=False,
+                **kwargs)
+        return frag_fws
+
+    def run_task(self, fw_spec):
+        # get principle molecule from fw_spec or user input
+        if fw_spec.get("prev_calc_molecule"):
+            mol = fw_spec.get("prev_calc_molecule")
+        elif self.get("molecule"):
+            mol = self.get("molecule")
+        else:
+            raise KeyError(
+                "No molecule present, add as an optional param or check fw_spec"
+            )
+        # get a list of possible charges of the fragments
+        possible_charges, charge_pairs, charge_ind_map = \
+            self._define_charges(mol)
+
+        # break the bonds: either those specified by the user inputs or all
+        # the bonds in the molecule; only supports breaking bonds in the
+        # principle molecule and assumes no rings are encountered
+        mol_graph = \
+            MoleculeGraph.with_local_env_strategy(mol,
+                                                  OpenBabelNN(),
+                                                  reorder=False,
+                                                  extend_structure=False)
+        bonds = self.get("bonds", None)
+        if not bonds:
+            bonds = \
+                list({idx1: idx2 for
+                      idx1, idx2, *_ in mol_graph.graph.edges}.items())
+
+        fragments = []
+        unique_fragments = []
+        fragments_indices = []
+
+        # get fragments by splitting the molecule at each bond
+        for idx, bond in enumerate(bonds):
+            fragments.append(
+                mol_graph.split_molecule_subgraphs([bond], allow_reverse=True))
+
+        # get unique fragments from the list of all fragments
+        # for each bond, store the new indexes of the unique fragments formed
+        # upon splitting the molecule (can be used for analysis purposes later)
+        for fragment in fragments:
+            indices = []
+            for i in fragment:
+                flag = 0
+                for ind, j in enumerate(unique_fragments):
+                    if i.isomorphic_to(j):
+                        flag = 1
+                        indices.append(ind)
+                        break
+                if flag == 0:
+                    indices.append(len(unique_fragments))
+                    unique_fragments.append(i)
+            fragments_indices.append(indices)
+
+        # create molecule objects from the unique fragments and set the charge
+        # of each molecule
+        unique_molecules = []
+        for fragment in unique_fragments:
+            for charge in possible_charges:
+                frag_to_mol = copy.deepcopy(fragment.molecule)
+                frag_to_mol.set_charge_and_spin(charge)
+                unique_molecules.append(frag_to_mol)
+
+        num_charges = len(possible_charges)
+        molecule_indices = []
+        for fragment in fragments_indices:
+            split_possibilities = []
+            for charge_pair in charge_pairs:
+                split_possibility = \
+                    [fragment[0] * num_charges + charge_ind_map[charge_pair[0]],
+                     fragment[1] * num_charges + charge_ind_map[charge_pair[1]]]
+                split_possibilities.append(split_possibility)
+            molecule_indices.append(split_possibilities)
+
+        fws = []
+        for mol in unique_molecules:
+            opt_freq_fws = self._workflow(mol)
+            fws += opt_freq_fws
+
+        # fw_spec["fragments"] = unique_molecules
+        # fw_spec["molecule_indices"] = molecule_indices
+        update_spec = {"fragments": unique_molecules,
+                       "molecule_indices": molecule_indices}
+
+        return FWAction(update_spec=update_spec, detours=fws)
