@@ -128,6 +128,78 @@ class RetrieveGaussianOutput(FiretaskBase):
 
 
 @explicit_serialize
+class ESPtoDB(FiretaskBase):
+    required_params = ["keys"]
+    optional_params = ["db", "save_to_db", "save_to_file",
+                       "additional_prop_doc_fields",
+                       "solvent_gaussian_inputs",
+                       "solvent_properties"]
+
+    def run_task(self, fw_spec):
+        keys = self["keys"]
+        db = self.get("db")
+        gout_dict = [pass_gout_dict(fw_spec, i) for i in keys]
+        # include opt fireworks in the list of gout_dict to calculate run time
+        full_gout_dict = gout_dict + \
+                         [pass_gout_dict(fw_spec, i + "_opt") for i in keys]
+        full_gout_dict = [i for i in full_gout_dict if i is not None]
+        molecule = process_mol("get_from_run_dict", gout_dict[-1])
+
+        mol_schema = get_chem_schema(molecule)
+        phase = gout_dict[-1]["phase"]
+
+        # if one calculation is skipped, wall time is considered zero
+        run_time = \
+            sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
+
+        esp_dict = {"molecule": molecule.as_dict(),
+                    "smiles": mol_schema["smiles"],
+                    "formula_pretty": mol_schema["formula_pretty"],
+                    "energy": gout_dict[-1]['output']['output']["final_energy"],
+                    "esp": gout_dict[-1]["output"]["output"]["ESP_charges"],
+                    "functional": gout_dict[-1]["functional"],
+                    "basis": gout_dict[-1]["basis"],
+                    "charge": gout_dict[-1]["input"]["charge"],
+                    "spin_multiplicity":
+                        gout_dict[-1]["input"]["spin_multiplicity"],
+                    "phase": phase,
+                    "tag": gout_dict[-1]["tag"],
+                    "state": "successful",
+                    "wall_time (s)": run_time,
+                    "last_updated": datetime.datetime.utcnow()}
+
+        if phase == "solution":
+            solvent_gaussian_inputs = self.get("solvent_gaussian_inputs")
+            solvent_properties = self.get("solvent_properties", {})
+            esp_dict = add_solvent_to_prop_dict(esp_dict,
+                                                solvent_gaussian_inputs,
+                                                solvent_properties)
+
+        if self.get("additional_prop_doc_fields"):
+            esp_dict.update(self.get("additional_prop_doc_fields"))
+
+        if fw_spec.get("run_id_list"):
+            esp_dict["run_ids"] = fw_spec["run_id_list"]
+
+        if self.get('save_to_db'):
+            db = get_db(db)
+            db.insert_property("esp", esp_dict,
+                               [('formula_pretty', 1), ('smiles', 1)])
+
+        if fw_spec.get("run_loc_list"):
+            esp_dict["run_locs"] = fw_spec["run_loc_list"]
+        if self.get('save_to_file'):
+            working_dir = os.getcwd()
+            if "run_ids" in esp_dict:
+                del esp_dict["run_ids"]
+            esp_file = os.path.join(working_dir, 'esp.json')
+            with open(esp_file, "w") as f:
+                f.write(json.dumps(esp_dict, default=DATETIME_HANDLER))
+        logger.info("esp calculation complete")
+        return FWAction()
+
+
+@explicit_serialize
 class NMRtoDB(FiretaskBase):
     required_params = ["keys"]
     optional_params = ["db", "save_to_db", "save_to_file",
