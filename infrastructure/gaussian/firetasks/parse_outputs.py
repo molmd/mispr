@@ -25,7 +25,7 @@ FARAD = 96.5
 
 
 # TODO: create a util function to do the common things in the PropertiestoDB
-#  Firetasks
+#  Firetasks; ESP and NMR are very similar
 
 
 @explicit_serialize
@@ -418,13 +418,13 @@ class IPEAtoDB(FiretaskBase):
                       "phase": phases,
                       "steps": steps,
                       "gas": {**ip_ea_results['gas'],
-                              "electrode_potentials": {
-                                  "oxidation": oxidation_gas,
-                                  "reduction": reduction_gas}},
+                          "electrode_potentials": {
+                              "oxidation": oxidation_gas,
+                              "reduction": reduction_gas}},
                       "solution": {**ip_ea_results['solution'],
-                                   "electrode_potentials": {
-                                       "oxidation": oxidation_sol,
-                                       "reduction": reduction_sol}},
+                          "electrode_potentials": {
+                              "oxidation": oxidation_sol,
+                              "reduction": reduction_sol}},
                       "tag": gout_dict[root_node_key]["tag"],
                       "state": "successful",
                       "wall_time (s)": run_time,
@@ -459,4 +459,82 @@ class IPEAtoDB(FiretaskBase):
                 f.write(json.dumps(ip_ea_dict, default=DATETIME_HANDLER))
 
         logger.info("ip/ea calculation complete")
+        return FWAction()
+
+
+@explicit_serialize
+class BDEtoDB(FiretaskBase):
+    required_params = ["bonds", "principle_mol_key", "keys"]
+    optional_params = ["db", "save_to_db", "save_to_file",
+                       "solvent_gaussian_inputs",
+                       "solvent_properties",
+                       "additional_prop_doc_fields"]
+
+    def run_task(self, fw_spec):
+        db = self.get("db")
+        bonds = self["bonds"]
+        principle_mol_key = self['principle_mol_key']
+        keys = [principle_mol_key] + self["keys"]
+
+        gout_dict = {i: pass_gout_dict(fw_spec, i) for i in keys}
+        # include opt fireworks in the list of gout_dict to calculate run time
+        full_gout_dict = list(gout_dict.values()) + \
+                         [pass_gout_dict(fw_spec, i + "_opt") for i in keys]
+        full_gout_dict = [i for i in full_gout_dict if i is not None]
+        molecule = process_mol("get_from_run_dict",
+                               gout_dict[principle_mol_key])
+        phase = gout_dict[principle_mol_key]["phase"]
+        final_energies = {i: j['output']['output']["final_energy"]
+                          for i, j in gout_dict.items()}
+        run_time = sum([gout["wall_time (s)"] for gout in full_gout_dict])
+
+        fragments = {}
+        bde_results = {}
+        mol_schema = get_chem_schema(molecule)
+        bde_dict = {"molecule": molecule.as_dict(),
+                    "smiles": mol_schema["smiles"],
+                    "formula_pretty": mol_schema["formula_pretty"],
+                    "energy": final_energies[0],
+                    "functional": gout_dict[principle_mol_key]["functional"],
+                    "basis": gout_dict[principle_mol_key]["basis"],
+                    "charge": gout_dict[principle_mol_key]["input"]["charge"],
+                    "spin_multiplicity":
+                        gout_dict[principle_mol_key]["input"]["spin_multiplicity"],
+                    "phase": phase,
+                    "fragments": fragments,
+                    "bde": bde_results,
+                    "tag": gout_dict[principle_mol_key]["tag"],
+                    "state": "successful",
+                    "wall_time (s)": run_time,
+                    "last_updated": datetime.datetime.utcnow()
+                    }
+
+        if phase == "solution":
+            solvent_gaussian_inputs = self.get("solvent_gaussian_inputs")
+            solvent_properties = self.get("solvent_properties", {})
+            bde_dict = add_solvent_to_prop_dict(bde_dict,
+                                                solvent_gaussian_inputs,
+                                                solvent_properties)
+
+        if self.get("additional_prop_doc_fields"):
+            bde_dict.update(self.get("additional_prop_doc_fields"))
+
+        if fw_spec.get("run_id_list"):
+            bde_dict["run_ids"] = fw_spec["run_id_list"]
+
+        if self.get('save_to_db'):
+            db = get_db(db)
+            db.insert_property("nmr", bde_dict,
+                               [('formula_pretty', 1), ('smiles', 1)])
+
+        if fw_spec.get("run_loc_list"):
+            bde_dict["run_locs"] = fw_spec["run_loc_list"]
+        if self.get('save_to_file'):
+            working_dir = os.getcwd()
+            if "run_ids" in bde_dict:
+                del bde_dict["run_ids"]
+            nmr_file = os.path.join(working_dir, 'nmr.json')
+            with open(nmr_file, "w") as f:
+                f.write(json.dumps(bde_dict, default=DATETIME_HANDLER))
+        logger.info("bde calculation complete")
         return FWAction()
