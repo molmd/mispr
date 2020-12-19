@@ -380,14 +380,38 @@ class BreakMolecule(FiretaskBase):
                 split_possibilities.append(split_possibility)
             molecule_indices.append(split_possibilities)
 
-        fws = []
-        for mol in unique_molecules:
-            opt_freq_fws = self._workflow(mol)
-            fws += opt_freq_fws
-
         # fw_spec["fragments"] = unique_molecules
         # fw_spec["molecule_indices"] = molecule_indices
-        update_spec = {"fragments": unique_molecules,
+        update_spec = {"bonds": bonds,
+                       "fragments": unique_molecules,
                        "molecule_indices": molecule_indices}
 
-        return FWAction(update_spec=update_spec, detours=fws)
+        if self.get("calc_frags"):
+            wfs = []
+            frag_keys = []
+            working_dir = self.get("working_dir", os.getcwd())
+            db = self.get("db")
+            # TODO: if the BreakMolecule firetask is used alone, we would still
+            #  need to process solvent inputs?
+            opt_gaussian_inputs = self.get("opt_gaussian_inputs") or {}
+            print(opt_gaussian_inputs)
+            freq_gaussian_inputs = self.get("freq_gaussian_inputs") or {}
+            cart_coords = self.get("cart_coords", True)
+            oxidation_states = self.get("oxidation_states")
+            kwargs = self.get("kwargs", {})
+
+            for mol_ind, mol in enumerate(unique_molecules):
+                gout_key = "frag_{}".format(mol_ind)
+                frag_wf = self._workflow(mol, gout_key, working_dir,
+                                         db,
+                                         opt_gaussian_inputs,
+                                         freq_gaussian_inputs,
+                                         cart_coords,
+                                         oxidation_states, kwargs)
+                wfs.append(frag_wf)
+                frag_keys.append(gout_key)
+            update_spec["frag_keys"] = frag_keys
+            return FWAction(update_spec=update_spec, detours=wfs)
+
+        else:
+            return FWAction(update_spec=update_spec)
