@@ -3,16 +3,18 @@ import copy
 import logging
 import itertools
 
+from copy import deepcopy
+
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.graphs import MoleculeGraph
 
+from fireworks import Firework, Workflow
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 
 from infrastructure.gaussian.utils.utils import get_db, process_mol, \
     get_job_name, get_mol_formula
-from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW
 
 logger = logging.getLogger(__name__)
 
@@ -207,12 +209,14 @@ class BreakMolecule(FiretaskBase):
     credits: Samuel Blau
     """
     required_params = []
-    optional_params = ["mol", "bonds", "ref_charge", "working_dir", "db",
-                       "opt_gaussian_inputs", "freq_gaussian_inputs",
-                       "cart_coord", "oxidation_states", "kwargs"]
+    optional_params = ["mol", "bonds", "ref_charge", "fragment_charges",
+                       "working_dir", "db", "opt_gaussian_inputs",
+                       "freq_gaussian_inputs", "cart_coord",
+                       "oxidation_states", "calc_frags", "kwargs"]
 
     def _define_charges(self, mol):
         ref_charge = self.get("ref_charge", mol.charge)
+        fragment_charges = self.get("fragment_charges", None)
         # get a list of possible charges that each fragment can take
         possible_charges = []
         if ref_charge == 0:
@@ -223,6 +227,12 @@ class BreakMolecule(FiretaskBase):
         else:
             for i in range(abs(ref_charge - 1)):
                 possible_charges.append(ref_charge + i)
+        # add additional charges to the list of possible charges
+        if fragment_charges:
+            fragment_charges += [ref_charge - charge for charge in
+                                 fragment_charges]
+            possible_charges.extend(charge for charge in fragment_charges
+                                    if charge not in possible_charges)
         # find possible charge pairs upon breaking a bond; sum = ref_charge
         charge_pairs = [pair for pair in
                         list(itertools.product(possible_charges, repeat=2))
@@ -231,18 +241,13 @@ class BreakMolecule(FiretaskBase):
         charge_ind_map = {j: i for i, j in enumerate(possible_charges)}
         return possible_charges, charge_pairs, charge_ind_map
 
-    def _workflow(self, mol):
-        from infrastructure.gaussian.workflows.base.core import common_fw
-        print("testing a dynamic workflow: {}")
-        working_dir = self.get("working_dir", os.getcwd())
-        db = self.get("db")
-        # TODO: if the BreakMolecule firetask is used alone, we would still need
-        #  to process solvent inputs?
-        opt_gaussian_inputs = self.get("opt_gaussian_inputs")
-        freq_gaussian_inputs = self.get("freq_gaussian_inputs")
-        cart_coords = self.get("cart_coords")
-        oxidation_states = self.get("oxidation_states")
-        kwargs = self.get("kwargs", {})
+    def _workflow(self, mol, gout_key, working_dir, db, opt_gaussian_inputs,
+                  freq_gaussian_inputs, cart_coords, oxidation_states, kwargs):
+        from infrastructure.gaussian.fireworks.core_standard import \
+            CalcFromMolFW
+        from infrastructure.gaussian.workflows.base.core import common_fw, \
+            WORKFLOW_KWARGS, STANDARD_OPT_GUASSIAN_INPUT
+
         dir_structure = ["charge_{}".format(str(mol.charge))]
         if len(mol) == 1:
             mol_formula = get_mol_formula(mol)
