@@ -249,25 +249,42 @@ class BreakMolecule(FiretaskBase):
             WORKFLOW_KWARGS, STANDARD_OPT_GUASSIAN_INPUT
 
         dir_structure = ["charge_{}".format(str(mol.charge))]
+        mol_formula = get_mol_formula(mol)
+
         if len(mol) == 1:
-            mol_formula = get_mol_formula(mol)
+            job_name = "sp"
             dir_struct = [mol_formula] + dir_structure
             working_dir = os.path.join(working_dir, *dir_struct)
-            # TODO: modify opt_gaussian_inputs to be those of SP
-            frag_fws = CalcFromMolFW(mol=mol,
-                                     mol_operation_type="get_from_mol",
-                                     db=db,
-                                     name=get_job_name(mol, "sp"),
-                                     working_dir=working_dir,
-                                     input_file=f"{mol_formula}_sp.com",
-                                     output_file=f"{mol_formula}_sp.out",
-                                     gaussian_input_params=opt_gaussian_inputs,
-                                     cart_coords=cart_coords,
-                                     oxidation_states=oxidation_states,
-                                     gout_key="mol_sp",
-                                     **kwargs
-                                     )
+
+            sp_gaussian_inputs = deepcopy(opt_gaussian_inputs) or {}
+            sp_gaussian_inputs = {**STANDARD_OPT_GUASSIAN_INPUT,
+                                  **sp_gaussian_inputs}
+            if "route_parameters" not in sp_gaussian_inputs:
+                sp_gaussian_inputs.update(
+                    {"route_parameters": {"SP": None}})
+            if "sp" not in [i.lower() for i in
+                            sp_gaussian_inputs["route_parameters"]]:
+                sp_gaussian_inputs["route_parameters"].update({"SP": None})
+            for i in sp_gaussian_inputs["route_parameters"]:
+                if i.lower() == "opt":
+                    del sp_gaussian_inputs["route_parameters"][i]
+                    break
+            # sp_gaussian_inputs["route_parameters"].pop("Opt", None)
+            frag_fws = [CalcFromMolFW(mol=mol,
+                                      mol_operation_type="get_from_mol",
+                                      db=db,
+                                      name=get_job_name(mol, job_name),
+                                      working_dir=working_dir,
+                                      input_file=f"{mol_formula}_sp.com",
+                                      output_file=f"{mol_formula}_sp.out",
+                                      gaussian_input_params=sp_gaussian_inputs,
+                                      cart_coords=cart_coords,
+                                      oxidation_states=oxidation_states,
+                                      gout_key=gout_key,
+                                      **kwargs
+                                      )]
         else:
+            job_name = "opt_freq"
             _, _, frag_fws = common_fw(
                 mol_operation_type="get_from_mol",
                 mol=mol,
@@ -278,11 +295,16 @@ class BreakMolecule(FiretaskBase):
                 freq_gaussian_inputs=freq_gaussian_inputs,
                 cart_coords=cart_coords,
                 oxidation_states=oxidation_states,
-                process_mol_func=True,
+                process_mol_func=False,
+                mol_name=mol_formula,
                 from_fw_spec=False,
                 skip_opt_freq=False,
+                gout_key=gout_key,
                 **kwargs)
-        return frag_fws
+        return Workflow(frag_fws,
+                        name="{}_{}".format(mol_formula, job_name),
+                        **{i: j for i, j in kwargs.items()
+                           if i in WORKFLOW_KWARGS})
 
     def run_task(self, fw_spec):
         # get principle molecule from fw_spec or user input
