@@ -1,11 +1,10 @@
 import os
 import logging
 
-
 from fireworks import Firework
 
 from infrastructure.gaussian.firetasks.geo_transformation import \
-    ProcessMoleculeInput
+    ProcessMoleculeInput, BreakMolecule
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
 from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun, \
@@ -23,7 +22,6 @@ def common_tasks(db,
                  cart_coords,
                  oxidation_states,
                  **kwargs):
-
     return \
         [WriteInput(input_file=input_file,
                     gaussian_input_params=gaussian_input_params,
@@ -133,3 +131,51 @@ class CalcFromRunsDBFW(Firework):
                                                **{i: j for i, j in
                                                   kwargs.items() if i in
                                                   FIREWORK_KWARGS})
+
+
+class BreakMolFW(Firework):
+    def __init__(self,
+                 mol,
+                 mol_operation_type="get_from_mol",
+                 bonds=None,
+                 ref_charge=0,
+                 fragment_charges=None,
+                 calc_frags=True,
+                 db=None,
+                 name="break_mol",
+                 parents=None,
+                 working_dir=None,
+                 tag="unknown",
+                 **kwargs):
+        t = []
+        working_dir = working_dir or os.getcwd()
+        if not os.path.exists(working_dir):
+            os.makedirs(working_dir)
+
+        t.append(ProcessMoleculeInput(mol=mol,
+                                      operation_type=mol_operation_type,
+                                      db=db,
+                                      **{i: j for i, j in kwargs.items() if i in
+                                         ProcessMoleculeInput.required_params +
+                                         ProcessMoleculeInput.optional_params}
+                                      )
+                 )
+
+        t.append(BreakMolecule(bonds=bonds,
+                               ref_charge=ref_charge,
+                               fragment_charges=fragment_charges,
+                               calc_frags=calc_frags,
+                               **{i: j for i, j in kwargs.items() if i in
+                                  BreakMolecule.required_params +
+                                  BreakMolecule.optional_params}
+                               )
+                 )
+
+        spec = kwargs.pop('spec', {})
+        spec.update({'tag': tag, '_launch_dir': working_dir})
+        super(BreakMolFW, self).__init__(t,
+                                         parents=parents,
+                                         name=name,
+                                         spec=spec,
+                                         **{i: j for i, j in kwargs.items()
+                                            if i in FIREWORK_KWARGS})
