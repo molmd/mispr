@@ -100,6 +100,7 @@ class RetrieveGaussianOutput(FiretaskBase):
             run = process_run(operation_type="get_from_run_id",
                               run=self.get("run_id"), db=self.get("db"))
 
+        # TODO: correct this, it tries to search the db if not the above
         # if a Gaussian output dictionary is retrieved from db
         else:
             query = {'smiles': self.get('smiles'), 'type': self.get('type'),
@@ -264,8 +265,8 @@ class NMRtoDB(FiretaskBase):
             working_dir = os.getcwd()
             if "run_ids" in nmr_dict:
                 del nmr_dict["run_ids"]
-            be_file = os.path.join(working_dir, 'nmr.json')
-            with open(be_file, "w") as f:
+            nmr_file = os.path.join(working_dir, 'nmr.json')
+            with open(nmr_file, "w") as f:
                 f.write(json.dumps(nmr_dict, default=DATETIME_HANDLER))
         logger.info("nmr calculation complete")
         return FWAction()
@@ -536,17 +537,19 @@ class IPEAtoDB(FiretaskBase):
 
 @explicit_serialize
 class BDEtoDB(FiretaskBase):
-    required_params = ["bonds", "principle_mol_key", "keys"]
-    optional_params = ["db", "save_to_db", "save_to_file",
+    required_params = []
+    optional_params = ["principle_mol_key",
+                       "db", "save_to_db", "save_to_file",
                        "solvent_gaussian_inputs",
                        "solvent_properties",
                        "additional_prop_doc_fields"]
 
     def run_task(self, fw_spec):
         db = self.get("db")
-        bonds = self["bonds"]
-        principle_mol_key = self['principle_mol_key']
-        keys = [principle_mol_key] + self["keys"]
+        principle_mol_key = self.get('principle_mol_key', "ref_mol")
+        keys = [principle_mol_key] + fw_spec["frag_keys"]
+        bonds = fw_spec["bonds"]
+        molecule_indices = fw_spec["molecule_indices"]
 
         gout_dict = {i: pass_gout_dict(fw_spec, i) for i in keys}
         # include opt fireworks in the list of gout_dict to calculate run time
@@ -561,7 +564,39 @@ class BDEtoDB(FiretaskBase):
         run_time = sum([gout["wall_time (s)"] for gout in full_gout_dict])
 
         fragments = {}
+        for gout_key, gout in gout_dict.items():
+            frag = process_mol("get_from_run_dict", gout)
+            frag_schema = get_chem_schema(frag)
+            fragments.update({
+                gout_key: {"fragment": frag.as_dict(),
+                           "smiles": frag_schema["smiles"],
+                           "formula_pretty": frag_schema[
+                               "formula_pretty"],
+                           "energy": final_energies[gout_key],
+                           "charge": gout["input"]["charge"],
+                           "spin_multiplicity":
+                               gout["input"]["spin_multiplicity"],
+                           }
+            })
+
         bde_results = {}
+        for ind, [bond, mol_ind] in enumerate(zip(bonds, molecule_indices)):
+            frag_pairs = []
+            for i, j in enumerate(mol_ind):
+                frag_pairs.append({"fragments": tuple(j),
+                                   "bde_ev": (final_energies[0] -
+                                              (final_energies[j[0]] +
+                                               final_energies[j[1]])) *
+                                             HARTREE_TO_EV})
+            bde_results.update({
+                "bond_{}".format(ind): {"atoms":
+                                            (str(molecule.species[bond[0]]),
+                                             str(molecule.species[bond[1]])),
+                                        "indexes": bond,
+                                        "pairs": frag_pairs
+                                        }
+            })
+
         mol_schema = get_chem_schema(molecule)
         bde_dict = {"molecule": molecule.as_dict(),
                     "smiles": mol_schema["smiles"],
@@ -571,10 +606,11 @@ class BDEtoDB(FiretaskBase):
                     "basis": gout_dict[principle_mol_key]["basis"],
                     "charge": gout_dict[principle_mol_key]["input"]["charge"],
                     "spin_multiplicity":
-                        gout_dict[principle_mol_key]["input"]["spin_multiplicity"],
+                        gout_dict[principle_mol_key]["input"][
+                            "spin_multiplicity"],
                     "phase": phase,
                     "fragments": fragments,
-                    "bde": bde_results,
+                    "bde_eV": bde_results,
                     "tag": gout_dict[principle_mol_key]["tag"],
                     "state": "successful",
                     "wall_time (s)": run_time,
@@ -596,7 +632,7 @@ class BDEtoDB(FiretaskBase):
 
         if self.get('save_to_db'):
             db = get_db(db)
-            db.insert_property("nmr", bde_dict,
+            db.insert_property("bde", bde_dict,
                                [('formula_pretty', 1), ('smiles', 1)])
 
         if fw_spec.get("run_loc_list"):
@@ -605,8 +641,8 @@ class BDEtoDB(FiretaskBase):
             working_dir = os.getcwd()
             if "run_ids" in bde_dict:
                 del bde_dict["run_ids"]
-            nmr_file = os.path.join(working_dir, 'nmr.json')
-            with open(nmr_file, "w") as f:
+            bde_file = os.path.join(working_dir, 'nmr.json')
+            with open(bde_file, "w") as f:
                 f.write(json.dumps(bde_dict, default=DATETIME_HANDLER))
         logger.info("bde calculation complete")
         return FWAction()
