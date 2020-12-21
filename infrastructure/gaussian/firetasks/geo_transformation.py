@@ -8,6 +8,7 @@ from copy import deepcopy
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.graphs import MoleculeGraph
+from pymatgen.analysis.fragmenter import open_ring
 
 from fireworks import Firework, Workflow
 from fireworks.core.firework import FiretaskBase, FWAction
@@ -210,13 +211,13 @@ class BreakMolecule(FiretaskBase):
     """
     required_params = []
     optional_params = ["mol", "bonds", "ref_charge", "fragment_charges",
-                       "working_dir", "db", "opt_gaussian_inputs",
-                       "freq_gaussian_inputs", "cart_coord",
-                       "oxidation_states", "calc_frags", "kwargs"]
+                       "open_rings", "opt_steps", "working_dir", "db",
+                       "opt_gaussian_inputs", "freq_gaussian_inputs",
+                       "cart_coord", "oxidation_states", "calc_frags",
+                       "kwargs"]
 
-    def _define_charges(self, mol):
-        ref_charge = self.get("ref_charge", mol.charge)
-        fragment_charges = self.get("fragment_charges", None)
+    @staticmethod
+    def _define_charges(ref_charge, fragment_charges):
         # get a list of possible charges that each fragment can take
         possible_charges = []
         if ref_charge == 0:
@@ -241,7 +242,57 @@ class BreakMolecule(FiretaskBase):
         charge_ind_map = {j: i for i, j in enumerate(possible_charges)}
         return possible_charges, charge_pairs, charge_ind_map
 
-    def _workflow(self, mol, gout_key, working_dir, db, opt_gaussian_inputs,
+    @staticmethod
+    def _find_unique_fragments(fragments_list):
+        # get unique fragments from the list of all fragments
+        # for each bond, store the new indexes of the unique fragments formed
+        # upon splitting the molecule (can be used for analysis purposes later)
+        unique_fragments = []
+        fragments_indices = []
+        for fragment in fragments_list:
+            indices = []
+            for i in fragment:
+                flag = 0
+                for ind, j in enumerate(unique_fragments):
+                    if i.isomorphic_to(j):
+                        flag = 1
+                        indices.append(ind)
+                        break
+                if flag == 0:
+                    indices.append(len(unique_fragments))
+                    unique_fragments.append(i)
+            fragments_indices.append(indices)
+        return unique_fragments, fragments_indices
+
+    @staticmethod
+    def _find_unique_molecules(unique_fragments, fragment_charges):
+        # create molecule objects from the unique fragments and set the charge
+        # of each molecule
+        unique_molecules = []
+        for fragment in unique_fragments:
+            for charge in fragment_charges:
+                frag_to_mol = copy.deepcopy(fragment.molecule)
+                frag_to_mol.set_charge_and_spin(charge)
+                unique_molecules.append(frag_to_mol)
+        return unique_molecules
+
+    @staticmethod
+    def _find_molecule_indices(fragments_indices, fragment_charges,
+                               charge_ind_map, charge_pairs, offset=0):
+        num_charges = len(fragment_charges)
+        molecule_indices = []
+        for fragment in fragments_indices:
+            split_possibilities = []
+            for charge_pair in charge_pairs:
+                split_possibility = \
+                    [offset + fragment[i] * num_charges + charge_ind_map[j] for
+                     i, j in enumerate(charge_pair)]
+                split_possibilities.append(split_possibility)
+            molecule_indices.append(split_possibilities)
+        return molecule_indices
+
+    @staticmethod
+    def _workflow(mol, gout_key, working_dir, db, opt_gaussian_inputs,
                   freq_gaussian_inputs, cart_coords, oxidation_states, kwargs):
         from infrastructure.gaussian.fireworks.core_standard import \
             CalcFromMolFW
@@ -316,75 +367,84 @@ class BreakMolecule(FiretaskBase):
             raise KeyError(
                 "No molecule present, add as an optional param or check fw_spec"
             )
-        # get a list of possible charges of the fragments
-        possible_charges, charge_pairs, charge_ind_map = \
-            self._define_charges(mol)
+
+        ref_charge = self.get("ref_charge", mol.charge)
 
         # break the bonds: either those specified by the user inputs or all
-        # the bonds in the molecule; only supports breaking bonds in the
-        # principle molecule and assumes no rings are encountered
+        # the bonds in the molecule; only supports breaking bonds or opening
+        # ring in the principle molecule
         mol_graph = \
             MoleculeGraph.with_local_env_strategy(mol,
                                                   OpenBabelNN(),
                                                   reorder=False,
                                                   extend_structure=False)
-        bonds = self.get("bonds", None)
-        if not bonds:
-            bonds = \
+        all_bonds = self.get("bonds", None)
+        if not all_bonds:
+            all_bonds = \
                 list({idx1: idx2 for
                       idx1, idx2, *_ in mol_graph.graph.edges}.items())
 
         fragments = []
-        unique_fragments = []
-        fragments_indices = []
+        bonds = []
+        ring_fragments = []
+        ring_bonds = []
 
         # get fragments by splitting the molecule at each bond
-        for idx, bond in enumerate(bonds):
-            fragments.append(
-                mol_graph.split_molecule_subgraphs([bond], allow_reverse=True))
+        for idx, bond in enumerate(all_bonds):
+            try:
+                fragments.append(
+                    mol_graph.split_molecule_subgraphs([bond],
+                                                       allow_reverse=True))
+                bonds.append(bond)
+            except Exception as e:
+                logger.info(e)
+                if self.get("open_rings"):
+                    logger.info("opening ring by breaking bond between "
+                                "site {} and site {}".format(str(bond[0]),
+                                                             str(bond[1])))
+                    ring_fragments.append(
+                        [open_ring(mol_graph, [bond],
+                                   self.get("opt_steps", 10000))])
+                    ring_bonds.append(bond)
+                else:
+                    logger.info("encountered a ring bond; should set open_ring "
+                                "to True to open the ring")
 
-        # get unique fragments from the list of all fragments
-        # for each bond, store the new indexes of the unique fragments formed
-        # upon splitting the molecule (can be used for analysis purposes later)
-        for fragment in fragments:
-            indices = []
-            for i in fragment:
-                flag = 0
-                for ind, j in enumerate(unique_fragments):
-                    if i.isomorphic_to(j):
-                        flag = 1
-                        indices.append(ind)
-                        break
-                if flag == 0:
-                    indices.append(len(unique_fragments))
-                    unique_fragments.append(i)
-            fragments_indices.append(indices)
-
-        # create molecule objects from the unique fragments and set the charge
-        # of each molecule
         unique_molecules = []
-        for fragment in unique_fragments:
-            for charge in possible_charges:
-                frag_to_mol = copy.deepcopy(fragment.molecule)
-                frag_to_mol.set_charge_and_spin(charge)
-                unique_molecules.append(frag_to_mol)
-
-        num_charges = len(possible_charges)
         molecule_indices = []
-        for fragment in fragments_indices:
-            split_possibilities = []
-            for charge_pair in charge_pairs:
-                split_possibility = \
-                    [fragment[0] * num_charges + charge_ind_map[charge_pair[0]],
-                     fragment[1] * num_charges + charge_ind_map[charge_pair[1]]]
-                split_possibilities.append(split_possibility)
-            molecule_indices.append(split_possibilities)
+        if fragments:
+            fragment_charges = self.get("fragment_charges", None)
+            possible_charges, charge_pairs, charge_ind_map = \
+                self._define_charges(ref_charge, fragment_charges)
+            unique_fragments, fragments_indices = \
+                self._find_unique_fragments(fragments)
+            unique_molecules = self._find_unique_molecules(unique_fragments,
+                                                           possible_charges)
+            molecule_indices = self._find_molecule_indices(fragments_indices,
+                                                           possible_charges,
+                                                           charge_ind_map,
+                                                           charge_pairs)
+        ring_unique_molecules = []
+        ring_molecule_indices = []
+        if ring_fragments:
+            ring_unique_fragments, ring_fragments_indices = \
+                self._find_unique_fragments(ring_fragments)
+            ring_unique_molecules = \
+                self._find_unique_molecules(ring_unique_fragments,
+                                            [ref_charge])
+            charge_pairs = [[ref_charge]]
+            charge_ind_map = {0: ref_charge}
+            ring_molecule_indices = \
+                self._find_molecule_indices(ring_fragments_indices,
+                                            [ref_charge], charge_ind_map,
+                                            charge_pairs,
+                                            len(unique_molecules))
+        all_molecules = unique_molecules + ring_unique_molecules
 
-        # fw_spec["fragments"] = unique_molecules
-        # fw_spec["molecule_indices"] = molecule_indices
-        update_spec = {"bonds": bonds,
-                       "fragments": unique_molecules,
-                       "molecule_indices": molecule_indices}
+        update_spec = {"bonds": bonds + ring_bonds,
+                       "fragments": all_molecules,
+                       "molecule_indices":
+                           molecule_indices + ring_molecule_indices}
 
         if self.get("calc_frags"):
             wfs = []
@@ -394,20 +454,22 @@ class BreakMolecule(FiretaskBase):
             # TODO: if the BreakMolecule firetask is used alone, we would still
             #  need to process solvent inputs?
             opt_gaussian_inputs = self.get("opt_gaussian_inputs") or {}
-            print(opt_gaussian_inputs)
             freq_gaussian_inputs = self.get("freq_gaussian_inputs") or {}
             cart_coords = self.get("cart_coords", True)
             oxidation_states = self.get("oxidation_states")
             kwargs = self.get("kwargs", {})
 
-            for mol_ind, mol in enumerate(unique_molecules):
+            for mol_ind, mol in enumerate(all_molecules):
                 gout_key = "frag_{}".format(mol_ind)
-                frag_wf = self._workflow(mol, gout_key, working_dir,
+                frag_wf = self._workflow(mol,
+                                         gout_key,
+                                         working_dir,
                                          db,
                                          opt_gaussian_inputs,
                                          freq_gaussian_inputs,
                                          cart_coords,
-                                         oxidation_states, kwargs)
+                                         oxidation_states,
+                                         kwargs)
                 wfs.append(frag_wf)
                 frag_keys.append(gout_key)
             update_spec["frag_keys"] = frag_keys
