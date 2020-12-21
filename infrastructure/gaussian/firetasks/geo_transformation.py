@@ -214,7 +214,8 @@ class BreakMolecule(FiretaskBase):
                        "open_rings", "opt_steps", "working_dir", "db",
                        "opt_gaussian_inputs", "freq_gaussian_inputs",
                        "cart_coord", "oxidation_states", "calc_frags",
-                       "kwargs"]
+                       "save_to_db", "save_to_file", "fmt",
+                       "update_duplicates", "kwargs"]
 
     @staticmethod
     def _define_charges(ref_charge, fragment_charges):
@@ -264,14 +265,25 @@ class BreakMolecule(FiretaskBase):
             fragments_indices.append(indices)
         return unique_fragments, fragments_indices
 
-    @staticmethod
-    def _find_unique_molecules(unique_fragments, fragment_charges):
+    def _find_unique_molecules(self, unique_fragments, fragment_charges, db,
+                               working_dir):
         # create molecule objects from the unique fragments and set the charge
         # of each molecule
         unique_molecules = []
         for fragment in unique_fragments:
             for charge in fragment_charges:
                 frag_to_mol = copy.deepcopy(fragment.molecule)
+                if self.get("save_to_db"):
+                    db = get_db(db) if db else get_db()
+                    update_duplicates = self.get("update_duplicates", False)
+                    db.insert_molecule(frag_to_mol,
+                                       update_duplicates=update_duplicates)
+                if self.get("save_to_file"):
+                    mol_formula = get_mol_formula(frag_to_mol)
+                    fmt = self.get("fmt", 'xyz')
+                    file = os.path.join(working_dir, f"{mol_formula}.{fmt}")
+                    frag_to_mol.to(fmt, file)
+
                 frag_to_mol.set_charge_and_spin(charge)
                 unique_molecules.append(frag_to_mol)
         return unique_molecules
@@ -369,6 +381,8 @@ class BreakMolecule(FiretaskBase):
             )
 
         ref_charge = self.get("ref_charge", mol.charge)
+        db = self.get("db")
+        working_dir = self.get("working_dir", os.getcwd())
 
         # break the bonds: either those specified by the user inputs or all
         # the bonds in the molecule; only supports breaking bonds or opening
@@ -419,7 +433,8 @@ class BreakMolecule(FiretaskBase):
             unique_fragments, fragments_indices = \
                 self._find_unique_fragments(fragments)
             unique_molecules = self._find_unique_molecules(unique_fragments,
-                                                           possible_charges)
+                                                           possible_charges,
+                                                           db, working_dir)
             molecule_indices = self._find_molecule_indices(fragments_indices,
                                                            possible_charges,
                                                            charge_ind_map,
@@ -431,7 +446,7 @@ class BreakMolecule(FiretaskBase):
                 self._find_unique_fragments(ring_fragments)
             ring_unique_molecules = \
                 self._find_unique_molecules(ring_unique_fragments,
-                                            [ref_charge])
+                                            [ref_charge], db, working_dir)
             charge_pairs = [[ref_charge]]
             charge_ind_map = {0: ref_charge}
             ring_molecule_indices = \
@@ -449,8 +464,6 @@ class BreakMolecule(FiretaskBase):
         if self.get("calc_frags"):
             wfs = []
             frag_keys = []
-            working_dir = self.get("working_dir", os.getcwd())
-            db = self.get("db")
             # TODO: if the BreakMolecule firetask is used alone, we would still
             #  need to process solvent inputs?
             opt_gaussian_inputs = self.get("opt_gaussian_inputs") or {}
