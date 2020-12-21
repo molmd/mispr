@@ -570,8 +570,7 @@ class BDEtoDB(FiretaskBase):
             fragments.update({
                 gout_key: {"fragment": frag.as_dict(),
                            "smiles": frag_schema["smiles"],
-                           "formula_pretty": frag_schema[
-                               "formula_pretty"],
+                           "formula_pretty": frag_schema["formula_pretty"],
                            "energy": final_energies[gout_key],
                            "charge": gout["input"]["charge"],
                            "spin_multiplicity":
@@ -583,15 +582,16 @@ class BDEtoDB(FiretaskBase):
         for ind, [bond, mol_ind] in enumerate(zip(bonds, molecule_indices)):
             frag_pairs = []
             for i, j in enumerate(mol_ind):
+                fragment_energies_sum = \
+                    sum([[final_energies[f"frag_{j[count]}"]
+                          for count in range(len(j))]])
                 frag_pairs.append({"fragments": tuple(j),
-                                   "bde_ev": (final_energies[0] -
-                                              (final_energies[j[0]] +
-                                               final_energies[j[1]])) *
+                                   "bde_ev": (final_energies[principle_mol_key]
+                                              - fragment_energies_sum) *
                                              HARTREE_TO_EV})
             bde_results.update({
-                "bond_{}".format(ind): {"atoms":
-                                            (str(molecule.species[bond[0]]),
-                                             str(molecule.species[bond[1]])),
+                "bond_{}".format(ind): {"atoms": (str(molecule.species[bond[0]]),
+                                                  str(molecule.species[bond[1]])),
                                         "indexes": bond,
                                         "pairs": frag_pairs
                                         }
@@ -601,7 +601,7 @@ class BDEtoDB(FiretaskBase):
         bde_dict = {"molecule": molecule.as_dict(),
                     "smiles": mol_schema["smiles"],
                     "formula_pretty": mol_schema["formula_pretty"],
-                    "energy": final_energies[0],
+                    "energy": final_energies[principle_mol_key],
                     "functional": gout_dict[principle_mol_key]["functional"],
                     "basis": gout_dict[principle_mol_key]["basis"],
                     "charge": gout_dict[principle_mol_key]["input"]["charge"],
@@ -641,7 +641,7 @@ class BDEtoDB(FiretaskBase):
             working_dir = os.getcwd()
             if "run_ids" in bde_dict:
                 del bde_dict["run_ids"]
-            bde_file = os.path.join(working_dir, 'nmr.json')
+            bde_file = os.path.join(working_dir, 'bde.json')
             with open(bde_file, "w") as f:
                 f.write(json.dumps(bde_dict, default=DATETIME_HANDLER))
         logger.info("bde calculation complete")
