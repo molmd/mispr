@@ -1,16 +1,22 @@
 import os
 import logging
 import json
+import random
+import warnings
+
+import pybel as pb
 
 from bson.objectid import ObjectId
+
+from openbabel import OBMolBondIter
 
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput, GaussianOutput
 from pymatgen.io.babel import BabelMolAdaptor
+
 from fireworks.utilities.fw_utilities import get_slug
 from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks import FileWriteTask
-import pybel as pb
 
 logger = logging.getLogger(__name__)
 
@@ -73,9 +79,10 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
 
     elif operation_type == 'get_from_run_dict':
         if not isinstance(mol, dict) and "output" not in mol:
-            raise Exception("mol is not a GaussianOutput dictionary; either"
-                            "provide a GaussianOutput dictionary or use another"
-                            "operation type with its corresponding inputs")
+            raise Exception("mol is not a GaussianOutput dictionary; either "
+                            "provide a GaussianOutput dictionary or use "
+                            "another operation type with its corresponding "
+                            "inputs")
         output_mol = Molecule.from_dict(mol["output"]["output"]["molecule"])
 
     elif operation_type == 'get_from_run_id':
@@ -275,6 +282,118 @@ def get_job_name(mol, name):
         mol_formula = get_mol_formula(mol)
         job_name = "{}_{}".format(mol_formula, name)
     return job_name
+
+
+def get_bond_order_str(mol):
+    """
+    Finds bond order as a string by iterating over bonds of a molecule. First
+    converts pymatgen mol to openbabel mol to use openbabel in finding bond
+    order.
+    """
+    bond_order = {}
+    a = BabelMolAdaptor(mol).openbabel_mol
+    for bond in OBMolBondIter(a):
+        atom_indices = \
+            tuple(sorted([bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()]))
+        order = bond.GetBondOrder()
+        if order == 0:
+            bond_order[atom_indices] = "U"
+        elif order == 1:
+            bond_order[atom_indices] = "S"
+        elif order == 2:
+            bond_order[atom_indices] = "D"
+        elif order == 3:
+            bond_order[atom_indices] = "T"
+        elif order == 5:
+            bond_order[atom_indices] = "A"
+        else:
+            raise TypeError(
+                "Bond order number {} is not understood".format(order))
+    return bond_order
+
+
+def get_rdkit_mol(mol, sanitize=True, remove_h=False):
+    """
+    Converts a pymatgen mol object to RDKit rdmol object. Uses RDKit to perform
+    the conversion <http://rdkit.org>. Accounts for aromaticity.
+    """
+    try:
+        import rdkit
+        from rdkit import Chem
+        from rdkit.Geometry import Point3D
+    except ModuleNotFoundError:
+        raise ImportError("This function requires RDKit to be installed.")
+
+    mol_species = [str(s) for s in mol.species]
+    mol_coords = mol.cart_coords
+
+    rdkit_mol = Chem.rdchem.EditableMol(Chem.rdchem.Mol())
+    conformer = Chem.Conformer(len(mol_species))
+
+    for index, (specie, coord) in enumerate(zip(mol_species, mol_coords)):
+        rdkit_atom = Chem.rdchem.Atom(specie)
+        rdkit_mol.AddAtom(rdkit_atom)
+        conformer.SetAtomPosition(index, Point3D(*coord))
+
+    rdkit_bonds = Chem.rdchem.BondType
+    bond_order_mapping = {"U": rdkit_bonds.UNSPECIFIED, "S": rdkit_bonds.SINGLE,
+                          "D": rdkit_bonds.DOUBLE, "T": rdkit_bonds.TRIPLE,
+                          "A": rdkit_bonds.AROMATIC}
+    bond_orders = get_bond_order_str(mol)
+
+    for bond, bond_order in bond_orders.items():
+        order = bond_order_mapping[bond_order]
+        rdkit_mol.AddBond(bond[0] - 1, bond[1] - 1, order)
+
+    rdkit_mol = rdkit_mol.GetMol()
+    if sanitize:
+        # if sanitization fails, inform the user and proceed normally
+        try:
+            Chem.SanitizeMol(rdkit_mol)
+        except Exception as e:
+            logger.info("Could not sanitize rdkit mol: {}".format(e))
+    rdkit_mol.AddConformer(conformer, assignId=False)
+    if remove_h:
+        rdkit_mol = Chem.RemoveHs(rdkit_mol, sanitize=sanitize)
+
+    return rdkit_mol
+
+
+def draw_rdkit_mol(rdkit_mol, filename="mol.png", working_dir=None):
+    from rdkit.Chem import Draw, AllChem
+    working_dir = working_dir or os.getcwd()
+    AllChem.Compute2DCoords(rdkit_mol)
+    Draw.MolToFile(rdkit_mol, os.path.join(working_dir, filename))
+
+
+def draw_rdkit_mol_with_highlighted_bonds(rdkit_mol, bonds,
+                                          filename="mol.png",
+                                          colors=None,
+                                          working_dir=None):
+    from rdkit.Chem.Draw import rdMolDraw2D
+    working_dir = working_dir or os.getcwd()
+
+    highlighted_bonds = []
+    for bond in bonds:
+        highlighted_bonds.append(rdkit_mol.GetBondBetweenAtoms(*bond).GetIdx())
+
+    bond_colors = {}
+    if not colors or len(colors) < len(bonds):
+        colors = []
+        for i in range(len(bonds)):
+            colors.append((random.random(), random.random(), random.random()))
+
+    for i, bond in enumerate(highlighted_bonds):
+        bond_colors[bond] = colors[i]
+
+    d = rdMolDraw2D.MolDraw2DCairo(500, 500)
+    rdMolDraw2D.PrepareAndDrawMolecule(d, rdkit_mol,
+                                       highlightBonds=highlighted_bonds,
+                                       highlightBondColors=bond_colors)
+    d.DrawMolecule(rdkit_mol)
+    d.FinishDrawing()
+    d.WriteDrawingText(os.path.join(working_dir, filename))
+    return colors
 
 
 def add_namefile(original_wf, use_slug=True):
