@@ -2,9 +2,10 @@ import os
 import logging
 import json
 import random
-import warnings
 
 import pybel as pb
+
+from copy import deepcopy
 
 from bson.objectid import ObjectId
 
@@ -26,6 +27,13 @@ JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
              'sac-ci'}
 SCRF_MODELS = {"pcm", "iefpcm", "cpcm", "dipole", "ipcm", "isodensity",
                "scipcm", "smd"}
+
+STANDARD_OPT_GUASSIAN_INPUT = {"functional": "B3LYP",
+                               "basis_set": "6-31G(d)",
+                               "route_parameters": {"Opt": None},
+                               "link0_parameters": {"%chk": "checkpoint.chk",
+                                                    "%mem": "45GB",
+                                                    "%NProcShared": "24"}}
 
 
 def process_mol(operation_type, mol, local_opt=False, **kwargs):
@@ -371,6 +379,7 @@ def draw_rdkit_mol_with_highlighted_bonds(rdkit_mol, bonds,
                                           colors=None,
                                           working_dir=None):
     from rdkit.Chem.Draw import rdMolDraw2D
+
     working_dir = working_dir or os.getcwd()
 
     highlighted_bonds = []
@@ -523,33 +532,94 @@ def label_atoms(mol):
     print(f"{mol_smiles}\n{count_1}\n{count_2}\n{count_3}")
 
 
-def check_solvent_inputs(gaussian_inputs):
+def _update_gaussian_inputs(opt_gaussian_inputs, other_gaussian_inputs,
+                            main_keyword):
+    gaussian_inputs = {**opt_gaussian_inputs, **other_gaussian_inputs}
+    if list(main_keyword.keys())[0].lower() not in \
+            [i.lower() for i in gaussian_inputs["route_parameters"]]:
+        gaussian_inputs["route_parameters"].update(main_keyword)
+    for i in gaussian_inputs["route_parameters"]:
+        if i.lower() == "opt":
+            del gaussian_inputs["route_parameters"][i]
+            break
+    return gaussian_inputs
+
+
+def _get_gaussian_inputs(gaussian_inputs, supported_jobs=None):
+    # gaussian_inputs is a dict of dicts: {"opt": {}, "freq": {}, "nmr": {},
+    # "esp": {}, "sp": {}}; this function is meant to be used in workflows in
+    # which multiple Gaussian jobs are performed and the jobs share similar
+    # Gaussian keywords; used to handle situations in which the user is not
+    # explicitly defining every single job input dictionary
+    supported_jobs = supported_jobs or {}
+    supported_jobs = {**{"freq": {"Freq": None}, "nmr": {"NMR": "GIAO"},
+                         "esp": {"pop": "MK", "iop(6/50=1)": None},
+                         "sp": {"SP": None}},
+                      **{k.lower(): v for k, v in supported_jobs.items()}}
+
+    gaussian_inputs = {k.lower(): v if v is not None else {} for k, v in
+                       gaussian_inputs.items()}
+
+    if "opt" not in gaussian_inputs:
+        gaussian_inputs["opt"] = {}
+    gaussian_inputs["opt"] = {**STANDARD_OPT_GUASSIAN_INPUT,
+                              **gaussian_inputs["opt"]}
+    if "opt" not in [i.lower() for i in
+                     gaussian_inputs["opt"]["route_parameters"]]:
+        gaussian_inputs["opt"]["route_parameters"].update({"Opt": None})
+
+    for job in gaussian_inputs:
+        if job in supported_jobs and job != "opt":
+            gaussian_inputs[job] = \
+                _update_gaussian_inputs(deepcopy(gaussian_inputs["opt"]),
+                                        gaussian_inputs[job],
+                                        supported_jobs[job])
+        elif job == "opt":
+            pass
+        else:
+            logger.error("keyword for {} is not known. Please add keyword to "
+                         "the supported_jobs dict.".format(job))
+    return gaussian_inputs
+
+
+def _check_solvent_inputs(gaussian_inputs):
+    # gaussian_inputs is a list of dicts
     route_params = {}
-    for i in gaussian_inputs:
-        if i:
-            route_params.update(i.get("route_parameters", {}))
-    assert "SCRF" not in route_params, \
+    for key, value in gaussian_inputs.items():
+        if value:
+            route_params.update(value.get("route_parameters", {}))
+    assert "scrf" not in [i.lower() for i in route_params], \
         "solvent inputs should be provided as separate inputs via " \
         "solvent_gaussian_inputs and solvent_properties"
 
 
-def add_solvent_inputs(gaussian_inputs, solvent_gaussian_inputs,
-                       solvent_properties=None):
+def _add_solvent_inputs(gaussian_inputs, solvent_gaussian_inputs,
+                        solvent_properties=None):
     if "generic" in solvent_gaussian_inputs.lower() \
             and not solvent_properties:
         raise Exception(
             "A generic solvent is provided as an input without "
             "specifying its parameters.")
-    gaussian_inputs = [i or {} for i in gaussian_inputs]
-    for gaussian_input in gaussian_inputs:
-        if "route_parameters" not in gaussian_input:
-            gaussian_input["route_parameters"] = {}
-        gaussian_input["route_parameters"]["SCRF"] = \
+    for key, value in gaussian_inputs.items():
+        if "route_parameters" not in value:
+            gaussian_inputs[key]["route_parameters"] = {}
+        gaussian_inputs[key]["route_parameters"]["SCRF"] = \
             solvent_gaussian_inputs
         if solvent_properties:
-            if "input_parameters" not in gaussian_input:
-                gaussian_input["input_parameters"] = {}
-            gaussian_input["input_parameters"].update(solvent_properties)
+            if "input_parameters" not in gaussian_inputs[key]:
+                gaussian_inputs[key]["input_parameters"] = {}
+            gaussian_inputs[key]["input_parameters"].update(solvent_properties)
+    return gaussian_inputs
+
+
+def handle_gaussian_inputs(gaussian_inputs, solvent_gaussian_inputs=None,
+                           solvent_properties=None):
+    gaussian_inputs = _get_gaussian_inputs(gaussian_inputs)
+    _check_solvent_inputs(gaussian_inputs)
+    if solvent_gaussian_inputs:
+        gaussian_inputs = _add_solvent_inputs(gaussian_inputs,
+                                              solvent_gaussian_inputs,
+                                              solvent_properties)
     return gaussian_inputs
 
 
