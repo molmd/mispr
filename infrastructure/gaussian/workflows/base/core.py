@@ -13,13 +13,6 @@ logger = logging.getLogger(__name__)
 
 WORKFLOW_KWARGS = Workflow.__init__.__code__.co_varnames
 
-STANDARD_OPT_GUASSIAN_INPUT = {"functional": "B3LYP",
-                               "basis_set": "6-31G(d)",
-                               "route_parameters": {"Opt": None},
-                               "link0_parameters": {"%chk": "checkpoint.chk",
-                                                    "%mem": "1000MW",
-                                                    "%NProcShared": "24"}}
-
 
 # TODO: avoid overwriting a directory if it exists (happens when molecules have
 #  same mol formula)
@@ -36,19 +29,31 @@ def common_fw(mol_operation_type,
               mol_name=None,
               dir_head=None,
               skip_opt_freq=False,
+              check_result=None,
               **kwargs):
-    # TODO: checking criteria not working TODO: gout_key looks like it should
-    #  be required TODO: mol is not returned if process_mol_func is set to
-    #   False TODO: this function is changed to return three outputs, should
+    # TODO: checking criteria not working
+    #   TODO: mol is not returned if process_mol_func is set to False
+    #    TODO: this function is changed to return three outputs, should
     #    change everything
+
+    def _recursive_key_check(grun, grun_key):
+        key_exists = grun_key in grun
+        if not key_exists:
+            for key, value in grun.items():
+                if isinstance(value, dict):
+                    key_exists = key_exists or _recursive_key_check(value,
+                                                                    grun_key)
+        return key_exists
+
     fws = []
+
     if not gout_key:
-        gout_key = "gaussian"
+        gout_key = "mol"
     if not skip_opt_freq:
         if process_mol_func:
             mol = process_mol(mol_operation_type, mol, db=db,
                               working_dir=working_dir)
-            mol_operation_type = 'get_from_mol'
+            mol_operation_type = "get_from_mol"
             mol_formula = get_mol_formula(mol)
             opt_job_name = get_job_name(mol, "optimization")
             freq_job_name = get_job_name(mol, "frequency")
@@ -63,19 +68,13 @@ def common_fw(mol_operation_type,
             label = "mol"
         if not dir_head:
             dir_head = label
-        dir_struct = [dir_head] + kwargs.get('dir_structure', [])
+        dir_struct = [dir_head] + kwargs.get("dir_structure", [])
         working_dir = os.path.join(working_dir, *dir_struct)
         opt_input_file = f"{label}_opt.com"
         opt_output_file = f"{label}_opt.out"
         freq_input_file = f"{label}_freq.com"
         freq_output_file = f"{label}_freq.out"
 
-        opt_gaussian_inputs = opt_gaussian_inputs or {}
-        opt_gaussian_inputs = {**STANDARD_OPT_GUASSIAN_INPUT,
-                               **opt_gaussian_inputs}
-        if "opt" not in [i.lower() for i in
-                         opt_gaussian_inputs["route_parameters"]]:
-            raise ValueError("The Opt keyword is missing from the input file")
         opt_fw = CalcFromMolFW(mol=mol,
                                mol_operation_type=mol_operation_type,
                                db=db,
@@ -87,7 +86,7 @@ def common_fw(mol_operation_type,
                                gaussian_input_params=opt_gaussian_inputs,
                                cart_coords=cart_coords,
                                oxidation_states=oxidation_states,
-                               gout_key=gout_key+"_opt",
+                               gout_key=gout_key + "_opt",
                                **kwargs
                                )
         fws.append(opt_fw)
@@ -128,19 +127,30 @@ def common_fw(mol_operation_type,
                              "the molecule in any of the supported Gaussian "
                              "output formats")
         else:
+            # TODO: add option for user to add label or mol_name like above
             run = process_run(mol_operation_type, mol, db=db,
                               working_dir=working_dir)
+            if check_result:
+                keys_exist = []
+                for grun_key in check_result:
+                    keys_exist.append(_recursive_key_check(run, grun_key))
+                not_found_ind = [ind for ind, boolean in enumerate(keys_exist)
+                                 if not boolean]
+                if not_found_ind:
+                    not_found_keys = [check_result[ind] for ind in not_found_ind]
+                    raise ValueError("Gaussian output does not include {}. "
+                                     "Stopping.".format(not_found_keys))
             mol = process_mol("get_from_run_dict", run, db=db,
                               working_dir=working_dir)
-            spec = kwargs.pop('spec', {})
+            spec = kwargs.pop("spec", {})
             label = get_mol_formula(mol)
             if not dir_head:
                 dir_head = label
-            dir_struct = [dir_head] + kwargs.get('dir_structure', [])
+            dir_struct = [dir_head] + kwargs.get("dir_structure", [])
             working_dir = os.path.join(working_dir, *dir_struct)
             if "tag" in kwargs:
-                spec.update({'tag': kwargs["tag"]})
-            spec.update({'_launch_dir': working_dir})
+                spec.update({"tag": kwargs["tag"]})
+            spec.update({"_launch_dir": working_dir})
             fws.append(Firework(ProcessRun(run=run,
                                            operation_type="get_from_run_dict",
                                            db=db,
@@ -153,6 +163,3 @@ def common_fw(mol_operation_type,
                                 spec=spec)
                        )
     return mol, label, fws
-
-
-
