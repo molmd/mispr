@@ -1,9 +1,13 @@
+# coding: utf-8
+
+
+# Defines firetasks for performing various molecule transformations.
+
 import os
 import copy
 import logging
 import itertools
 
-from copy import deepcopy
 
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.core.structure import Molecule
@@ -17,9 +21,17 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 from infrastructure.gaussian.utils.utils import get_db, process_mol, \
     get_job_name, get_mol_formula
 
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
+
 logger = logging.getLogger(__name__)
 
-DEFAULT_KEY = 'gout_key'
+DEFAULT_KEY = "gout_key"
 
 
 @explicit_serialize
@@ -32,20 +44,20 @@ class ProcessMoleculeInput(FiretaskBase):
 
     @staticmethod
     def _run_to_mol_object(run):
-        return Molecule.from_dict(run['output']['output']['molecule'])
+        return Molecule.from_dict(run["output"]["output"]["molecule"])
 
     @staticmethod
     def _from_fw_spec(mol, fw_spec):
         # mol = key in this case
-        available_runs = fw_spec['gaussian_output']
+        available_runs = fw_spec["gaussian_output"]
         if not isinstance(mol, dict):
             mol = available_runs.get(mol, mol)
         else:
-            if isinstance(mol['mol'], list):
-                mol['mol'] = [ProcessMoleculeInput._from_fw_spec(i, fw_spec)
-                              for i in mol['mol']]
+            if isinstance(mol["mol"], list):
+                mol["mol"] = [ProcessMoleculeInput._from_fw_spec(i, fw_spec)
+                              for i in mol["mol"]]
             else:
-                mol['mol'] = ProcessMoleculeInput._from_fw_spec(mol['mol'],
+                mol["mol"] = ProcessMoleculeInput._from_fw_spec(mol["mol"],
                                                                 fw_spec)
         return mol
 
@@ -53,9 +65,9 @@ class ProcessMoleculeInput(FiretaskBase):
         mol = self["mol"]
         operation_type = self.get("operation_type", "get_from_mol")
         working_dir = os.getcwd()
-        db = self.get('db')
+        db = self.get("db")
 
-        if self.get('from_fw_spec'):
+        if self.get("from_fw_spec"):
             mol = self._from_fw_spec(mol, fw_spec)
 
         output_mol = process_mol(operation_type=operation_type, mol=mol,
@@ -72,12 +84,12 @@ class ProcessMoleculeInput(FiretaskBase):
             db.insert_molecule(output_mol, update_duplicates=update_duplicates)
 
         if self.get("save_to_file"):
-            fmt = self.get("fmt", 'xyz')
-            filename = self.get("filename", 'mol')
+            fmt = self.get("fmt", "xyz")
+            filename = self.get("filename", "mol")
             file = os.path.join(working_dir, f"{filename}.{fmt}")
             output_mol.to(fmt, file)
-        fw_spec['prev_calc_molecule'] = output_mol  # Note: This should ideally
-        # be part of FWaction, however because mpi doesn't support pymatgen, we
+        fw_spec["prev_calc_molecule"] = output_mol  # Note: This should ideally
+        # be part of FWaction, however because mpi doesn"t support pymatgen, we
         # should be careful about what is being passed to the next firework
 
 
@@ -90,24 +102,24 @@ class ConvertToMoleculeObject(FiretaskBase):
         xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,
         gaussian input (gjf|g03|g09|com|inp),
         Gaussian output (.out), and
-        pymatgen's JSON serialized molecules.
+        pymatgen"s JSON serialized molecules.
     Requires openbabel to be installed.
     """
-    required_params = ['mol_file']
-    optional_params = ['db', 'save_to_db', 'update_duplicates']
+    required_params = ["mol_file"]
+    optional_params = ["db", "save_to_db", "update_duplicates"]
 
     def run_task(self, fw_spec):
         working_dir = os.getcwd()
         file_name = self["mol_file"]
         mol = process_mol(file_name, working_dir)
-        if self.get('save_to_db', True):
-            mol_db = get_db(self.get('db'))
+        if self.get("save_to_db", True):
+            mol_db = get_db(self.get("db"))
             mol_db.insert_molecule(
                 mol,
-                update_duplicates=self.get('update_duplicates', False)
+                update_duplicates=self.get("update_duplicates", False)
             )
-        fw_spec['prev_calc_molecule'] = mol  # Note: This should ideally be
-        # part of FWaction, however because mpi doesn't support pymatgen, we
+        fw_spec["prev_calc_molecule"] = mol  # Note: This should ideally be
+        # part of FWaction, however because mpi doesn"t support pymatgen, we
         # should be careful about what is being passed to the next firework
 
 
@@ -121,16 +133,16 @@ class RetrieveMoleculeObject(FiretaskBase):
 
     def run_task(self, fw_spec):
         # TODO: use alphabetical formula as a search criteria
-        smiles = self['smiles']
-        mol = process_mol(smiles, self.get('db'))
+        smiles = self["smiles"]
+        mol = process_mol(smiles, self.get("db"))
         if mol and self.get("save_mol_file", False):
             working_dir = os.getcwd()
             file_name = self.get(
-                'filename.{}'.format(self.get('fmt', 'xyz')),
-                'mol.{}'.format(self.get('fmt', 'xyz')))
+                "filename.{}".format(self.get("fmt", "xyz")),
+                "mol.{}".format(self.get("fmt", "xyz")))
             mol_file = os.path.join(working_dir, file_name)
-            mol.to(self.get('fmt', 'xyz'), mol_file)
-        fw_spec['prev_calc_molecule'] = mol
+            mol.to(self.get("fmt", "xyz"), mol_file)
+        fw_spec["prev_calc_molecule"] = mol
 
 
 @explicit_serialize
@@ -149,26 +161,26 @@ class AttachFunctionalGroup(FiretaskBase):
     # which has already been created above (Retrieve Molecule from db)
 
     def run_task(self, fw_spec):
-        db = get_db(self.get('db'))
+        db = get_db(self.get("db"))
         if fw_spec.get("prev_calc_molecule"):
             mol = fw_spec.get("prev_calc_molecule")
         elif self.get("molecule"):
             mol = self.get("molecule")
-        func_grp_dict = db.retrieve_fg(self['func_grp'])
+        func_grp_dict = db.retrieve_fg(self["func_grp"])
         func_grp = Molecule(func_grp_dict["species"], func_grp_dict["coords"])
         derived_mol = Molecule.copy(mol)
-        derived_mol.substitute(index=self['index'], func_grp=func_grp)
-        if self.get('save_to_db', True):
+        derived_mol.substitute(index=self["index"], func_grp=func_grp)
+        if self.get("save_to_db", True):
             db.insert_derived_mol(derived_mol,
                                   update_duplicates=self.get(
-                                      'update_duplicates', False))
+                                      "update_duplicates", False))
         if self.get("save_mol_file", False):
             working_dir = os.getcwd()
-            file_name = self.get('filename', 'derived_mol')
-            file_name = '{}.{}'.format(file_name, self.get('fmt', 'xyz')),
+            file_name = self.get("filename", "derived_mol")
+            file_name = "{}.{}".format(file_name, self.get("fmt", "xyz")),
             derived_mol_file = os.path.join(working_dir, file_name)
-            derived_mol.to(self.get('fmt', 'xyz'), derived_mol_file)
-        fw_spec['prev_calc_molecule'] = derived_mol
+            derived_mol.to(self.get("fmt", "xyz"), derived_mol_file)
+        fw_spec["prev_calc_molecule"] = derived_mol
 
 
 @explicit_serialize
@@ -213,12 +225,13 @@ class BreakMolecule(FiretaskBase):
     optional_params = ["mol", "bonds", "ref_charge", "fragment_charges",
                        "open_rings", "opt_steps", "working_dir", "db",
                        "opt_gaussian_inputs", "freq_gaussian_inputs",
-                       "cart_coord", "oxidation_states", "calc_frags",
+                       "cart_coords", "oxidation_states", "calc_frags",
                        "save_to_db", "save_to_file", "fmt",
-                       "update_duplicates", "kwargs"]
+                       "update_duplicates", "additional_kwargs"]
 
     @staticmethod
     def _define_charges(ref_charge, fragment_charges):
+        # TODO: check charges on metal atoms so as to not violate valence rule
         # get a list of possible charges that each fragment can take
         possible_charges = []
         if ref_charge == 0:
@@ -265,27 +278,29 @@ class BreakMolecule(FiretaskBase):
             fragments_indices.append(indices)
         return unique_fragments, fragments_indices
 
-    def _find_unique_molecules(self, unique_fragments, fragment_charges, db,
-                               working_dir):
+    @staticmethod
+    def _find_unique_molecules(unique_fragments, fragment_charges, db,
+                               working_dir, save_to_db, update_duplicates,
+                               save_to_file, fmt):
         # create molecule objects from the unique fragments and set the charge
         # of each molecule
+        molecules = [fragment.molecule for fragment in unique_fragments]
         unique_molecules = []
-        for fragment in unique_fragments:
-            for charge in fragment_charges:
-                frag_to_mol = copy.deepcopy(fragment.molecule)
-                if self.get("save_to_db"):
-                    db = get_db(db) if db else get_db()
-                    update_duplicates = self.get("update_duplicates", False)
-                    db.insert_molecule(frag_to_mol,
-                                       update_duplicates=update_duplicates)
-                if self.get("save_to_file"):
-                    mol_formula = get_mol_formula(frag_to_mol)
-                    fmt = self.get("fmt", 'xyz')
-                    file = os.path.join(working_dir, f"{mol_formula}.{fmt}")
-                    frag_to_mol.to(fmt, file)
+        if save_to_db:
+            db = get_db(db) if db else get_db()
+            for mol in molecules:
+                db.insert_molecule(mol, update_duplicates=update_duplicates)
+        if save_to_file:
+            for mol in molecules:
+                mol_formula = get_mol_formula(mol)
+                file = os.path.join(working_dir, f"{mol_formula}.{fmt}")
+                mol.to(fmt, file)
 
-                frag_to_mol.set_charge_and_spin(charge)
-                unique_molecules.append(frag_to_mol)
+        for mol in molecules:
+            for charge in fragment_charges:
+                mol_copy = copy.deepcopy(mol)
+                mol_copy.set_charge_and_spin(charge)
+                unique_molecules.append(mol_copy)
         return unique_molecules
 
     @staticmethod
@@ -303,47 +318,47 @@ class BreakMolecule(FiretaskBase):
             molecule_indices.append(split_possibilities)
         return molecule_indices
 
+    def _cleanup_kwargs(self):
+        additional_kwargs = self.get("additional_kwargs", {})
+        kwargs = {i: j for i, j in additional_kwargs.items() if i not in
+                  self.required_params + self.optional_params +
+                  ["mol_operation_type", "dir_structure", "process_mol_func",
+                   "mol_name", "from_fw_spec", "skip_opt_freq"]}
+        return kwargs
+
     @staticmethod
     def _workflow(mol, gout_key, working_dir, db, opt_gaussian_inputs,
-                  freq_gaussian_inputs, cart_coords, oxidation_states, kwargs):
-        from infrastructure.gaussian.fireworks.core_standard import \
+                  freq_gaussian_inputs, cart_coords, oxidation_states,
+                  save_to_db, save_to_file, fmt, update_duplicates, **kwargs):
+
+        from infrastructure.gaussian.fireworks.core import \
             CalcFromMolFW
         from infrastructure.gaussian.workflows.base.core import common_fw, \
-            WORKFLOW_KWARGS, STANDARD_OPT_GUASSIAN_INPUT
+            WORKFLOW_KWARGS
 
         dir_structure = ["charge_{}".format(str(mol.charge))]
         mol_formula = get_mol_formula(mol)
 
         if len(mol) == 1:
-            job_name = "sp"
+            job_name = "frequency"
             dir_struct = [mol_formula] + dir_structure
             working_dir = os.path.join(working_dir, *dir_struct)
 
-            sp_gaussian_inputs = deepcopy(opt_gaussian_inputs) or {}
-            sp_gaussian_inputs = {**STANDARD_OPT_GUASSIAN_INPUT,
-                                  **sp_gaussian_inputs}
-            if "route_parameters" not in sp_gaussian_inputs:
-                sp_gaussian_inputs.update(
-                    {"route_parameters": {"SP": None}})
-            if "sp" not in [i.lower() for i in
-                            sp_gaussian_inputs["route_parameters"]]:
-                sp_gaussian_inputs["route_parameters"].update({"SP": None})
-            for i in sp_gaussian_inputs["route_parameters"]:
-                if i.lower() == "opt":
-                    del sp_gaussian_inputs["route_parameters"][i]
-                    break
-            # sp_gaussian_inputs["route_parameters"].pop("Opt", None)
             frag_fws = [CalcFromMolFW(mol=mol,
                                       mol_operation_type="get_from_mol",
                                       db=db,
                                       name=get_job_name(mol, job_name),
                                       working_dir=working_dir,
-                                      input_file=f"{mol_formula}_sp.com",
-                                      output_file=f"{mol_formula}_sp.out",
-                                      gaussian_input_params=sp_gaussian_inputs,
+                                      input_file=f"{mol_formula}_freq.com",
+                                      output_file=f"{mol_formula}_freq.out",
+                                      gaussian_input_params=freq_gaussian_inputs,
                                       cart_coords=cart_coords,
                                       oxidation_states=oxidation_states,
                                       gout_key=gout_key,
+                                      save_to_db=save_to_db,
+                                      save_to_file=save_to_file,
+                                      fmt=fmt,
+                                      update_duplicates=update_duplicates,
                                       **kwargs
                                       )]
         else:
@@ -363,6 +378,10 @@ class BreakMolecule(FiretaskBase):
                 from_fw_spec=False,
                 skip_opt_freq=False,
                 gout_key=gout_key,
+                save_to_db=save_to_db,
+                save_to_file=save_to_file,
+                fmt=fmt,
+                update_duplicates=update_duplicates,
                 **kwargs)
         return Workflow(frag_fws,
                         name="{}_{}".format(mol_formula, job_name),
@@ -383,6 +402,10 @@ class BreakMolecule(FiretaskBase):
         ref_charge = self.get("ref_charge", mol.charge)
         db = self.get("db")
         working_dir = self.get("working_dir", os.getcwd())
+        save_to_file = self.get("save_to_file")
+        save_to_db = self.get("save_to_db")
+        fmt = self.get("fmt", "xyz")
+        update_duplicates = self.get("update_suplicates", False)
 
         # break the bonds: either those specified by the user inputs or all
         # the bonds in the molecule; only supports breaking bonds or opening
@@ -392,11 +415,12 @@ class BreakMolecule(FiretaskBase):
                                                   OpenBabelNN(),
                                                   reorder=False,
                                                   extend_structure=False)
+        # TODO: test this to check if it handles all possible bonds
         all_bonds = self.get("bonds", None)
         if not all_bonds:
             all_bonds = \
-                list({idx1: idx2 for
-                      idx1, idx2, *_ in mol_graph.graph.edges}.items())
+                [tuple(sorted([idx1, idx2])) for idx1, idx2, _ in
+                 mol_graph.graph.edges]
 
         fragments = []
         bonds = []
@@ -434,7 +458,10 @@ class BreakMolecule(FiretaskBase):
                 self._find_unique_fragments(fragments)
             unique_molecules = self._find_unique_molecules(unique_fragments,
                                                            possible_charges,
-                                                           db, working_dir)
+                                                           db, working_dir,
+                                                           save_to_db,
+                                                           update_duplicates,
+                                                           save_to_file, fmt)
             molecule_indices = self._find_molecule_indices(fragments_indices,
                                                            possible_charges,
                                                            charge_ind_map,
@@ -446,7 +473,9 @@ class BreakMolecule(FiretaskBase):
                 self._find_unique_fragments(ring_fragments)
             ring_unique_molecules = \
                 self._find_unique_molecules(ring_unique_fragments,
-                                            [ref_charge], db, working_dir)
+                                            [ref_charge], db, working_dir,
+                                            save_to_db, update_duplicates,
+                                            save_to_file, fmt)
             charge_pairs = [[ref_charge]]
             charge_ind_map = {0: ref_charge}
             ring_molecule_indices = \
@@ -470,8 +499,9 @@ class BreakMolecule(FiretaskBase):
             freq_gaussian_inputs = self.get("freq_gaussian_inputs") or {}
             cart_coords = self.get("cart_coords", True)
             oxidation_states = self.get("oxidation_states")
-            kwargs = self.get("kwargs", {})
-
+            additional_kwargs = self._cleanup_kwargs()
+            # TODO: if the user chooses to save_to_file/db, then the frags will
+            # be saved twice, once here and once above!
             for mol_ind, mol in enumerate(all_molecules):
                 gout_key = "frag_{}".format(mol_ind)
                 frag_wf = self._workflow(mol,
@@ -482,11 +512,16 @@ class BreakMolecule(FiretaskBase):
                                          freq_gaussian_inputs,
                                          cart_coords,
                                          oxidation_states,
-                                         kwargs)
+                                         save_to_db,
+                                         save_to_file,
+                                         fmt,
+                                         update_duplicates,
+                                         **additional_kwargs
+                                         )
                 wfs.append(frag_wf)
                 frag_keys.append(gout_key)
             update_spec["frag_keys"] = frag_keys
-            return FWAction(update_spec=update_spec, detours=wfs)
+            return FWAction(update_spec=update_spec, detours=wfs, propagate=True)
 
         else:
             return FWAction(update_spec=update_spec)
