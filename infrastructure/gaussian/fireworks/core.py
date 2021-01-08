@@ -1,14 +1,27 @@
+# coding: utf-8
+
+
+# Defines common fireworks used in Gaussian workflows.
+
 import os
 import logging
 
 from fireworks import Firework
 
 from infrastructure.gaussian.firetasks.geo_transformation import \
-    ProcessMoleculeInput, BreakMolecule
+    ProcessMoleculeInput
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
 from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun, \
     RetrieveGaussianOutput
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger(__name__)
 
@@ -80,8 +93,8 @@ class CalcFromMolFW(Firework):
                           cart_coords,
                           oxidation_states,
                           **kwargs)
-        spec = kwargs.pop('spec', {})
-        spec.update({'tag': tag, '_launch_dir': working_dir})
+        spec = kwargs.pop("spec", {})
+        spec.update({"tag": tag, "_launch_dir": working_dir})
         super(CalcFromMolFW, self).__init__(t,
                                             parents=parents,
                                             name=name,
@@ -122,8 +135,8 @@ class CalcFromRunsDBFW(Firework):
                           cart_coords,
                           oxidation_states=None,
                           **kwargs)
-        spec = kwargs.pop('spec', {})
-        spec.update({'tag': tag, '_launch_dir': working_dir})
+        spec = kwargs.pop("spec", {})
+        spec.update({"tag": tag, "_launch_dir": working_dir})
         super(CalcFromRunsDBFW, self).__init__(t,
                                                parents=parents,
                                                name=name,
@@ -133,49 +146,4 @@ class CalcFromRunsDBFW(Firework):
                                                   FIREWORK_KWARGS})
 
 
-class BreakMolFW(Firework):
-    def __init__(self,
-                 mol,
-                 mol_operation_type="get_from_mol",
-                 bonds=None,
-                 ref_charge=0,
-                 fragment_charges=None,
-                 calc_frags=True,
-                 db=None,
-                 name="break_mol",
-                 parents=None,
-                 working_dir=None,
-                 tag="unknown",
-                 **kwargs):
-        t = []
-        working_dir = working_dir or os.getcwd()
-        if not os.path.exists(working_dir):
-            os.makedirs(working_dir)
 
-        t.append(ProcessMoleculeInput(mol=mol,
-                                      operation_type=mol_operation_type,
-                                      db=db,
-                                      **{i: j for i, j in kwargs.items() if i in
-                                         ProcessMoleculeInput.required_params +
-                                         ProcessMoleculeInput.optional_params}
-                                      )
-                 )
-
-        t.append(BreakMolecule(bonds=bonds,
-                               ref_charge=ref_charge,
-                               fragment_charges=fragment_charges,
-                               calc_frags=calc_frags,
-                               **{i: j for i, j in kwargs.items() if i in
-                                  BreakMolecule.required_params +
-                                  BreakMolecule.optional_params}
-                               )
-                 )
-
-        spec = kwargs.pop('spec', {})
-        spec.update({'tag': tag, '_launch_dir': working_dir})
-        super(BreakMolFW, self).__init__(t,
-                                         parents=parents,
-                                         name=name,
-                                         spec=spec,
-                                         **{i: j for i, j in kwargs.items()
-                                            if i in FIREWORK_KWARGS})
