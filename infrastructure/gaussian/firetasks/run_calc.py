@@ -1,13 +1,27 @@
+# coding: utf-8
+
+
+# Defines firetasks for running Gaussian calculations.
+
 import os
 import logging
 import subprocess
 
 from configparser import ConfigParser
+
 from timeit import default_timer as timer
 
 from fireworks.core.firework import FiretaskBase
 from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.utilities.fw_utilities import explicit_serialize
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger(__name__)
 
