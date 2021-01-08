@@ -1,3 +1,8 @@
+# coding: utf-8
+
+
+# Defines a list of common fireworks used in Gaussian workflows.
+
 import os
 import logging
 
@@ -6,8 +11,16 @@ from fireworks import Firework, Workflow
 from infrastructure.gaussian.utils.utils import process_mol, get_job_name, \
     get_mol_formula, process_run
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
-from infrastructure.gaussian.fireworks.core_standard import CalcFromMolFW, \
+from infrastructure.gaussian.fireworks.core import CalcFromMolFW, \
     CalcFromRunsDBFW
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger(__name__)
 
@@ -91,16 +104,8 @@ def common_fw(mol_operation_type,
                                )
         fws.append(opt_fw)
 
-        # if no freq_gaussian_inputs are provided, parameters from prev opt
-        # are used except for the route parameters which are replaced with
-        # the Freq keyword
-        freq_gaussian_inputs = freq_gaussian_inputs or {}
-        if "route_parameters" not in freq_gaussian_inputs:
-            freq_gaussian_inputs.update({"route_parameters": {"Freq": None}})
-        if "freq" not in [i.lower() for i in
-                          freq_gaussian_inputs["route_parameters"]]:
-            raise ValueError('The Freq keyword is missing from the input file')
-
+        spec = kwargs.pop("spec", {})
+        spec.update({"proceed": {"has_gaussian_completed": True}})
         freq_fw = CalcFromRunsDBFW(db=db,
                                    name=freq_job_name,
                                    parents=opt_fw,
@@ -111,9 +116,7 @@ def common_fw(mol_operation_type,
                                    output_file=freq_output_file,
                                    cart_coords=cart_coords,
                                    gout_key=gout_key,
-                                   spec={
-                                       "proceed": {
-                                           "has_gaussian_completed": True}},
+                                   spec=spec,
                                    **kwargs
                                    )
         fws.append(freq_fw)
