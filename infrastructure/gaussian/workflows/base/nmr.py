@@ -1,15 +1,27 @@
+# coding: utf-8
+
+
+# Defines the nuclear magnetic resonance workflow.
+
 import os
 import logging
 
 from fireworks import Firework, Workflow
 
 from infrastructure.gaussian.utils.utils import get_job_name, \
-    recursive_relative_to_absolute_path, check_solvent_inputs, \
-    add_solvent_inputs
-from infrastructure.gaussian.fireworks.core_standard import CalcFromRunsDBFW
+    recursive_relative_to_absolute_path, handle_gaussian_inputs
+from infrastructure.gaussian.fireworks.core import CalcFromRunsDBFW
 from infrastructure.gaussian.firetasks.parse_outputs import NMRtoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger(__name__)
 
@@ -33,14 +45,14 @@ def get_nmr_tensors(mol_operation_type,
     mol = recursive_relative_to_absolute_path(mol, working_dir)
     gout_keys = ["mol", "mol_nmr"]
 
-    gins = [opt_gaussian_inputs, freq_gaussian_inputs, nmr_gaussian_inputs]
-    check_solvent_inputs(gins)
-
-    if solvent_gaussian_inputs:
-        opt_gaussian_inputs, freq_gaussian_inputs, nmr_gaussian_inputs = \
-            add_solvent_inputs(gins,
-                               solvent_gaussian_inputs,
-                               solvent_properties)
+    gaussian_inputs = handle_gaussian_inputs({"opt": opt_gaussian_inputs,
+                                              "freq": freq_gaussian_inputs,
+                                              "nmr": nmr_gaussian_inputs},
+                                             solvent_gaussian_inputs,
+                                             solvent_properties)
+    opt_gaussian_inputs = gaussian_inputs["opt"]
+    freq_gaussian_inputs = gaussian_inputs["freq"]
+    nmr_gaussian_inputs = gaussian_inputs["nmr"]
 
     _, label, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
                                        mol=mol,
@@ -54,18 +66,13 @@ def get_nmr_tensors(mol_operation_type,
                                        skip_opt_freq=skip_opt_freq,
                                        **kwargs)
     fws += opt_freq_fws
-    nmr_gaussian_inputs = nmr_gaussian_inputs or {}
-    if "route_parameters" not in nmr_gaussian_inputs:
-        nmr_gaussian_inputs.update({"route_parameters": {"NMR": "GIAO"}})
-    if "nmr" not in \
-            [i.lower() for i in nmr_gaussian_inputs["route_parameters"]]:
-        nmr_gaussian_inputs["route_parameters"].update({"NMR": "GIAO"})
 
+    spec = kwargs.pop("spec", {})
     if not skip_opt_freq:
-        spec = {"proceed": {"has_gaussian_completed": True,
-                            "stationary_type": "Minimum"}}
+        spec.update({"proceed": {"has_gaussian_completed": True,
+                                 "stationary_type": "Minimum"}})
     else:
-        spec = {"proceed": {"has_gaussian_completed": True}}
+        spec.update({"proceed": {"has_gaussian_completed": True}})
 
     nmr_fw = CalcFromRunsDBFW(db,
                               input_file="{}_nmr.com".format(label),
@@ -92,7 +99,7 @@ def get_nmr_tensors(mol_operation_type,
                    NMRtoDB.optional_params}),
         parents=fws[:],
         name="{}-{}".format(label, "nmr_analysis"),
-        spec={'_launch_dir': os.path.join(working_dir, 'analysis')})
+        spec={"_launch_dir": os.path.join(working_dir, label, "analysis")})
     fws.append(fw_analysis)
 
     return Workflow(fws,
