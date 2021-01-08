@@ -1,17 +1,33 @@
-import datetime
-from abc import abstractmethod
-import logging
+# coding: utf-8
+
+
+# Defines the Gaussian database class.
+
 import sys
+import json
+import datetime
+import logging
 
 import pandas as pd
-import json
+
+from abc import abstractmethod
+
+from monty.serialization import loadfn
+
+from pymongo import MongoClient, ASCENDING
 
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
-from monty.serialization import loadfn
-from pymongo import MongoClient, ASCENDING
 
 from infrastructure.gaussian.utils.utils import get_chem_schema
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger()
 ch = logging.StreamHandler(stream=sys.stdout)
