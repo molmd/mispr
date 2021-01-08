@@ -1,14 +1,25 @@
+# coding: utf-8
+
+
+# Defines the bond dissociation energy workflow.
+
 import os
 
 from fireworks import Firework, Workflow
 
 from infrastructure.gaussian.utils.utils import \
-    recursive_relative_to_absolute_path, check_solvent_inputs, \
-    add_solvent_inputs, get_job_name
+    recursive_relative_to_absolute_path, get_job_name, handle_gaussian_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import BDEtoDB
-from infrastructure.gaussian.fireworks.core_standard import BreakMolFW
+from infrastructure.gaussian.fireworks.break_mol import BreakMolFW
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
 
 
 def get_bde(mol_operation_type,
@@ -16,6 +27,7 @@ def get_bde(mol_operation_type,
             ref_charge=0,
             fragment_charges=None,
             bonds=None,
+            open_rings=False,
             db=None,
             name="bde_calculation",
             working_dir=None,
@@ -26,20 +38,23 @@ def get_bde(mol_operation_type,
             cart_coords=True,
             oxidation_states=None,
             skip_opt_freq=False,
+            visualize=True,
             **kwargs):
-    # optional breaking bonds in subsequent species? NO
     fws = []
     working_dir = working_dir or os.getcwd()
     mol = recursive_relative_to_absolute_path(mol, working_dir)
     gout_key = "ref_mol"
-    gins = [opt_gaussian_inputs, freq_gaussian_inputs]
-    check_solvent_inputs(gins)
+    gaussian_inputs = handle_gaussian_inputs({"opt": opt_gaussian_inputs,
+                                              "freq": freq_gaussian_inputs},
+                                             solvent_gaussian_inputs,
+                                             solvent_properties)
+    opt_gaussian_inputs = gaussian_inputs["opt"]
+    freq_gaussian_inputs = gaussian_inputs["freq"]
 
-    if solvent_gaussian_inputs:
-        opt_gaussian_inputs, freq_gaussian_inputs = \
-            add_solvent_inputs(gins,
-                               solvent_gaussian_inputs,
-                               solvent_properties)
+    if skip_opt_freq:
+        check_result = ["final_energy", "Enthalpy"]
+    else:
+        check_result = None
 
     _, label, opt_freq_fws = common_fw(mol_operation_type=mol_operation_type,
                                        mol=mol,
@@ -52,6 +67,7 @@ def get_bde(mol_operation_type,
                                        cart_coords=cart_coords,
                                        oxidation_states=oxidation_states,
                                        skip_opt_freq=skip_opt_freq,
+                                       check_result=check_result,
                                        gout_key=gout_key,
                                        **kwargs)
     fws += opt_freq_fws
@@ -60,6 +76,7 @@ def get_bde(mol_operation_type,
                           mol_operation_type="get_from_run_dict",
                           from_fw_spec=True,
                           bonds=bonds,
+                          open_rings=open_rings,
                           ref_charge=ref_charge,
                           fragment_charges=fragment_charges,
                           db=db,
@@ -80,12 +97,14 @@ def get_bde(mol_operation_type,
                 db=db,
                 solvent_gaussian_inputs=solvent_gaussian_inputs,
                 solvent_properties=solvent_properties,
+                visualize=visualize,
                 **{i: j for i, j in kwargs.items()
                    if i in BDEtoDB.required_params +
                    BDEtoDB.optional_params}),
         parents=fws[:],
         name="{}-{}".format(label, "bde_analysis"),
-        spec={'_launch_dir': os.path.join(working_dir, 'analysis')})
+        spec={"_launch_dir": os.path.join(working_dir, label, "analysis"),
+              "_allow_fizzled_parents": True})
     fws.append(fw_analysis)
 
     return Workflow(fws,
