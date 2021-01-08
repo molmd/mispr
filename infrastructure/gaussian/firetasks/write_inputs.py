@@ -4,19 +4,23 @@
 # Defines firetasks for writing Gaussian input files.
 
 import os
+
 from copy import deepcopy
 
-from fireworks.core.firework import FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.core.structure import IMolecule
 from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.io.gaussian import GaussianInput
 
-__author__ = 'Rasha Atwi'
-__version__ = '0.0.1'
-__email__ = 'rasha.atwi@tufts.edu'
-__date__ = 'Aug 8, 2019'
+from fireworks.core.firework import FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
 
 
 @explicit_serialize
@@ -42,8 +46,6 @@ class WriteInput(FiretaskBase):
                  'charge': int(mol_copy.charge)}
 
     def run_task(self, fw_spec):
-        # TODO: allow taking an input file, probably no because the user would
-        #  start directly with the run task
         working_dir = os.getcwd()
 
         input_file = self.get("input_file", "mol.com")
