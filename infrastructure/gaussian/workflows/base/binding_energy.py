@@ -1,14 +1,26 @@
+# coding: utf-8
+
+
+# Defines the binding energy workflow.
+
 import os
 import logging
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utils.utils import get_mol_formula, \
-    recursive_relative_to_absolute_path, add_solvent_inputs, \
-    check_solvent_inputs
+from infrastructure.gaussian.utils.utils import \
+    recursive_relative_to_absolute_path, handle_gaussian_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import BindingEnergytoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger(__name__)
 
@@ -42,13 +54,12 @@ def get_binding_energies(mol_operation_type,
     if skip_opt_freq is None:
         skip_opt_freq = [False, False]
 
-    gins = [opt_gaussian_inputs, freq_gaussian_inputs]
-    check_solvent_inputs(gins)
-
-    if solvent_gaussian_inputs:
-        opt_gaussian_inputs, freq_gaussian_inputs = \
-            add_solvent_inputs(gins, solvent_gaussian_inputs,
-                               solvent_properties)
+    gaussian_inputs = handle_gaussian_inputs({"opt": opt_gaussian_inputs,
+                                              "freq": freq_gaussian_inputs},
+                                             solvent_gaussian_inputs,
+                                             solvent_properties)
+    opt_gaussian_inputs = gaussian_inputs["opt"]
+    freq_gaussian_inputs = gaussian_inputs["freq"]
 
     parents = []
     for position, [operation, molecule, key, skip] in \
