@@ -1,5 +1,11 @@
+# coding: utf-8
+
+
+# Defines the redox potentials workflow.
+
 import os
 import logging
+
 from queue import Queue
 
 from copy import deepcopy
@@ -12,6 +18,14 @@ from infrastructure.gaussian.utils.utils import \
 from infrastructure.gaussian.firetasks.parse_outputs import IPEAtoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = 0.2
+
 
 logger = logging.getLogger(__name__)
 
@@ -188,6 +202,7 @@ def get_ip_ea(mol_operation_type,
               cart_coords=True,
               skip_opt_freq=False,
               **kwargs):
+    # TODO: cleanup gaussian inputs like the other workflows
     fws = []
     fireworks_dict = {}
     links_dict = {}
