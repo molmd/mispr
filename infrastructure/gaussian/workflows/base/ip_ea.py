@@ -13,8 +13,8 @@ from copy import deepcopy
 from fireworks import Firework, Workflow
 
 from infrastructure.gaussian.utils.utils import \
-    recursive_relative_to_absolute_path, add_solvent_inputs, \
-    check_solvent_inputs
+    recursive_relative_to_absolute_path, _add_solvent_inputs, \
+    _check_solvent_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import IPEAtoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
@@ -25,7 +25,6 @@ __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
 __version__ = 0.2
-
 
 logger = logging.getLogger(__name__)
 
@@ -122,13 +121,16 @@ class Node:
         opt_gins = deepcopy(opt_gaussian_inputs)
         freq_gins = deepcopy(freq_gaussian_inputs)
 
-        gins = [opt_gins, freq_gins]
-        check_solvent_inputs(gins)
+        gaussian_inputs = {"opt": opt_gins, "freq": freq_gins}
+        _check_solvent_inputs(gaussian_inputs)
 
         if self.phase.lower() == 'solution':
-            opt_gins, freq_gins = add_solvent_inputs(gins,
-                                                     solvent_gaussian_inputs,
-                                                     solvent_properties)
+            gaussian_inputs = _add_solvent_inputs(gaussian_inputs,
+                                                  solvent_gaussian_inputs,
+                                                  solvent_properties)
+            opt_gins = gaussian_inputs["opt"]
+            freq_gins = gaussian_inputs["freq"]
+
         dir_structure = [self.phase]
         sec_dir_name = f'{self.added_e}e'
         if branch_cation_from_anion:
@@ -203,6 +205,9 @@ def get_ip_ea(mol_operation_type,
               skip_opt_freq=False,
               **kwargs):
     # TODO: cleanup gaussian inputs like the other workflows
+    # TODO: allow performing vertical IP/EA calculation - all energy
+    #  calculations use neutral state geometry
+    # TODO: HOMO and LUMO of the neutral state as an approximation to IP and EA
     fws = []
     fireworks_dict = {}
     links_dict = {}
