@@ -126,15 +126,14 @@ class ConvertToMoleculeObject(FiretaskBase):
 @explicit_serialize
 class RetrieveMoleculeObject(FiretaskBase):
     """
-    Returns a molecule object from the database using the smiles as an identifier
+    Returns a molecule object from the database using inchi as an identifier
     """
-    required_params = ["smiles"]
+    required_params = ["inchi"]
     optional_params = ["db", "save_mol_file", "fmt", "filename"]
 
     def run_task(self, fw_spec):
-        # TODO: use alphabetical formula as a search criteria
-        smiles = self["smiles"]
-        mol = process_mol(smiles, self.get("db"))
+        inchi = self["inchi"]
+        mol = process_mol("get_from_mol_db", inchi, db=self.get("db"))
         if mol and self.get("save_mol_file", False):
             working_dir = os.getcwd()
             file_name = self.get(
@@ -149,7 +148,7 @@ class RetrieveMoleculeObject(FiretaskBase):
 class AttachFunctionalGroup(FiretaskBase):
     """
     Attaches a functional group to a molecule; requires the name of the functional
-    group and the smiles representation of the molecule to be read from the database
+    group and the inchi representation of the molecule to be read from the database
     (can be taken from both the molecule collection or the runs collection)
     """
     required_params = ["func_grp", "index"]
@@ -188,19 +187,19 @@ class LinkMolecules(FiretaskBase):
     """
     Links two molecules using one site from the first and another site from the
     second molecule. Currently takes the molecules from the db using their
-    smiles representation.
+    inchi representation.
     """
     required_params = ["index1", "index2"]
-    optional_params = ["db", "smiles1", "smiles2", "bond_order", "save_to_db",
+    optional_params = ["db", "inchi1", "inchi2", "bond_order", "save_to_db",
                        "update_duplicates", "save_mol_file", "fmt",
                        "filename"]
 
     def run_task(self, fw_spec):
         # TODO: take mol1 and mol2 from previous calculations
         db = get_db(self.get("db"))
-        mol1_dict = db.retrieve_molecule(self.get["smiles1"])
+        mol1_dict = db.retrieve_molecule(self.get["inchi1"])
         mol1 = Molecule.from_dict(mol1_dict)
-        mol2_dict = db.retrieve_molecule(self.get["smiles2"])
+        mol2_dict = db.retrieve_molecule(self.get["inchi2"])
         mol2 = Molecule.from_dict(mol2_dict)
         linked_mol = mol1.link(mol2, self["index1"], self["index2"],
                                self.get["bond_order"])
