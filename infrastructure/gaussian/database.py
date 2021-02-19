@@ -7,6 +7,7 @@ import sys
 import json
 import datetime
 import logging
+import ssl
 
 import pandas as pd
 
@@ -57,6 +58,7 @@ class GaussianCalcDb:
                                               ssl_certfile=kwargs.get('ssl_certfile'),
                                               ssl_keyfile=kwargs.get('ssl_keyfile'),
                                               ssl_pem_passphrase=kwargs.get('ssl_pem_passphrase'),
+                                              ssl_cert_reqs=kwargs.get('ssl_cert_reqs', ssl.CERT_NONE),
                                               username=username,
                                               password=password,
                                               authsource=kwargs.get('authsource'))
