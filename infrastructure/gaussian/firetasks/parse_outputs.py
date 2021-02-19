@@ -103,7 +103,7 @@ class RetrieveGaussianOutput(FiretaskBase):
     Gaussian input object
     """
     required_params = []
-    optional_params = ["db", "gaussian_input_params", "run_id", "smiles",
+    optional_params = ["db", "gaussian_input_params", "run_id", "inchi",
                        "functional", "basis", "type", "phase", "tag"]
 
     def run_task(self, fw_spec):
@@ -120,8 +120,8 @@ class RetrieveGaussianOutput(FiretaskBase):
         # TODO: correct this, it tries to search the db if not the above
         # if a Gaussian output dictionary is retrieved from db
         else:
-            query = {"smiles": self.get("smiles"), "type": self.get("type"),
-                     "functional": self.get("functional"),
+            query = {"inchi": self.get("inchi"), "smiles": self.get("smiles"),
+                     "type": self.get("type"), "functional": self.get("functional"),
                      "basis": self.get("basis"), "phase": self.get("phase")}
             if "tag" in self:
                 query["tag"] = self["tag"]
@@ -172,7 +172,9 @@ class ESPtoDB(FiretaskBase):
 
         esp_dict = {"molecule": molecule.as_dict(),
                     "smiles": mol_schema["smiles"],
-                    "formula_pretty": mol_schema["formula_pretty"],
+                    "inchi": mol_schema["inchi"],
+                    "formula_alphabetical": mol_schema["formula_alphabetical"],
+                    "chemsys": mol_schema["chemsys"],
                     "energy": gout_dict[-1]["output"]["output"]["final_energy"],
                     "esp": gout_dict[-1]["output"]["output"]["ESP_charges"],
                     "functional": gout_dict[-1]["functional"],
@@ -202,7 +204,9 @@ class ESPtoDB(FiretaskBase):
         if self.get("save_to_db"):
             db = get_db(db)
             db.insert_property("esp", esp_dict,
-                               [("formula_pretty", 1), ("smiles", 1)])
+                               [("formula_alphabetical", 1), ("smiles", 1),
+                                ("inchi", 1), ("chemsys", 1), ("functional", 1),
+                                ("basis", 1), ("tag", 1)])
 
         if fw_spec.get("run_loc_list"):
             esp_dict["run_locs"] = fw_spec["run_loc_list"]
@@ -245,7 +249,9 @@ class NMRtoDB(FiretaskBase):
 
         nmr_dict = {"molecule": molecule.as_dict(),
                     "smiles": mol_schema["smiles"],
-                    "formula_pretty": mol_schema["formula_pretty"],
+                    "inchi": mol_schema["inchi"],
+                    "formula_alphabetical": mol_schema["formula_alphabetical"],
+                    "chemsys": mol_schema["chemsys"],
                     "energy": gout_dict[-1]["output"]["output"]["final_energy"],
                     "tensor": gout_dict[-1]["output"]["output"]["tensor"],
                     "functional": gout_dict[-1]["functional"],
@@ -272,7 +278,9 @@ class NMRtoDB(FiretaskBase):
         if self.get("save_to_db"):
             db = get_db(db)
             db.insert_property("nmr", nmr_dict,
-                               [("formula_pretty", 1), ("smiles", 1)])
+                               [("formula_alphabetical", 1), ("smiles", 1),
+                                ("inchi", 1), ("chemsys", 1), ("functional", 1),
+                                ("basis", 1), ("tag", 1)])
 
         if fw_spec.get("run_loc_list"):
             nmr_dict["run_locs"] = fw_spec["run_loc_list"]
@@ -323,7 +331,9 @@ class BindingEnergytoDB(FiretaskBase):
 
         be_dict = {"molecule": molecules[2].as_dict(),
                    "smiles": mol_schema["smiles"],
-                   "formula_pretty": mol_schema["formula_pretty"],
+                   "inchi": mol_schema["inchi"],
+                   "formula_alphabetical": mol_schema["formula_alphabetical"],
+                   "chemsys": mol_schema["chemsys"],
                    "energy": final_energies[2],
                    be_key: be_value,
                    "functional": gout_dict[-1]["functional"],
@@ -353,7 +363,9 @@ class BindingEnergytoDB(FiretaskBase):
         if self.get("save_to_db"):
             db = get_db(db)
             db.insert_property("binding_energy", be_dict,
-                               [("formula_pretty", 1), ("smiles", 1)])
+                               [("formula_alphabetical", 1), ("smiles", 1),
+                                ("inchi", 1), ("chemsys", 1), ("functional", 1),
+                                ("basis", 1), ("tag", 1)])
 
         if fw_spec.get("run_loc_list"):
             be_dict["run_locs"] = fw_spec["run_loc_list"]
@@ -496,7 +508,9 @@ class IPEAtoDB(FiretaskBase):
         mol_schema = get_chem_schema(molecule)
         ip_ea_dict = {"molecule": molecule.as_dict(),
                       "smiles": mol_schema["smiles"],
-                      "formula_pretty": mol_schema["formula_pretty"],
+                      "inchi": mol_schema["inchi"],
+                      "formula_alphabetical": mol_schema["formula_alphabetical"],
+                      "chemsys": mol_schema["chemsys"],
                       "num_electrons": num_electrons,
                       "functional": gout_dict[root_node_key]["functional"],
                       "basis": gout_dict[root_node_key]["basis"],
@@ -535,7 +549,9 @@ class IPEAtoDB(FiretaskBase):
         if self.get("save_to_db"):
             db = get_db(db)
             db.insert_property("ip_ea", ip_ea_dict,
-                               [("formula_pretty", 1), ("smiles", 1)])
+                               [("formula_alphabetical", 1), ("smiles", 1),
+                                ("inchi", 1), ("chemsys", 1), ("functional", 1),
+                                ("basis", 1), ("tag", 1)])
 
         if fw_spec.get("run_loc_list"):
             ip_ea_dict["run_locs"] = fw_spec["run_loc_list"]
@@ -597,7 +613,9 @@ class BDEtoDB(FiretaskBase):
                 fragments.update({
                     gout_key: {"fragment": frag.as_dict(),
                                "smiles": frag_schema["smiles"],
-                               "formula_pretty": frag_schema["formula_pretty"],
+                               "inchi": frag_schema["inchi"],
+                               "formula_alphabetical": frag_schema["formula_alphabetical"],
+                               "chemsys": frag_schema["chemsys"],
                                "energy": final_energies[gout_key],
                                }
                 })
@@ -629,7 +647,9 @@ class BDEtoDB(FiretaskBase):
             mol_schema = get_chem_schema(molecule)
             bde_dict = {"molecule": molecule.as_dict(),
                         "smiles": mol_schema["smiles"],
-                        "formula_pretty": mol_schema["formula_pretty"],
+                        "inchi": mol_schema["inchi"],
+                        "formula_alphabetical": mol_schema["formula_alphabetical"],
+                        "chemsys": mol_schema["chemsys"],
                         "energy": final_energies[principle_mol_key],
                         "functional": gout_dict[principle_mol_key][
                             "functional"],
@@ -716,7 +736,9 @@ class BDEtoDB(FiretaskBase):
             if self.get("save_to_db"):
                 db = get_db(db)
                 db.insert_property("bde", bde_dict,
-                                   [("formula_pretty", 1), ("smiles", 1)])
+                                   [("formula_alphabetical", 1), ("smiles", 1),
+                                    ("inchi", 1), ("chemsys", 1),
+                                    ("functional", 1), ("basis", 1), ("tag", 1)])
 
             if fw_spec.get("run_loc_list"):
                 bde_dict["run_locs"] = fw_spec["run_loc_list"]
