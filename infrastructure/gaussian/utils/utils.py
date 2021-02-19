@@ -31,7 +31,6 @@ __status__ = "Development"
 __date__ = "Jan 2021"
 __version__ = 0.2
 
-
 logger = logging.getLogger(__name__)
 
 JOB_TYPES = {"sp", "opt", "freq", "irc", "ircmax", "scan", "polar", "admp",
@@ -391,28 +390,46 @@ def draw_rdkit_mol_with_highlighted_bonds(rdkit_mol, bonds,
                                           filename="mol.png",
                                           colors=None,
                                           working_dir=None):
+    def _generate_color():
+        bond_color = (random.random(), random.random(), random.random())
+        # prevent the generation of a white color
+        if bond_color == (1.0, 1.0, 1.0):
+            bond_color = _generate_color()
+        return bond_color
+
     from rdkit.Chem.Draw import rdMolDraw2D
+    from rdkit import Chem, Geometry
+    from rdkit.Chem import rdDepictor
 
     working_dir = working_dir or os.getcwd()
+    rdDepictor.SetPreferCoordGen(True)
+    d = rdMolDraw2D.MolDraw2DCairo(500, 500)
+    rdkit_mol_copy = Chem.Mol(rdkit_mol.ToBinary())
+    # optimize 2D depiction
+    rdDepictor.Compute2DCoords(rdkit_mol_copy, bondLength=1.5)
+    d.SetFontSize(0.6 * d.FontSize())  # reduce font size of bond number
 
     highlighted_bonds = []
-    for bond in bonds:
-        highlighted_bonds.append(rdkit_mol.GetBondBetweenAtoms(*bond).GetIdx())
+    for i, bond in enumerate(bonds):
+        ind = rdkit_mol_copy.GetBondBetweenAtoms(*bond).GetIdx()
+        rdkit_mol_copy.GetBondWithIdx(ind).SetProp("bondNote", str(i))
+        highlighted_bonds.append(ind)
 
-    bond_colors = {}
+    # use randomly generated colors if no or wrong number of colors are provided
     if not colors or len(colors) < len(bonds):
         colors = []
         for i in range(len(bonds)):
-            colors.append((random.random(), random.random(), random.random()))
+            colors.append(_generate_color())
 
+    bond_colors = {}
     for i, bond in enumerate(highlighted_bonds):
         bond_colors[bond] = colors[i]
 
-    d = rdMolDraw2D.MolDraw2DCairo(500, 500)
-    rdMolDraw2D.PrepareAndDrawMolecule(d, rdkit_mol,
+    rdMolDraw2D.PrepareAndDrawMolecule(d, rdkit_mol_copy,
                                        highlightBonds=highlighted_bonds,
                                        highlightBondColors=bond_colors)
-    d.DrawMolecule(rdkit_mol)
+
+    d.DrawMolecule(rdkit_mol_copy)
     d.FinishDrawing()
     d.WriteDrawingText(os.path.join(working_dir, filename))
     return colors
