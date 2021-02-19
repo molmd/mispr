@@ -80,9 +80,8 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
                              "the input string")
         output_mol = Molecule.from_str(mol, str_type)
 
-    # TODO: change name of this operation_type to reflect db
-    elif operation_type == "get_from_smiles":
-        # mol = mol_smile
+    elif operation_type == "get_from_mol_db":
+        # mol = mol_inchi
         mol_dict = db.retrieve_molecule(mol)
         if not mol_dict:
             raise Exception(
@@ -114,7 +113,7 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
         output_mol = Molecule.from_dict(mol_dict)
 
     elif operation_type == "get_from_run_query":
-        # mol = {"smiles": smiles, "type": type, "functional": func,
+        # mol = {"inchi": inchi, "type": type, "functional": func,
         #        "basis": basis, "phase": phase, ...}
         logger.info("If the query criteria satisfy more than "
                     "one document, the last updated one will "
@@ -148,14 +147,14 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
     elif operation_type == "link_molecules":
         # TODO: add a checking step in the original molecule to make sure no
         #  overlapping happens
-        # mol = {"operation_type": ["get_from_file", "get_from_smiles"],
-        #        "mol": ["kes/rasa/defe.xyz", "mol_smiles"],
+        # mol = {"operation_type": ["get_from_file", "get_from_mol_db"],
+        #        "mol": ["kes/rasa/defe.xyz", "mol_inchi"],
         #        "index": [3, 5],
         #        "bond_order": 2}
 
         # mol = {"operation_type": ["get_from_file", "derive_molecule"],
         #        "mol": ["kes/rasa/defe.xyz", {"operation_type":
-        #        "get_from_smiles, "mol": smile}],
+        #        "get_from_mol_db, "mol": inchi}],
         #        "index": [3, 5],
         #        "bond_order": 2}
         linking_mol = process_mol(operation_type=mol["operation_type"][0],
@@ -224,8 +223,8 @@ def process_run(operation_type, run, input_file=None, **kwargs):
         gout_dict = run
 
     elif operation_type == "get_from_run_query":
-        # run = {"smiles": smiles, "type": type, "functional": func,
-        #        "basis": basis, "phase": phase, ...}
+        # run = {"inchi": inchi, "smiles": smiles, "type": type,
+        #        "functional": func, "basis": basis, "phase": phase, ...}
         logger.info("If the query criteria satisfy more than "
                     "one document, the last updated one will "
                     "be used. To perform a more specific "
@@ -277,6 +276,7 @@ def get_chem_schema(mol):
     pm = pb.Molecule(a.openbabel_mol)
     # svg = pm.write("svg")
     mol_dict.update({"smiles": pm.write("smi").strip(),
+                     "inchi": pm.write("inchi").strip("\n"),
                      "formula": comp.formula,
                      "formula_pretty": comp.reduced_formula,
                      "formula_anonymous": comp.anonymized_formula,
