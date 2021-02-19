@@ -476,8 +476,8 @@ class BreakMolecule(FiretaskBase):
                                             [ref_charge], db, working_dir,
                                             save_to_db, update_duplicates,
                                             save_to_file, fmt)
-            charge_pairs = [[ref_charge]]
-            charge_ind_map = {0: ref_charge}
+            charge_pairs = [(ref_charge, )]
+            charge_ind_map = {ref_charge: 0}
             ring_molecule_indices = \
                 self._find_molecule_indices(ring_fragments_indices,
                                             [ref_charge], charge_ind_map,
