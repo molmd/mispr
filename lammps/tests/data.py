@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 from fireworks import LaunchPad, Firework, FiretaskBase, FWAction, Workflow, FileWriteTask, FileTransferTask, explicit_serialize
 from fireworks.core.rocket_launcher import rapidfire, launch_rocket
-from infrastructure.lammps.fireworks.custom_fw import AmbertoolsTasks
+from infrastructure.lammps.fireworks.core_custom import AmbertoolsTasks
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianOutput
 from pymatgen.io.ambertools import PrmtopParser

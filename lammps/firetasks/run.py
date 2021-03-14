@@ -41,6 +41,7 @@ class RunLammps(FiretaskBase):
             config.read(CONFIG_PATH)
             command = config["LammpsRunCalc"]["lcmd"]
         command = command.replace("$control_path$", control_file_path)
+        print(command)
 
         logger.info("Running command: {}".format(command))
         return_code = subprocess.call(command, shell = True)

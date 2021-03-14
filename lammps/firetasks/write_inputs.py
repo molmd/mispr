@@ -22,7 +22,8 @@ __date__ = 'Apr 14, 2020'
 FF_DICT_KEYS = ["Molecule", "Labels", "Masses", "Nonbond", "Bonds", "Angles", "Dihedrals",
                 "Impropers", "Improper Topologies", "Charges"]
 
-TEMPLATE_TYPES = ["energy minimization", "npt", "melt", "quench", "nvt"]
+TEMPLATE_TYPES = ["emin_general", "emin_gaff", "npt", "nvt"] # ["emin", "npt", "melt", "quench", "nvt"]
+# TODO: decide if I want specific templates for melt and quench
 
 TEMPLATE_DIR = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates"))
 

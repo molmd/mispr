@@ -1,25 +1,28 @@
 import os
 import numpy as np
 from collections import OrderedDict
-from fireworks import LaunchPad, FWorker
+from fireworks import LaunchPad
 from fireworks.core.rocket_launcher import rapidfire
+from fireworks.user_objects.queue_adapters.common_adapter import CommonAdapter
+from fireworks.core.fworker import FWorker
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianOutput
 from infrastructure.gaussian.utils.utils import get_mol_formula
-from infrastructure.lammps.workflows.base_custom import write_lammps_data
-
-# Needs:
-#     openbabel 3.x: https://github.com/openbabel/openbabel/releases
-#     ParmEd: https://github.com/ParmEd/ParmEd
+from infrastructure.lammps.workflows.base_custom import write_lammps_data, run_lammps_recipe, fluid_workflow
 
 if __name__ == "__main__":
-
     # # set up the LaunchPad and reset it
-    launchpad = LaunchPad(host="mongodb://superuser:idlewide@localhost:27017/fireworks?authSource=admin", uri_mode=True)
+    # may have to change settings in uri string depending on server used (especially <password>)
+    launchpad = LaunchPad(host="mongodb://superuser:<password>@localhost:27017/fireworks?authSource=admin",
+                          uri_mode=True)
     launchpad.reset('', require_password=False)
 
-    working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_files", "data", "custom_workflow")
-    # print(working_dir)
+    # # set working directory
+    working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_files", "liquid_workflow")
+
+    # # # set up FWorker and QueueAdapterBase
+    # worker = FWorker.from_file('my_fworker.yaml', f_format='yaml')
+    # qadapter = CommonAdapter.from_file('myqadapter.yaml')
 
     # # set molecule objects (and labels) for all species
     dhps_gout = GaussianOutput(os.path.join(working_dir, "dhps.out"))
@@ -28,7 +31,7 @@ if __name__ == "__main__":
     dhps_label = get_mol_formula(dhps_mol)
 
     water_mol = Molecule.from_file(os.path.join(working_dir, "SPC_E.pdb"))
-    water_mol.set_charge_and_spin(0,1)
+    water_mol.set_charge_and_spin(0, 1)
     water_label = get_mol_formula(water_mol)
 
     oh_gout = GaussianOutput(os.path.join(working_dir, "oh.out"))
@@ -37,7 +40,7 @@ if __name__ == "__main__":
     oh_label = get_mol_formula(oh_mol)
 
     na_mol = Molecule.from_file(os.path.join(working_dir, "Na.pdb"))
-    na_mol.set_charge_and_spin(1,1)
+    na_mol.set_charge_and_spin(1, 1)
     na_label = get_mol_formula(na_mol)
 
     # # set concentration of phenazine derivative
@@ -45,16 +48,16 @@ if __name__ == "__main__":
 
     # # set mixture type ('concentration' or 'number of molecules')
     sys_mix_type = 'concentration'
-    # sys_mix_type = 'number of molecules'
+    #    sys_mix_type = 'number of molecules'
 
     # # set the side length of the cube
     box_data = 25.0
     box_data_type = 'cubic'
 
-#    box_data = [[0, 23],
-#                [0, 24],
-#                [0, 25]]
-#    box_data_type = 'rectangular'
+    #    box_data = [[0, 23],
+    #                [0, 24],
+    #                [0, 25]]
+    #    box_data_type = 'rectangular'
 
     # # set the info for how to obtain labeled ff_dict for each species
     # # as well as mixture data
@@ -117,22 +120,42 @@ if __name__ == "__main__":
                              'Molar Weight': 22.990} if sys_mix_type == 'concentration' else 38}
     }
 
-    # print(system_species_data[na_label]['mixture_data'])
-    file_name_label = sys_mix_type
-    if sys_mix_type == 'number of molecules':
-        file_name_label = 'num_mols'
+    recipe = [["emin", ["template_filename", "emin_gaff"]],
+              ["npt", ["template_filename", "npt"]],
+              ["melt", ["template_filename", "nvt"]],
+              ["quench", ["template_filename", "nvt"]],
+              ["nvt", ["template_filename", "nvt"]]]
 
-    # # create workflow for writing data file
-    workflow = write_lammps_data(system_species_data,
-                                 sys_mix_type,
-                                 box_data,
-                                 box_data_type = box_data_type,
-                                 data_file_name = "complex-{}-{}.data".format(file_name_label,box_data_type),
-                                 working_dir = working_dir,
-                                 spec = {"system_force_field_dict": {}})
+    recipe_settings = [{"data_file_name": "../complex.data",
+                        "restart_final_name": "restart.emin.restart"},
+                       {"restart_filename": "../emin/restart.emin.restart",
+                        "restart_final_file_name": "restart.npt.restart",
+                        "run": 10},
+                       {"restart_filename": "../npt/restart.npt.restart",
+                        "temperature_initial": 500.0,
+                        "temperature_final": 500.0,
+                        "run": 10,
+                        "restart_final_file_name": "restart.melt_500K.restart"},
+                       {"restart_file_name": "../melt/restart.melt_500K.restart",
+                        "temperature_initial": 500.0,
+                        "temperature_final": 298.15,
+                        "run": 10,
+                        "restart_final_file_name": "restart.quench_298-15K.restart"},
+                       {"restart_file_name": "../quench/restart.quench_298-15K.restart",
+                        "temperature_initial": 298.15,
+                        "temperature_final": 298.15,
+                        "run": 10,
+                        "restart_final_file_name": "restart.nvt_5-ns.restart"}]
 
-    # # store workflow and launch it
+    # # create workflow for running electrolyte workflow
+    workflow = fluid_workflow(system_species_data,
+                              sys_mix_type,
+                              box_data,
+                              box_data_type=box_data_type,
+                              recipe=recipe,
+                              recipe_settings=recipe_settings,
+                              working_dir=working_dir)
+
+    # store workflow and launch it using queue
     launchpad.add_wf(workflow)
-    # print("LAUNCHPAD")
-    # print(launchpad)
-    rapidfire(launchpad, FWorker())
+    rapidfire(launchpad)

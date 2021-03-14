@@ -8,7 +8,7 @@ from pymatgen.io.babel import BabelMolAdaptor
 from fireworks.utilities.fw_utilities import get_slug
 from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks import FileWriteTask
-import pybel as pb
+from openbabel import pybel as pb
 
 logger = logging.getLogger(__name__)
 

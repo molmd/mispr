@@ -109,15 +109,18 @@ class GetFFDictFW(Firework):
                                           **{i: j for i, j in kwargs.items()
                                              if i in FIREWORK_KWARGS})
 
-class WriteLammpsInputs(Firework):
+class WriteDataAndControl(Firework):
     def __init__(self,
-                 system_mol_data,
-                 mixture_type,
-                 box_side_length,
+                 system_mixture_data_type,
+                 system_mixture_data,
+                 system_box_data,
+                 system_box_data_type,
+                 control_template,
+                 control_settings,
                  working_dir=None,
-                 data_file="complex.data",
+                 data_filename="complex.data",
                  control_file="control.lammpsin",
-                 ):
+                 **kwargs):
         """
 
         :param system_mol_data: [dict]
@@ -141,6 +144,32 @@ class WriteLammpsInputs(Firework):
 
 
         pass
+
+
+class RunLammpsFW(Firework):
+    def __init__(self,
+                 control_file=None,
+                 name="run_lammps",
+                 parents=None,
+                 working_dir=None,
+                 **kwargs):
+        """"""
+        tasks = []
+        working_dir = working_dir or os.getcwd()
+
+        if not control_file:
+            tasks.append(WriteControlFile(working_dir = working_dir,
+                                          **{i: j for i, j in kwargs.items() if i in
+                                             WriteControlFile.required_params + WriteControlFile.optional_params}))
+
+        tasks.append(RunLammps(working_dir = working_dir,
+                               **{i: j for i, j in kwargs.items() if i in
+                                  RunLammps.required_params + RunLammps.optional_params}))
+
+        super(RunLammpsFW, self).__init__(tasks,
+                                          parents=parents,
+                                          name=name,
+                                          **{i: j for i, j in kwargs.items() if i in FIREWORK_KWARGS})
 
 
 #

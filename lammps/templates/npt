@@ -5,8 +5,8 @@ atom_style			full
 log					log.lammps
 
 # Force Fields
-neighbor			2.0 bin
-#neigh_modify		delay 0 every 1 check yes
+neighbor			$neigh_args
+neigh_modify		$neigh_modify_args
 special_bonds		$special_bonds_style $special_bonds_value
 bond_style			$bond_style $bond_style_args
 angle_style			$angle_style
@@ -19,15 +19,15 @@ read_restart		$restart_file_name
 
 
 $group_definitions
-velocity			all create $temperature $velocity_seed mom yes rot yes
+velocity			all create $temperature_initial $velocity_seed mom yes rot yes
 $shake_logic fix	1 $shake_group shake 0.0001 20 0 $shake_topologies
-fix 				2 all npt temp $temperature $temperature 100.0 iso $pressure $pressure 1000.0
+fix 				2 all npt temp $temperature_initial $temperature_final $temp_damp $pressure_type $pressure_initial $pressure_final $pres_damp
 thermo				$thermo
 thermo_style		custom step temp press pe lx vol density
 timestep			$timestep
 reset_timestep		0
 dump				1 all custom $dump_period $dump_file_name id type element mol x y z ix iy iz xu yu zu vx vy vz fx fy fz mass q
-dump_modify			1 element $dump_modify_elements
+$dump_modify_logic dump_modify			1 $dump_modify_args
 restart				$restart_period $restart_intermediate_file_name
 run					$run
 $shake_logic unfix 	1
