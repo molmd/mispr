@@ -51,15 +51,20 @@ def get_binding_energies(mol_operation_type,
     gout_keys = ["mol_1", "mol_2", "mol_linked"]
     mol = recursive_relative_to_absolute_path(mol, working_dir)
 
-    if skip_opt_freq is None:
-        skip_opt_freq = [False, False]
-
     gaussian_inputs = handle_gaussian_inputs({"opt": opt_gaussian_inputs,
                                               "freq": freq_gaussian_inputs},
                                              solvent_gaussian_inputs,
                                              solvent_properties)
     opt_gaussian_inputs = gaussian_inputs["opt"]
     freq_gaussian_inputs = gaussian_inputs["freq"]
+
+    if skip_opt_freq is None:
+        skip_opt_freq = [False, False]
+
+    if skip_opt_freq:
+        check_result = ['final_energy']
+    else:
+        check_result = None
 
     parents = []
     for position, [operation, molecule, key, skip] in \
@@ -76,6 +81,7 @@ def get_binding_energies(mol_operation_type,
                       oxidation_states=oxidation_states,
                       gout_key=key,
                       skip_opt_freq=skip,
+                      check_result=check_result,
                       **kwargs)
         fws += opt_freq_init_fws
         parents.append(len(fws))
