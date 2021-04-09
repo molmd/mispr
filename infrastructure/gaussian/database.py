@@ -193,7 +193,7 @@ class GaussianCalcDb:
         query = {**query, **kwargs}
         return list(self.runs.find(query))
 
-    def move_runs(self, new_collection, inchi=None, smiles=smiles,
+    def move_runs(self, new_collection, inchi=None, smiles=None,
                   job_type=None, functional=None, basis=None, phase=None,
                   **kwargs):
         runs = self.retrieve_run(inchi, smiles, job_type, functional, basis,
