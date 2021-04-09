@@ -714,9 +714,9 @@ def _create_gin(gout, working_dir, input_file):
 
 
 def _job_types(gin):
-    return list(filter(lambda x: x in {k.lower(): v for k, v in
+    return sorted(list(filter(lambda x: x in {k.lower(): v for k, v in
                                        gin["route_parameters"].items()},
-                       JOB_TYPES))
+                       JOB_TYPES)))
 
 
 def _cleanup_gout(gout, working_dir, input_file):
