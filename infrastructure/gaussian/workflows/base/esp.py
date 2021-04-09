@@ -22,7 +22,6 @@ __status__ = "Development"
 __date__ = "Jan 2021"
 __version__ = 0.2
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -68,11 +67,20 @@ def get_esp_charges(mol_operation_type,
     fws += opt_freq_fws
 
     # input_parameters from a previous run are overwritten
+    # if "input_parameters" not in esp_gaussian_inputs:
+    #     mol_esp = os.path.join(
+    #         working_dir, "{}_esp".format(
+    #             os.path.join(working_dir, label, "ESP", label)))
+    #     esp_gaussian_inputs.update({"input_parameters": {mol_esp: None}})
+
+    # this assumes the user does not add the esp file path to gaussian inputs -
+    # should add to doc
     if "input_parameters" not in esp_gaussian_inputs:
-        mol_esp = os.path.join(
-            working_dir, "{}_esp".format(
-                os.path.join(working_dir, label, "ESP", label)))
-        esp_gaussian_inputs.update({"input_parameters": {mol_esp: None}})
+        esp_gaussian_inputs["input_parameters"] = {}
+    mol_esp = os.path.join(
+        working_dir, "{}_esp".format(
+            os.path.join(working_dir, label, "ESP", label)))
+    esp_gaussian_inputs["input_parameters"].update({mol_esp: None})
 
     spec = kwargs.pop("spec", {})
     if not skip_opt_freq:
@@ -106,7 +114,7 @@ def get_esp_charges(mol_operation_type,
                    ESPtoDB.optional_params}),
         parents=fws[:],
         name="{}-{}".format(label, "esp_analysis"),
-        spec={"_launch_dir": os.path.join(working_dir, "analysis")})
+        spec={"_launch_dir": os.path.join(working_dir, label, "analysis")})
     fws.append(fw_analysis)
 
     return Workflow(fws,
