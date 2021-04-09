@@ -8,7 +8,6 @@ import copy
 import logging
 import itertools
 
-
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.graphs import MoleculeGraph
@@ -27,7 +26,6 @@ __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
 __version__ = 0.2
-
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +83,7 @@ class ProcessMoleculeInput(FiretaskBase):
 
         if self.get("save_to_file"):
             fmt = self.get("fmt", "xyz")
-            filename = self.get("filename", "mol")
+            filename = self.get("filename", get_mol_formula(output_mol))
             file = os.path.join(working_dir, f"{filename}.{fmt}")
             output_mol.to(fmt, file)
         fw_spec["prev_calc_molecule"] = output_mol  # Note: This should ideally
@@ -138,7 +136,7 @@ class RetrieveMoleculeObject(FiretaskBase):
             working_dir = os.getcwd()
             file_name = self.get(
                 "filename.{}".format(self.get("fmt", "xyz")),
-                "mol.{}".format(self.get("fmt", "xyz")))
+                "{}.{}".format(get_mol_formula(mol), self.get("fmt", "xyz")))
             mol_file = os.path.join(working_dir, file_name)
             mol.to(self.get("fmt", "xyz"), mol_file)
         fw_spec["prev_calc_molecule"] = mol
@@ -148,16 +146,12 @@ class RetrieveMoleculeObject(FiretaskBase):
 class AttachFunctionalGroup(FiretaskBase):
     """
     Attaches a functional group to a molecule; requires the name of the functional
-    group and the inchi representation of the molecule to be read from the database
-    (can be taken from both the molecule collection or the runs collection)
+    group and a molecule (from a prev. calc or as a molecule object)
     """
     required_params = ["func_grp", "index"]
     optional_params = ["db", "molecule", "bond_order", "save_to_db",
                        "update_duplicates",
                        "save_mol_file", "fmt", "filename"]
-
-    # TODO: check if it is better to split this into multiple firetasks (one of
-    # which has already been created above (Retrieve Molecule from db)
 
     def run_task(self, fw_spec):
         db = get_db(self.get("db"))
@@ -175,7 +169,7 @@ class AttachFunctionalGroup(FiretaskBase):
                                       "update_duplicates", False))
         if self.get("save_mol_file", False):
             working_dir = os.getcwd()
-            file_name = self.get("filename", "derived_mol")
+            file_name = self.get("filename", get_mol_formula(derived_mol))
             file_name = "{}.{}".format(file_name, self.get("fmt", "xyz")),
             derived_mol_file = os.path.join(working_dir, file_name)
             derived_mol.to(self.get("fmt", "xyz"), derived_mol_file)
@@ -186,30 +180,28 @@ class AttachFunctionalGroup(FiretaskBase):
 class LinkMolecules(FiretaskBase):
     """
     Links two molecules using one site from the first and another site from the
-    second molecule. Currently takes the molecules from the db using their
-    inchi representation.
+    second molecule.
     """
     required_params = ["index1", "index2"]
-    optional_params = ["db", "inchi1", "inchi2", "bond_order", "save_to_db",
+    optional_params = ["db", "mol1", "mol2", "bond_order", "save_to_db",
                        "update_duplicates", "save_mol_file", "fmt",
                        "filename"]
 
     def run_task(self, fw_spec):
-        # TODO: take mol1 and mol2 from previous calculations
         db = get_db(self.get("db"))
-        mol1_dict = db.retrieve_molecule(self.get["inchi1"])
-        mol1 = Molecule.from_dict(mol1_dict)
-        mol2_dict = db.retrieve_molecule(self.get["inchi2"])
-        mol2 = Molecule.from_dict(mol2_dict)
+        mol1 = self.get["mol1"]
+        mol2 = self.get["mol2"]
         linked_mol = mol1.link(mol2, self["index1"], self["index2"],
                                self.get["bond_order"])
         if self.get("save_to_db", True):
-            db.insert_molecule(linked_mol, update_duplicates=self.
-                               get("update_duplicates", False))
+            db.insert_derived_mol(linked_mol,
+                                  update_duplicates=self.get(
+                                      "update_duplicates", False))
         if self.get("save_mol_file", False):
             working_dir = os.getcwd()
             file_name = self.get("filename.{}".format(self.get("fmt", "xyz")),
-                                 "mol.{}".format(self.get("fmt", "xyz")))
+                                 "{}.{}".format(get_mol_formula(linked_mol),
+                                                self.get("fmt", "xyz")))
             linked_mol_file = os.path.join(working_dir, file_name)
             linked_mol.to(self.get("fmt", "xyz"), linked_mol_file)
         fw_spec["prev_calc_molecule"] = linked_mol
@@ -280,20 +272,24 @@ class BreakMolecule(FiretaskBase):
     @staticmethod
     def _find_unique_molecules(unique_fragments, fragment_charges, db,
                                working_dir, save_to_db, update_duplicates,
-                               save_to_file, fmt):
+                               save_to_file, fmt, calc_frags):
         # create molecule objects from the unique fragments and set the charge
         # of each molecule
         molecules = [fragment.molecule for fragment in unique_fragments]
         unique_molecules = []
-        if save_to_db:
-            db = get_db(db) if db else get_db()
-            for mol in molecules:
-                db.insert_molecule(mol, update_duplicates=update_duplicates)
-        if save_to_file:
-            for mol in molecules:
-                mol_formula = get_mol_formula(mol)
-                file = os.path.join(working_dir, f"{mol_formula}.{fmt}")
-                mol.to(fmt, file)
+        if not calc_frags:
+            # only saving if frags will not be calculated; otherwise saving
+            # will be handled via the dynamically created fireworks; done to
+            # avoid double saving
+            if save_to_db:
+                db = get_db(db) if db else get_db()
+                for mol in molecules:
+                    db.insert_molecule(mol, update_duplicates=update_duplicates)
+            if save_to_file:
+                for mol in molecules:
+                    mol_formula = get_mol_formula(mol)
+                    file = os.path.join(working_dir, f"{mol_formula}.{fmt}")
+                    mol.to(fmt, file)
 
         for mol in molecules:
             for charge in fragment_charges:
@@ -401,10 +397,11 @@ class BreakMolecule(FiretaskBase):
         ref_charge = self.get("ref_charge", mol.charge)
         db = self.get("db")
         working_dir = self.get("working_dir", os.getcwd())
+        calc_frags = self.get("calc_frags", False)
         save_to_file = self.get("save_to_file")
         save_to_db = self.get("save_to_db")
         fmt = self.get("fmt", "xyz")
-        update_duplicates = self.get("update_suplicates", False)
+        update_duplicates = self.get("update_duplicates", False)
 
         # break the bonds: either those specified by the user inputs or all
         # the bonds in the molecule; only supports breaking bonds or opening
@@ -414,7 +411,6 @@ class BreakMolecule(FiretaskBase):
                                                   OpenBabelNN(),
                                                   reorder=False,
                                                   extend_structure=False)
-        # TODO: test this to check if it handles all possible bonds
         all_bonds = self.get("bonds", None)
         if not all_bonds:
             all_bonds = \
@@ -460,7 +456,8 @@ class BreakMolecule(FiretaskBase):
                                                            db, working_dir,
                                                            save_to_db,
                                                            update_duplicates,
-                                                           save_to_file, fmt)
+                                                           save_to_file, fmt,
+                                                           calc_frags)
             molecule_indices = self._find_molecule_indices(fragments_indices,
                                                            possible_charges,
                                                            charge_ind_map,
@@ -474,8 +471,8 @@ class BreakMolecule(FiretaskBase):
                 self._find_unique_molecules(ring_unique_fragments,
                                             [ref_charge], db, working_dir,
                                             save_to_db, update_duplicates,
-                                            save_to_file, fmt)
-            charge_pairs = [(ref_charge, )]
+                                            save_to_file, fmt, calc_frags)
+            charge_pairs = [(ref_charge,)]
             charge_ind_map = {ref_charge: 0}
             ring_molecule_indices = \
                 self._find_molecule_indices(ring_fragments_indices,
@@ -489,18 +486,14 @@ class BreakMolecule(FiretaskBase):
                        "molecule_indices":
                            molecule_indices + ring_molecule_indices}
 
-        if self.get("calc_frags"):
+        if calc_frags:
             wfs = []
             frag_keys = []
-            # TODO: if the BreakMolecule firetask is used alone, we would still
-            #  need to process solvent inputs?
             opt_gaussian_inputs = self.get("opt_gaussian_inputs") or {}
             freq_gaussian_inputs = self.get("freq_gaussian_inputs") or {}
             cart_coords = self.get("cart_coords", True)
             oxidation_states = self.get("oxidation_states")
             additional_kwargs = self._cleanup_kwargs()
-            # TODO: if the user chooses to save_to_file/db, then the frags will
-            # be saved twice, once here and once above!
             for mol_ind, mol in enumerate(all_molecules):
                 gout_key = "frag_{}".format(mol_ind)
                 frag_wf = self._workflow(mol,
@@ -520,7 +513,8 @@ class BreakMolecule(FiretaskBase):
                 wfs.append(frag_wf)
                 frag_keys.append(gout_key)
             update_spec["frag_keys"] = frag_keys
-            return FWAction(update_spec=update_spec, detours=wfs, propagate=True)
+            return FWAction(update_spec=update_spec, detours=wfs,
+                            propagate=True)
 
         else:
             return FWAction(update_spec=update_spec)
