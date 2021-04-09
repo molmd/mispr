@@ -9,6 +9,7 @@ import json
 import logging
 import pymongo
 import datetime
+import subprocess
 
 import numpy as np
 
@@ -17,8 +18,11 @@ import matplotlib.image as img
 
 from bson.objectid import ObjectId
 
+from configparser import ConfigParser
+
 from pymatgen.io.gaussian import GaussianInput
 
+from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
@@ -46,7 +50,8 @@ FARAD = 96.5
 class ProcessRun(FiretaskBase):
     required_params = ['run']
     optional_params = ['operation_type', 'db', 'save_to_db',
-                       'save_to_file', 'filename', 'input_file', 'gout_key']
+                       'save_to_file', 'filename', 'input_file', 'gout_key',
+                       'format_chk', 'formchk_cmd']
 
     def run_task(self, fw_spec):
         run = self['run']
@@ -54,6 +59,30 @@ class ProcessRun(FiretaskBase):
         input_file = self.get('input_file')
         working_dir = os.getcwd()
         db = self.get('db')
+
+        if self.get('format_chk'):
+            found_chk = False
+            for file in os.listdir(working_dir):
+                if file.endswith('.chk'):
+                    found_chk = True
+                    chk_file = file.strip('.chk')
+                    cmd = self.get('formchk_cmd')
+                    if not cmd:
+                        cfg = ConfigParser()
+                        cfg.read(CONFIG_FILE_DIR + '/config.ini')
+                        cmd = cfg['RunCalc']['formchkcmd']
+                    cmd = cmd.replace('$input_path$', file). \
+                        replace('$output_path$', f'{chk_file}.fchk')
+
+                    logger.info('Running command: {}'.format(cmd))
+                    logger.info('Running command: {}'.format(cmd))
+                    return_code = subprocess.call(cmd, shell=True)
+                    logger.info('Finished running with return code: {}'.format(
+                        return_code))
+                if found_chk:
+                    break
+            if not found_chk:
+                logger.info(f'No checkpoint file found in {working_dir}')
 
         gout_dict = process_run(operation_type=operation_type, run=run,
                                 input_file=input_file, working_dir=working_dir,
