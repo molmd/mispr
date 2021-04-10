@@ -242,12 +242,11 @@ class ESPtoDB(FiretaskBase):
         if fw_spec.get('run_loc_list'):
             esp_dict['run_locs'] = fw_spec['run_loc_list']
         if self.get('save_to_file'):
-            working_dir = os.getcwd()
             if 'run_ids' in esp_dict:
                 del esp_dict['run_ids']
-            esp_file = os.path.join(working_dir, 'esp.json')
-            with open(esp_file, 'w') as f:
+            with open('esp.json', 'w') as f:
                 f.write(json.dumps(esp_dict, default=DATETIME_HANDLER))
+
         logger.info('esp calculation complete')
         return FWAction()
 
@@ -316,12 +315,11 @@ class NMRtoDB(FiretaskBase):
         if fw_spec.get('run_loc_list'):
             nmr_dict['run_locs'] = fw_spec['run_loc_list']
         if self.get('save_to_file'):
-            working_dir = os.getcwd()
             if 'run_ids' in nmr_dict:
                 del nmr_dict['run_ids']
-            nmr_file = os.path.join(working_dir, 'nmr.json')
-            with open(nmr_file, 'w') as f:
+            with open('nmr.json', 'w') as f:
                 f.write(json.dumps(nmr_dict, default=DATETIME_HANDLER))
+
         logger.info('nmr calculation complete')
         return FWAction()
 
@@ -404,12 +402,11 @@ class BindingEnergytoDB(FiretaskBase):
         if fw_spec.get('run_loc_list'):
             be_dict['run_locs'] = fw_spec['run_loc_list']
         if self.get('save_to_file'):
-            working_dir = os.getcwd()
             if 'run_ids' in be_dict:
                 del be_dict['run_ids']
-            be_file = os.path.join(working_dir, 'binding_energy.json')
-            with open(be_file, 'w') as f:
+            with open('binding_energy.json', 'w') as f:
                 f.write(json.dumps(be_dict, default=DATETIME_HANDLER))
+
         logger.info('binding energy calculation complete')
         return FWAction()
 
@@ -595,11 +592,9 @@ class IPEAtoDB(FiretaskBase):
         if fw_spec.get('run_loc_list'):
             ip_ea_dict['run_locs'] = fw_spec['run_loc_list']
         if self.get('save_to_file'):
-            working_dir = os.getcwd()
             if 'run_ids' in ip_ea_dict:
                 del ip_ea_dict['run_ids']
-            ipea_file = os.path.join(working_dir, 'ip_ea.json')
-            with open(ipea_file, 'w') as f:
+            with open('ip_ea.json', 'w') as f:
                 f.write(json.dumps(ip_ea_dict, default=DATETIME_HANDLER))
 
         logger.info('ip/ea calculation complete')
@@ -790,7 +785,9 @@ class BDEtoDB(FiretaskBase):
                     del bde_dict['run_ids']
                 with open('bde.json', 'w') as f:
                     f.write(json.dumps(bde_dict, default=DATETIME_HANDLER))
+
             logger.info('bde calculation complete')
+
         else:
             logger.error('No BDE was calculated. Exiting ...')
             sys.exit()
