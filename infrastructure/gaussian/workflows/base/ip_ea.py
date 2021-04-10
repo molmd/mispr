@@ -18,11 +18,11 @@ from infrastructure.gaussian.firetasks.parse_outputs import IPEAtoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
 
-__author__ = "Rasha Atwi"
-__maintainer__ = "Rasha Atwi"
-__email__ = "rasha.atwi@stonybrook.edu"
-__status__ = "Development"
-__date__ = "Jan 2021"
+__author__ = 'Rasha Atwi'
+__maintainer__ = 'Rasha Atwi'
+__email__ = 'rasha.atwi@stonybrook.edu'
+__status__ = 'Development'
+__date__ = 'Jan 2021'
 __version__ = 0.2
 
 logger = logging.getLogger(__name__)
@@ -54,7 +54,7 @@ class Node:
             self.charge = self.parent.charge + add_charge
 
         self.gout_key = \
-            f"{self.phase.lower()}_{self.added_e}_{self.added_h}"
+            f'{self.phase.lower()}_{self.added_e}_{self.added_h}'
 
         self.fireworks = None
         self.children_nodes = []
@@ -62,8 +62,8 @@ class Node:
         self.mol = None
         if parent is None:
             assert mol_operation_type is not None, \
-                "if parent is None, a mol_operation type should be given"
-            assert mol is not None, "if parent is None, mol should be given"
+                'if parent is None, a mol_operation type should be given'
+            assert mol is not None, 'if parent is None, mol should be given'
             self.mol_operation_type = mol_operation_type
             self.mol = mol
             self.skip = skip_opt_freq
@@ -72,21 +72,21 @@ class Node:
             self.dir_head = None
         else:
             if branch_cation_from_anion and add_charge > 0:
-                h_atom = "[H]"
-                self.mol_operation_type = "link_molecules"
-                self.mol = {"operation_type":
-                                ["get_from_run_dict", "get_from_str"],
-                            "mol": [self.parent.gout_key, h_atom],
-                            "index": [h_index[self.parent.added_h], 0],
-                            "bond_order": 1}
+                h_atom = '[H]'
+                self.mol_operation_type = 'link_molecules'
+                self.mol = {'operation_type':
+                                ['get_from_run_dict', 'get_from_str'],
+                            'mol': [self.parent.gout_key, h_atom],
+                            'index': [h_index[self.parent.added_h], 0],
+                            'bond_order': 1}
                 if num_electrons > 1:
                     for i in range(1, num_electrons):
-                        self.mol = {"operation_type":
-                                        ["link_molecules", "get_from_str"],
-                                    "mol": [self.mol, h_atom],
-                                    "index":
+                        self.mol = {'operation_type':
+                                        ['link_molecules', 'get_from_str'],
+                                    'mol': [self.mol, h_atom],
+                                    'index':
                                         [h_index[self.parent.added_h + i], 0],
-                                    "bond_order": 1}
+                                    'bond_order': 1}
             else:
                 self.mol_operation_type = 'get_from_run_dict'
                 self.mol = self.parent.gout_key
@@ -100,21 +100,21 @@ class Node:
                          solvent_gaussian_inputs, solvent_properties,
                          working_dir, db, cart_coords,
                          branch_cation_from_anion, **kwargs):
-        if "mol_name" in kwargs:
-            self.mol_name = kwargs["mol_name"]
-            self.dir_head = kwargs["mol_name"]
-            kwargs.pop("mol_name")
+        if 'mol_name' in kwargs:
+            self.mol_name = kwargs['mol_name']
+            self.dir_head = kwargs['mol_name']
+            kwargs.pop('mol_name')
         if self.mol_name:
             self.mol_name = self.mol_name + f'_{self.phase.lower()}'
         if self.parent is None:
-            if "process_mol_func" in kwargs:
-                self.process_mol_func = kwargs["process_mol_func"]
-                kwargs.pop("process_mol_func")
+            if 'process_mol_func' in kwargs:
+                self.process_mol_func = kwargs['process_mol_func']
+                kwargs.pop('process_mol_func')
         else:
-            if "process_mol_func" in kwargs:
-                kwargs.pop("process_mol_func")
+            if 'process_mol_func' in kwargs:
+                kwargs.pop('process_mol_func')
             if not self.mol_name:
-                self.mol_name = "{}_{}".format(self.dir_head,
+                self.mol_name = '{}_{}'.format(self.dir_head,
                                                self.phase.lower())
 
         opt_gins = deepcopy(opt_gaussian_inputs)
@@ -124,12 +124,12 @@ class Node:
             solvent_gaussian_inputs = None
             solvent_properties = None
 
-        gaussian_inputs = handle_gaussian_inputs({"opt": opt_gins,
-                                                  "freq": freq_gins},
+        gaussian_inputs = handle_gaussian_inputs({'opt': opt_gins,
+                                                  'freq': freq_gins},
                                                  solvent_gaussian_inputs,
                                                  solvent_properties)
-        opt_gins = gaussian_inputs["opt"]
-        freq_gins = gaussian_inputs["freq"]
+        opt_gins = gaussian_inputs['opt']
+        freq_gins = gaussian_inputs['freq']
 
         dir_structure = [self.phase]
         sec_dir_name = f'{self.added_e}e'
@@ -154,7 +154,7 @@ class Node:
                       dir_structure=dir_structure,
                       from_fw_spec=self.from_fw_spec,
                       charge=self.charge,
-                      str_type="smi",
+                      str_type='smi',
                       **kwargs)
         if self.parent is None and self.dir_head is None:
             self.dir_head = label
@@ -197,14 +197,13 @@ def get_ip_ea(mol_operation_type,
               electrode_potentials=None,
               gibbs_elec=-0.001378786,
               db=None,
-              name="ip_ea_calculation",
+              name='ip_ea_calculation',
               working_dir=None,
               opt_gaussian_inputs=None,
               freq_gaussian_inputs=None,
               cart_coords=True,
               skip_opt_freq=False,
               **kwargs):
-    # TODO: cleanup gaussian inputs like the other workflows
     # TODO: allow performing vertical IP/EA calculation - all energy
     #  calculations use neutral state geometry
     # TODO: HOMO and LUMO of the neutral state as an approximation to IP and EA
@@ -216,32 +215,32 @@ def get_ip_ea(mol_operation_type,
     mol = recursive_relative_to_absolute_path(mol, working_dir)
     mol_object = deepcopy(mol)
 
-    if ref_charge != opt_gaussian_inputs.get("charge", ref_charge):
-        raise Exception("The provided reference charge is not consistent with "
-                        "the one found in the gaussian input parameters.")
+    if ref_charge != opt_gaussian_inputs.get('charge', ref_charge):
+        raise Exception('The provided reference charge is not consistent with '
+                        'the one found in the gaussian input parameters.')
 
     if states is None:
-        states = ["cation", "anion"]
+        states = ['cation', 'anion']
     if phases is None:
-        phases = ["gas", "solution"]
+        phases = ['gas', 'solution']
 
     for state in states:
         assert states, 'states list is empty'
-        if state.lower() not in ["cation", "anion"]:
-            raise ValueError("The provided states are not supported. Supported"
-                             " ones are reference, cation, and/or anion.")
+        if state.lower() not in ['cation', 'anion']:
+            raise ValueError('The provided states are not supported. Supported'
+                             ' ones are reference, cation, and/or anion.')
     for phase in phases:
         assert phases, 'phases list is empty'
-        if phase.lower() not in ["gas", "solution"]:
-            raise ValueError("The provided phases are not supported. Supported"
-                             " ones are gas and/or solution.")
+        if phase.lower() not in ['gas', 'solution']:
+            raise ValueError('The provided phases are not supported. Supported'
+                             ' ones are gas and/or solution.')
 
     if branch_cation_on_anion:
         assert h_index is not None, \
-            "index at which to attach hydrogen atom should be provided as input"
+            'index at which to attach hydrogen atom should be provided as input'
         assert len(h_index) == num_electrons, \
-            "number of indices at which to attach hydrogen atoms should be " \
-            "consistent with number of transfer steps"
+            'number of indices at which to attach hydrogen atoms should be ' \
+            'consistent with number of transfer steps'
 
     root_node = Node('reference', 'gas' if 'gas' in phases else 'solution',
                      0, mol_operation_type, mol_object,
@@ -272,7 +271,7 @@ def get_ip_ea(mol_operation_type,
                 abs(current_node.added_h) <= num_electrons:
             if 'gas' in phases:
                 if current_node.phase == 'solution':
-                    # no branching is done on solution is gas is in the phases
+                    # no branching is done on solution if gas is in the phases
                     branching_phases = []
                     branching_states = []
                 else:
@@ -304,7 +303,7 @@ def get_ip_ea(mol_operation_type,
     gout_keys = [i.gout_key for i in solved_nodes]
     fw_analysis = Firework(
         IPEAtoDB(num_electrons=num_electrons,
-                 steps="single" if single_step else "multi",
+                 steps='single' if single_step else 'multi',
                  states=states,
                  phases=phases,
                  solvent_gaussian_inputs=solvent_gaussian_inputs,
@@ -319,14 +318,14 @@ def get_ip_ea(mol_operation_type,
                     if i in IPEAtoDB.required_params +
                     IPEAtoDB.optional_params}),
         parents=fws[:],
-        name="{}-{}".format(root_node.dir_head,
-                            "ip_ea_analysis"),
+        name='{}-{}'.format(root_node.dir_head,
+                            'ip_ea_analysis'),
         spec={
             '_launch_dir': os.path.join(working_dir, root_node.dir_head,
-                                        "analysis")})
+                                        'analysis')})
     fws.append(fw_analysis)
     return Workflow(fws,
-                    name="{}_{}".format(root_node.dir_head, name),
+                    name='{}_{}'.format(root_node.dir_head, name),
                     links_dict=links_dict,
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
