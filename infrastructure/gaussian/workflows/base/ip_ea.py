@@ -13,8 +13,7 @@ from copy import deepcopy
 from fireworks import Firework, Workflow
 
 from infrastructure.gaussian.utils.utils import \
-    recursive_relative_to_absolute_path, _add_solvent_inputs, \
-    _check_solvent_inputs
+    recursive_relative_to_absolute_path, handle_gaussian_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import IPEAtoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
@@ -121,15 +120,16 @@ class Node:
         opt_gins = deepcopy(opt_gaussian_inputs)
         freq_gins = deepcopy(freq_gaussian_inputs)
 
-        gaussian_inputs = {"opt": opt_gins, "freq": freq_gins}
-        _check_solvent_inputs(gaussian_inputs)
+        if self.phase.lower() != 'solution':
+            solvent_gaussian_inputs = None
+            solvent_properties = None
 
-        if self.phase.lower() == 'solution':
-            gaussian_inputs = _add_solvent_inputs(gaussian_inputs,
-                                                  solvent_gaussian_inputs,
-                                                  solvent_properties)
-            opt_gins = gaussian_inputs["opt"]
-            freq_gins = gaussian_inputs["freq"]
+        gaussian_inputs = handle_gaussian_inputs({"opt": opt_gins,
+                                                  "freq": freq_gins},
+                                                 solvent_gaussian_inputs,
+                                                 solvent_properties)
+        opt_gins = gaussian_inputs["opt"]
+        freq_gins = gaussian_inputs["freq"]
 
         dir_structure = [self.phase]
         sec_dir_name = f'{self.added_e}e'
