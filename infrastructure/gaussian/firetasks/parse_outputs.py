@@ -418,7 +418,7 @@ class BindingEnergytoDB(FiretaskBase):
 class IPEAtoDB(FiretaskBase):
     # TODO: cleanup this firetask without assuming we have specific calcs
     required_params = ['num_electrons', 'states', 'phases', 'steps',
-                       'root_node_key', 'keys', 'branch_cation_on_anion']
+                       'root_node_key', 'keys', 'pcet']
     optional_params = ['db', 'save_to_db', 'save_to_file',
                        'solvent_gaussian_inputs',
                        'solvent_properties',
@@ -433,7 +433,7 @@ class IPEAtoDB(FiretaskBase):
         phases = self['phases']
         steps = self['steps']
         root_node_key = self['root_node_key']
-        branch_cation_on_anion = self['branch_cation_on_anion']
+        pcet = self['pcet']
         keys = self['keys']
         gibbs_elec = self.get('gibbs_elec')
 
@@ -457,6 +457,12 @@ class IPEAtoDB(FiretaskBase):
                                    'charge'])
         final_energies = {i: j['output']['output']['final_energy']
                           for i, j in gout_dict.items()}
+        free_energy_corrections = {
+            i: j['output']['output']['corrections']['Gibbs Free Energy']
+            for i, j in gout_dict.items()}
+        free_energies = {key: final_energies[key] + free_energy_corrections[key]
+                         for key in gout_dict.keys()}
+
         run_time = sum(
             [gout.get('wall_time (s)', 0) for gout in full_gout_dict])
 
@@ -466,7 +472,7 @@ class IPEAtoDB(FiretaskBase):
             sign = 1 if state == 'anion' else -1
             for phase in phases:
                 ip_ea_leafs[state][phase] = {}
-                if not branch_cation_on_anion or sign > 0:
+                if not pcet or sign > 0:
                     ip_ea_leafs[state][phase]['full'] = \
                         [f'{phase.lower()}_0_0',
                          f'{phase.lower()}_{sign * num_electrons}_0']
@@ -487,7 +493,7 @@ class IPEAtoDB(FiretaskBase):
                                  f'{phase.lower()}_0_{i + 1}']
         pcet_energy_leafs = {}
         pcet_pka_leafs = {}
-        if branch_cation_on_anion:
+        if pcet:
             for i in range(num_electrons):
                 # i = hydrogen if pcet_energy else electron
                 for j in range(num_electrons):
@@ -508,7 +514,7 @@ class IPEAtoDB(FiretaskBase):
                     if k != 'full':
                         res_key += '_' + k
                     ip_ea_results[phase][res_key] = \
-                        sign * (final_energies[v[1]] - final_energies[v[0]])
+                        sign * (free_energies[v[1]] - free_energies[v[0]])
 
                     loc_num_electrons = 1 if k != 'full' else num_electrons
                     if gibbs_elec:
