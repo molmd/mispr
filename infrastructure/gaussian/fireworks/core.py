@@ -49,7 +49,7 @@ def common_tasks(db,
                               RunGaussianDirect.required_params +
                               RunGaussianDirect.optional_params}),
          ProcessRun(run=output_file,
-                    operation_type="get_from_file",
+                    operation_type="get_from_gout_file",
                     db=db,
                     input_file=input_file,
                     **{i: j for i, j in kwargs.items() if i in
