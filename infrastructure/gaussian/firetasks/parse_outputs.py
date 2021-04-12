@@ -124,10 +124,10 @@ class ProcessRun(FiretaskBase):
 
 @explicit_serialize
 class RetrieveGaussianOutput(FiretaskBase):
-    '''
+    """
     Returns a Gaussian output object from the database and converts it to a
     Gaussian input object
-    '''
+    """
     required_params = []
     optional_params = ['db', 'gaussian_input_params', 'run_id', 'inchi',
                        'functional', 'basis', 'type', 'phase', 'tag']
@@ -356,7 +356,8 @@ class BindingEnergytoDB(FiretaskBase):
                     ) * HARTREE_TO_EV
 
         be = {'sites': (index[0], len(molecules[0]) + index[1]),
-              'atoms': (molecules[0].species[index[0]], molecules[1].species[index[1]]),
+              'atoms': (str(molecules[0].species[index[0]]),
+                        str(molecules[1].species[index[1]])),
               'value': be_value}
         mol_schema = get_chem_schema(molecules[2])
         phase = gout_dict[-1]['phase']
@@ -557,9 +558,9 @@ class IPEAtoDB(FiretaskBase):
                       'phase': phases,
                       'steps': steps,
                       'gas': {**ip_ea_results['gas'],
-                          'electrode_potentials': {
-                              'oxidation': oxidation_gas,
-                              'reduction': reduction_gas}},
+                              'electrode_potentials': {
+                                  'oxidation': oxidation_gas,
+                                  'reduction': reduction_gas}},
                       'solution': {**ip_ea_results['solution'],
                           'electrode_potentials': {
                               'oxidation': oxidation_sol,
