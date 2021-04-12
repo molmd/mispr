@@ -37,7 +37,7 @@ def get_esp_charges(mol_operation_type,
                     solvent_properties=None,
                     cart_coords=True,
                     oxidation_states=None,
-                    skip_opt_freq=False,
+                    skips=None,
                     **kwargs):
     fws = []
     working_dir = working_dir or os.getcwd()
@@ -62,19 +62,11 @@ def get_esp_charges(mol_operation_type,
                                        cart_coords=cart_coords,
                                        oxidation_states=oxidation_states,
                                        gout_keys=gout_keys[0],
-                                       skip_opt_freq=skip_opt_freq,
+                                       skips=skips,
                                        **kwargs)
     fws += opt_freq_fws
 
-    # input_parameters from a previous run are overwritten
-    # if "input_parameters" not in esp_gaussian_inputs:
-    #     mol_esp = os.path.join(
-    #         working_dir, "{}_esp".format(
-    #             os.path.join(working_dir, label, "ESP", label)))
-    #     esp_gaussian_inputs.update({"input_parameters": {mol_esp: None}})
-
-    # this assumes the user does not add the esp file path to gaussian inputs -
-    # should add to doc
+    # add to doc: user should not add esp path to input parameters
     if "input_parameters" not in esp_gaussian_inputs:
         esp_gaussian_inputs["input_parameters"] = {}
     mol_esp = os.path.join(
@@ -83,7 +75,7 @@ def get_esp_charges(mol_operation_type,
     esp_gaussian_inputs["input_parameters"].update({mol_esp: None})
 
     spec = kwargs.pop("spec", {})
-    if not skip_opt_freq:
+    if not skips or len(skips) == 1 and skips[0].lower() == 'opt':
         spec.update({"proceed": {"has_gaussian_completed": True,
                                  "stationary_type": "Minimum"}})
     else:
