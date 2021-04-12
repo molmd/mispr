@@ -14,11 +14,11 @@ from infrastructure.gaussian.firetasks.parse_outputs import BindingEnergytoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
 
-__author__ = "Rasha Atwi"
-__maintainer__ = "Rasha Atwi"
-__email__ = "rasha.atwi@stonybrook.edu"
-__status__ = "Development"
-__date__ = "Jan 2021"
+__author__ = 'Rasha Atwi'
+__maintainer__ = 'Rasha Atwi'
+__email__ = 'rasha.atwi@stonybrook.edu'
+__status__ = 'Development'
+__date__ = 'Jan 2021'
 __version__ = 0.2
 
 
@@ -30,7 +30,7 @@ def get_binding_energies(mol_operation_type,
                          index,
                          bond_order=1,
                          db=None,
-                         name="binding_energy_calculation",
+                         name='binding_energy_calculation',
                          working_dir=None,
                          opt_gaussian_inputs=None,
                          freq_gaussian_inputs=None,
@@ -38,38 +38,43 @@ def get_binding_energies(mol_operation_type,
                          solvent_properties=None,
                          cart_coords=True,
                          oxidation_states=None,
-                         skip_opt_freq=None,
+                         skips=None,
                          **kwargs):
     # TODO: test with different charges and spin multiplicities when
     #  deriving molecules
-    # TODO: should set process_mol_func to True in the first call of common_fw
-    # mol_operation_type = [], mol = [], index = []
+    # TODO: include an option to use free energy instead of SCF energy
+    # mol_operation_type = [], mol = [], index = [], skips = [[], []],
+    # mol_name = []
     # order of the indices should be consistent with the order of the mols
+    # process_mol_func applies to both input molecules, so if set to False,
+    # should give mol_name to each molecule, and if set to True, both will
+    # take MolFormula even if mol_name is given to either or both
     fws = []
     labels = []
     working_dir = working_dir or os.getcwd()
-    gout_keys = ["mol_1", "mol_2", "mol_linked"]
+    gout_keys = ['mol_1', 'mol_2', 'mol_linked']
     mol = recursive_relative_to_absolute_path(mol, working_dir)
 
-    gaussian_inputs = handle_gaussian_inputs({"opt": opt_gaussian_inputs,
-                                              "freq": freq_gaussian_inputs},
+    gaussian_inputs = handle_gaussian_inputs({'opt': opt_gaussian_inputs,
+                                              'freq': freq_gaussian_inputs},
                                              solvent_gaussian_inputs,
                                              solvent_properties)
-    opt_gaussian_inputs = gaussian_inputs["opt"]
-    freq_gaussian_inputs = gaussian_inputs["freq"]
+    opt_gaussian_inputs = gaussian_inputs['opt']
+    freq_gaussian_inputs = gaussian_inputs['freq']
 
-    if skip_opt_freq is None:
-        skip_opt_freq = [False, False]
-
-    if skip_opt_freq:
-        check_result = ['final_energy']
-    else:
-        check_result = None
+    if skips is None:
+        skips = [None, None]
+    check_result = []
+    for i, j in enumerate(skips):
+        if j:
+            check_result.append(['final_energy'])
+        else:
+            check_result.append(None)
 
     parents = []
-    for position, [operation, molecule, key, skip] in \
-            enumerate(
-                zip(mol_operation_type, mol, gout_keys[:2], skip_opt_freq)):
+    for position, [operation, molecule, key, skip, check, molecule_name] in \
+            enumerate(zip(mol_operation_type, mol, gout_keys[:2], skips,
+                          check_result, kwargs.pop('mol_name', [None, None]))):
         _, label, opt_freq_init_fws = \
             common_fw(mol_operation_type=operation,
                       mol=molecule,
@@ -80,22 +85,25 @@ def get_binding_energies(mol_operation_type,
                       cart_coords=cart_coords,
                       oxidation_states=oxidation_states,
                       gout_key=key,
-                      skip_opt_freq=skip,
-                      check_result=check_result,
+                      skips=skip,
+                      mol_name=molecule_name,
+                      check_result=check,
                       **kwargs)
         fws += opt_freq_init_fws
         parents.append(len(fws))
         labels.append(label)
 
-    final_mol_label = "{}_{}".format(labels[0], labels[1])
+    final_mol_label = '{}_{}'.format(labels[0], labels[1])
 
-    _, _, opt_freq_final_fws = common_fw(mol_operation_type="link_molecules",
-                                         mol={"operation_type": [
-                                             "get_from_run_dict",
-                                             "get_from_run_dict"],
-                                             "mol": gout_keys[:2],
-                                             "index": index,
-                                             "bond_order": bond_order},
+    kwargs.pop('process_mol_func', False)
+
+    _, _, opt_freq_final_fws = common_fw(mol_operation_type='link_molecules',
+                                         mol={'operation_type': [
+                                             'get_from_run_dict',
+                                             'get_from_run_dict'],
+                                             'mol': gout_keys[:2],
+                                             'index': index,
+                                             'bond_order': bond_order},
                                          working_dir=working_dir,
                                          db=db,
                                          filename=final_mol_label,
@@ -120,13 +128,13 @@ def get_binding_energies(mol_operation_type,
                              if i in BindingEnergytoDB.required_params +
                              BindingEnergytoDB.optional_params}),
         parents=fws[:],
-        name="{}-{}".format(final_mol_label,
-                            "binding_energy_analysis"),
+        name='{}-{}'.format(final_mol_label,
+                            'binding_energy_analysis'),
         spec={'_launch_dir': os.path.join(working_dir, 'analysis')})
     fws.append(fw_analysis)
 
     return Workflow(fws,
-                    name="{}_{}".format(final_mol_label, name),
+                    name='{}_{}'.format(final_mol_label, name),
                     links_dict=links_dict,
                     **{i: j for i, j in kwargs.items()
                        if i in WORKFLOW_KWARGS})
