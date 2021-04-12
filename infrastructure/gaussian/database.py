@@ -84,7 +84,7 @@ class GaussianCalcDb:
 
     @abstractmethod
     def build_indexes(self, background=True):
-        self.molecules.create_index('inchi', unique=True,
+        self.molecules.create_index('inchi', unique=False,
                                     background=background)
         self.molecules.create_index('smiles', unique=True,
                                     background=background)
@@ -96,7 +96,8 @@ class GaussianCalcDb:
                                             background=background)
         self.derived_molecules.create_index([('inchi', ASCENDING),
                                              ('smiles', ASCENDING),
-                                             ('formula_alphabetical', ASCENDING),
+                                             (
+                                             'formula_alphabetical', ASCENDING),
                                              ('chemsys', ASCENDING)],
                                             unique=False, background=background)
         self.runs.create_index([('inchi', ASCENDING),
@@ -175,29 +176,31 @@ class GaussianCalcDb:
         result = self.runs.insert_one(grun, bypass_document_validation=True)
         return result.inserted_id
 
-    def retrieve_run(self, inchi=None, smiles=None, job_type=None,
-                     functional=None, basis=None, phase=None, **kwargs):
+    def retrieve_doc(self, collection_name, inchi=None, smiles=None,
+                     functional=None, basis=None, **kwargs):
         query = {}
         if inchi:
             query['inchi'] = inchi
         if smiles:
             query['smiles'] = smiles
-        if job_type:
-            query['type'] = job_type
         if functional:
             query['functional'] = functional
         if basis:
             query['basis'] = basis
-        if phase:
-            query['phase'] = phase
         query = {**query, **kwargs}
-        return list(self.runs.find(query))
+        return list(self.db[collection_name].find(query))
+
+    def retrieve_run(self, inchi=None, smiles=None,
+                     functional=None, basis=None, **kwargs):
+        result = self.retrieve_doc('runs', inchi=inchi, smiles=smiles,
+                                   functional=functional, basis=basis,
+                                   **kwargs)
+        return result
 
     def move_runs(self, new_collection, inchi=None, smiles=None,
-                  job_type=None, functional=None, basis=None, phase=None,
-                  **kwargs):
-        runs = self.retrieve_run(inchi, smiles, job_type, functional, basis,
-                                 phase, **kwargs)
+                  functional=None, basis=None, **kwargs):
+        runs = self.retrieve_run(inchi, smiles, functional, basis,
+                                 **kwargs)
         self.db[new_collection].insert_many(runs)
 
     def update_run(self, new_values, inchi=None, smiles=None, job_type=None,
@@ -216,8 +219,8 @@ class GaussianCalcDb:
         if phase:
             query['phase'] = phase
         query = {**query, **kwargs}
-        run_ = self.retrieve_run(inchi, smiles, job_type, functional,
-                                 basis, phase, **kwargs)[0]
+        run_ = self.retrieve_run(inchi, smiles, functional, basis,
+                                 **kwargs)[0]
         run_['output']['output'].update(new_values)
         self.runs.update_one(query, {'$set': run_})
 
