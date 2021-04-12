@@ -38,7 +38,7 @@ def get_nmr_tensors(mol_operation_type,
                     solvent_properties=None,
                     cart_coords=True,
                     oxidation_states=None,
-                    skip_opt_freq=False,
+                    skips=None,
                     **kwargs):
     fws = []
     working_dir = working_dir or os.getcwd()
@@ -63,12 +63,12 @@ def get_nmr_tensors(mol_operation_type,
                                        cart_coords=cart_coords,
                                        oxidation_states=oxidation_states,
                                        gout_keys=gout_keys[0],
-                                       skip_opt_freq=skip_opt_freq,
+                                       skips=skips,
                                        **kwargs)
     fws += opt_freq_fws
 
     spec = kwargs.pop("spec", {})
-    if not skip_opt_freq:
+    if not skips or len(skips) == 1 and skips[0].lower() == 'opt':
         spec.update({"proceed": {"has_gaussian_completed": True,
                                  "stationary_type": "Minimum"}})
     else:
