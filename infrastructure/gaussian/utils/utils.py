@@ -52,6 +52,7 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
     # TODO: seems like it is not taking kwargs correctly, if None, correct?
     working_dir = kwargs["working_dir"] if "working_dir" in kwargs \
         else os.getcwd()
+    # TODO: correct this? we don't always want to check db
     db = get_db(kwargs["db"]) if "db" in kwargs else get_db()
 
     if operation_type == "get_from_mol":
@@ -61,7 +62,7 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
                             "operation type with its corresponding inputs")
         output_mol = mol
 
-    elif operation_type == "get_from_file":
+    elif operation_type == "get_from_file" or operation_type == "get_from_gout_file":
         if not os.path.isabs(mol):
             file_path = os.path.join(working_dir, mol)
         else:
@@ -190,7 +191,7 @@ def process_run(operation_type, run, input_file=None, **kwargs):
         gout = run.as_dict()
         gout_dict = _cleanup_gout(gout, working_dir, input_file)
 
-    elif operation_type == "get_from_file":
+    elif operation_type == "get_from_gout_file":
         if not os.path.isabs(run):
             file_path = os.path.join(working_dir, run)
         else:
