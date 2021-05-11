@@ -20,7 +20,7 @@ from pymongo import MongoClient, ASCENDING
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
 
-from infrastructure.gaussian.utils.utils import get_chem_schema
+from infrastructure.gaussian.utilities.metadata import get_chem_schema
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'
