@@ -8,8 +8,10 @@ import logging
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utils.utils import process_mol, get_job_name, \
-    get_mol_formula, process_run
+from infrastructure.gaussian.utilities.gout import process_run
+from infrastructure.gaussian.utilities.mol import process_mol
+from infrastructure.gaussian.utilities.metadata import get_mol_formula, \
+    get_job_name
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
 from infrastructure.gaussian.fireworks.core import CalcFromMolFW, \
     CalcFromRunsDBFW
@@ -211,8 +213,7 @@ def common_fw(mol_operation_type,
                                      'Stopping.'.format(not_found_keys))
 
             spec = kwargs.pop('spec', {})
-            if 'tag' in kwargs:
-                spec.update({'tag': kwargs['tag']})
+            spec.update({'tag': kwargs.get('tag', 'unknown')})
             spec.update({'_launch_dir': working_dir})
             fws.append(Firework(ProcessRun(run=run,
                                            operation_type='get_from_run_dict',
