@@ -7,8 +7,10 @@ import os
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utils.utils import \
-    recursive_relative_to_absolute_path, get_job_name, handle_gaussian_inputs
+from infrastructure.gaussian.utilities.files import \
+    recursive_relative_to_absolute_path
+from infrastructure.gaussian.utilities.metadata import get_job_name
+from infrastructure.gaussian.utilities.inputs import handle_gaussian_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import BDEtoDB
 from infrastructure.gaussian.fireworks.break_mol import BreakMolFW
 from infrastructure.gaussian.workflows.base.core import common_fw, \
@@ -37,7 +39,7 @@ def get_bde(mol_operation_type,
             solvent_properties=None,
             cart_coords=True,
             oxidation_states=None,
-            skip_opt_freq=False,
+            skips=False,
             visualize=True,
             **kwargs):
     fws = []
@@ -51,7 +53,7 @@ def get_bde(mol_operation_type,
     opt_gaussian_inputs = gaussian_inputs["opt"]
     freq_gaussian_inputs = gaussian_inputs["freq"]
 
-    if skip_opt_freq:
+    if skips:
         check_result = ["final_energy", "Enthalpy"]
     else:
         check_result = None
@@ -66,7 +68,7 @@ def get_bde(mol_operation_type,
                                        freq_gaussian_inputs=freq_gaussian_inputs,
                                        cart_coords=cart_coords,
                                        oxidation_states=oxidation_states,
-                                       skip_opt_freq=skip_opt_freq,
+                                       skips=skips,
                                        check_result=check_result,
                                        gout_key=gout_key,
                                        **kwargs)
