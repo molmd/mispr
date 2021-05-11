@@ -8,8 +8,9 @@ import logging
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utils.utils import \
-    recursive_relative_to_absolute_path, handle_gaussian_inputs
+from infrastructure.gaussian.utilities.files import \
+    recursive_relative_to_absolute_path
+from infrastructure.gaussian.utilities.inputs import handle_gaussian_inputs
 from infrastructure.gaussian.firetasks.parse_outputs import BindingEnergytoDB
 from infrastructure.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
