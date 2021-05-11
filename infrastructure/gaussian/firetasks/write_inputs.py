@@ -102,5 +102,3 @@ class WriteInput(FiretaskBase):
         if "gaussian_input" in fw_spec:
             del fw_spec["gaussian_input"]
 
-# TODO: write a firetask for creating an input file using default parameters
-# and another one using custom ones that offer more flexibility
