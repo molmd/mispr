@@ -8,17 +8,18 @@ import copy
 import logging
 import itertools
 
-from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.core.structure import Molecule
-from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.fragmenter import open_ring
+from pymatgen.analysis.graphs import MoleculeGraph
+from pymatgen.analysis.local_env import OpenBabelNN
 
 from fireworks import Firework, Workflow
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 
-from infrastructure.gaussian.utils.utils import get_db, process_mol, \
-    get_job_name, get_mol_formula
+from infrastructure.gaussian.utilities.mol import process_mol
+from infrastructure.gaussian.utilities.db_utilities import get_db
+from infrastructure.gaussian.utilities.metadata import get_mol_formula
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -318,7 +319,7 @@ class BreakMolecule(FiretaskBase):
         kwargs = {i: j for i, j in additional_kwargs.items() if i not in
                   self.required_params + self.optional_params +
                   ["mol_operation_type", "dir_structure", "process_mol_func",
-                   "mol_name", "from_fw_spec", "skip_opt_freq"]}
+                   "mol_name", "from_fw_spec", "skips"]}
         return kwargs
 
     @staticmethod
@@ -326,8 +327,6 @@ class BreakMolecule(FiretaskBase):
                   freq_gaussian_inputs, cart_coords, oxidation_states,
                   save_to_db, save_to_file, fmt, update_duplicates, **kwargs):
 
-        from infrastructure.gaussian.fireworks.core import \
-            CalcFromMolFW
         from infrastructure.gaussian.workflows.base.core import common_fw, \
             WORKFLOW_KWARGS
 
@@ -335,49 +334,31 @@ class BreakMolecule(FiretaskBase):
         mol_formula = get_mol_formula(mol)
 
         if len(mol) == 1:
-            job_name = "frequency"
-            dir_struct = [mol_formula] + dir_structure
-            working_dir = os.path.join(working_dir, *dir_struct)
-
-            frag_fws = [CalcFromMolFW(mol=mol,
-                                      mol_operation_type="get_from_mol",
-                                      db=db,
-                                      name=get_job_name(mol, job_name),
-                                      working_dir=working_dir,
-                                      input_file=f"{mol_formula}_freq.com",
-                                      output_file=f"{mol_formula}_freq.out",
-                                      gaussian_input_params=freq_gaussian_inputs,
-                                      cart_coords=cart_coords,
-                                      oxidation_states=oxidation_states,
-                                      gout_key=gout_key,
-                                      save_to_db=save_to_db,
-                                      save_to_file=save_to_file,
-                                      fmt=fmt,
-                                      update_duplicates=update_duplicates,
-                                      **kwargs
-                                      )]
+            skips = ["opt"]
         else:
-            job_name = "opt_freq"
-            _, _, frag_fws = common_fw(
-                mol_operation_type="get_from_mol",
-                mol=mol,
-                working_dir=working_dir,
-                dir_structure=dir_structure,
-                db=db,
-                opt_gaussian_inputs=opt_gaussian_inputs,
-                freq_gaussian_inputs=freq_gaussian_inputs,
-                cart_coords=cart_coords,
-                oxidation_states=oxidation_states,
-                process_mol_func=False,
-                mol_name=mol_formula,
-                from_fw_spec=False,
-                skip_opt_freq=False,
-                gout_key=gout_key,
-                save_to_db=save_to_db,
-                save_to_file=save_to_file,
-                fmt=fmt,
-                update_duplicates=update_duplicates,
-                **kwargs)
+            skips = None
+
+        job_name = "opt_freq"
+        _, _, frag_fws = common_fw(
+            mol_operation_type="get_from_mol",
+            mol=mol,
+            working_dir=working_dir,
+            dir_structure=dir_structure,
+            db=db,
+            opt_gaussian_inputs=opt_gaussian_inputs,
+            freq_gaussian_inputs=freq_gaussian_inputs,
+            cart_coords=cart_coords,
+            oxidation_states=oxidation_states,
+            process_mol_func=False,
+            mol_name=mol_formula,
+            from_fw_spec=False,
+            skips=skips,
+            gout_key=gout_key,
+            save_to_db=save_to_db,
+            save_to_file=save_to_file,
+            fmt=fmt,
+            update_duplicates=update_duplicates,
+            **kwargs)
         return Workflow(frag_fws,
                         name="{}_{}".format(mol_formula, job_name),
                         **{i: j for i, j in kwargs.items()
