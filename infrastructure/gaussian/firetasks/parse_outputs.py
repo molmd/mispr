@@ -27,9 +27,17 @@ from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 
-from infrastructure.gaussian.utils.utils import get_db, process_run, \
-    process_mol, pass_gout_dict, get_chem_schema, add_solvent_to_prop_dict, \
-    get_rdkit_mol, draw_rdkit_mol_with_highlighted_bonds
+from infrastructure.gaussian.utilities.misc import pass_gout_dict
+from infrastructure.gaussian.utilities.gout import process_run
+from infrastructure.gaussian.utilities.files import bibtex_parser
+from infrastructure.gaussian.utilities.mol import process_mol
+from infrastructure.gaussian.utilities.db_utilities import get_db
+from infrastructure.gaussian.utilities.rdkit import \
+    draw_rdkit_mol_with_highlighted_bonds, get_rdkit_mol
+from infrastructure.gaussian.utilities.dbdoc import add_solvent_to_prop_dict
+from infrastructure.gaussian.utilities.metadata import get_chem_schema
+
+from infrastructure import __version__ as infrastructure_version
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'
@@ -44,6 +52,7 @@ DEFAULT_KEY = 'gout_key'
 HARTREE_TO_EV = 27.2114
 HARTREE_TO_KJ = 2600
 FARAD = 96.5
+R = 8.31446
 
 
 @explicit_serialize
@@ -93,6 +102,7 @@ class ProcessRun(FiretaskBase):
             gout_dict['tag'] = fw_spec['tag']
         if 'run_time' in fw_spec:
             gout_dict['wall_time (s)'] = fw_spec['run_time']
+        gout_dict['version'] = infrastructure_version
         if gout_dict['output']['has_gaussian_completed']:
             run_list = {}
             if self.get('save_to_db'):
@@ -217,6 +227,8 @@ class ESPtoDB(FiretaskBase):
                     'tag': gout_dict[-1]['tag'],
                     'state': 'successful',
                     'wall_time (s)': run_time,
+                    'version': infrastructure_version,
+                    'gauss_version': gout_dict[-1]['gauss_version'],
                     'last_updated': datetime.datetime.utcnow()}
 
         if phase == 'solution':
@@ -290,6 +302,8 @@ class NMRtoDB(FiretaskBase):
                     'tag': gout_dict[-1]['tag'],
                     'state': 'successful',
                     'wall_time (s)': run_time,
+                    'version': infrastructure_version,
+                    'gauss_version': gout_dict[-1]['gauss_version'],
                     'last_updated': datetime.datetime.utcnow()}
 
         if phase == 'solution':
@@ -378,6 +392,8 @@ class BindingEnergytoDB(FiretaskBase):
                    'tag': gout_dict[-1]['tag'],
                    'state': 'successful',
                    'wall_time (s)': run_time,
+                   'version': infrastructure_version,
+                   'gauss_version': gout_dict[-1]['gauss_version'],
                    'last_updated': datetime.datetime.utcnow()}
 
         if phase == 'solution':
@@ -414,15 +430,15 @@ class BindingEnergytoDB(FiretaskBase):
 
 @explicit_serialize
 class IPEAtoDB(FiretaskBase):
-    # TODO: cleanup this firetask without assuming we have specific calcs
     required_params = ['num_electrons', 'states', 'phases', 'steps',
-                       'root_node_key', 'keys', 'pcet']
+                       'root_node_key', 'keys', 'pcet', 'vertical']
     optional_params = ['db', 'save_to_db', 'save_to_file',
                        'solvent_gaussian_inputs',
                        'solvent_properties',
                        'electrode_potentials',
                        'additional_prop_doc_fields',
-                       'gibbs_elec']
+                       'gibbs_elec',
+                       'gibbs_h']
 
     def run_task(self, fw_spec):
         db = self.get('db')
@@ -433,17 +449,23 @@ class IPEAtoDB(FiretaskBase):
         root_node_key = self['root_node_key']
         pcet = self['pcet']
         keys = self['keys']
+        vertical = self['vertical']
         gibbs_elec = self.get('gibbs_elec')
+        gibbs_h = self.get('gibbs_h')
 
-        ref_potentials = {'hydrogen': 4.44,
-                          'magnesium': 2.07,
-                          'lithium': 1.40}
+        data_dir = os.path.join(os.path.dirname(__file__), '../data')
+        ref_potentials = {'hydrogen':
+                              {'potential': 4.43,
+                               'ref': bibtex_parser('h_pot.bib', data_dir)},
+                          'magnesium':
+                              {'potential': 2.375,
+                               'ref': bibtex_parser('mg_pot.bib', data_dir)},
+                          'lithium':
+                              {'potential': 1.40,
+                               'ref': bibtex_parser('li_pot.bib', data_dir)}}
         electrode_potentials = self.get('electrode_potentials') or {}
-        electrode_potentials = {
-            k.lower(): v for k, v in electrode_potentials.items()}
         electrode_potentials = {**ref_potentials,
                                 **electrode_potentials}
-        # TODO: get full_gout_dict list including opt to calculate run time
         gout_dict = {i: pass_gout_dict(fw_spec, i) for i in keys}
         # include opt fireworks in the list of gout_dict to calculate run time
         full_gout_dict = list(gout_dict.values()) + \
@@ -461,89 +483,98 @@ class IPEAtoDB(FiretaskBase):
         free_energies = {key: final_energies[key] + free_energy_corrections[key]
                          for key in gout_dict.keys()}
 
+        # if one calculation is skipped, wall time is considered zero
         run_time = sum(
             [gout.get('wall_time (s)', 0) for gout in full_gout_dict])
 
-        ip_ea_leafs = {}
+        def _name_(e1, e2, h1, h2):
+            if pcet:
+                return f'{e1}e{h1}h_{e2}e{h2}h'
+            else:
+                return f'{e1}e_{e2}e'
+
+        def _gibbs_to_redox(s, g, e_count):
+            redox_result = -s * g / ((1 / HARTREE_TO_KJ) * e_count * FARAD)
+            return redox_result
+
+        def _gibbs_to_pka(g):
+            pka_result = g * HARTREE_TO_KJ / (
+                    -1 / np.log10(np.exp(1)) * R / 1000 * 298.15)
+            return pka_result
+
+        # TODO: PCET --> what to save (IP, EA, pKA, intermediate results)?
+        # TODO: possible to have multiple H transfer in single step? same pka
+        #  calc, divide by 2?
+        # TODO: gibbs_h in gas vs sol or same?
+        gibbs_dict = {}
+        redox_dict = {}
         for state in states:
-            ip_ea_leafs[state] = {}
+            process = 'oxidation' if state == 'cation' else 'reduction'
+            gibbs_dict[process] = {}
+            redox_dict[process] = {}
             sign = 1 if state == 'anion' else -1
             for phase in phases:
-                ip_ea_leafs[state][phase] = {}
+                gibbs_dict[process][phase] = {}
+                redox_dict[process][phase] = {}
+                # steps not involving h transfer
                 if not pcet or sign > 0:
-                    ip_ea_leafs[state][phase]['full'] = \
-                        [f'{phase.lower()}_0_0',
-                         f'{phase.lower()}_{sign * num_electrons}_0']
-                    if steps == 'multi':
-                        for i in range(num_electrons):
-                            ip_ea_leafs[state][phase][
-                                f'{sign * i}_{sign * (i + 1)}'] = \
-                                [f'{phase.lower()}_{sign * i}_0',
-                                 f'{phase.lower()}_{sign * (i + 1)}_0']
+                    for h in range((num_electrons + 1) * pcet + (1 - pcet)):
+                        n1 = f'{phase.lower()}_0_{h}'
+                        n2 = f'{phase.lower()}_{sign * num_electrons}_{h}'
+                        name = _name_(0, sign * num_electrons, h, h)
+                        gibbs = free_energies[n2] - free_energies[n1] - \
+                                sign * gibbs_elec * num_electrons
+                        gibbs_dict[process][phase][name] = gibbs * HARTREE_TO_EV
+                        redox = _gibbs_to_redox(sign, gibbs, num_electrons)
+                        redox_dict[process][phase][name] = {}
+                        redox_dict[process][phase][name]['raw'] = redox
+                        for key, value in electrode_potentials.items():
+                            redox_dict[process][phase][name][
+                                key] = redox - value['potential']
+                        if steps == 'multi':
+                            for i in range(num_electrons):
+                                n1 = f'{phase.lower()}_{sign * i}_{h}'
+                                n2 = f'{phase.lower()}_{sign * (i + 1)}_{h}'
+                                name = _name_(sign * i, sign * (i + 1), h, h)
+                                gibbs = free_energies[n2] - free_energies[n1] \
+                                        - sign * gibbs_elec
+                                gibbs_dict[process][phase][name] = \
+                                    gibbs * HARTREE_TO_EV
+                                redox = _gibbs_to_redox(sign, gibbs, 1)
+                                redox_dict[process][phase][name] = {}
+                                redox_dict[process][phase][name]['raw'] = redox
+                                for key, value in electrode_potentials.items():
+                                    redox_dict[process][phase][name][key] = \
+                                        redox - value['potential']
+                # steps involving h transfer
                 else:
-                    ip_ea_leafs[state][phase]['full'] = \
-                        [f'{phase.lower()}_0_0',
-                         f'{phase.lower()}_0_{num_electrons}']
-                    if steps == 'multi':
-                        for i in range(num_electrons):
-                            ip_ea_leafs[state][phase][f'{i}_{i + 1}'] = \
-                                [f'{phase.lower()}_0_{i}',
-                                 f'{phase.lower()}_0_{i + 1}']
-        pcet_energy_leafs = {}
-        pcet_pka_leafs = {}
-        if pcet:
-            for i in range(num_electrons):
-                # i = hydrogen if pcet_energy else electron
-                for j in range(num_electrons):
-                    # j = electron if pcet_energy else hydrogen
-                    pcet_energy_leafs[f'{i}_{j}_{j + 1}'] = \
-                        [f'solution_{j}_{i}', f'solution_{j + 1}_{i}']
-                    pcet_pka_leafs[f'{i}_{j}_{j + 1}'] = \
-                        [f'solution_{i}_{j}', f'solution_{i}_{j + 1}']
-
-        ip_ea_results = {}
-        for phase in phases:
-            ip_ea_results[phase] = {}
-            for state in states:
-                sign = 1 if state == 'cation' else -1
-                prefix = 'IP' if state == 'cation' else 'EA'
-                for k, v in ip_ea_leafs[state][phase].items():
-                    res_key = prefix
-                    if k != 'full':
-                        res_key += '_' + k
-                    ip_ea_results[phase][res_key] = \
-                        sign * (free_energies[v[1]] - free_energies[v[0]])
-
-                    loc_num_electrons = 1 if k != 'full' else num_electrons
-                    if gibbs_elec:
-                        if state == 'anion':
-                            ip_ea_results[phase][res_key] += \
-                                gibbs_elec * loc_num_electrons
-                        else:
-                            ip_ea_results[phase][res_key] -= \
-                                gibbs_elec * loc_num_electrons
-                    ip_ea_results[phase][res_key] /= \
-                        (1 / HARTREE_TO_KJ) * loc_num_electrons * FARAD
-
-        # TODO: cleanup this part
-        ip_gas = ip_ea_results.get('gas', {}).get('IP')
-        ip_sol = ip_ea_results.get('solution', {}).get('IP')
-
-        ea_gas = ip_ea_results.get('gas', {}).get('EA')
-        ea_sol = ip_ea_results.get('solution', {}).get('EA')
-        oxidation_sol = {}
-        oxidation_gas = {}
-        reduction_sol = {}
-        reduction_gas = {}
-        for key, value in electrode_potentials.items():
-            if ip_sol is not None:
-                oxidation_sol[key] = ip_sol - value
-            if ip_gas is not None:
-                oxidation_gas[key] = ip_gas - value
-            if ea_sol is not None:
-                reduction_sol[key] = ea_sol - value
-            if ea_gas is not None:
-                reduction_gas[key] = ea_gas - value
+                    # 1st ind --> elec, 2nd ind --> hydrogen
+                    n1 = f'{phase.lower()}_0_0'
+                    n2 = f'{phase.lower()}_{num_electrons}_{num_electrons}'
+                    name = _name_(0, num_electrons, 0, num_electrons)
+                    gibbs = free_energies[n2] - free_energies[n1] - \
+                            gibbs_h * num_electrons
+                    gibbs_dict[process][phase][name] = gibbs * HARTREE_TO_EV
+                    for e in range(num_electrons + 1):
+                        n1 = f'{phase.lower()}_{e}_0'
+                        n2 = f'{phase.lower()}_{e}_{num_electrons}'
+                        name = _name_(e, e, 0, num_electrons)
+                        gibbs = free_energies[n2] - free_energies[n1] - \
+                                gibbs_h * num_electrons
+                        pka = _gibbs_to_pka(gibbs)
+                        gibbs_dict[process][phase][name] = gibbs * HARTREE_TO_EV
+                        redox_dict[process][phase][name] = pka
+                        if steps == 'multi':
+                            for i in range(num_electrons):
+                                n1 = f'{phase.lower()}_{e}_{i}'
+                                n2 = f'{phase.lower()}_{e}_{i + 1}'
+                                name = _name_(e, e, i, i + 1)
+                                gibbs = free_energies[n2] - free_energies[n1] \
+                                        - gibbs_h
+                                pka = _gibbs_to_pka(gibbs)
+                                gibbs_dict[process][phase][name] = \
+                                    gibbs * HARTREE_TO_EV
+                                redox_dict[process][phase][name] = pka
 
         mol_schema = get_chem_schema(molecule)
         ip_ea_dict = {'molecule': molecule.as_dict(),
@@ -557,17 +588,17 @@ class IPEAtoDB(FiretaskBase):
                       'basis': gout_dict[root_node_key]['basis'],
                       'phase': phases,
                       'steps': steps,
-                      'gas': {**ip_ea_results['gas'],
-                              'electrode_potentials': {
-                                  'oxidation': oxidation_gas,
-                                  'reduction': reduction_gas}},
-                      'solution': {**ip_ea_results['solution'],
-                          'electrode_potentials': {
-                              'oxidation': oxidation_sol,
-                              'reduction': reduction_sol}},
+                      'vertical': vertical,
+                      'gibbs_elec': gibbs_elec * HARTREE_TO_EV,
+                      'gibbs_h': gibbs_h * HARTREE_TO_EV,
+                      'gibbs': gibbs_dict,
+                      'potentials': redox_dict,
+                      'standard_potentials': electrode_potentials,
                       'tag': gout_dict[root_node_key]['tag'],
                       'state': 'successful',
                       'wall_time (s)': run_time,
+                      'version': infrastructure_version,
+                      'gauss_version': gout_dict[root_node_key]['gauss_version'],
                       'last_updated': datetime.datetime.utcnow()}
 
         if 'solution' in phases:
@@ -697,6 +728,8 @@ class BDEtoDB(FiretaskBase):
                         'tag': gout_dict[principle_mol_key]['tag'],
                         'state': 'successful',
                         'wall_time (s)': run_time,
+                        'version': infrastructure_version,
+                        'gauss_version': gout_dict[principle_mol_key]['gauss_version'],
                         'last_updated': datetime.datetime.utcnow()
                         }
 
