@@ -11,7 +11,8 @@ from fireworks import Firework
 from infrastructure.gaussian.firetasks.geo_transformation import \
     ProcessMoleculeInput
 from infrastructure.gaussian.firetasks.write_inputs import WriteInput
-from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect
+from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect, \
+    RunGaussianCustodian
 from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun, \
     RetrieveGaussianOutput
 
@@ -22,11 +23,38 @@ __status__ = "Development"
 __date__ = "Jan 2021"
 __version__ = 0.2
 
-
 logger = logging.getLogger(__name__)
 
 FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
+
+# def common_tasks(db,
+#                  input_file,
+#                  output_file,
+#                  gaussian_input_params,
+#                  cart_coords,
+#                  oxidation_states,
+#                  **kwargs):
+#     return \
+#         [WriteInput(input_file=input_file,
+#                     gaussian_input_params=gaussian_input_params,
+#                     cart_coords=cart_coords,
+#                     oxidation_states=oxidation_states,
+#                     **{i: j for i, j in kwargs.items() if i in
+#                        WriteInput.required_params +
+#                        WriteInput.optional_params}),
+#          RunGaussianDirect(input_file=input_file,
+#                            output_file=output_file,
+#                            **{i: j for i, j in kwargs.items() if i in
+#                               RunGaussianDirect.required_params +
+#                               RunGaussianDirect.optional_params}),
+#          ProcessRun(run=output_file,
+#                     operation_type="get_from_gout_file",
+#                     db=db,
+#                     input_file=input_file,
+#                     **{i: j for i, j in kwargs.items() if i in
+#                        ProcessRun.required_params +
+#                        ProcessRun.optional_params})]
 
 def common_tasks(db,
                  input_file,
@@ -43,11 +71,11 @@ def common_tasks(db,
                     **{i: j for i, j in kwargs.items() if i in
                        WriteInput.required_params +
                        WriteInput.optional_params}),
-         RunGaussianDirect(input_file=input_file,
-                           output_file=output_file,
-                           **{i: j for i, j in kwargs.items() if i in
-                              RunGaussianDirect.required_params +
-                              RunGaussianDirect.optional_params}),
+         RunGaussianCustodian(input_file=input_file,
+                              output_file=output_file,
+                              **{i: j for i, j in kwargs.items() if i in
+                                 RunGaussianCustodian.required_params +
+                                 RunGaussianCustodian.optional_params}),
          ProcessRun(run=output_file,
                     operation_type="get_from_gout_file",
                     db=db,
@@ -144,6 +172,3 @@ class CalcFromRunsDBFW(Firework):
                                                **{i: j for i, j in
                                                   kwargs.items() if i in
                                                   FIREWORK_KWARGS})
-
-
-
