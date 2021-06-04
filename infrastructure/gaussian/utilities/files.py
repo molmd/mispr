@@ -6,7 +6,6 @@
 import os
 import logging
 
-
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'
 __email__ = 'rasha.atwi@stonybrook.edu'
