@@ -20,6 +20,7 @@ from pymongo import MongoClient, ASCENDING
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
 
+from infrastructure import __version__ as infrastructure_version
 from infrastructure.gaussian.utilities.metadata import get_chem_schema
 
 __author__ = 'Rasha Atwi'
@@ -153,6 +154,7 @@ class GaussianCalcDb:
         if result and update_duplicates:
             logger.info('Updating duplicate {}'.format(mol_dict['inchi']))
         if result is None or update_duplicates:
+            mol_dict['version'] = infrastructure_version
             mol_dict['last_updated'] = datetime.datetime.utcnow()
             self.molecules.update_one({'inchi': mol_dict['inchi']},
                                       {'$set': mol_dict}, upsert=True)
