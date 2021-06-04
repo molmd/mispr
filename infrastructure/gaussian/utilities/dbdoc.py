@@ -9,6 +9,7 @@ import logging
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput
 
+from infrastructure.gaussian.defaults import JOB_TYPES, SCRF_MODELS
 from infrastructure.gaussian.utilities.metadata import get_chem_schema
 
 __author__ = 'Rasha Atwi'
@@ -19,14 +20,6 @@ __date__ = 'Jan 2021'
 __version__ = 0.2
 
 logger = logging.getLogger(__name__)
-
-
-JOB_TYPES = {'sp', 'opt', 'freq', 'irc', 'ircmax', 'scan', 'polar', 'admp',
-             'bomd', 'eet', 'force', 'stable', 'volume', 'density', 'guess',
-             'pop', 'scrf', 'cphf', 'prop', 'nmr', 'cis', 'zindo', 'td', 'eom',
-             'sac-ci'}
-SCRF_MODELS = {'pcm', 'iefpcm', 'cpcm', 'dipole', 'ipcm', 'isodensity',
-               'scipcm', 'smd'}
 
 
 def _job_types(gin):
@@ -71,6 +64,8 @@ def _cleanup_gout(gout, working_dir, input_file):
     gout = _modify_gout(gout)
     gin = _create_gin(gout, working_dir, input_file)
     del gout['input']
+    gauss_version = gout['output']['gauss_version']
+    del gout['output']['gauss_version']
     job_types = _job_types(gin)
     mol = Molecule.from_dict(gout['output']['molecule'])
     gout_dict = {'input': gin, 'output': gout,
@@ -78,7 +73,7 @@ def _cleanup_gout(gout, working_dir, input_file):
                  'basis': gin['basis_set'],
                  'phase': 'solution' if gout['is_pcm'] else 'gas',
                  'type': ';'.join(job_types),
-                 **get_chem_schema(mol)}
+                 **get_chem_schema(mol), 'gauss_version': gauss_version}
     gout_dict = {i: j for i, j in gout_dict.items() if i not in
                  ['sites', '@module', '@class', 'charge',
                   'spin_multiplicity']}
