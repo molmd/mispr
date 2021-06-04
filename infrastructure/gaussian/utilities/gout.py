@@ -27,7 +27,9 @@ logger = logging.getLogger(__name__)
 
 def process_run(operation_type, run, input_file=None, **kwargs):
     working_dir = kwargs.get('working_dir', os.getcwd())
-    db = get_db(kwargs['db']) if 'db' in kwargs else get_db()
+
+    def get_db_():
+        return get_db(kwargs['db']) if 'db' in kwargs else get_db()
 
     if operation_type == 'get_from_gout':
         if not isinstance(run, GaussianOutput):
@@ -64,6 +66,7 @@ def process_run(operation_type, run, input_file=None, **kwargs):
 
     elif operation_type == 'get_from_run_id':
         # run = run_id
+        db = get_db_()
         run = db.runs.find_one({'_id': ObjectId(run)})
         if not run:
             raise Exception('Gaussian run is not in the database')
@@ -77,6 +80,7 @@ def process_run(operation_type, run, input_file=None, **kwargs):
                     'be used. To perform a more specific '
                     'search, provide the document id using '
                     'gout_id')
+        db = get_db_()
         run = db.retrieve_run(**run)
         if not run:
             raise Exception('Gaussian run is not in the database')
