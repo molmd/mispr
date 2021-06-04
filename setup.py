@@ -22,4 +22,5 @@ setuptools.setup(
         "Topic :: Scientific/Engineering",
     ],
     python_requires='>=3.6',
+    package_data={'': ['gaussian/data/*.bib']},
 )
