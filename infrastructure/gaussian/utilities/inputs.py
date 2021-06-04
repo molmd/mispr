@@ -7,6 +7,8 @@ import logging
 
 from copy import deepcopy
 
+from infrastructure.gaussian.defaults import STANDARD_OPT_GUASSIAN_INPUT
+
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'
 __email__ = 'rasha.atwi@stonybrook.edu'
@@ -15,14 +17,6 @@ __date__ = 'Jan 2021'
 __version__ = 0.2
 
 logger = logging.getLogger(__name__)
-
-
-STANDARD_OPT_GUASSIAN_INPUT = {'functional': 'B3LYP',
-                               'basis_set': '6-31G(d)',
-                               'route_parameters': {'Opt': None},
-                               'link0_parameters': {'%chk': 'checkpoint.chk',
-                                                    '%mem': '45GB',
-                                                    '%NProcShared': '24'}}
 
 
 def _add_solvent_inputs(gaussian_inputs, solvent_gaussian_inputs,
