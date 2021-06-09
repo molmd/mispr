@@ -67,7 +67,7 @@ class RunGaussianCustodian(FiretaskBase):
     optional_params = ['input_file', 'output_file', 'gaussian_cmd',
                        'stderr_file', 'job_type', 'backup', 'scf_max_cycles',
                        'opt_max_cycles', 'cart_coords', 'max_errors',
-                       'scf_functional', 'scf_basis_set', 'prefix',
+                       'lower_functional', 'lower_basis_set', 'prefix',
                        'check_convergence']
 
     def run_task(self, fw_spec):
@@ -86,8 +86,8 @@ class RunGaussianCustodian(FiretaskBase):
         max_errors = self.get('max_errors', CUSTODIAN_MAX_ERRORS)
 
         job_type = self.get('job_type', 'normal')
-        scf_functional = self.get('scf_functional', None)
-        scf_basis_set = self.get('scf_basis_set', None)
+        lower_functional = self.get('lower_functional', None)
+        lower_basis_set = self.get('lower_basis_set', None)
         cart_coords = self.get('cart_coords', True)
         check_convergence = self.get('check_convergence', True)
 
@@ -106,17 +106,17 @@ class RunGaussianCustodian(FiretaskBase):
                                 stderr_file=stderr_file,
                                 backup=backup)]
 
-        elif job_type == 'better_scf_guess':
-            if not scf_functional or not scf_basis_set:
+        elif job_type == 'better_guess':
+            if not lower_functional or not lower_basis_set:
                 raise Exception(f'{job_type} is requested but the functional '
                                 f'and/or basis set to use for the SCF '
                                 f'calculation are not provided! Exiting...')
-            jobs = GaussianJob.better_scf_guess(gaussian_cmd=cmd,
-                                                input_file=input_file,
-                                                output_file=output_file,
-                                                stderr_file=stderr_file,
-                                                backup=backup,
-                                                cart_coords=cart_coords)
+            jobs = GaussianJob.better_guess(gaussian_cmd=cmd,
+                                            input_file=input_file,
+                                            output_file=output_file,
+                                            stderr_file=stderr_file,
+                                            backup=backup,
+                                            cart_coords=cart_coords)
         else:
             raise ValueError(f'Unsupported job type: {job_type}')
 
@@ -127,14 +127,15 @@ class RunGaussianCustodian(FiretaskBase):
                                          scf_max_cycles=scf_max_cycles,
                                          opt_max_cycles=opt_max_cycles,
                                          job_type=job_type,
-                                         scf_functional=scf_functional,
-                                         scf_basis_set=scf_basis_set,
+                                         lower_functional=lower_functional,
+                                         lower_basis_set=lower_basis_set,
                                          prefix=self.get('prefix', 'error'),
                                          check_convergence=check_convergence)]
 
         c = Custodian(handlers,
                       jobs,
                       max_errors=max_errors)
+
         st = timer()
         return_code = c.run()
         run_time = timer() - st
