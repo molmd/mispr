@@ -69,3 +69,27 @@ def modify_queue_parameters(workflow, ntasks_per_node=None, walltime=None,
         workflow.fws[i_firework].spec.update(
             {'_queueadapter': queue_parameters})
     return workflow
+
+
+def replace_runtask(workflow, firework_substring=None,
+                    operation='remove_custodian', additional_params=None):
+    if additional_params is None:
+        additional_params = {}
+    list_fireworks_and_tasks = \
+        get_list_fireworks_and_tasks(workflow, firework_substring,
+                                     task_substring='RunGaussian')
+
+    for i_firework, i_task in list_fireworks_and_tasks:
+        params = workflow.fws[i_firework].tasks[i_task].as_dict()
+        task_params = {**params, **additional_params}
+        if operation == 'remove_custodian':
+            firetask = RunGaussianDirect
+        elif operation == 'use_custodian':
+            firetask = RunGaussianCustodian
+        else:
+            raise ValueError(f'Unsupported operation type: {operation}')
+        workflow.fws[i_firework].tasks[i_task] = \
+            firetask(**{i: j for i, j in task_params.items()
+                        if i in RunGaussianDirect.required_params +
+                        RunGaussianDirect.optional_params})
+    return workflow
