@@ -589,6 +589,7 @@ class IPEAtoDB(FiretaskBase):
                       'phase': phases,
                       'steps': steps,
                       'vertical': vertical,
+                      'pcet': pcet,
                       'gibbs_elec': gibbs_elec * HARTREE_TO_EV,
                       'gibbs_h': gibbs_h * HARTREE_TO_EV,
                       'gibbs': gibbs_dict,
