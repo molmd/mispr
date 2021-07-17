@@ -1,0 +1,6 @@
+source ${source_file_path}
+MOL = loadmol2 ${mol2_file_path}
+check MOL
+loadamberparams ${frcmod_file_path}
+saveamberparm MOL ${prmtop_file_path} ${inpcrd_file_path}
+quit
