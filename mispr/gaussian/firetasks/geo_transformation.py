@@ -17,9 +17,9 @@ from fireworks import Workflow
 from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 
-from infrastructure.gaussian.utilities.mol import process_mol
-from infrastructure.gaussian.utilities.db_utilities import get_db
-from infrastructure.gaussian.utilities.metadata import get_mol_formula
+from mispr.gaussian.utilities.mol import process_mol
+from mispr.gaussian.utilities.db_utilities import get_db
+from mispr.gaussian.utilities.metadata import get_mol_formula
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -327,7 +327,7 @@ class BreakMolecule(FiretaskBase):
                   freq_gaussian_inputs, cart_coords, oxidation_states,
                   save_to_db, save_to_file, fmt, update_duplicates, **kwargs):
 
-        from infrastructure.gaussian.workflows.base.core import common_fw, \
+        from mispr.gaussian.workflows.base.core import common_fw, \
             WORKFLOW_KWARGS
 
         dir_structure = ["charge_{}".format(str(mol.charge))]

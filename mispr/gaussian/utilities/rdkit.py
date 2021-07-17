@@ -7,7 +7,7 @@ import os
 import logging 
 import random
 
-from infrastructure.gaussian.utilities.mol import get_bond_order_str
+from mispr.gaussian.utilities.mol import get_bond_order_str
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

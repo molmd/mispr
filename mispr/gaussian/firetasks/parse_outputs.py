@@ -27,17 +27,17 @@ from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 
-from infrastructure.gaussian.utilities.misc import pass_gout_dict
-from infrastructure.gaussian.utilities.gout import process_run
-from infrastructure.gaussian.utilities.files import bibtex_parser
-from infrastructure.gaussian.utilities.mol import process_mol
-from infrastructure.gaussian.utilities.db_utilities import get_db
-from infrastructure.gaussian.utilities.rdkit import \
+from mispr.gaussian.utilities.misc import pass_gout_dict
+from mispr.gaussian.utilities.gout import process_run
+from mispr.gaussian.utilities.files import bibtex_parser
+from mispr.gaussian.utilities.mol import process_mol
+from mispr.gaussian.utilities.db_utilities import get_db
+from mispr.gaussian.utilities.rdkit import \
     draw_rdkit_mol_with_highlighted_bonds, get_rdkit_mol
-from infrastructure.gaussian.utilities.dbdoc import add_solvent_to_prop_dict
-from infrastructure.gaussian.utilities.metadata import get_chem_schema
+from mispr.gaussian.utilities.dbdoc import add_solvent_to_prop_dict
+from mispr.gaussian.utilities.metadata import get_chem_schema
 
-from infrastructure import __version__ as infrastructure_version
+from mispr import __version__ as infrastructure_version
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

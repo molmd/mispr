@@ -8,7 +8,7 @@ import logging
 
 from fireworks import Firework
 
-from infrastructure.gaussian.firetasks.geo_transformation import \
+from mispr.gaussian.firetasks.geo_transformation import \
     ProcessMoleculeInput, BreakMolecule
 
 __author__ = "Rasha Atwi"

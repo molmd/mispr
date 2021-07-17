@@ -7,13 +7,13 @@ import os
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utilities.files import \
+from mispr.gaussian.utilities.files import \
     recursive_relative_to_absolute_path
-from infrastructure.gaussian.utilities.metadata import get_job_name
-from infrastructure.gaussian.utilities.inputs import handle_gaussian_inputs
-from infrastructure.gaussian.firetasks.parse_outputs import BDEtoDB
-from infrastructure.gaussian.fireworks.break_mol import BreakMolFW
-from infrastructure.gaussian.workflows.base.core import common_fw, \
+from mispr.gaussian.utilities.metadata import get_job_name
+from mispr.gaussian.utilities.inputs import handle_gaussian_inputs
+from mispr.gaussian.firetasks.parse_outputs import BDEtoDB
+from mispr.gaussian.fireworks.break_mol import BreakMolFW
+from mispr.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
 
 __author__ = "Rasha Atwi"

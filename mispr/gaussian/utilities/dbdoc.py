@@ -9,8 +9,8 @@ import logging
 from pymatgen.core.structure import Molecule
 from pymatgen.io.gaussian import GaussianInput
 
-from infrastructure.gaussian.defaults import JOB_TYPES, SCRF_MODELS
-from infrastructure.gaussian.utilities.metadata import get_chem_schema
+from mispr.gaussian.defaults import JOB_TYPES, SCRF_MODELS
+from mispr.gaussian.utilities.metadata import get_chem_schema
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

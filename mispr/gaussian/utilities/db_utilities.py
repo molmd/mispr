@@ -8,7 +8,7 @@ import logging
 
 from fireworks.fw_config import CONFIG_FILE_DIR
 
-from infrastructure.gaussian.database import GaussianCalcDb
+from mispr.gaussian.database import GaussianCalcDb
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -35,7 +35,7 @@ def get_db(input_db=None):
 
 
 def find_calc_in_db(query_criteria, db):
-    from infrastructure.gaussian.utilities.gout import process_run
+    from mispr.gaussian.utilities.gout import process_run
     g_out = \
         process_run(operation_type="get_from_run_query", run=query_criteria,
                     db=db)

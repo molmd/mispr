@@ -12,11 +12,11 @@ from copy import deepcopy
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utilities.files import bibtex_parser, \
+from mispr.gaussian.utilities.files import bibtex_parser, \
     recursive_relative_to_absolute_path
-from infrastructure.gaussian.utilities.inputs import handle_gaussian_inputs
-from infrastructure.gaussian.firetasks.parse_outputs import IPEAtoDB
-from infrastructure.gaussian.workflows.base.core import common_fw, \
+from mispr.gaussian.utilities.inputs import handle_gaussian_inputs
+from mispr.gaussian.firetasks.parse_outputs import IPEAtoDB
+from mispr.gaussian.workflows.base.core import common_fw, \
     WORKFLOW_KWARGS
 
 __author__ = 'Rasha Atwi'

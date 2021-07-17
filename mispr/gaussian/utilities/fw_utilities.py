@@ -5,7 +5,7 @@
 
 import logging
 
-from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect, \
+from mispr.gaussian.firetasks.run_calc import RunGaussianDirect, \
     RunGaussianCustodian
 
 __author__ = 'Rasha Atwi'

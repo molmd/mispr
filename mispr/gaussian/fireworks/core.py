@@ -8,12 +8,12 @@ import logging
 
 from fireworks import Firework
 
-from infrastructure.gaussian.firetasks.geo_transformation import \
+from mispr.gaussian.firetasks.geo_transformation import \
     ProcessMoleculeInput
-from infrastructure.gaussian.firetasks.write_inputs import WriteInput
-from infrastructure.gaussian.firetasks.run_calc import RunGaussianDirect, \
+from mispr.gaussian.firetasks.write_inputs import WriteInput
+from mispr.gaussian.firetasks.run_calc import RunGaussianDirect, \
     RunGaussianCustodian
-from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun, \
+from mispr.gaussian.firetasks.parse_outputs import ProcessRun, \
     RetrieveGaussianOutput
 
 __author__ = "Rasha Atwi"

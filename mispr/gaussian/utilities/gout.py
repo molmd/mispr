@@ -11,9 +11,9 @@ from bson import ObjectId
 
 from pymatgen.io.gaussian import GaussianOutput
 
-from infrastructure.gaussian.utilities.db_utilities import get_db
-from infrastructure.gaussian.utilities.dbdoc import _cleanup_gout
-from infrastructure.gaussian.utilities.misc import recursive_signature_remove
+from mispr.gaussian.utilities.db_utilities import get_db
+from mispr.gaussian.utilities.dbdoc import _cleanup_gout
+from mispr.gaussian.utilities.misc import recursive_signature_remove
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

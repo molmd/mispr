@@ -1,6 +1,6 @@
 *.xml
 *.iml
-/infrastructure/gaussian/config/*
+/mispr/gaussian/config/*
 /build/*
 /dist/*
 *.egg-info/*

@@ -7,7 +7,7 @@ import logging
 
 from copy import deepcopy
 
-from infrastructure.gaussian.defaults import STANDARD_OPT_GUASSIAN_INPUT
+from mispr.gaussian.defaults import STANDARD_OPT_GUASSIAN_INPUT
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

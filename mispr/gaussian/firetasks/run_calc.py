@@ -19,7 +19,7 @@ from custodian import Custodian
 from custodian.gaussian.jobs import GaussianJob
 from custodian.gaussian.handlers import GaussianErrorHandler
 
-from infrastructure.gaussian.defaults import CUSTODIAN_MAX_ERRORS
+from mispr.gaussian.defaults import CUSTODIAN_MAX_ERRORS
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

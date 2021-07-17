@@ -4,11 +4,11 @@ import setuptools
 module_dir = os.path.dirname(os.path.abspath(__file__))
 
 setuptools.setup(
-    name="infrastructure",
+    name="mispr",
     version="0.0.1",
     author="Rasha Atwi",
     author_email="rasha.atwi@tufts.edu",
-    description="infrastructure contains FireWorks workflows for Materials "
+    description="mispr contains FireWorks workflows for Materials "
                 "Science",
     long_description=open(os.path.join(module_dir, 'README.md')).read(),
     url="https://github.com/tufts-university-rajput-lab/infrastructure",

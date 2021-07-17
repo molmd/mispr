@@ -1,7 +1,7 @@
 # coding: utf-8
 
 
-# Contains miscellaneous functions useful in many of the infrastructure levels.
+# Contains miscellaneous functions useful in many of the mispr levels.
 
 import logging
 

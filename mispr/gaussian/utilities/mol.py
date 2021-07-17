@@ -16,7 +16,7 @@ from pymatgen.core.structure import Molecule
 from pymatgen.io.babel import BabelMolAdaptor
 from pymatgen.io.gaussian import GaussianOutput
 
-from infrastructure.gaussian.utilities.db_utilities import get_db
+from mispr.gaussian.utilities.db_utilities import get_db
 
 __author__ = 'Rasha Atwi'
 __maintainer__ = 'Rasha Atwi'

@@ -8,12 +8,12 @@ import logging
 
 from fireworks import Firework, Workflow
 
-from infrastructure.gaussian.utilities.gout import process_run
-from infrastructure.gaussian.utilities.mol import process_mol
-from infrastructure.gaussian.utilities.metadata import get_mol_formula, \
+from mispr.gaussian.utilities.gout import process_run
+from mispr.gaussian.utilities.mol import process_mol
+from mispr.gaussian.utilities.metadata import get_mol_formula, \
     get_job_name
-from infrastructure.gaussian.firetasks.parse_outputs import ProcessRun
-from infrastructure.gaussian.fireworks.core import CalcFromMolFW, \
+from mispr.gaussian.firetasks.parse_outputs import ProcessRun
+from mispr.gaussian.fireworks.core import CalcFromMolFW, \
     CalcFromRunsDBFW
 
 __author__ = 'Rasha Atwi'
