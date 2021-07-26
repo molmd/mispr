@@ -3,8 +3,9 @@
 
 # Contains functions for creating db schema. 
 
-import logging 
-import pybel as pb
+import logging
+
+from openbabel import pybel as pb
 
 from pymatgen.core.structure import Molecule
 from pymatgen.io.babel import BabelMolAdaptor
