@@ -1,8 +1,10 @@
 import os
+
 from fireworks.core.firework import Firework, Workflow
-from infrastructure.gaussian.utils.utils import get_mol_formula
-from infrastructure.lammps.firetasks.write_inputs import WriteDataFile
-from infrastructure.lammps.fireworks.custom_fw import GetFFDictFW
+
+from mispr.lammps.firetasks.write_inputs import WriteDataFile
+from mispr.lammps.fireworks.custom_fw import GetFFDictFW
+
 
 def write_lammps_data(system_species_data,
                       system_mixture_type,
