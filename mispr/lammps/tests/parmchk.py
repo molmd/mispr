@@ -1,33 +1,32 @@
 import os
 
-from fireworks import LaunchPad, Firework, FiretaskBase, FWAction, Workflow
-from fireworks.core.rocket_launcher import rapidfire, launch_rocket
-from infrastructure.lammps.fireworks.custom_fw import AmbertoolsTasks
-from pymatgen.core.structure import Molecule
-from infrastructure.lammps.firetasks.write_inputs import WriteDataFile, WriteControlFile, WriteTleapScript,\
-    TLEAP_SETTING_DEFAULTS
-from infrastructure.lammps.firetasks.run import RunLammps, RunAntechamber, RunParmchk, RunTleap
-from infrastructure.lammps.firetasks.parse_outputs import ProcessPrmtop
-from infrastructure.gaussian.utils.utils import get_mol_formula
+from fireworks import Firework, Workflow, LaunchPad
+from fireworks.core.rocket_launcher import rapidfire
+
+from mispr.lammps.firetasks.run import RunParmchk
 
 if __name__ == "__main__":
 
     # set up the LaunchPad and reset it
     launchpad = LaunchPad()
-    launchpad.reset('', require_password=False)
+    launchpad.reset("", require_password=False)
 
-    working_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test_files", "parmchk")
+    working_dir = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "test_files", "parmchk"
+    )
 
     # print(working_dir)
     input_filename = "dhps.mol2"
     output_filename = "dhps.frcmod"
 
-    task1 = RunParmchk(working_dir = working_dir,
-                       input_filename_p = input_filename,
-                       output_filename_p = output_filename)
+    task1 = RunParmchk(
+        working_dir=working_dir,
+        input_filename_p=input_filename,
+        output_filename_p=output_filename,
+    )
 
     # assemble FireWork from tasks and give the FireWork a unique id
-    fire_work1 = Firework(task1, name='RunParm', fw_id=1)
+    fire_work1 = Firework(task1, name="RunParm", fw_id=1)
 
     # assemble Workflow from FireWorks and their connections by id
     wf = Workflow([fire_work1])
