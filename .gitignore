@@ -5,3 +5,4 @@
 /dist/*
 *.egg-info/*
 /tests/*
+__pycache__/*
