@@ -8,25 +8,25 @@ import copy
 import logging
 import itertools
 
-from pymatgen.core.structure import Molecule
-from pymatgen.analysis.fragmenter import open_ring
-from pymatgen.analysis.graphs import MoleculeGraph
-from pymatgen.analysis.local_env import OpenBabelNN
-
 from fireworks import Workflow
-from fireworks.core.firework import FiretaskBase, FWAction
+from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
+from pymatgen.core.structure import Molecule
+from pymatgen.analysis.graphs import MoleculeGraph
+from pymatgen.analysis.local_env import OpenBabelNN
+from pymatgen.analysis.fragmenter import open_ring
+
 from mispr.gaussian.utilities.mol import process_mol
-from mispr.gaussian.utilities.db_utilities import get_db
 from mispr.gaussian.utilities.metadata import get_mol_formula
+from mispr.gaussian.utilities.db_utilities import get_db
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = 0.2
+__version__ = "0.0.1"
 
 logger = logging.getLogger(__name__)
 
