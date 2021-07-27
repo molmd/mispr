@@ -7,41 +7,44 @@ import os
 import sys
 import json
 import logging
-import os
+import datetime
 import subprocess
-
-import numpy as np
-
-import matplotlib.pyplot as plt
-import matplotlib.image as img
-
-from bson.objectid import ObjectId
 
 from configparser import ConfigParser
 
-from pymatgen.io.gaussian import GaussianInput
+import numpy as np
+import pymongo
+import matplotlib.image as img
+import matplotlib.pyplot as plt
+
+from bson.objectid import ObjectId
 
 from fireworks.fw_config import CONFIG_FILE_DIR
-from fireworks.core.firework import FiretaskBase, FWAction
+from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 
-from mispr.gaussian.utilities.misc import pass_gout_dict
-from mispr.gaussian.utilities.gout import process_run
-from mispr.gaussian.utilities.files import bibtex_parser
+from pymatgen.io.gaussian import GaussianInput
+
+from mispr import __version__ as mispr_version
 from mispr.gaussian.utilities.mol import process_mol
-from mispr.gaussian.utilities.db_utilities import get_db
-from mispr.gaussian.utilities.rdkit import \
-    draw_rdkit_mol_with_highlighted_bonds, get_rdkit_mol
+from mispr.gaussian.utilities.gout import process_run
+from mispr.gaussian.utilities.misc import pass_gout_dict
 from mispr.gaussian.utilities.dbdoc import add_solvent_to_prop_dict
+from mispr.gaussian.utilities.files import bibtex_parser
+from mispr.gaussian.utilities.rdkit import (
+    get_rdkit_mol,
+    draw_rdkit_mol_with_highlighted_bonds,
+)
 from mispr.gaussian.utilities.metadata import get_chem_schema
+from mispr.gaussian.utilities.db_utilities import get_db
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = 0.2
+__version__ = "0.0.1"
 
 logger = logging.getLogger(__name__)
 
@@ -113,7 +116,7 @@ class ProcessRun(FiretaskBase):
             gout_dict["tag"] = fw_spec["tag"]
         if "run_time" in fw_spec:
             gout_dict["wall_time (s)"] = fw_spec["run_time"]
-        gout_dict["version"] = infrastructure_version
+        gout_dict["version"] = mispr_version
         if gout_dict["output"]["has_gaussian_completed"]:
             run_list = {}
             if self.get("save_to_db"):
@@ -260,7 +263,7 @@ class ESPtoDB(FiretaskBase):
             "tag": gout_dict[-1]["tag"],
             "state": "successful",
             "wall_time (s)": run_time,
-            "version": infrastructure_version,
+            "version": mispr_version,
             "gauss_version": gout_dict[-1]["gauss_version"],
             "last_updated": datetime.datetime.utcnow(),
         }
@@ -349,7 +352,7 @@ class NMRtoDB(FiretaskBase):
             "tag": gout_dict[-1]["tag"],
             "state": "successful",
             "wall_time (s)": run_time,
-            "version": infrastructure_version,
+            "version": mispr_version,
             "gauss_version": gout_dict[-1]["gauss_version"],
             "last_updated": datetime.datetime.utcnow(),
         }
@@ -458,7 +461,7 @@ class BindingEnergytoDB(FiretaskBase):
             "tag": gout_dict[-1]["tag"],
             "state": "successful",
             "wall_time (s)": run_time,
-            "version": infrastructure_version,
+            "version": mispr_version,
             "gauss_version": gout_dict[-1]["gauss_version"],
             "last_updated": datetime.datetime.utcnow(),
         }
@@ -705,7 +708,7 @@ class IPEAtoDB(FiretaskBase):
             "tag": gout_dict[root_node_key]["tag"],
             "state": "successful",
             "wall_time (s)": run_time,
-            "version": infrastructure_version,
+            "version": mispr_version,
             "gauss_version": gout_dict[root_node_key]["gauss_version"],
             "last_updated": datetime.datetime.utcnow(),
         }
@@ -861,7 +864,7 @@ class BDEtoDB(FiretaskBase):
                 "tag": gout_dict[principle_mol_key]["tag"],
                 "state": "successful",
                 "wall_time (s)": run_time,
-                "version": infrastructure_version,
+                "version": mispr_version,
                 "gauss_version": gout_dict[principle_mol_key]["gauss_version"],
                 "last_updated": datetime.datetime.utcnow(),
             }
