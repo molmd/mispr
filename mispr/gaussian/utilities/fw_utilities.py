@@ -77,7 +77,7 @@ def replace_runtask(workflow, firework_substring=None,
         additional_params = {}
     list_fireworks_and_tasks = \
         get_list_fireworks_and_tasks(workflow, firework_substring,
-                                     task_substring='RunGaussian')
+                                     task_substring=['RunGaussian'])
 
     for i_firework, i_task in list_fireworks_and_tasks:
         params = workflow.fws[i_firework].tasks[i_task].as_dict()
@@ -90,6 +90,6 @@ def replace_runtask(workflow, firework_substring=None,
             raise ValueError(f'Unsupported operation type: {operation}')
         workflow.fws[i_firework].tasks[i_task] = \
             firetask(**{i: j for i, j in task_params.items()
-                        if i in RunGaussianDirect.required_params +
-                        RunGaussianDirect.optional_params})
+                        if i in firetask.required_params +
+                        firetask.optional_params})
     return workflow
