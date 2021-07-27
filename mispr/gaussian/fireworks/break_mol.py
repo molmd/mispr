@@ -8,15 +8,17 @@ import logging
 
 from fireworks import Firework
 
-from mispr.gaussian.firetasks.geo_transformation import \
-    ProcessMoleculeInput, BreakMolecule
+from mispr.gaussian.firetasks.geo_transformation import (
+    BreakMolecule,
+    ProcessMoleculeInput,
+)
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = 0.2
+__version__ = "0.0.1"
 
 logger = logging.getLogger(__name__)
 
