@@ -6,12 +6,12 @@
 import os
 import logging
 
-__author__ = 'Rasha Atwi'
-__maintainer__ = 'Rasha Atwi'
-__email__ = 'rasha.atwi@stonybrook.edu'
-__status__ = 'Development'
-__date__ = 'Jan 2021'
-__version__ = 0.2
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Jan 2021"
+__version__ = "0.0.1"
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +20,11 @@ def bibtex_parser(bib_file, working_dir):
     try:
         import bibtexparser
     except ModuleNotFoundError:
-        raise ImportError('Defining standard electrode potential '
-                          'references requires bibtexparser to be '
-                          'installed.')
+        raise ImportError(
+            "Defining standard electrode potential "
+            "references requires bibtexparser to be "
+            "installed."
+        )
     bib_file = recursive_relative_to_absolute_path(bib_file, working_dir)
     print(bib_file)
     with open(bib_file) as bibfile:
@@ -44,10 +46,11 @@ def recursive_relative_to_absolute_path(operand, working_dir):
             else:
                 return operand
     elif isinstance(operand, dict):
-        return {i: recursive_relative_to_absolute_path(j, working_dir)
-                for i, j in operand.items()}
+        return {
+            i: recursive_relative_to_absolute_path(j, working_dir)
+            for i, j in operand.items()
+        }
     elif isinstance(operand, list):
-        return [recursive_relative_to_absolute_path(i, working_dir)
-                for i in operand]
+        return [recursive_relative_to_absolute_path(i, working_dir) for i in operand]
     else:
         return operand
