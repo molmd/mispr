@@ -17,8 +17,8 @@ __date__ = 'Apr 14, 2020'
 
 logger = logging.getLogger(__name__)
 
-CONFIG_PATH = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                            "..", "config", "config.ini"))
+CONFIG_PATH = os.path.normpath(os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), "..", "config", "config.ini"))
 
 @explicit_serialize
 class RunLammps(FiretaskBase):
@@ -34,6 +34,10 @@ class RunLammps(FiretaskBase):
         control_filename = self.get("control_filename", "complex.lammpsin")
         control_file_path = os.path.join(working_dir, control_filename)
 
+        ntasks_node = fw_spec.get("_queueadapter", {"ntasks_per_node": 1})\
+            .get("ntasks_per_node", 1)
+        nodes = fw_spec.get("_queueadapter", {"nodes": 1}).get("nodes", 1)
+        net_ntasks = ntasks_node * nodes
         command = self.get("lammps_cmd")
 
         if not command:
@@ -41,10 +45,10 @@ class RunLammps(FiretaskBase):
             config.read(CONFIG_PATH)
             command = config["LammpsRunCalc"]["lcmd"]
         command = command.replace("$control_path$", control_file_path)
-        print(command)
+        command = command.replace("$SLURM_NTASKS", str(net_ntasks))
 
         logger.info("Running command: {}".format(command))
-        return_code = subprocess.call(command, shell = True)
+        return_code = subprocess.call(command, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
 
 # TODO: LAMMPS Custodian Firetask

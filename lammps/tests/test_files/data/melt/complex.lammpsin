@@ -1,0 +1,38 @@
+log                 log.lammps
+# Initialization
+units				real
+boundary			p p p
+atom_style			full
+
+# Force Fields
+neighbor			2.0 bin
+neigh_modify		delay 0 every 1 check yes
+special_bonds		amber 
+bond_style			harmonic 
+angle_style			harmonic
+dihedral_style		harmonic
+improper_style		cvff
+pair_style			lj/cut/coul/long 10.0
+kspace_style		pppm 1.0e-4
+
+read_restart		../npt/restart.npt.restart
+
+group phen type 1 2 3 4 5 6 7
+group wat type 8 9
+group oh type 10 11
+group na type 12
+ fix	1 wat shake 0.0001 20 0 b 11 a 16
+fix 				2 all nvt temp 500.0 500.0 100.0
+thermo				1000
+
+thermo_style		custom step temp press pe pxx pyy pzz pxy pxz pyz  
+timestep			1
+ reset_timestep		0
+dump				1 all custom 50000 dump.nvt.*.dump id type element mol x y z ix iy iz xu yu zu vx vy vz fx fy fz mass q
+# dump_modify			1 
+restart				1000000 restart.nvt.*.restart
+run					1000000
+ unfix 	1
+unfix				2
+write_restart		restart.melt_500K.restart
+

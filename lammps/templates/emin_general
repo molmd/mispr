@@ -1,8 +1,8 @@
+log                 lammps.log
 # Initialization
 units				real
 boundary			p p p
 atom_style			full
-log					lammps.log
 
 # Force Fields
 neighbor			2.0 bin

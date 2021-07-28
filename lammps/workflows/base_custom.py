@@ -79,6 +79,8 @@ NVT_SETTING_DEFAULTS = {"neigh_args": "2.0 bin",
                         "compute_definitions": "",
                         "thermo_style_compute": "",
                         "timestep": 1,
+                        "reset_timestep_logic": "",
+                        "reset_timestep_value": 0,
                         "dump_period": 50000,
                         "dump_file_name": "dump.nvt.*.dump",
                         "dump_modify_logic": "#",
@@ -129,6 +131,8 @@ QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS = [{"walltime": "00:10:00",
                                       "job_name": "quench"},
                                      {"walltime": "15:00:00",
                                       "job_name": "nvt"}]
+GEN_QADAPTER_DEFAULT = {"walltime": "48:00:00",
+                        "job_name": "lmp"}
 
 def write_lammps_data(system_species_data,
                       system_mixture_type,
@@ -136,6 +140,7 @@ def write_lammps_data(system_species_data,
                       box_data_type = 'cubic',
                       data_file_name = "complex.data",
                       working_dir=None,
+                      db=None,
                       **kwargs):
     """
 
@@ -146,19 +151,21 @@ def write_lammps_data(system_species_data,
                                                        "get_from_prmtop",
                                                        "get_from_dict";
                                                        defaults to "get_from_esp"),
-                               "ff_param_data": str (path to file) or dict (unlabeled ff_dict),
+                               "ff_param_data": str (path_to_file) or dict (unlabeled_ff_dict),
                                "mol_mixture_type": "Solutes" or "Solvents",
-                               "mixture_data": int or dict},
+                               "mixture_data": int or dict (depends on system_mixture_type)},
               ...,
               speciesN_label: {...}
               }
     :param system_mixture_type: [str] "concentration" or "number of molecules"
-    :param box_data: [float, int, list (3,2), array (3,2), or LammpsBox] Definitions for box size.
-        See box_data_type for info how to define this parameter.
-    :param box_data_type: [string] Can be one of the following: 'cubic', 'rectangular', or 'LammpsBox'.
-        If 'cubic', box_data must be a float or int; if 'rectangular', box_data must be an array-like
-        with size (3,2); if 'LammpsBox', box_data must be a pymatgen.io.lammps.data.LammpsBox object.
-        Defaults to 'cubic'
+    :param box_data: [float, int, list (3,2), array (3,2), or LammpsBox]
+        Definitions for box size. See box_data_type for info how to
+        define this parameter.
+    :param box_data_type: [string] Can be one of the following: 'cubic',
+        'rectangular', or 'LammpsBox'. If 'cubic', box_data must be a
+        float or int; if 'rectangular', box_data must be an array-like
+        with size (3,2); if 'LammpsBox', box_data must be a
+        pymatgen.io.lammps.data.LammpsBox object. Defaults to 'cubic'
     :return:
     """
     if not working_dir:
@@ -190,6 +197,7 @@ def write_lammps_data(system_species_data,
                                    ff_data["ff_param_data"],
                                    operation_type = ff_data["ff_param_method"],
                                    label = species,
+                                   db = db,
                                    working_dir = cur_species_dir,
                                    output_filename_a = mol2_filename,
                                    input_filename_p = mol2_filename,
@@ -249,9 +257,13 @@ def write_lammps_data(system_species_data,
 
 def run_lammps_recipe(recipe=LAMMPS_RECIPE_DEFAULT,
                       recipe_settings=RECIPE_SETTING_DEFAULT,
+                      recipe_qadapter=QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS,
                       working_dir=None,
+                      db=None,
+                      init_spec=None,
                       **kwargs):
     """"""
+    # print(recipe_settings)
     if not working_dir:
         working_dir=os.getcwd()
 
@@ -263,24 +275,39 @@ def run_lammps_recipe(recipe=LAMMPS_RECIPE_DEFAULT,
         cur_step_dir = os.path.join(working_dir, step[0])
         os.makedirs(cur_step_dir, exist_ok= True)
 
+        if index < len(QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS):
+            cur_qadapter_spec = QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS[index].copy()
+        else:
+            cur_qadapter_spec = GEN_QADAPTER_DEFAULT
+        cur_qadapter_spec.update(recipe_qadapter[index])
+
         if step[1][0] == "template_filename":
             if step[1][1] == "emin_gaff":
-                cur_setting = EMIN_SETTING_DEFAULTS.update(recipe_settings[index])
+                cur_setting = EMIN_SETTING_DEFAULTS.copy()
             elif step[1][1] == "npt":
-                cur_setting = NPT_SETTING_DEFAULTS.update(recipe_settings[index])
+                cur_setting = NPT_SETTING_DEFAULTS.copy()
             elif step[1][1] == "nvt":
-                cur_setting = NVT_SETTING_DEFAULTS.update(recipe_settings[index])
+                cur_setting = NVT_SETTING_DEFAULTS.copy()
             else:
                 cur_setting = recipe_settings[index]
+            cur_setting.update(recipe_settings[index])
+            cur_spec_dict = {}
+            if index == 0 and init_spec is not None:
+                cur_spec_dict = init_spec.copy()
+            cur_spec_dict.update({"_queueadapter": cur_qadapter_spec})
             cur_firework = RunLammpsFW(working_dir=cur_step_dir,
-                                       template_filename = step[1][1],
-                                       control_settings = cur_setting,
+                                       template_filename=step[1][1],
+                                       control_settings=cur_setting,
+                                       db=db,
+                                       spec=cur_spec_dict,
                                        **kwargs)
         elif step[1][0] == "template_str":
             cur_setting = recipe_settings[index]
-            cur_firework = RunLammpsFW(working_dir = cur_step_dir,
-                                       template_str = step[1][1],
-                                       control_settings = cur_setting,
+            cur_firework = RunLammpsFW(working_dir=cur_step_dir,
+                                       template_str=step[1][1],
+                                       control_settings=cur_setting,
+                                       db=db,
+                                       spec={"_queueadapter": cur_qadapter_spec},
                                        **kwargs)
 
         fireworks.append(cur_firework)
@@ -297,11 +324,12 @@ def run_lammps_recipe(recipe=LAMMPS_RECIPE_DEFAULT,
 def fluid_workflow(system_species_data,
                    system_mixture_type,
                    box_data,
-                   box_data_type = 'cubic',
+                   box_data_type = "cubic",
                    data_file_name = "complex.data",
                    recipe=LAMMPS_RECIPE_DEFAULT,
                    recipe_settings=RECIPE_SETTING_DEFAULT,
                    recipe_qadapter = QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS,
+                   db=None,
                    working_dir=None,
                    **kwargs):
     """"""
@@ -334,6 +362,7 @@ def fluid_workflow(system_species_data,
                                    ff_data["ff_param_data"],
                                    operation_type = ff_data["ff_param_method"],
                                    label = species,
+                                   db = db,
                                    working_dir = cur_species_dir,
                                    output_filename_a = mol2_filename,
                                    input_filename_p = mol2_filename,
@@ -399,7 +428,10 @@ def fluid_workflow(system_species_data,
         cur_step_dir = os.path.join(working_dir, step[0])
         os.makedirs(cur_step_dir, exist_ok= True)
         print(step[1][0])
-        cur_qadapter_spec = QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS[index].copy()
+        if index < len(QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS):
+            cur_qadapter_spec = QADAPTER_RUN_LAMMPS_SPEC_DEFAULTS[index].copy()
+        else:
+            cur_qadapter_spec = GEN_QADAPTER_DEFAULT.copy()
         cur_qadapter_spec.update(recipe_qadapter[index])
         if step[1][0] == "template_filename":
             if step[1][1] == "emin_gaff":
@@ -413,6 +445,7 @@ def fluid_workflow(system_species_data,
             cur_setting.update(recipe_settings[index])
             print('filename')
             cur_firework = RunLammpsFW(working_dir=cur_step_dir,
+                                       db=db,
                                        template_filename = step[1][1],
                                        control_settings = cur_setting,
                                        spec = {"_queueadapter": cur_qadapter_spec},
@@ -421,6 +454,7 @@ def fluid_workflow(system_species_data,
             cur_setting = recipe_settings[index]
             print('string')
             cur_firework = RunLammpsFW(working_dir = cur_step_dir,
+                                       db=db,
                                        template_str = step[1][1],
                                        control_settings = cur_setting,
                                        spec = {"_queueadapter": cur_qadapter_spec},

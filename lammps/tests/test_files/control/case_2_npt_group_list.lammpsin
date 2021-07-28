@@ -1,0 +1,35 @@
+# Initialization
+units				real
+boundary			p p p
+atom_style			full
+log					log.lammps
+
+# Force Fields
+neighbor			2.0 bin
+neigh_modify		delay 0 every 1 check yes
+special_bonds		amber 
+bond_style			harmonic 
+angle_style			harmonic
+dihedral_style		harmonic
+improper_style		cvff
+pair_style			lj/cut/coul/long 10.0
+kspace_style		pppm 1.0e-4
+
+read_restart		$restart_file_name
+
+
+['group li 11', 'group tfsi 1 2 3 4 5 6', 'group solv 7 8 9 10']
+velocity			all create 298.15 250 mom yes rot yes
+# fix	1  shake 0.0001 20 0 
+fix 				2 all npt temp 298.15 298.15 100.0 iso 1.0 1.0 1000.0
+thermo				1000
+thermo_style		custom step temp press pe lx vol density
+timestep			1
+reset_timestep		0
+dump				1 all custom 50000 dump.npt.*.dump id type element mol x y z ix iy iz xu yu zu vx vy vz fx fy fz mass q
+# dump_modify			1 
+restart				1000000 restart.npt.*.restart
+run					2000000
+# unfix 	1
+unfix				2
+write_restart		restart.npt.restart

@@ -1,0 +1,6 @@
+source leaprc.gaff
+MOL = loadmol2 /Users/matt/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/data/custom_workflow/H2O2.mol2
+check MOL
+loadamberparams /Users/matt/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/data/custom_workflow/H2O2.frcmod
+saveamberparm MOL /Users/matt/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/data/custom_workflow/H2O2.prmtop /Users/matt/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/data/custom_workflow/H2O2.inpcrd
+quit

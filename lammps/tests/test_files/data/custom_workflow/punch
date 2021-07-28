@@ -1,0 +1,21 @@
+
+Resp charges for organic molecule                                               
+
+iqopt   irstrnt  ihfree     qwt
+  2      1      1        0.001000
+
+ rel.rms   dipole mom       Qxx      Qyy      Qzz
+    0.01137  26.50548-153.89609   8.73737 145.15872
+
+          Point charges before & after optimization
+    NO   At.No.    q0           q(opt)   IVARY  d(rstr)/dq 
+     1     8  -1.205982      -1.205982  -99    0.000826
+     2     1   0.205982       0.205982  -99    0.000000
+
+        Statistics of the fitting:
+  The initial sum of squares (ssvpot)                     12.838
+  The residual sum of squares (chipot)                     0.002
+  The std err of estimate (sqrt(chipot/N))               0.00247
+  ESP relative RMS (SQRT(chipot/ssvpot))                 0.01137
+
+ Dipole Moment (Debye)=  26.50548

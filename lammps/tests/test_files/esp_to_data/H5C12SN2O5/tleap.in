@@ -1,0 +1,6 @@
+source leaprc.gaff
+MOL = loadmol2 /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/esp_to_data/H5C12SN2O5/H5C12SN2O5.mol2
+check MOL
+loadamberparams /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/esp_to_data/H5C12SN2O5/H5C12SN2O5.frcmod
+saveamberparm MOL /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/esp_to_data/H5C12SN2O5/H5C12SN2O5.prmtop /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/esp_to_data/H5C12SN2O5/H5C12SN2O5.inpcrd
+quit

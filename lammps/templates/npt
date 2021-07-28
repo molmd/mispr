@@ -1,8 +1,8 @@
+log                 log.lammps
 # Initialization
 units				real
 boundary			p p p
 atom_style			full
-log					log.lammps
 
 # Force Fields
 neighbor			$neigh_args

@@ -1,5 +1,8 @@
+import os
 import numpy as np
 from collections import OrderedDict
+import infrastructure.lammps.firetasks.run as ilfr
+import infrastructure.gaussian.utils.utils as iguu
 
 def add_ff_labels_to_BADI_lists(list, label):
     """
@@ -67,6 +70,42 @@ def add_ff_labels_to_dict(ff_dict, label):
 
     return output_ff_dict
 
+
+def get_db(input_db=None):
+    from infrastructure.lammps.database import LammpsSysDb
+    if not input_db:
+        input_db = f"{ilfr.CONFIG_PATH}/db.json"
+        if not os.path.isfile(input_db):
+            raise FileNotFoundError(
+                "Please provide the database configurations")
+    if isinstance(input_db, dict):
+        db = LammpsSysDb(**input_db)
+    # else:
+    #     db = LammpsSysDb.from_db_file(input_db)
+
+    return db
+
+
+def process_ff_doc(parameter_dict, method=None, doi=None, **kwargs):
+    mol = parameter_dict.pop("Molecule")
+    ff_dict = iguu.get_chem_schema(mol)
+    ff_dict.update(parameter_dict)
+    ff_dict["method"] = method
+    ff_dict["doi"] = doi
+    ff_dict.update(kwargs)
+    return ff_dict
+
+
+def process_run(smiles, nmols, box, template_filename, control_settings):
+    if box is not None:
+        box_setting = box.as_dict()
+    else:
+        box_setting = {}
+    run_dict = {"smiles": smiles,
+                "nmols": nmols,
+                "box": box_setting,
+                "job_type": template_filename}
+    return run_dict
 
 if __name__ == "__main__":
     Spce_label = ''

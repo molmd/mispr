@@ -1,8 +1,8 @@
+log                 log.lammps
 # Initialization
 units				real
 boundary			p p p
 atom_style			full
-log					log.lammps
 
 # Force Fields
 neighbor			$neigh_args
@@ -24,7 +24,7 @@ thermo				$thermo
 $compute_definitions
 thermo_style		custom step temp press pe pxx pyy pzz pxy pxz pyz $thermo_style_compute 
 timestep			$timestep
-reset_timestep		0
+$reset_timestep_logic reset_timestep		$reset_timestep_value
 dump				1 all custom $dump_period $dump_file_name id type element mol x y z ix iy iz xu yu zu vx vy vz fx fy fz mass q
 $dump_modify_logic dump_modify			1 $dump_modify_args
 restart				$restart_period $restart_intermediate_file_name

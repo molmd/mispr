@@ -1,0 +1,6 @@
+source leaprc.gaff
+MOL = loadmol2 /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/dhps.mol2
+check MOL
+loadamberparams /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/dhps.frcmod
+saveamberparm MOL /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/dhps.prmtop /Users/mbliss01/Documents/GitHub/infrastructure/infrastructure/lammps/tests/test_files/dhps.inpcrd
+quit

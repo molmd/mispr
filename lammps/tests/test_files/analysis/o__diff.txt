@@ -1,0 +1,25 @@
+                                 OLS Regression Results                                
+=======================================================================================
+Dep. Variable:       O_ MSD ($\AA^2$)   R-squared (uncentered):                   0.998
+Model:                            OLS   Adj. R-squared (uncentered):              0.998
+Method:                 Least Squares   F-statistic:                          1.034e+09
+Date:                Sat, 15 May 2021   Prob (F-statistic):                        0.00
+Time:                        19:20:03   Log-Likelihood:                     -1.4140e+07
+No. Observations:             2500001   AIC:                                  2.828e+07
+Df Residuals:                 2500000   BIC:                                  2.828e+07
+Df Model:                           1                                                  
+Covariance Type:            nonrobust                                                  
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Time (ps)      0.2437   7.58e-06   3.22e+04      0.000       0.244       0.244
+==============================================================================
+Omnibus:                   132113.957   Durbin-Watson:                   0.000
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):           208006.514
+Skew:                          -0.454   Prob(JB):                         0.00
+Kurtosis:                       4.083   Cond. No.                         1.00
+==============================================================================
+
+Notes:
+[1] R² is computed without centering (uncentered) since the model does not contain a constant.
+[2] Standard Errors assume that the covariance matrix of the errors is correctly specified.

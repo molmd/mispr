@@ -122,7 +122,7 @@ if __name__ == "__main__":
 
     recipe = [["emin", ["template_filename", "emin_gaff"]],
               ["npt", ["template_filename", "npt"]],
-              ["melt", ["template_filename", "nvt"]],
+              ["melt", ["template_filename", "nvt"]],		
               ["quench", ["template_filename", "nvt"]],
               ["nvt", ["template_filename", "nvt"]]]
 
