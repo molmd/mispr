@@ -28,7 +28,7 @@ GAFF_DOI = "https://doi.org/10.1002/jcc.20035"
 DEFAULT_RDF_SETTINGS = {"r_cut": 20,
                         "bin_size": [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5],
                         "filename": os.path.abspath(
-                            os.path.join("..", "nvt", "log.lammps")
+                            os.path.join("../../../lammps", "nvt", "log.lammps")
                         ),
                         "path_or_buff": "rdf.csv",
                         "save_mode": True}
@@ -148,8 +148,8 @@ class GetMSD(fwcfw.FiretaskBase):
             mass = fw_spec.get("default_masses", None)
 
             file_pattern = msd_settings.get("file_pattern",
-                                os.path.abspath(os.path.join(working_dir,
-                                    "..", "nvt", "dump.nvt.*.dump")))
+                                            os.path.abspath(os.path.join(working_dir,
+                                                                         "../../../lammps", "nvt", "dump.nvt.*.dump")))
 
             msd = aldd.get_msd_from_dump(
                 file_pattern,
@@ -163,7 +163,7 @@ class GetMSD(fwcfw.FiretaskBase):
         elif method == "from_log":
             file_pattern = msd_settings.get("file_pattern",
                                     os.path.abspath(
-                                        os.path.join(working_dir, "..", "nvt",
+                                        os.path.join(working_dir, "../../../lammps", "nvt",
                                                      "log.lammps")))
             print(file_pattern)
             msd = aldd.get_msd_from_log(
@@ -209,7 +209,7 @@ class CalcDiff(fwcfw.FiretaskBase):
             "msd_file_path",
             self.get("msd_file_path",
                      os.path.abspath(os.path.join(working_dir,
-                                                  "..", "msd"
+                                                  "../../../lammps", "msd"
                                                   "msd.csv")))
         )
 
