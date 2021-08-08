@@ -1,6 +1,7 @@
 # coding: utf-8
 
-# Defines firetasks for reading output of Ambertools programs and LAMMPS
+
+# Defines firetasks for reading output of Ambertools programs and LAMMPS.
 
 import os
 import json
@@ -22,7 +23,7 @@ from mdproptools.dynamical.diffusion import (
     get_msd_from_dump,
 )
 
-import mispr.lammps.utils.utils as iluu
+import mispr.lammps.utilities.utils as iluu
 
 from mispr.lammps.defaults import MSD_SETTINGS, RDF_SETTINGS, DIFF_SETTINGS
 from mispr.gaussian.utilities.metadata import get_mol_formula
