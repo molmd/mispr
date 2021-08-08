@@ -1,24 +1,32 @@
 # coding: utf-8
 
-# Defines firetasks for running LAMMPS simulations and AmberTools
+
+# Defines firetasks for running LAMMPS simulations and AmberTools.
 
 import os
-import subprocess
 import logging
+import subprocess
+
 from configparser import ConfigParser
 
-from fireworks.core.firework import FiretaskBase, FWAction
+from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
-__author__ = 'Matthew Bliss'
-__version__ = '0.0.1'
-__email__ = 'matthew.bliss@tufts.edu'
-__date__ = 'Apr 14, 2020'
+__author__ = "Matthew Bliss"
+__maintainer__ = "Matthew Bliss"
+__email__ = "matthew.bliss@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Apr 2020"
+__version__ = "0.0.1"
 
 logger = logging.getLogger(__name__)
 
-CONFIG_PATH = os.path.normpath(os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), "..", "config", "config.ini"))
+CONFIG_PATH = os.path.normpath(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "..", "config", "config.ini"
+    )
+)
+
 
 @explicit_serialize
 class RunLammps(FiretaskBase):
@@ -34,8 +42,9 @@ class RunLammps(FiretaskBase):
         control_filename = self.get("control_filename", "complex.lammpsin")
         control_file_path = os.path.join(working_dir, control_filename)
 
-        ntasks_node = fw_spec.get("_queueadapter", {"ntasks_per_node": 1})\
-            .get("ntasks_per_node", 1)
+        ntasks_node = fw_spec.get("_queueadapter", {"ntasks_per_node": 1}).get(
+            "ntasks_per_node", 1
+        )
         nodes = fw_spec.get("_queueadapter", {"nodes": 1}).get("nodes", 1)
         net_ntasks = ntasks_node * nodes
         command = self.get("lammps_cmd")
@@ -51,6 +60,7 @@ class RunLammps(FiretaskBase):
         return_code = subprocess.call(command, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
 
+
 # TODO: LAMMPS Custodian Firetask
 
 # TODO: Fake LAMMPS Firetask
@@ -60,8 +70,15 @@ class RunLammps(FiretaskBase):
 class RunAntechamber(FiretaskBase):
     _fw_name = "Run Antechamber"
     required_params = []
-    optional_params = ["working_dir", "input_filename_a", "input_file_type", "output_filename_a",
-                       "output_file_type", "charge_method", "antechamber_cmd"]
+    optional_params = [
+        "working_dir",
+        "input_filename_a",
+        "input_file_type",
+        "output_filename_a",
+        "output_file_type",
+        "charge_method",
+        "antechamber_cmd",
+    ]
 
     def run_task(self, fw_spec):
 
@@ -83,19 +100,18 @@ class RunAntechamber(FiretaskBase):
             config = ConfigParser()
             config.read(CONFIG_PATH)
             command = config["AmbertoolsRunCalc"]["acmd"]
-        command = command.replace("$input_file$", input_file_path).\
-                          replace("$input_type$", input_file_type).\
-                          replace("$output_file$", output_file_path).\
-                          replace("$output_type$", output_file_type).\
-                          replace("$charge_method$", charge_method)
+        command = (
+            command.replace("$input_file$", input_file_path)
+            .replace("$input_type$", input_file_type)
+            .replace("$output_file$", output_file_path)
+            .replace("$output_type$", output_file_type)
+            .replace("$charge_method$", charge_method)
+        )
 
         logger.info("Running command: {}".format(command))
-        return_code = subprocess.call(command, shell = True)
+        return_code = subprocess.call(command, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
 
-        # if isinstance(fw_spec.get("tleap_settings", {}), dict):
-        #     tleap_settings = fw_spec.get("tleap_settings", {}).update({})
-        #     return FWAction()
 
 # TODO: Antechamber Custodian Firetask
 
@@ -104,7 +120,12 @@ class RunAntechamber(FiretaskBase):
 class RunParmchk(FiretaskBase):
     _fw_name = "Run Parmchk"
     required_params = []
-    optional_params = ["working_dir", "input_filename_p", "output_filename_p", "parmchk_cmd"]
+    optional_params = [
+        "working_dir",
+        "input_filename_p",
+        "output_filename_p",
+        "parmchk_cmd",
+    ]
 
     def run_task(self, fw_spec):
 
@@ -123,12 +144,14 @@ class RunParmchk(FiretaskBase):
             config = ConfigParser()
             config.read(CONFIG_PATH)
             command = config["AmbertoolsRunCalc"]["pcmd"]
-        command = command.replace("$input_file$", input_file_path).\
-            replace("$output_file$", output_file_path)
+        command = command.replace("$input_file$", input_file_path).replace(
+            "$output_file$", output_file_path
+        )
 
         logger.info("Running command: {}".format(command))
-        return_code = subprocess.call(command, shell = True)
+        return_code = subprocess.call(command, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
+
 
 # TODO: Edit RunParmchk for general input file type
 # TODO: Parmchk Custodian Firetask
@@ -157,7 +180,8 @@ class RunTleap(FiretaskBase):
         command = command.replace("$input_file$", script_file_path)
 
         logger.info("Running command: {}".format(command))
-        return_code = subprocess.call(command, shell = True)
+        return_code = subprocess.call(command, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
+
 
 # TODO: tleap Custodian Firetask
