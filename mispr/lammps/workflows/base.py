@@ -301,7 +301,8 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
                         for i, j in kwargs.items()
                         if i in CalcDiff.required_params + CalcDiff.optional_params
                     },
-                ), spec = {"_launch_dir": diff_dir}
+                ),
+                spec={"_launch_dir": diff_dir},
             )
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
@@ -326,7 +327,8 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
                         for i, j in kwargs.items()
                         if i in GetRDF.required_params + GetRDF.optional_params
                     },
-                ), spec = {"_launch_dir": rdf_dir}
+                ),
+                spec={"_launch_dir": rdf_dir},
             )
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
