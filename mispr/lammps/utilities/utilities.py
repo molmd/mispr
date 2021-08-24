@@ -7,10 +7,7 @@ import os
 
 from collections import OrderedDict
 
-import numpy as np
-
-import mispr.lammps.firetasks.run as ilfr
-
+from mispr.lammps.firetasks.run import CONFIG_PATH
 from mispr.gaussian.utilities.metadata import get_chem_schema
 
 __author__ = "Matthew Bliss"
@@ -21,13 +18,13 @@ __date__ = "Apr 2020"
 __version__ = "0.0.1"
 
 
-def add_ff_labels_to_BADI_lists(list, label):
+def add_ff_labels_to_BADI_lists(ff_list, label):
     """
     Adds extra string to the end of all atom type labels in lists containing
     information about Bonds, Angles, Dihedrals, or Impropers (BADI). This
     function is intended to be used through the add_ff_labels_to_dict()
     function.
-    :param list: [List] The value from ff_dict using one of the following keys:
+    :param ff_list: [List] The value from ff_dict using one of the following keys:
                  'Bonds', 'Angles', 'Dihedrals', or 'Impropers'.
                  The form of this list should be as follows:
                  [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
@@ -36,11 +33,11 @@ def add_ff_labels_to_BADI_lists(list, label):
     :return:
     """
     output_badi_list = []
-    for dict in list:
+    for dict_ in ff_list:
         new_types = []
-        for type in dict["types"]:
+        for type in dict_["types"]:
             new_types.append(tuple(atom + label for atom in type))
-        output_badi_list.append({"coeffs": dict["coeffs"], "types": new_types})
+        output_badi_list.append({"coeffs": dict_["coeffs"], "types": new_types})
     return output_badi_list
 
 
@@ -91,8 +88,9 @@ def add_ff_labels_to_dict(ff_dict, label):
 def get_db(input_db=None):
     from mispr.lammps.database import LammpsSysDb
 
+    db = None
     if not input_db:
-        input_db = f"{ilfr.CONFIG_PATH}/db.json"
+        input_db = f"{CONFIG_PATH}/db.json"
         if not os.path.isfile(input_db):
             raise FileNotFoundError("Please provide the database configurations")
     if isinstance(input_db, dict):
@@ -122,49 +120,3 @@ def process_run(smiles, nmols, box, template_filename):
         "job_type": template_filename,
     }
     return run_dict
-
-
-if __name__ == "__main__":
-    Spce_label = ""
-    test_mass = OrderedDict({"ow" + Spce_label: 16.000, "hw" + Spce_label: 1.008})
-    test_mass_2 = OrderedDict()
-
-    for key in test_mass.keys():
-        test_mass_2[key + "H2O"] = test_mass[key]
-
-    print(test_mass)
-    print(test_mass_2, "\n")
-
-    test_bonds = [
-        {"coeffs": [553.0, 1], "types": [("ow" + Spce_label, "hw" + Spce_label)]},
-        {"coeffs": [552.0, 1], "types": [("ow1" + Spce_label, "hw1" + Spce_label)]},
-    ]
-
-    test_bonds_2 = add_ff_labels_to_BADI_lists(test_bonds, "H2O")
-
-    print(test_bonds)
-    print(test_bonds_2, "\n")
-
-    Spce_param_dict = {
-        "Molecule": "Spce_molecule",
-        "Labels": ["ow" + Spce_label, "hw" + Spce_label, "hw" + Spce_label],
-        "Masses": OrderedDict({"ow" + Spce_label: 16.000, "hw" + Spce_label: 1.008}),
-        "Nonbond": [[0.155394259, 3.16555789], [0.0, 0.0]],
-        "Bonds": [
-            {"coeffs": [553.0, 1], "types": [("ow" + Spce_label, "hw" + Spce_label)]}
-        ],
-        "Angles": [
-            {
-                "coeffs": [100.0, 109.47],
-                "types": [("hw" + Spce_label, "ow" + Spce_label, "hw" + Spce_label)],
-            }
-        ],
-        "Dihedrals": [],
-        "Impropers": [],
-        "Improper Topologies": None,
-        "Charges": np.asarray([-0.8476, 0.4238, 0.4238]),
-    }
-    Spce_param_dict_2 = add_ff_labels_to_dict(Spce_param_dict, "H2O")
-
-    print(Spce_param_dict)
-    print(Spce_param_dict_2)
