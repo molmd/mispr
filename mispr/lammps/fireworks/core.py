@@ -6,7 +6,7 @@
 import os
 import logging
 
-import fireworks as Firework
+from fireworks import Firework
 
 from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
 
