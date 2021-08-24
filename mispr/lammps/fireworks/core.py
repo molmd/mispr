@@ -6,7 +6,9 @@
 import os
 import logging
 
-import fireworks as fw
+import fireworks as Firework
+
+from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
 
 from mispr.lammps.firetasks.run import RunTleap, RunLammps, RunParmchk, RunAntechamber
 from mispr.gaussian.utilities.metadata import get_chem_schema
@@ -16,7 +18,7 @@ from mispr.lammps.firetasks.write_inputs import (
     WriteTleapScript,
     LabelFFDictFromDB,
 )
-from mispr.lammps.firetasks.parse_outputs import ProcessPrmtop
+from mispr.lammps.firetasks.parse_outputs import GetMSD, GetRDF, CalcDiff, ProcessPrmtop
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -27,7 +29,7 @@ __version__ = "0.0.1"
 
 logger = logging.getLogger(__name__)
 
-FIREWORK_KWARGS = fw.Firework.__init__.__code__.co_varnames
+FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
 
 def ambertools_tasks(mol, **kwargs):
@@ -73,7 +75,7 @@ def ambertools_tasks(mol, **kwargs):
     return common_t
 
 
-class GetFFDictFW(fw.Firework):
+class GetFFDictFW(Firework):
     def __init__(
         self,
         mol,
@@ -221,7 +223,7 @@ class GetFFDictFW(fw.Firework):
         )
 
 
-class RunLammpsFW(fw.Firework):
+class RunLammpsFW(Firework):
     def __init__(
         self,
         control_file=None,
@@ -272,5 +274,45 @@ class RunLammpsFW(fw.Firework):
         )
 
 
-if __name__ == "__main__":
-    pass
+class RunAnalysisFW(Firework):
+    def __init__(
+        self, md_property, name="run_analysis", parents=None, working_dir=None, **kwargs
+    ):
+        tasks = []
+        working_dir = working_dir or os.getcwd()
+
+        if md_property == "diffusion":
+            msd_kwargs = {
+                i: j
+                for i, j in kwargs.items()
+                if i in GetMSD.required_params + GetMSD.optional_params
+            }
+            msd_kwargs.update({"working_dir": working_dir})
+            tasks.append(GetMSD(**msd_kwargs))
+            diff_kwargs = {
+                i: j
+                for i, j in kwargs.items()
+                if i in CalcDiff.required_params + CalcDiff.optional_params
+            }
+            diff_kwargs.update({"working_dir": working_dir})
+            tasks.append(CalcDiff(**diff_kwargs))
+
+        elif md_property == "rdf":
+            rdf_kwargs = {
+                i: j
+                for i, j in kwargs.items()
+                if i
+                in inspect.getfullargspec(calc_atomic_rdf).args
+                + inspect.getfullargspec(calc_molecular_rdf).args
+                + GetRDF.required_params
+                + GetRDF.optional_params
+            }
+            rdf_kwargs.update({"working_dir": working_dir})
+            tasks.append(GetRDF(**rdf_kwargs))
+
+        super(RunAnalysisFW, self).__init__(
+            tasks,
+            parents=parents,
+            name=name,
+            **{i: j for i, j in kwargs.items() if i in FIREWORK_KWARGS}
+        )
