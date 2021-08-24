@@ -203,6 +203,7 @@ class WriteControlFile(FiretaskBase):
 
         # Set directory for writing control file
         working_dir = fw_spec.get("working_dir", self.get("working_dir", os.getcwd()))
+        template_dir = None
         os.makedirs(working_dir, exist_ok=True)
         os.chdir(working_dir)
 
@@ -261,9 +262,7 @@ class WriteControlFile(FiretaskBase):
         default_masses_list = fw_spec.get("default_masses", [])
         recalc_masses_list = fw_spec.get("recalc_masses", [])
 
-        run_doc = process_run(
-            smiles_list, n_mols_dict, lmp_box, template_filename, control_settings
-        )
+        run_doc = process_run(smiles_list, n_mols_dict, lmp_box, template_filename)
         run_doc.update({"working_dir": working_dir})
 
         # TODO: add option to not specify db input and still save to database
@@ -411,29 +410,3 @@ class LabelFFDictFromDB(FiretaskBase):
         sys_ff_dict[label] = labeled_ff_dict
 
         return FWAction(update_spec={"system_force_field_dict": sys_ff_dict})
-
-
-if __name__ == "__main__":
-    test_dict = {}
-    if isinstance(test_dict.get("gold"), str):
-        print(True)
-    else:
-        print(False)
-    gold = test_dict.get("gold")
-    print(gold)
-
-    print(os.path.abspath(__file__))
-    print(os.path.dirname(os.path.abspath(__file__)))
-    print(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates"))
-    print(
-        os.path.normpath(
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates")
-        )
-    )
-
-    s = Template("${who} likes $what")
-    d = {"who": "tim", "what": "kung pao"}
-    t = {"who": "george", "time": "four o'clock"}
-    p = s.substitute(d, **t)
-    print(p)
-    print(type(p))
