@@ -4,7 +4,6 @@
 
 import sys
 import logging
-
 import datetime
 
 from abc import abstractmethod
@@ -212,55 +211,3 @@ class LammpsSysDb:
 
     def retrieve_run(self, _id):
         return self.runs.find_one({"_id": _id})
-
-
-if __name__ == "__main__":
-    import os
-    import collections as coll
-
-    db_uri = "mongodb+srv://mbliss01:idlewide@gettingstarted.dt0sv.mongodb.net/lammps"
-
-    test_connect = LammpsSysDb(db_uri, uri_mode=True)
-
-    file_dir = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "tests", "test_files", "data"
-    )
-    wat_mol = Molecule.from_file(os.path.join(file_dir, "SPC_E.pdb"))
-    wat_param = {
-        "Molecule": wat_mol,
-        "Labels": ["ow", "hw", "hw"],
-        "Masses": coll.OrderedDict({"ow": 16.000, "hw": 1.008}),
-        "Nonbond": [[0.155394259, 3.16555789], [0.0, 0.0]],
-        "Bonds": [{"coeffs": [553.0, 1], "types": [("ow", "hw")]}],
-        "Angles": [{"coeffs": [100.0, 109.47], "types": [("hw", "ow", "hw")]}],
-        "Dihedrals": [],
-        "Impropers": [],
-        "Improper Topologies": None,
-        "Charges": [-0.8476, 0.4238, 0.4238],
-        "common_name": "spc/e",
-        "method": "literature",
-        "doi": "https://doi.org/10.1021/j100308a038",
-    }
-    test_connect.insert_force_field(
-        wat_param, wat_param["method"], doi=wat_param["doi"]
-    )
-
-    na_mol = Molecule.from_file(os.path.join(file_dir, "Na.pdb"))
-    na_mol.set_charge_and_spin(1, 1)
-    na_param = {
-        "Molecule": na_mol,
-        "Labels": ["na"],
-        "Masses": coll.OrderedDict({"na": 22.99}),
-        "Nonbond": [[0.02639002, 2.590733472]],
-        "Bonds": [],
-        "Angles": [],
-        "Dihedrals": [],
-        "Impropers": [],
-        "Improper Topologies": None,
-        "Charges": [1.0],
-        "method": "literature",
-        "method_note": "spc/e",
-        "doi": "https://doi.org/10.1021/ct500918t",
-    }
-
-    test_connect.insert_force_field(na_param, na_param["method"], na_param["doi"], True)
