@@ -1,7 +1,7 @@
 # coding: utf-8
 
 
-# Defines standard fireworks for ambertools and lammps.
+# Defines core fireworks for ambertools and lammps.
 
 import os
 import logging
