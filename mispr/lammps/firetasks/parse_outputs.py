@@ -155,7 +155,7 @@ class GetMSD(FiretaskBase):
                 ),
             )
 
-            msd = get_msd_from_dump(
+            get_msd_from_dump(
                 file_pattern,
                 num_mols=num_mols,
                 num_atoms_per_mol=num_atoms_per_mol,
@@ -174,7 +174,7 @@ class GetMSD(FiretaskBase):
                     os.path.join(working_dir, "../../../lammps", "nvt", "log.lammps")
                 ),
             )
-            msd = get_msd_from_log(
+            get_msd_from_log(
                 file_pattern,
                 working_dir=working_dir,
                 **{
@@ -234,7 +234,7 @@ class CalcDiff(FiretaskBase):
         diff_settings.update(self.get("diff_settings", {}))
         diff_settings.update({"working_dir": working_dir})
 
-        diff, models = get_diff(
+        get_diff(
             msd,
             **{
                 i: j
@@ -367,7 +367,7 @@ class GetRDF(FiretaskBase):
                 cur_working_dir = os.path.join(atomic_working_dir, str(size))
                 os.makedirs(cur_working_dir, exist_ok=True)
                 csv_file_path = os.path.join(cur_working_dir, csv_filename)
-                rdf_data = calc_atomic_rdf(
+                calc_atomic_rdf(
                     r_cut,
                     size,
                     num_types,
@@ -386,7 +386,7 @@ class GetRDF(FiretaskBase):
                 cur_working_dir = os.path.join(molecular_working_dir, str(size))
                 os.makedirs(cur_working_dir, exist_ok=True)
                 csv_file_path = os.path.join(cur_working_dir, csv_filename)
-                rdf_data = calc_molecular_rdf(
+                calc_molecular_rdf(
                     r_cut,
                     size,
                     num_types,
@@ -434,39 +434,3 @@ class GetRDF(FiretaskBase):
                 "box": lmp_box,
             }
         )
-
-
-if __name__ == "__main__":
-    # test_string = "test_string\t\n"
-    # print([test_string])
-    # print([test_string.strip()])
-    # args_dict = {"first": 1, "second": 2}
-    # for k, v in args_dict.items():
-    #     print(k, v)
-    # diff_dir_path = "/Users/matt/Documents/Research/DHPS/Depro_DHPS/Lammps/SPCE/Viscosity/0.1_M"
-    # test_msd = aldd.get_msd_from_log("log.lammps", dt = 2, working_dir = diff_dir_path)
-    # print(test_msd.head(10))
-    # print(test_msd.tail(10))
-    # diff, model = aldd.get_diff(test_msd, working_dir = diff_dir_path)
-    # print(diff)
-
-    # params = inspect.getfullargspec(aldd.get_msd_from_dump)
-    # print(type(params))
-    # print(params)
-    # print(params.args)
-    # print(type(params.args))
-    # print(params.defaults)
-
-    string = "log.lammps"
-    forslash = "\\"
-    print(string)
-    print(forslash)
-    if forslash not in string and "/" not in string:
-        print(False)
-
-    # os.chdir("/Users/matt/Documents/Research/Infrastructure/case_study")
-    # with open("test_2.txt", "w") as f:
-    #     f.write("hello")
-    test_list = [1.0, 2.1]
-    print(type(test_list))
-    print(isinstance(test_list, list))
