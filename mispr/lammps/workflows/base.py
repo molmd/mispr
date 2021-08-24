@@ -37,6 +37,7 @@ def lammps_data_fws(
     working_dir=None,
     db=None,
     order_fws=False,
+    tag="unknown",
     **kwargs,
 ):
     """
