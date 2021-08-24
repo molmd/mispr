@@ -5,13 +5,14 @@ from collections import OrderedDict
 import numpy as np
 
 from fireworks import FWorker, LaunchPad
+from fireworks.core.firework import Workflow
 from fireworks.core.rocket_launcher import rapidfire
 
 from pymatgen.io.gaussian import GaussianOutput
 from pymatgen.core.structure import Molecule
 
+from mispr.lammps.workflows.base import lammps_data_fws
 from mispr.gaussian.utilities.metadata import get_mol_formula
-from mispr.lammps.workflows.base_custom import write_lammps_data
 
 # Needs:
 #     openbabel 3.x: https://github.com/openbabel/openbabel/releases
@@ -19,7 +20,7 @@ from mispr.lammps.workflows.base_custom import write_lammps_data
 
 if __name__ == "__main__":
 
-    # # set up the LaunchPad and reset it
+    # set up the LaunchPad and reset it
     launchpad = LaunchPad(
         host="mongodb://superuser:idlewide@localhost:27017/fireworks?authSource=admin",
         uri_mode=True,
@@ -32,9 +33,8 @@ if __name__ == "__main__":
         "data",
         "custom_workflow",
     )
-    # print(working_dir)
 
-    # # set molecule objects (and labels) for all species
+    # set molecule objects (and labels) for all species
     dhps_gout = GaussianOutput(os.path.join(working_dir, "dhps.out"))
     dhps_mol = dhps_gout.structures[-1]
     dhps_mol.set_charge_and_spin(dhps_gout.charge, dhps_gout.spin_multiplicity)
@@ -53,10 +53,10 @@ if __name__ == "__main__":
     na_mol.set_charge_and_spin(1, 1)
     na_label = get_mol_formula(na_mol)
 
-    # # set concentration of phenazine derivative
+    # set concentration of phenazine derivative
     x = 1
 
-    # # set mixture type ('concentration' or 'number of molecules')
+    # set mixture type ('concentration' or 'number of molecules')
     sys_mix_type = "concentration"
     # sys_mix_type = 'number of molecules'
 
@@ -69,8 +69,8 @@ if __name__ == "__main__":
     #             [0, 25]]
     # box_data_type = 'rectangular'
 
-    # # set the info for how to obtain labeled ff_dict for each species
-    # # as well as mixture data
+    # set the info for how to obtain labeled ff_dict for each species
+    # as well as mixture data
     system_species_data = {
         dhps_label: {
             "molecule": dhps_mol,
@@ -150,13 +150,12 @@ if __name__ == "__main__":
         },
     }
 
-    # print(system_species_data[na_label]['mixture_data'])
     file_name_label = sys_mix_type
     if sys_mix_type == "number of molecules":
         file_name_label = "num_mols"
 
-    # # create workflow for writing data file
-    workflow = write_lammps_data(
+    # create workflow for writing data file
+    fireworks, links_dict = lammps_data_fws(
         system_species_data,
         sys_mix_type,
         box_data,
@@ -165,9 +164,7 @@ if __name__ == "__main__":
         working_dir=working_dir,
         spec={"system_force_field_dict": {}},
     )
-
-    # # store workflow and launch it
+    workflow = Workflow(fireworks, links_dict=links_dict)
+    # store workflow and launch it
     launchpad.add_wf(workflow)
-    # print("LAUNCHPAD")
-    # print(launchpad)
     rapidfire(launchpad, FWorker())

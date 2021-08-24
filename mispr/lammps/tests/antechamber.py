@@ -14,7 +14,6 @@ if __name__ == "__main__":
     working_dir = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "test_files", "antechamber"
     )
-    # print(working_dir)
     input_filename = "dhps.esp"
     output_filename = "dhps.mol2"
 
