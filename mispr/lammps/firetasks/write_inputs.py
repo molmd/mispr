@@ -139,24 +139,24 @@ class WriteDataFile(FiretaskBase):
 
         # Convert LammpsDataWrapper to LammpsData
         if lammps_data_wrapper:
-            lammps_data = lammps_data_wrapper.MakeLammpsData()
+            lammps_data = lammps_data_wrapper.build_lammps_data()
 
             n_mols_dict = lammps_data_wrapper.nmol_dict
             smiles_list = [
                 get_chem_schema(force_fields[mol_label]["Molecule"])["smiles"]
-                for mol_label in lammps_data_wrapper.SortedNames
+                for mol_label in lammps_data_wrapper.sorted_mol_names
             ]
             num_mols_list = [
-                n_mols_dict[name] for name in lammps_data_wrapper.SortedNames
+                n_mols_dict[name] for name in lammps_data_wrapper.sorted_mol_names
             ]
             lmp_box = lammps_data.box
             num_atoms_per_mol_list = [
                 len(lammps_data_wrapper.ff_list[name]["Molecule"].sites)
-                for name in lammps_data_wrapper.SortedNames
+                for name in lammps_data_wrapper.sorted_mol_names
             ]
             default_masses_list = []
             recalc_masses_list = []
-            for name in lammps_data_wrapper.SortedNames:
+            for name in lammps_data_wrapper.sorted_mol_names:
                 default_masses_list += list(
                     lammps_data_wrapper.ff_list[name]["Masses"].values()
                 )
