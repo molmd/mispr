@@ -18,7 +18,7 @@ from pymatgen.io.lammps.data import LammpsData, LammpsDataWrapper
 from pymatgen.io.lammps.inputs import write_lammps_inputs
 
 from mispr.lammps.defaults import TEMPLATE_TYPES, TLEAP_SETTINGS
-from mispr.lammps.utilities.utils import get_db, process_run, add_ff_labels_to_dict
+from mispr.lammps.utilities.utilities import get_db, process_run, add_ff_labels_to_dict
 from mispr.gaussian.utilities.metadata import get_chem_schema, get_mol_formula
 
 __author__ = "Matthew Bliss"
