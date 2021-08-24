@@ -136,6 +136,7 @@ def lammps_data_fws(
             system_mixture_data[species] = ff_data["mixture_data"]
 
     spec = kwargs.pop("spec", {})
+    spec.update({"tag": tag, "_launch_dir": working_dir})
     extra_data_file_name = kwargs.pop("data_filename", "")
     firework2 = Firework(
         [
@@ -253,73 +254,79 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
 
     for index, type in enumerate(analysis_list):
         if type == "msd_from_dump":
+            msd_dir = os.path.join(working_dir, "msd")
             cur_firework = Firework(
                 GetMSD(
                     msd_method="from_dump",
                     msd_settings=analysis_settings[index],
-                    working_dir=os.path.join(working_dir, "msd"),
+                    working_dir=msd_dir,
                     **{
                         i: j
                         for i, j in kwargs.items()
                         if i in GetMSD.required_params + GetMSD.optional_params
                     },
-                )
+                ),
+                spec={"_launch_dir": msd_dir},
             )
+
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
 
         elif type == "msd_from_log":
+            msd_dir = os.path.join(working_dir, "msd")
             cur_firework = Firework(
                 GetMSD(
                     msd_method="from_log",
                     msd_settings=analysis_settings[index],
-                    working_dir=os.path.join(working_dir, "msd"),
+                    working_dir=msd_dir,
                     **{
                         i: j
                         for i, j in kwargs.items()
                         if i in GetMSD.required_params + GetMSD.optional_params
                     },
-                )
+                ),
+                spec={"_launch_dir": msd_dir},
             )
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
 
         elif type == "diffusion":
+            diff_dir = os.path.join(working_dir, "diff")
             cur_firework = Firework(
                 CalcDiff(
                     diff_settings=analysis_settings[index],
-                    working_dir=os.path.join(working_dir, "diff"),
+                    working_dir=diff_dir,
                     **{
                         i: j
                         for i, j in kwargs.items()
                         if i in CalcDiff.required_params + CalcDiff.optional_params
                     },
-                )
+                ), spec = {"_launch_dir": diff_dir}
             )
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
 
         elif type == "rdf":
-            cur_working_dir = os.path.join(working_dir, "rdf")
+            rdf_dir = os.path.join(working_dir, "rdf")
 
             cur_settings = analysis_settings[index].copy()
             cur_settings.update(
                 {
                     "filename": os.path.abspath(
-                        os.path.join(cur_working_dir, "..", "nvt", "dump.nvt.*.dump")
+                        os.path.join(rdf_dir, "..", "nvt", "dump.nvt.*.dump")
                     )
                 }
             )
             cur_firework = Firework(
                 GetRDF(
                     rdf_settings=cur_settings,
-                    working_dir=cur_working_dir,
+                    working_dir=rdf_dir,
                     **{
                         i: j
                         for i, j in kwargs.items()
                         if i in GetRDF.required_params + GetRDF.optional_params
                     },
-                )
+                ), spec = {"_launch_dir": rdf_dir}
             )
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
