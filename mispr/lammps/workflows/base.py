@@ -16,9 +16,9 @@ from mispr.lammps.defaults import (
     GENERAL_QADAPTER,
     QADAPTER_RUN_LAMMPS_SPEC,
 )
+from mispr.lammps.fireworks.core import GetFFDictFW, RunLammpsFW
 from mispr.lammps.firetasks.write_inputs import WriteDataFile
 from mispr.lammps.firetasks.parse_outputs import GetMSD, GetRDF, CalcDiff
-from mispr.lammps.fireworks.core_standard import GetFFDictFW, RunLammpsFW
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -344,6 +344,7 @@ def lammps_workflow(
     working_dir=None,
     analysis_list=None,
     analysis_settings=None,
+    name="lammps_workflow",
     **kwargs,
 ):
 
@@ -389,14 +390,5 @@ def lammps_workflow(
     fw_ids = list(links_dict.keys())
     for index, fw_id in enumerate(fw_ids[:-1]):
         links_dict[fw_id].append(fw_ids[index + 1])
-    return Workflow(fireworks, links_dict)
 
-
-if __name__ == "__main__":
-    import fireworks as fw
-
-    launchpad = fw.LaunchPad(
-        host="mongodb://superuser:<password>@localhost:27017/fireworks?authSource=admin",
-        uri_mode=True,
-    )
-    launchpad.reset("", require_password=False)
+    return Workflow(fireworks, links_dict=links_dict, name=name)
