@@ -89,6 +89,7 @@ class GetFFDictFW(Firework):
         save_ff_to_db=False,
         save_ff_to_file=True,
         ff_filename="ff.json",
+        tag="unknown",
         **kwargs
     ):
         tasks = []
@@ -215,10 +216,13 @@ class GetFFDictFW(Firework):
                 )
             )
 
+        spec = kwargs.pop("spec", {})
+        spec.update({"tag": tag, "_launch_dir": working_dir})
         super(GetFFDictFW, self).__init__(
             tasks,
             parents=parents,
             name=name,
+            spec=spec,
             **{i: j for i, j in kwargs.items() if i in FIREWORK_KWARGS}
         )
 
@@ -233,6 +237,7 @@ class RunLammpsFW(Firework):
         working_dir=None,
         save_run_to_db=True,
         save_run_to_file=False,
+        tag="unknown",
         **kwargs
     ):
         tasks = []
@@ -266,17 +271,27 @@ class RunLammpsFW(Firework):
             )
         )
 
+        spec = kwargs.pop("spec", {})
+        spec.update({"tag": tag, "_launch_dir": working_dir})
+
         super(RunLammpsFW, self).__init__(
             tasks,
             parents=parents,
             name=name,
+            spec=spec,
             **{i: j for i, j in kwargs.items() if i in FIREWORK_KWARGS}
         )
 
 
 class RunAnalysisFW(Firework):
     def __init__(
-        self, md_property, name="run_analysis", parents=None, working_dir=None, **kwargs
+        self,
+        md_property,
+        name="run_analysis",
+        parents=None,
+        working_dir=None,
+        tag="unknown",
+        **kwargs
     ):
         tasks = []
         working_dir = working_dir or os.getcwd()
@@ -309,10 +324,12 @@ class RunAnalysisFW(Firework):
             }
             rdf_kwargs.update({"working_dir": working_dir})
             tasks.append(GetRDF(**rdf_kwargs))
-
+        spec = kwargs.pop("spec", {})
+        spec.update({"tag": tag, "_launch_dir": working_dir})
         super(RunAnalysisFW, self).__init__(
             tasks,
             parents=parents,
             name=name,
+            spec=spec,
             **{i: j for i, j in kwargs.items() if i in FIREWORK_KWARGS}
         )
