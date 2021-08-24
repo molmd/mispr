@@ -16,7 +16,7 @@ from pymongo import ASCENDING, MongoClient
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
 
-from mispr.lammps.utilities.utils import process_ff_doc
+from mispr.lammps.utilities.utilities import process_ff_doc
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
