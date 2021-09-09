@@ -257,6 +257,7 @@ class ESPtoDB(FiretaskBase):
             "chemsys": mol_schema["chemsys"],
             "energy": gout_dict[-1]["output"]["output"]["final_energy"],
             "esp": gout_dict[-1]["output"]["output"]["ESP_charges"],
+            "dipole_moment": gout_dict[-1]["output"]["output"]["dipole_moment"],
             "functional": gout_dict[-1]["functional"],
             "basis": gout_dict[-1]["basis"],
             "phase": phase,
