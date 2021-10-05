@@ -17,11 +17,7 @@ from pymatgen.io.ambertools import PrmtopParser
 from pymatgen.core.structure import Molecule
 
 from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
-from mdproptools.dynamical.diffusion import (
-    get_diff,
-    get_msd_from_log,
-    get_msd_from_dump,
-)
+from mdproptools.dynamical.diffusion import Diffusion
 
 import mispr.lammps.utilities.utilities as iluu
 
@@ -140,7 +136,9 @@ class GetMSD(FiretaskBase):
 
         msd_settings = MSD_SETTINGS.copy()
         msd_settings.update(self.get("msd_settings", {}))
-
+        timestep = msd_settings.get("timestep", 1)
+        units = msd_settings.get("units", "real")
+        diff = Diffusion(timestep=timestep, units=units, working_dir=working_dir)
         if method == "from_dump":
             num_mols = fw_spec.get("num_mols_list", None)
             num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", None)
@@ -155,16 +153,15 @@ class GetMSD(FiretaskBase):
                 ),
             )
 
-            get_msd_from_dump(
+            diff.get_msd_from_dump(
                 file_pattern,
                 num_mols=num_mols,
                 num_atoms_per_mol=num_atoms_per_mol,
                 mass=mass,
-                working_dir=working_dir,
                 **{
                     i: j
                     for i, j in msd_settings.items()
-                    if i in inspect.getfullargspec(get_msd_from_dump).args
+                    if i in inspect.getfullargspec(diff.get_msd_from_dump).args
                 }
             )
         elif method == "from_log":
@@ -174,15 +171,7 @@ class GetMSD(FiretaskBase):
                     os.path.join(working_dir, "../../../lammps", "nvt", "log.lammps")
                 ),
             )
-            get_msd_from_log(
-                file_pattern,
-                working_dir=working_dir,
-                **{
-                    i: j
-                    for i, j in msd_settings.items()
-                    if i in inspect.getfullargspec(get_msd_from_log).args
-                }
-            )
+            diff.get_msd_from_log(file_pattern)
 
         smiles_list = fw_spec.get("smiles", [])
         n_mols_dict = fw_spec.get("nmols", {})
@@ -233,13 +222,16 @@ class CalcDiff(FiretaskBase):
         diff_settings = DIFF_SETTINGS.copy()
         diff_settings.update(self.get("diff_settings", {}))
         diff_settings.update({"working_dir": working_dir})
+        timestep = diff_settings.get("timestep", 1)
+        units = diff_settings.get("units", "real")
+        diff = Diffusion(timestep=timestep, units=units, working_dir=working_dir)
 
-        get_diff(
+        diff.calc_diff(
             msd,
             **{
                 i: j
                 for i, j in diff_settings.items()
-                if i in inspect.getfullargspec(get_diff).args
+                if i in inspect.getfullargspec(diff.calc_diff).args
             }
         )
 
