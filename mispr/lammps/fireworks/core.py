@@ -18,7 +18,7 @@ from mispr.lammps.firetasks.write_inputs import (
     WriteTleapScript,
     LabelFFDictFromDB,
 )
-from mispr.lammps.firetasks.parse_outputs import GetMSD, GetRDF, CalcDiff, ProcessPrmtop
+from mispr.lammps.firetasks.parse_outputs import GetRDF, CalcDiff, ProcessPrmtop
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -297,13 +297,6 @@ class RunAnalysisFW(Firework):
         working_dir = working_dir or os.getcwd()
 
         if md_property == "diffusion":
-            msd_kwargs = {
-                i: j
-                for i, j in kwargs.items()
-                if i in GetMSD.required_params + GetMSD.optional_params
-            }
-            msd_kwargs.update({"working_dir": working_dir})
-            tasks.append(GetMSD(**msd_kwargs))
             diff_kwargs = {
                 i: j
                 for i, j in kwargs.items()

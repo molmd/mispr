@@ -124,110 +124,54 @@ class ProcessPrmtop(FiretaskBase):
 
 
 @explicit_serialize
-class GetMSD(FiretaskBase):
-    _fw_name = "Get MSD"
-    required_params = ["msd_method"]
-    optional_params = ["working_dir", "msd_settings"]
+class CalcDiff(FiretaskBase):
+    _fw_name = "Calculate Diffusion"
+    required_params = []
+    optional_params = ["working_dir", "diff_settings"]
 
     def run_task(self, fw_spec):
-        method = self.get("msd_method")
         working_dir = self.get("working_dir", os.getcwd())
         os.makedirs(working_dir, exist_ok=True)
-
-        msd_settings = MSD_SETTINGS.copy()
-        msd_settings.update(self.get("msd_settings", {}))
-        timestep = msd_settings.get("timestep", 1)
-        units = msd_settings.get("units", "real")
-        diff = Diffusion(timestep=timestep, units=units, working_dir=working_dir)
-        if method == "from_dump":
+        diff_settings = {**MSD_SETTINGS.copy(), **DIFF_SETTINGS.copy()}
+        diff_settings.update(self.get("diff_settings", {}))
+        msd_method = diff_settings["msd_method"]
+        outputs_dir = diff_settings.get("outputs_dir",
+                                    os.path.abspath(
+                                        os.path.join(working_dir, "..", "nvt")))
+        msd_df = None
+        diff = Diffusion(
+            timestep=diff_settings["timestep"],
+            units=diff_settings["units"],
+            outputs_dir=outputs_dir,
+            diff_dir=working_dir,
+        )
+        if msd_method == "from_dump":
             num_mols = fw_spec.get("num_mols_list", None)
             num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", None)
             mass = fw_spec.get("default_masses", None)
+            file_pattern = diff_settings.get("file_pattern", "dump.nvt.*.dump")
 
-            file_pattern = msd_settings.get(
-                "file_pattern",
-                os.path.abspath(
-                    os.path.join(
-                        working_dir, "../../../lammps", "nvt", "dump.nvt.*.dump"
-                    )
-                ),
-            )
-
-            diff.get_msd_from_dump(
+            msd_df = diff.get_msd_from_dump(
                 file_pattern,
                 num_mols=num_mols,
                 num_atoms_per_mol=num_atoms_per_mol,
                 mass=mass,
                 **{
                     i: j
-                    for i, j in msd_settings.items()
+                    for i, j in diff_settings.items()
                     if i in inspect.getfullargspec(diff.get_msd_from_dump).args
                 }
             )
-        elif method == "from_log":
-            file_pattern = msd_settings.get(
-                "file_pattern",
-                os.path.abspath(
-                    os.path.join(working_dir, "../../../lammps", "nvt", "log.lammps")
-                ),
-            )
-            diff.get_msd_from_log(file_pattern)
+        elif msd_method == "from_log":
+            file_pattern = diff_settings.get("file_pattern", "log.lammps*")
+            msd_df = diff.get_msd_from_log(file_pattern)
 
-        smiles_list = fw_spec.get("smiles", [])
-        n_mols_dict = fw_spec.get("nmols", {})
-        num_mols_list = fw_spec.get("num_mols_list", [])
-        lmp_box = fw_spec.get("box", None)
-        num_atoms_per_mol_list = fw_spec.get("num_atoms_per_mol", [])
-        default_masses_list = fw_spec.get("default_masses", [])
-        recalc_masses_list = fw_spec.get("recalc_masses", [])
+        else:
+            raise ValueError(f"Unsupported msd calculation method: {msd_method}"
+                             f"Supported methods are from_dump and from_log")
 
-        return FWAction(
-            update_spec={
-                "msd_file_path": os.path.join(working_dir, "msd.csv"),
-                "smiles": smiles_list,
-                "nmols": n_mols_dict,
-                "num_mols_list": num_mols_list,
-                "box": lmp_box,
-                "num_atoms_per_mol": num_atoms_per_mol_list,
-                "default_masses": default_masses_list,
-                "recalc_masses": recalc_masses_list,
-            }
-        )
-
-
-@explicit_serialize
-class CalcDiff(FiretaskBase):
-    _fw_name = "Calculate Diffusion"
-    required_params = []
-    optional_params = ["msd", "working_dir", "diff_settings", "msd_file_path"]
-
-    def run_task(self, fw_spec):
-        working_dir = self.get("working_dir", os.getcwd())
-        os.makedirs(working_dir, exist_ok=True)
-
-        msd = self.get("msd")
-        msd_file_path = fw_spec.get(
-            "msd_file_path",
-            self.get(
-                "msd_file_path",
-                os.path.abspath(
-                    os.path.join(working_dir, "../../../lammps", "msd" "msd.csv")
-                ),
-            ),
-        )
-
-        if not msd:
-            msd = pd.read_csv(msd_file_path)
-
-        diff_settings = DIFF_SETTINGS.copy()
-        diff_settings.update(self.get("diff_settings", {}))
-        diff_settings.update({"working_dir": working_dir})
-        timestep = diff_settings.get("timestep", 1)
-        units = diff_settings.get("units", "real")
-        diff = Diffusion(timestep=timestep, units=units, working_dir=working_dir)
-
-        diff.calc_diff(
-            msd,
+        diffusion = diff.calc_diff(
+            msd_df[0],
             **{
                 i: j
                 for i, j in diff_settings.items()
@@ -245,7 +189,7 @@ class CalcDiff(FiretaskBase):
 
         return FWAction(
             update_spec={
-                "diffusion_calc_dir": working_dir,
+                "diff_folder_path": working_dir,
                 "smiles": smiles_list,
                 "nmols": n_mols_dict,
                 "num_mols_list": num_mols_list,
