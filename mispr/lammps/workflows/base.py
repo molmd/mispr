@@ -18,7 +18,7 @@ from mispr.lammps.defaults import (
 )
 from mispr.lammps.fireworks.core import GetFFDictFW, RunLammpsFW
 from mispr.lammps.firetasks.write_inputs import WriteDataFile
-from mispr.lammps.firetasks.parse_outputs import GetMSD, GetRDF, CalcDiff
+from mispr.lammps.firetasks.parse_outputs import GetRDF, CalcDiff
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -253,45 +253,8 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
     fireworks = []
     links_dict = {}
 
-    for index, type in enumerate(analysis_list):
-        if type == "msd_from_dump":
-            msd_dir = os.path.join(working_dir, "msd")
-            cur_firework = Firework(
-                GetMSD(
-                    msd_method="from_dump",
-                    msd_settings=analysis_settings[index],
-                    working_dir=msd_dir,
-                    **{
-                        i: j
-                        for i, j in kwargs.items()
-                        if i in GetMSD.required_params + GetMSD.optional_params
-                    },
-                ),
-                spec={"_launch_dir": msd_dir},
-            )
-
-            fireworks.append(cur_firework)
-            links_dict[cur_firework.fw_id] = []
-
-        elif type == "msd_from_log":
-            msd_dir = os.path.join(working_dir, "msd")
-            cur_firework = Firework(
-                GetMSD(
-                    msd_method="from_log",
-                    msd_settings=analysis_settings[index],
-                    working_dir=msd_dir,
-                    **{
-                        i: j
-                        for i, j in kwargs.items()
-                        if i in GetMSD.required_params + GetMSD.optional_params
-                    },
-                ),
-                spec={"_launch_dir": msd_dir},
-            )
-            fireworks.append(cur_firework)
-            links_dict[cur_firework.fw_id] = []
-
-        elif type == "diffusion":
+    for index, analysis in enumerate(analysis_list):
+        if analysis == "diffusion":
             diff_dir = os.path.join(working_dir, "diff")
             cur_firework = Firework(
                 CalcDiff(
@@ -300,15 +263,16 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
                     **{
                         i: j
                         for i, j in kwargs.items()
-                        if i in CalcDiff.required_params + CalcDiff.optional_params
+                        if i in GetMSD.required_params + GetMSD.optional_params
                     },
                 ),
                 spec={"_launch_dir": diff_dir},
             )
+
             fireworks.append(cur_firework)
             links_dict[cur_firework.fw_id] = []
 
-        elif type == "rdf":
+        elif analysis == "rdf":
             rdf_dir = os.path.join(working_dir, "rdf")
 
             cur_settings = analysis_settings[index].copy()
