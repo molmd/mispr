@@ -11,17 +11,20 @@ RDF_SETTINGS = {
 
 # default msd settings
 MSD_SETTINGS = {
-    "dt": 1,
+    "timestep": 1,
+    "units": "real",
     "tao_coeff": 4,
     "msd_type": "com",
     "return_all": False,
     "com_drift": False,
     "avg_interval": False,
     "save_msd": True,
+    "msd_method": "from_dump"
 }
 
 # default diffusion settings
-DIFF_SETTINGS = {"initial_time": None, "final_time": None, "dimension": 3}
+DIFF_SETTINGS = {"initial_time": None, "final_time": None, "dimension": 3, "save": True,
+                 "plot": True}
 
 # force field dictionary
 FF_DICT_KEYS = [
