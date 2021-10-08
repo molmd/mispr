@@ -9,6 +9,7 @@ import datetime
 from abc import abstractmethod
 
 import pandas as pd
+from monty.serialization import loadfn
 
 from pymongo import ASCENDING, MongoClient
 
@@ -211,3 +212,41 @@ class LammpsSysDb:
 
     def retrieve_run(self, _id):
         return self.runs.find_one({"_id": _id})
+
+    @classmethod
+    def from_db_file(cls, db_file, admin=True):
+        # TODO: move this to a common database module (common with Gaussian)
+        creds = loadfn(db_file)
+
+        if admin and "admin_user" not in creds and "readonly_user" in creds:
+            raise ValueError(
+                "Trying to use admin credentials, "
+                "but no admin credentials are defined. "
+                "Use admin=False if only read_only "
+                "credentials are available."
+            )
+
+        if admin:
+            user = creds.get("admin_user")
+            password = creds.get("admin_password")
+        else:
+            user = creds.get("readonly_user")
+            password = creds.get("readonly_password")
+
+        kwargs = creds.get(
+            "mongoclient_kwargs", {}
+        )  # any other MongoClient kwargs can go here ...
+
+        if "authsource" in creds:
+            kwargs["authsource"] = creds["authsource"]
+        else:
+            kwargs["authsource"] = creds["database"]
+
+        return cls(
+            creds["host"],
+            int(creds.get("port", 27017)),
+            creds["database"],
+            user,
+            password,
+            **kwargs
+        )
