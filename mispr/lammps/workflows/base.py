@@ -18,7 +18,7 @@ from mispr.lammps.defaults import (
 )
 from mispr.lammps.fireworks.core import GetFFDictFW, RunLammpsFW
 from mispr.lammps.firetasks.write_inputs import WriteDataFile
-from mispr.lammps.firetasks.parse_outputs import GetRDF, CalcDiff
+from mispr.lammps.firetasks.parse_outputs import GetRDF, CalcCN, CalcDiff
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -36,7 +36,6 @@ def lammps_data_fws(
     data_file_name="complex.data",
     working_dir=None,
     db=None,
-    order_fws=False,
     tag="unknown",
     **kwargs,
 ):
@@ -69,20 +68,16 @@ def lammps_data_fws(
     :param data_file_name:
     :param working_dir:
     :param db:
-    :param order_fws:
     :return:
     """
     if not working_dir:
         working_dir = os.getcwd()
 
     fireworks = []
+    system_mixture_data = {}
 
     if system_mixture_type == "concentration":
         system_mixture_data = {"Solutes": {}, "Solvents": {}}
-    elif system_mixture_type == "number of molecules":
-        system_mixture_data = {}
-
-    links_dict = {}
 
     for species, ff_data in system_species_data.items():
         # Generate ff files in separate directories
@@ -117,6 +112,8 @@ def lammps_data_fws(
             input_filename_p=mol2_filename,
             output_filename_p=frcmod_filename,
             prmtop_filename=prmtop_filename,
+            save_ff_to_db=save_ff_to_db,
+            save_ff_to_file=save_ff_to_file,
             tleap_settings={
                 "mol2_file_path": os.path.join(cur_species_dir, mol2_filename),
                 "frcmod_file_path": os.path.join(cur_species_dir, frcmod_filename),
@@ -125,10 +122,8 @@ def lammps_data_fws(
             },
             **kwargs,
         )
-
         fireworks.append(cur_firework)
 
-        links_dict[cur_firework.fw_id] = []
         if system_mixture_type == "concentration":
             system_mixture_data[ff_data["mol_mixture_type"]][species] = ff_data[
                 "mixture_data"
@@ -156,20 +151,12 @@ def lammps_data_fws(
                 },
             )
         ],
-        name="Write_Data_File_FW",
+        name="write_data_file",
         parents=fireworks[-1],
         spec=spec,
     )
-
     fireworks.append(firework2)
-    firework_ids = list(links_dict.keys())
-    if order_fws:
-        for index, firework_id in enumerate(firework_ids[:-1]):
-            links_dict[firework_id].append(firework_ids[index + 1])
-        links_dict[firework_ids[-1]].append(firework2.fw_id)
-
-    links_dict[firework2.fw_id] = []
-    return fireworks, links_dict
+    return fireworks
 
 
 def lammps_run_fws(
@@ -188,7 +175,6 @@ def lammps_run_fws(
         working_dir = os.getcwd()
 
     fireworks = []
-    links_dict = {}
 
     default_recipe_step_names = [step[0] for step in LAMMPS_RECIPE]
 
@@ -231,6 +217,7 @@ def lammps_run_fws(
                 save_run_to_file=save_runs_to_file,
                 **kwargs,
             )
+            fireworks.append(cur_firework)
         elif step[1][0] == "template_str":
             cur_setting = recipe_settings[index]
             cur_firework = RunLammpsFW(
@@ -241,9 +228,8 @@ def lammps_run_fws(
                 spec=cur_spec_dict,
                 **kwargs,
             )
-        fireworks.append(cur_firework)
-        links_dict[cur_firework.fw_id] = []
-    return fireworks, links_dict
+            fireworks.append(cur_firework)
+    return fireworks
 
 
 def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kwargs):
@@ -252,29 +238,30 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
 
     fireworks = []
     links_dict = {}
+    analysis_fw_ids = {}
+
+    if len(analysis_list) != len(analysis_settings):
+        raise ValueError(f"{len(analysis_list)} types of analysis are requested while "
+                        f"{len(analysis_settings)} types of analysis settings are "
+                         f"provided")
 
     for index, analysis in enumerate(analysis_list):
         if analysis == "diffusion":
             diff_dir = os.path.join(working_dir, "diff")
+            name = "diffusion_analysis"
+            cur_settings = analysis_settings[index]
             cur_firework = Firework(
                 CalcDiff(
-                    diff_settings=analysis_settings[index],
-                    working_dir=diff_dir,
-                    **{
-                        i: j
-                        for i, j in kwargs.items()
-                        if i in GetMSD.required_params + GetMSD.optional_params
-                    },
-                ),
+                    diff_settings=cur_settings,
+                    working_dir=diff_dir),
+                name=name,
                 spec={"_launch_dir": diff_dir},
             )
-
             fireworks.append(cur_firework)
-            links_dict[cur_firework.fw_id] = []
 
         elif analysis == "rdf":
             rdf_dir = os.path.join(working_dir, "rdf")
-
+            name = "rdf_analysis"
             cur_settings = analysis_settings[index].copy()
             cur_settings.update(
                 {
@@ -286,22 +273,44 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir=None, **kw
             cur_firework = Firework(
                 GetRDF(
                     rdf_settings=cur_settings,
-                    working_dir=rdf_dir,
-                    **{
-                        i: j
-                        for i, j in kwargs.items()
-                        if i in GetRDF.required_params + GetRDF.optional_params
-                    },
-                ),
+                    working_dir=rdf_dir),
+                name=name,
                 spec={"_launch_dir": rdf_dir},
             )
             fireworks.append(cur_firework)
-            links_dict[cur_firework.fw_id] = []
 
+        elif analysis == "cn":
+            cn_dir = os.path.join(working_dir, "cn")
+            name = "cn_analysis"
+            cur_settings = analysis_settings[index].copy()
+            cur_settings.update(
+                {
+                    "filename": os.path.abspath(
+                        os.path.join(cn_dir, "..", "nvt", "dump.nvt.*.dump")
+                    )
+                }
+            )
+            cur_firework = Firework(
+                CalcCN(
+                    cn_settings=cur_settings,
+                    working_dir=cn_dir),
+                name=name,
+                spec={"_launch_dir": cn_dir},
+            )
+            fireworks.append(cur_firework)
         else:
-            # TODO: raise exception
-            pass
+            raise ValueError(f"Unsupported analysis type: {analysis}")
+        analysis_fw_ids[name] = [cur_firework.fw_id, cur_settings]
 
+    if "cn_analysis" in analysis_fw_ids:
+        if "r_cut" not in analysis_fw_ids["cn_analysis"][1]:
+            if "rdf_analysis" not in analysis_fw_ids:
+                raise ValueError("Cutoff distance required for calculating the CN is "
+                                 "not found and cannot be computed without performing "
+                                 "an RDF analysis")
+            else:
+                links_dict[analysis_fw_ids["rdf_analysis"][0]] = \
+                    analysis_fw_ids["cn_analysis"][0]
     return fireworks, links_dict
 
 
@@ -328,7 +337,7 @@ def lammps_workflow(
     fireworks = []
     links_dict = {}
     if all([system_species_data, system_mixture_type, box_data]):
-        fireworks, links_dict = lammps_data_fws(
+        data_fws = lammps_data_fws(
             system_species_data,
             system_mixture_type,
             box_data,
@@ -338,8 +347,9 @@ def lammps_workflow(
             db=db,
             **kwargs,
         )
+        fireworks += data_fws
 
-    run_fireworks, run_links_dict = lammps_run_fws(
+    run_fws = lammps_run_fws(
         recipe=recipe,
         recipe_settings=recipe_settings,
         recipe_qadapter=recipe_qadapter,
@@ -347,22 +357,29 @@ def lammps_workflow(
         working_dir=working_dir,
         **kwargs,
     )
+    fireworks += run_fws
 
-    fireworks += run_fireworks
-    links_dict.update(run_links_dict)
+    for index, fw in enumerate(fireworks[:-1]):
+        print(fw.fw_id)
+        links_dict[fw.fw_id] = fireworks[index + 1].fw_id
+
+    print(f"lammps links: {links_dict}")
 
     if analysis_list:
         if not analysis_settings:
             analysis_settings = [{}] * len(analysis_list)
-        analysis_fireworks, analysis_links_dict = lammps_analysis_fws(
+        analysis_fws, analysis_links_dict = lammps_analysis_fws(
             analysis_list, analysis_settings, working_dir=working_dir, **kwargs
         )
-        fireworks += analysis_fireworks
+        links_dict[fireworks[-1].fw_id] = [i.fw_id for i in analysis_fws]
+        fireworks += analysis_fws
         links_dict.update(analysis_links_dict)
 
+    print(f"full links: {links_dict}")
+
     # After all fws set
-    fw_ids = list(links_dict.keys())
-    for index, fw_id in enumerate(fw_ids[:-1]):
-        links_dict[fw_id].append(fw_ids[index + 1])
+    # fw_ids = list(links_dict.keys())
+    # for index, fw_id in enumerate(fw_ids[:-1]):
+    #     links_dict[fw_id].append(fw_ids[index + 1])
 
     return Workflow(fireworks, links_dict=links_dict, name=name)
