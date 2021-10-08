@@ -262,7 +262,9 @@ class WriteControlFile(FiretaskBase):
         default_masses_list = fw_spec.get("default_masses", [])
         recalc_masses_list = fw_spec.get("recalc_masses", [])
 
-        run_doc = process_run(smiles_list, n_mols_dict, lmp_box, template_filename)
+        run_doc = process_run(
+            smiles_list, n_mols_dict, lmp_box, template_filename, control_settings
+        )
         run_doc.update({"working_dir": working_dir})
 
         # TODO: add option to not specify db input and still save to database

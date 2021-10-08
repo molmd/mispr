@@ -108,7 +108,7 @@ def process_ff_doc(parameter_dict, method=None, doi=None, **kwargs):
     return ff_dict
 
 
-def process_run(smiles, nmols, box, template_filename):
+def process_run(smiles, nmols, box, template_filename, control_settings=None):
     if box is not None:
         box_setting = box.as_dict()
     else:
@@ -118,5 +118,6 @@ def process_run(smiles, nmols, box, template_filename):
         "nmols": nmols,
         "box": box_setting,
         "job_type": template_filename,
+        "control_settings": control_settings
     }
     return run_dict
