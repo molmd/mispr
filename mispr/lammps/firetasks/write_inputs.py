@@ -12,6 +12,7 @@ import numpy as np
 
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
+from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 
 from pymatgen.core.structure import Molecule
 from pymatgen.io.lammps.data import LammpsData, LammpsDataWrapper
@@ -267,14 +268,12 @@ class WriteControlFile(FiretaskBase):
         )
         run_doc.update({"working_dir": working_dir})
 
-        # TODO: add option to not specify db input and still save to database
-        #  provided save_to_db is True.
-        if db and save_to_db:
-            run_db = get_db(db)
+        if save_to_db:
+            run_db = get_db(input_db=db)
             run_db.insert_run(run_doc)
         if save_to_file:
             with open("run_file.json", "w") as run_file:
-                json.dump(run_doc, run_file)
+                run_file.write(json.dumps(run_doc, default=DATETIME_HANDLER))
 
         return FWAction(
             update_spec={
