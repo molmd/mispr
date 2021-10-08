@@ -9,6 +9,7 @@ import inspect
 
 import numpy as np
 import pandas as pd
+from scipy.signal import argrelmin, find_peaks
 
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
@@ -16,12 +17,12 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.io.ambertools import PrmtopParser
 from pymatgen.core.structure import Molecule
 
-from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
+from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf, calc_atomic_cn, calc_molecular_cn
 from mdproptools.dynamical.diffusion import Diffusion
 
 import mispr.lammps.utilities.utilities as iluu
 
-from mispr.lammps.defaults import MSD_SETTINGS, RDF_SETTINGS, DIFF_SETTINGS
+from mispr.lammps.defaults import MSD_SETTINGS, DIFF_SETTINGS, RDF_SETTINGS, CN_SETTINGS
 from mispr.gaussian.utilities.metadata import get_mol_formula
 
 __author__ = "Matthew Bliss"
@@ -334,8 +335,176 @@ class GetRDF(FiretaskBase):
             "path_or_buff": csv_filename,
             "save_mode": save_mode,
         }
-        rdf_type_spec = rdf_type
-        rdf_use_default_atom_ids_spec = use_default_atom_ids
+
+        return FWAction(
+            update_spec={
+                "rdf_path": csv_file_path,
+                "rdf_settings": rdf_settings_spec,
+                "rdf_type": rdf_type,
+                "rdf_use_default_atom_ids": use_default_atom_ids,
+                "smiles": fw_spec.get("smiles", []),
+                "nmols": fw_spec.get("nmols", {}),
+                "num_mols_list": num_mols,
+                "num_atoms_per_mol": num_atoms_per_mol,
+                "masses": mass,
+                "box": fw_spec.get("box", None)
+            }
+        )
+
+
+@explicit_serialize
+class CalcCN(FiretaskBase):
+    _fw_name = "Calculate CN"
+    required_params = []
+    optional_params = ["cn_settings", "working_dir"]
+
+    def run_task(self, fw_spec):
+        # Get inputs to cn function from defaults or from user, which then
+        # updates the defaults
+        cn_settings = CN_SETTINGS.copy()
+        cn_settings.update(self.get("cn_settings", {}))
+
+        # atomic or molecular (for CoM)
+        cn_type = cn_settings.get("cn_type", "atomic")
+
+        working_dir = self.get("working_dir", os.getcwd())
+        os.makedirs(working_dir, exist_ok=True)
+
+        use_default_atom_ids = cn_settings.get("use_default_atom_ids", False)
+
+        csv_filename = cn_settings.get("path_or_buff", "cn.csv")
+        csv_file_path = os.path.join(working_dir, csv_filename)
+        cn_settings.update({"path_or_buff": csv_file_path})
+
+        # check if user provided the cutoff radius to use in calculating the CN
+        r_cut = cn_settings.get("r_cut", None)
+        # if the cutoff radius is not provided, attempt to automatically detect it from
+        # the rdf
+        if not r_cut:
+            rdf_path = fw_spec.get("rdf_path")
+            rdf_type = fw_spec.get("rdf_type")
+            rdf_use_default_atom_ids = fw_spec.get("rdf_use_default_atom_ids")
+            if not rdf_path:
+                raise ValueError("Cutoff distance required for calculating the CN is "
+                                 "not found and cannot be computed due to a missing "
+                                 "RDF file")
+            else:
+                if cn_type != rdf_type or use_default_atom_ids != rdf_use_default_atom_ids:
+                    raise ValueError("CN settings do not match those of RDF")
+                else:
+                    r_cut = []
+                    rdf_df = pd.read_csv(rdf_path)
+                    for col in rdf_df:
+                        if col != 'r ($\AA$)' and col != 'g_full(r)':
+                            new_df = rdf_df[['r ($\AA$)', col]]
+                            new_df.columns = ['x', 'y']
+                            peaks = find_peaks(new_df['y'], height=1)[0]
+                            minima = argrelmin(new_df['y'].values)[0]
+                            min_3 = new_df.loc[minima[minima > peaks[0]][0:3]]
+                            r_cut.append(np.mean(min_3['x'].tolist()))
+                    print(r_cut)
+
+        bin_size = cn_settings.get("bin_size")
+        if isinstance(bin_size, (float, int)):
+            bin_size = [bin_size]
+        elif not isinstance(bin_size, (list, tuple)):
+            pass
+        mass = fw_spec.get("default_masses", [])
+        if not mass:
+            raise ValueError("Atomic masses not found")
+        num_types = len(mass)
+        num_mols = fw_spec.get("num_mols_list", [])
+        num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", [])
+        partial_relations = cn_settings.get("partial_relations", None)
+        filename = cn_settings.get("filename")
+        save_mode = cn_settings.get("save_mode")
+
+        if cn_type == "atomic":
+            if use_default_atom_ids:
+                num_mols = None
+                num_atoms_per_mol = None
+                if not partial_relations:
+                    partial_relations = [[], []]
+                    for i in range(1, num_types + 1):
+                        for j in range(1, i + 1):
+                            partial_relations[0].append(i)
+                            partial_relations[1].append(j)
+            else:
+                mass = fw_spec.get("recalc_masses", [])
+                if not num_mols or not num_atoms_per_mol:
+                    raise ValueError(
+                        "Number of molecules of each type and number of atoms "
+                        "per molecule are not found")
+                num_mols = [int(i) for i in num_mols]
+                if not partial_relations:
+                    partial_relations = [[], []]
+                    for i in range(1, np.sum(num_atoms_per_mol) + 1):
+                        for j in range(1, i + 1):
+                            partial_relations[0].append(i)
+                            partial_relations[1].append(j)
+            atomic_working_dir = os.path.join(working_dir, cn_type)
+            os.makedirs(atomic_working_dir, exist_ok=True)
+            for i, size in enumerate(bin_size):
+                cur_working_dir = os.path.join(atomic_working_dir, str(size))
+                os.makedirs(cur_working_dir, exist_ok=True)
+                csv_file_path = os.path.join(cur_working_dir, csv_filename)
+                calc_atomic_cn(
+                    r_cut,
+                    size,
+                    num_types,
+                    mass,
+                    partial_relations,
+                    filename,
+                    num_mols=num_mols,
+                    num_atoms_per_mol=num_atoms_per_mol,
+                    path_or_buff=csv_file_path,
+                    save_mode=save_mode,
+                )
+
+        elif cn_type == "molecular":
+            if not num_mols or not num_atoms_per_mol:
+                raise ValueError("Number of molecules of each type and number of atoms "
+                                 "per molecule are not found")
+            num_mols = [int(i) for i in num_mols]
+            if not partial_relations:
+                partial_relations = [[], []]
+                for i in range(1, num_types + 1):
+                    for j in range(1, len(num_atoms_per_mol) + 1):
+                        partial_relations[0].append(i)
+                        partial_relations[1].append(j)
+            molecular_working_dir = os.path.join(working_dir, cn_type)
+            os.makedirs(molecular_working_dir, exist_ok=True)
+            for i, size in enumerate(bin_size):
+                cur_working_dir = os.path.join(molecular_working_dir, str(size))
+                os.makedirs(cur_working_dir, exist_ok=True)
+                csv_file_path = os.path.join(cur_working_dir, csv_filename)
+                calc_molecular_cn(
+                    r_cut,
+                    size,
+                    num_types,
+                    mass,
+                    partial_relations,
+                    filename,
+                    num_mols=num_mols,
+                    num_atoms_per_mol=num_atoms_per_mol,
+                    path_or_buff=csv_file_path,
+                    save_mode=save_mode,
+                )
+
+        cn_settings_spec = {
+            "r_cut": r_cut,
+            "bin_size": bin_size,
+            "num_types": num_types,
+            "mass": mass,
+            "partial_relations": partial_relations,
+            "filename": filename,
+            "num_mols": num_mols,
+            "num_atoms_per_mol": num_atoms_per_mol,
+            "path_or_buff": csv_filename,
+            "save_mode": save_mode,
+        }
+        cn_type_spec = cn_type
+        cn_use_default_atom_ids_spec = use_default_atom_ids
 
         smiles_list = fw_spec.get("smiles", [])
         n_mols_dict = fw_spec.get("nmols", {})
