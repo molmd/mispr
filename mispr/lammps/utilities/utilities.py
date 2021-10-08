@@ -6,8 +6,8 @@
 import os
 
 from collections import OrderedDict
+from fireworks.fw_config import CONFIG_FILE_DIR
 
-from mispr.lammps.firetasks.run import CONFIG_PATH
 from mispr.gaussian.utilities.metadata import get_chem_schema
 
 __author__ = "Matthew Bliss"
@@ -87,14 +87,14 @@ def add_ff_labels_to_dict(ff_dict, label):
 
 def get_db(input_db=None):
     from mispr.lammps.database import LammpsSysDb
-
-    db = None
     if not input_db:
-        input_db = f"{CONFIG_PATH}/db.json"
+        input_db = f"{CONFIG_FILE_DIR}/db.json"
         if not os.path.isfile(input_db):
             raise FileNotFoundError("Please provide the database configurations")
     if isinstance(input_db, dict):
         db = LammpsSysDb(**input_db)
+    else:
+        db = LammpsSysDb.from_db_file(input_db)
     return db
 
 
