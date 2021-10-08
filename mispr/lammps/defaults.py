@@ -2,10 +2,20 @@ import os
 
 # default rdf settings
 RDF_SETTINGS = {
+    "rdf_type": "atomic",
     "r_cut": 20,
-    "bin_size": [0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5],
+    "bin_size": [0.05],
     "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "log.lammps")),
     "path_or_buff": "rdf.csv",
+    "save_mode": True,
+}
+
+# default cn settings
+CN_SETTINGS = {
+    "cn_type": "atomic",
+    "bin_size": [0.05],
+    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "log.lammps")),
+    "path_or_buff": "cn.csv",
     "save_mode": True,
 }
 
@@ -19,12 +29,12 @@ MSD_SETTINGS = {
     "com_drift": False,
     "avg_interval": False,
     "save_msd": True,
-    "msd_method": "from_dump"
+    "msd_method": "from_dump",
 }
 
 # default diffusion settings
 DIFF_SETTINGS = {"initial_time": None, "final_time": None, "dimension": 3, "save": True,
-                 "plot": True}
+                 "plot": True, "diff_dist": False}
 
 # force field dictionary
 FF_DICT_KEYS = [
