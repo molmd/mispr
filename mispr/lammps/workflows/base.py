@@ -92,14 +92,8 @@ def lammps_data_fws(
         prmtop_filename = f"{species}.prmtop"
         inpcrd_filename = f"{species}.inpcrd"
 
-        # TODO: Add ability to not need to supply db and still save to db.
-        #  Change defaults to those under "if db:" only.
-        if db:
-            save_ff_to_db = ff_data.get("save_ff_to_db", True)
-            save_ff_to_file = ff_data.get("save_ff_to_file", False)
-        else:
-            save_ff_to_db = ff_data.get("save_ff_to_db", False)
-            save_ff_to_file = ff_data.get("save_ff_to_file", True)
+        save_ff_to_db = ff_data.get("save_ff_to_db")
+        save_ff_to_file = ff_data.get("save_ff_to_file")
 
         cur_firework = GetFFDictFW(
             ff_data["molecule"],
