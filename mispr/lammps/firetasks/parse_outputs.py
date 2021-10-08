@@ -20,7 +20,7 @@ from pymatgen.core.structure import Molecule
 from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf, calc_atomic_cn, calc_molecular_cn
 from mdproptools.dynamical.diffusion import Diffusion
 
-import mispr.lammps.utilities.utilities as iluu
+from mispr.lammps.utilities.utilities import get_db, process_ff_doc, add_ff_labels_to_dict
 
 from mispr.lammps.defaults import MSD_SETTINGS, DIFF_SETTINGS, RDF_SETTINGS, CN_SETTINGS
 from mispr.gaussian.utilities.metadata import get_mol_formula
@@ -95,18 +95,19 @@ class ProcessPrmtop(FiretaskBase):
         #  string, decide how to get smiles.
         unique_mol_name = self.get("unique_molecule_name", get_mol_formula(molecule))
         ff_param_dict_general = PrmtopParser(prmtop_file_path, molecule, "").to_dict()
-        ff_param_dict_system = iluu.add_ff_labels_to_dict(
+        ff_param_dict_system = add_ff_labels_to_dict(
             ff_param_dict_general, unique_mol_name
         )
 
         gaff_doi = self.get("gaff_doi", GAFF_DOI)
 
-        if db and save_to_db:
-            ff_db = iluu.get_db(input_db=db)
-            ff_db.insert_force_field(ff_param_dict_general, "gaff", doi=gaff_doi)
+        if save_to_db:
+            ff_doc = ff_param_dict_general.copy()
+            ff_db = get_db(input_db=db)
+            ff_db.insert_force_field(ff_doc, "gaff", doi=gaff_doi)
 
         if save_to_file:
-            ff_doc = iluu.process_ff_doc(ff_param_dict_general, "gaff", doi=gaff_doi)
+            ff_doc = process_ff_doc(ff_param_dict_general, "gaff", doi=gaff_doi)
             with open(os.path.join(working_dir, ff_filename), "w") as file:
                 json.dump(ff_doc, file)
 
