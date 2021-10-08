@@ -147,9 +147,10 @@ class CalcDiff(FiretaskBase):
         )
         if msd_method == "from_dump":
             num_mols = fw_spec.get("num_mols_list", None)
+            num_mols = [int(i) for i in num_mols] if num_mols else None
             num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", None)
             mass = fw_spec.get("default_masses", None)
-            file_pattern = diff_settings.get("file_pattern", "dump.nvt.*.dump")
+            file_pattern = diff_settings.pop("file_pattern", "dump.nvt.*.dump")
 
             msd_df = diff.get_msd_from_dump(
                 file_pattern,
@@ -179,6 +180,13 @@ class CalcDiff(FiretaskBase):
             }
         )
 
+        if msd_method == "from_dump" and diff_settings["avg_interval"] and diff_settings["diff_dist"]:
+            diff.get_diff_dist(msd_df[2], **{
+                i: j
+                for i, j in diff_settings.items()
+                if i in inspect.getfullargspec(diff.get_diff_dist).args
+            })
+
         smiles_list = fw_spec.get("smiles", [])
         n_mols_dict = fw_spec.get("nmols", {})
         num_mols_list = fw_spec.get("num_mols_list", [])
@@ -205,30 +213,21 @@ class CalcDiff(FiretaskBase):
 class GetRDF(FiretaskBase):
     _fw_name = "Get RDF"
     required_params = []
-    optional_params = [
-        "rdf_type",
-        "rdf_settings",
-        "working_dir",
-        "use_default_atom_ids",
-    ]
+    optional_params = ["rdf_settings", "working_dir"]
 
     def run_task(self, fw_spec):
-
         # Get inputs to rdf function from defaults or from user, which then
         # updates the defaults
-        init_rdf_settings = self.get("rdf_settings", RDF_SETTINGS)
         rdf_settings = RDF_SETTINGS.copy()
-        rdf_settings.update(init_rdf_settings)
+        rdf_settings.update(self.get("rdf_settings", {}))
 
         # atomic or molecular (for CoM)
-        rdf_type = rdf_settings.get("rdf_type", self.get("rdf_type", "atomic"))
+        rdf_type = rdf_settings.get("rdf_type", "atomic")
 
         working_dir = self.get("working_dir", os.getcwd())
         os.makedirs(working_dir, exist_ok=True)
 
-        use_default_atom_ids = rdf_settings.get(
-            "use_default_atom_ids", self.get("use_default_atom_ids", False)
-        )
+        use_default_atom_ids = rdf_settings.get("use_default_atom_ids", False)
 
         csv_filename = rdf_settings.get("path_or_buff", "rdf.csv")
         csv_file_path = os.path.join(working_dir, csv_filename)
@@ -241,62 +240,39 @@ class GetRDF(FiretaskBase):
             bin_size = [bin_size]
         elif not isinstance(bin_size, (list, tuple)):
             pass
-
         mass = fw_spec.get("default_masses", [])
         if not mass:
-            # TODO: add exception
-            pass
-
+            raise ValueError("Atomic masses not found")
         num_types = len(mass)
-
+        num_mols = fw_spec.get("num_mols_list", [])
+        num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", [])
         partial_relations = rdf_settings.get("partial_relations", None)
-
         filename = rdf_settings.get("filename")
-
-        if use_default_atom_ids:
-            mass = fw_spec.get("default_masses", [])
-            num_mols = None
-            num_atoms_per_mol = None
-
-            if not mass:
-                pass
-
-            if partial_relations is None and rdf_type == "atomic":
-                partial_relations = [[], []]
-                for i in range(1, num_types + 1):
-                    if rdf_type == "atomic":
-                        for j in range(1, i + 1):
-                            partial_relations[0].append(i)
-                            partial_relations[1].append(j)
-                    elif rdf_type == "molecular":
-                        num_species = len(fw_spec.get("smiles"))
-                        for j in range(1, num_species + 1):
-                            partial_relations[0].append(i)
-                            partial_relations[1].append(j)
-        else:
-            mass = fw_spec.get("recalc_masses", [])
-            num_mols = fw_spec.get("num_mols_list", [])
-            num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", [])
-
-            if not num_mols or not num_atoms_per_mol:
-                # TODO: add exception
-                pass
-
-            if partial_relations is None:
-                partial_relations = [[], []]
-                for i in range(1, np.sum(num_atoms_per_mol) + 1):
-                    if rdf_type == "atomic":
-                        for j in range(1, i + 1):
-                            partial_relations[0].append(i)
-                            partial_relations[1].append(j)
-                    elif rdf_type == "molecular":
-                        for j in range(1, len(num_atoms_per_mol) + 1):
-                            partial_relations[0].append(i)
-                            partial_relations[1].append(j)
-
         save_mode = rdf_settings.get("save_mode")
 
         if rdf_type == "atomic":
+            if use_default_atom_ids:
+                num_mols = None
+                num_atoms_per_mol = None
+                if not partial_relations:
+                    partial_relations = [[], []]
+                    for i in range(1, num_types + 1):
+                        for j in range(1, i + 1):
+                            partial_relations[0].append(i)
+                            partial_relations[1].append(j)
+            else:
+                mass = fw_spec.get("recalc_masses", [])
+                if not num_mols or not num_atoms_per_mol:
+                    raise ValueError(
+                        "Number of molecules of each type and number of atoms "
+                        "per molecule are not found")
+                num_mols = [int(i) for i in num_mols]
+                if not partial_relations:
+                    partial_relations = [[], []]
+                    for i in range(1, np.sum(num_atoms_per_mol) + 1):
+                        for j in range(1, i + 1):
+                            partial_relations[0].append(i)
+                            partial_relations[1].append(j)
             atomic_working_dir = os.path.join(working_dir, rdf_type)
             os.makedirs(atomic_working_dir, exist_ok=True)
             for i, size in enumerate(bin_size):
@@ -315,7 +291,18 @@ class GetRDF(FiretaskBase):
                     path_or_buff=csv_file_path,
                     save_mode=save_mode,
                 )
+
         elif rdf_type == "molecular":
+            if not num_mols or not num_atoms_per_mol:
+                raise ValueError("Number of molecules of each type and number of atoms "
+                                 "per molecule are not found")
+            num_mols = [int(i) for i in num_mols]
+            if not partial_relations:
+                partial_relations = [[], []]
+                for i in range(1, num_types + 1):
+                    for j in range(1, len(num_atoms_per_mol) + 1):
+                        partial_relations[0].append(i)
+                        partial_relations[1].append(j)
             molecular_working_dir = os.path.join(working_dir, rdf_type)
             os.makedirs(molecular_working_dir, exist_ok=True)
             for i, size in enumerate(bin_size):
@@ -334,6 +321,7 @@ class GetRDF(FiretaskBase):
                     path_or_buff=csv_file_path,
                     save_mode=save_mode,
                 )
+
         rdf_settings_spec = {
             "r_cut": r_cut,
             "bin_size": bin_size,
@@ -358,10 +346,10 @@ class GetRDF(FiretaskBase):
 
         return FWAction(
             update_spec={
-                "rdf_calc_dir": working_dir,
-                "rdf_settings": rdf_settings_spec,
-                "rdf_type": rdf_type_spec,
-                "rdf_use_default_atom_ids": rdf_use_default_atom_ids_spec,
+                "cn_path": csv_file_path,
+                "cn_settings": cn_settings_spec,
+                "cn_type": cn_type_spec,
+                "cn_use_default_atom_ids": cn_use_default_atom_ids_spec,
                 "smiles": smiles_list,
                 "nmols": n_mols_dict,
                 "num_mols_list": num_mols_list,
