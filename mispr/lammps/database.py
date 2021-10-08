@@ -128,7 +128,8 @@ class LammpsSysDb:
         self, parameter_dict, method, doi=None, update_duplicates=False, **kwargs
     ):
         ff_doc = process_ff_doc(parameter_dict, method, doi, **kwargs)
-        mol = parameter_dict["Molecule"]
+        # mol = parameter_dict["Molecule"]
+        mol = Molecule.from_dict(ff_doc)
         # Check if smiles is already in db
         result = self.force_fields.find_one(
             {"smiles": ff_doc["smiles"], "method": method, "doi": doi}
