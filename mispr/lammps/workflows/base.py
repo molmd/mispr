@@ -354,10 +354,7 @@ def lammps_workflow(
     fireworks += run_fws
 
     for index, fw in enumerate(fireworks[:-1]):
-        print(fw.fw_id)
         links_dict[fw.fw_id] = fireworks[index + 1].fw_id
-
-    print(f"lammps links: {links_dict}")
 
     if analysis_list:
         if not analysis_settings:
@@ -368,12 +365,5 @@ def lammps_workflow(
         links_dict[fireworks[-1].fw_id] = [i.fw_id for i in analysis_fws]
         fireworks += analysis_fws
         links_dict.update(analysis_links_dict)
-
-    print(f"full links: {links_dict}")
-
-    # After all fws set
-    # fw_ids = list(links_dict.keys())
-    # for index, fw_id in enumerate(fw_ids[:-1]):
-    #     links_dict[fw_id].append(fw_ids[index + 1])
 
     return Workflow(fireworks, links_dict=links_dict, name=name)
