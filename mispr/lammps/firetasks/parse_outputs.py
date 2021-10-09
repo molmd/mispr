@@ -523,3 +523,48 @@ class CalcCN(FiretaskBase):
                 "cn": cn_settings_spec,
             }
         )
+
+
+@explicit_serialize
+class ProcessAnalysis(FiretaskBase):
+    _fw_name = "Process Analysis Calculations"
+    required_params = ["analysis_list"]
+    optional_params = ["db", "save_analysis_to_db", "save_analysis_to_file",
+                       "working_dir"]
+
+    def run_task(self, fw_spec):
+        db = self.get("db", None)
+        working_dir = self.get("working_dir", fw_spec.get("working_dir", os.getcwd()))
+        save_analysis_to_db = self.get("save_analysis_to_db", False)
+        save_analysis_to_file = self.get("save_analysis_to_file", True)
+
+        systems_dict = {"smiles": fw_spec.get("smiles", []),
+                        "nmols": fw_spec.get("num_mols_list", []),
+                        "natoms_per_mol": fw_spec.get("num_atoms_per_mol", []),
+                        "mass": fw_spec.get("masses", []),
+                        "box": fw_spec.get("box", None)}
+
+        for analysis in self["analysis_list"]:
+            systems_dict[analysis] = fw_spec.get(analysis)
+
+        if fw_spec.get("run_id_list"):
+            systems_dict["run_ids"] = fw_spec["run_id_list"]
+
+        if save_analysis_to_db:
+            db = get_db(input_db=db)
+            db.insert_system(systems_dict)
+
+        if fw_spec.get("run_loc_list"):
+            systems_dict["run_locs"] = fw_spec["run_loc_list"]
+
+        if save_analysis_to_file:
+            if "run_ids" in systems_dict:
+                del systems_dict["run_ids"]
+            file = os.path.join(working_dir, "system.json")
+            with open(file, "w") as f:
+                f.write(json.dumps(systems_dict, default=DATETIME_HANDLER))
+
+        logger.info("Analysis calculations complete")
+
+
+
