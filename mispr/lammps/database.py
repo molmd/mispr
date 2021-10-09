@@ -92,13 +92,13 @@ class LammpsSysDb:
             background=background,
         )
         self.systems.create_index(
-            [("species_smiles", ASCENDING), ("force_field_types", ASCENDING)],
+            [("smiles", ASCENDING), ("force_field_types", ASCENDING)],
             unique=False,
             background=background,
         )
         self.runs.create_index(
             [
-                ("species_smiles", ASCENDING),
+                ("smiles", ASCENDING),
                 ("mixture_data", ASCENDING),
                 ("box", ASCENDING),
                 ("job_type", ASCENDING),
