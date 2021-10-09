@@ -9,8 +9,10 @@ import inspect
 
 import numpy as np
 import pandas as pd
+import logging
 from scipy.signal import argrelmin, find_peaks
 
+from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
@@ -31,6 +33,8 @@ __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
 __version__ = "0.0.1"
+
+logger = logging.getLogger(__name__)
 
 GAFF_DOI = "https://doi.org/10.1002/jcc.20035"
 
@@ -60,8 +64,8 @@ class ProcessPrmtop(FiretaskBase):
 
         db = self.get("db", None)
         ff_filename = self.get("ff_filename", "ff.json")
-        save_to_db = self.get("save_ff_to_db")
-        save_to_file = self.get("save_ff_to_file")
+        save_to_db = self.get("save_ff_to_db", False)
+        save_to_file = self.get("save_ff_to_file", True)
 
         if isinstance(self.get("prmtop_path"), str):
             prmtop_file_path = self.get("prmtop_path")
@@ -139,7 +143,7 @@ class CalcDiff(FiretaskBase):
         msd_method = diff_settings["msd_method"]
         outputs_dir = diff_settings.get("outputs_dir",
                                     os.path.abspath(
-                                        os.path.join(working_dir, "..", "nvt")))
+                                        os.path.join(working_dir, "..", "..", "nvt")))
         msd_df = None
         diff = Diffusion(
             timestep=diff_settings["timestep"],
@@ -182,6 +186,10 @@ class CalcDiff(FiretaskBase):
             }
         )
 
+        diff_list = diffusion['diffusion (m2/s)'].to_list()
+        std_list = diffusion['std'].to_list()
+        r2_list = diffusion['R2'].to_list()
+
         if msd_method == "from_dump" and diff_settings["avg_interval"] and diff_settings["diff_dist"]:
             diff.get_diff_dist(msd_df[2], **{
                 i: j
@@ -189,24 +197,18 @@ class CalcDiff(FiretaskBase):
                 if i in inspect.getfullargspec(diff.get_diff_dist).args
             })
 
-        smiles_list = fw_spec.get("smiles", [])
-        n_mols_dict = fw_spec.get("nmols", {})
-        num_mols_list = fw_spec.get("num_mols_list", [])
-        lmp_box = fw_spec.get("box", None)
-        num_atoms_per_mol_list = fw_spec.get("num_atoms_per_mol", [])
-        default_masses_list = fw_spec.get("default_masses", [])
-        recalc_masses_list = fw_spec.get("recalc_masses", [])
-
+        diff_settings.update({"diff_path": working_dir, "diffusion": diff_list,
+                              "std": std_list, "r2": r2_list})
         return FWAction(
             update_spec={
-                "diff_folder_path": working_dir,
-                "smiles": smiles_list,
-                "nmols": n_mols_dict,
-                "num_mols_list": num_mols_list,
-                "box": lmp_box,
-                "num_atoms_per_mol": num_atoms_per_mol_list,
-                "default_masses": default_masses_list,
-                "recalc_masses": recalc_masses_list,
+                "smiles": fw_spec.get("smiles", []),
+                "nmols": fw_spec.get("nmols", {}),
+                "num_mols_list": fw_spec.get("num_mols_list", []),
+                "box": fw_spec.get("box", None),
+                "num_atoms_per_mol": fw_spec.get("num_atoms_per_mol", []),
+                "default_masses": fw_spec.get("default_masses", []),
+                "recalc_masses": fw_spec.get("recalc_masses", []),
+                "diffusion": diff_settings,
             }
         )
 
@@ -335,20 +337,20 @@ class GetRDF(FiretaskBase):
             "num_atoms_per_mol": num_atoms_per_mol,
             "path_or_buff": csv_filename,
             "save_mode": save_mode,
+            "rdf_type": rdf_type,
+            "rdf_use_default_atom_ids": use_default_atom_ids,
+            "rdf_path": csv_file_path,
         }
 
         return FWAction(
             update_spec={
-                "rdf_path": csv_file_path,
-                "rdf_settings": rdf_settings_spec,
-                "rdf_type": rdf_type,
-                "rdf_use_default_atom_ids": use_default_atom_ids,
                 "smiles": fw_spec.get("smiles", []),
                 "nmols": fw_spec.get("nmols", {}),
                 "num_mols_list": num_mols,
                 "num_atoms_per_mol": num_atoms_per_mol,
                 "masses": mass,
-                "box": fw_spec.get("box", None)
+                "box": fw_spec.get("box", None),
+                "rdf": rdf_settings_spec,
             }
         )
 
@@ -362,6 +364,7 @@ class CalcCN(FiretaskBase):
     def run_task(self, fw_spec):
         # Get inputs to cn function from defaults or from user, which then
         # updates the defaults
+        cn = None
         cn_settings = CN_SETTINGS.copy()
         cn_settings.update(self.get("cn_settings", {}))
 
@@ -382,9 +385,9 @@ class CalcCN(FiretaskBase):
         # if the cutoff radius is not provided, attempt to automatically detect it from
         # the rdf
         if not r_cut:
-            rdf_path = fw_spec.get("rdf_path")
-            rdf_type = fw_spec.get("rdf_type")
-            rdf_use_default_atom_ids = fw_spec.get("rdf_use_default_atom_ids")
+            rdf_path = fw_spec.get("rdf", {}).get("rdf_path")
+            rdf_type = fw_spec.get("rdf", {}).get("rdf_type")
+            rdf_use_default_atom_ids = fw_spec.get("rdf", {}).get("rdf_use_default_atom_ids")
             if not rdf_path:
                 raise ValueError("Cutoff distance required for calculating the CN is "
                                  "not found and cannot be computed due to a missing "
@@ -449,7 +452,7 @@ class CalcCN(FiretaskBase):
                 cur_working_dir = os.path.join(atomic_working_dir, str(size))
                 os.makedirs(cur_working_dir, exist_ok=True)
                 csv_file_path = os.path.join(cur_working_dir, csv_filename)
-                calc_atomic_cn(
+                cn = calc_atomic_cn(
                     r_cut,
                     size,
                     num_types,
@@ -479,7 +482,7 @@ class CalcCN(FiretaskBase):
                 cur_working_dir = os.path.join(molecular_working_dir, str(size))
                 os.makedirs(cur_working_dir, exist_ok=True)
                 csv_file_path = os.path.join(cur_working_dir, csv_filename)
-                calc_molecular_cn(
+                cn = calc_molecular_cn(
                     r_cut,
                     size,
                     num_types,
@@ -503,28 +506,20 @@ class CalcCN(FiretaskBase):
             "num_atoms_per_mol": num_atoms_per_mol,
             "path_or_buff": csv_filename,
             "save_mode": save_mode,
+            "cn_type": cn_type,
+            "cn_use_default_atom_ids": use_default_atom_ids,
+            "cn_path": csv_file_path,
+            "cn": cn.loc[0].to_dict()
         }
-        cn_type_spec = cn_type
-        cn_use_default_atom_ids_spec = use_default_atom_ids
-
-        smiles_list = fw_spec.get("smiles", [])
-        n_mols_dict = fw_spec.get("nmols", {})
-        num_mols_list = num_mols
-        num_atoms_per_mol_list = num_atoms_per_mol
-        masses_list = mass
-        lmp_box = fw_spec.get("box", None)
 
         return FWAction(
             update_spec={
-                "cn_path": csv_file_path,
-                "cn_settings": cn_settings_spec,
-                "cn_type": cn_type_spec,
-                "cn_use_default_atom_ids": cn_use_default_atom_ids_spec,
-                "smiles": smiles_list,
-                "nmols": n_mols_dict,
-                "num_mols_list": num_mols_list,
-                "num_atoms_per_mol": num_atoms_per_mol_list,
-                "masses": masses_list,
-                "box": lmp_box,
+                "smiles": fw_spec.get("smiles", []),
+                "nmols": fw_spec.get("nmols", {}),
+                "num_mols_list": num_mols,
+                "num_atoms_per_mol": num_atoms_per_mol,
+                "masses": mass,
+                "box": fw_spec.get("box", None),
+                "cn": cn_settings_spec,
             }
         )
