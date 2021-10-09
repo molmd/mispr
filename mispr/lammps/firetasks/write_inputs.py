@@ -5,6 +5,7 @@
 
 import os
 import json
+import logging
 
 from string import Template
 
@@ -28,6 +29,8 @@ __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
 __version__ = "0.0.1"
+
+logger = logging.getLogger(__name__)
 
 TEMPLATE_DIR = os.path.normpath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates")
@@ -209,8 +212,8 @@ class WriteControlFile(FiretaskBase):
         os.chdir(working_dir)
 
         db = self.get("db", None)
-        save_to_db = self.get("save_to_db", True)
-        save_to_file = self.get("save_to_file", False)
+        save_to_db = self.get("save_to_db", False)
+        save_to_file = self.get("save_to_file", True)
 
         # Set filename for control file
         control_filename = self.get("control_filename", "complex.lammpsin")
@@ -268,24 +271,33 @@ class WriteControlFile(FiretaskBase):
         )
         run_doc.update({"working_dir": working_dir})
 
+        run_list = {}
         if save_to_db:
             run_db = get_db(input_db=db)
-            run_db.insert_run(run_doc)
-        if save_to_file:
-            with open("run_file.json", "w") as run_file:
-                run_file.write(json.dumps(run_doc, default=DATETIME_HANDLER))
+            run_id = run_db.insert_run(run_doc)
+            run_list["run_id_list"] = run_id
+            logger.info("Saved run info to db")
 
-        return FWAction(
-            update_spec={
-                "smiles": smiles_list,
+        if save_to_file:
+            file = os.path.join(working_dir, "run_file.json")
+            with open(file, "w") as run_file:
+                run_file.write(json.dumps(run_doc, default=DATETIME_HANDLER))
+            run_list["run_loc_list"] = file
+            logger.info("Saved run info to json file")
+
+        spec = {"smiles": smiles_list,
                 "nmols": n_mols_dict,
                 "num_mols_list": num_mols_list,
                 "box": lmp_box,
                 "num_atoms_per_mol": num_atoms_per_mol_list,
                 "default_masses": default_masses_list,
-                "recalc_masses": recalc_masses_list,
-            }
-        )
+                "recalc_masses": recalc_masses_list}
+
+        if run_list:
+            mod_dict = {"_push": run_list}
+            return FWAction(update_spec=spec, mod_spec=mod_dict)
+        else:
+            return FWAction(update_spec=spec)
 
 
 # TODO: Write a firetask for writing a general data file
