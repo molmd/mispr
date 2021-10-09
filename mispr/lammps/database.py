@@ -214,6 +214,11 @@ class LammpsSysDb:
     def retrieve_run(self, _id):
         return self.runs.find_one({"_id": _id})
 
+    def insert_system(self, sys_doc):
+        sys_doc["last_updated"] = datetime.datetime.utcnow()
+        result = self.systems.insert_one(sys_doc, bypass_document_validation=True)
+        return result.inserted_id
+
     @classmethod
     def from_db_file(cls, db_file, admin=True):
         # TODO: move this to a common database module (common with Gaussian)
