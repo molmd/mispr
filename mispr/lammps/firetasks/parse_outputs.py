@@ -646,11 +646,17 @@ class ProcessAnalysis(FiretaskBase):
         save_analysis_to_db = self.get("save_analysis_to_db", False)
         save_analysis_to_file = self.get("save_analysis_to_file", True)
 
-        systems_dict = {"smiles": fw_spec.get("smiles", []),
-                        "nmols": fw_spec.get("num_mols_list", []),
-                        "natoms_per_mol": fw_spec.get("num_atoms_per_mol", []),
-                        "mass": fw_spec.get("masses", []),
-                        "box": fw_spec.get("box", None)}
+        box = fw_spec.get("box", None)
+        if box:
+            box = box.as_dict()
+
+        systems_dict = {
+            "smiles": fw_spec.get("smiles", []),
+            "nmols": fw_spec.get("num_mols_list", []),
+            "natoms_per_mol": fw_spec.get("num_atoms_per_mol", []),
+            "mass": fw_spec.get("masses", []),
+            "box": box,
+        }
 
         for analysis in self["analysis_list"]:
             systems_dict[analysis] = fw_spec.get(analysis)
