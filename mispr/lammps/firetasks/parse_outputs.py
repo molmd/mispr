@@ -330,8 +330,10 @@ class GetRDF(FiretaskBase):
 
         elif rdf_type == "molecular":
             if not num_mols or not num_atoms_per_mol:
-                raise ValueError("Number of molecules of each type and number of atoms "
-                                 "per molecule are not found")
+                raise ValueError(
+                    "Number of molecules of each type and number of atoms "
+                    "per molecule are not found"
+                )
             num_mols = [int(i) for i in num_mols]
             if not partial_relations:
                 partial_relations = [[], []]
