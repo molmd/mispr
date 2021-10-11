@@ -19,12 +19,24 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 from pymatgen.io.ambertools import PrmtopParser
 from pymatgen.core.structure import Molecule
 
-from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf, calc_atomic_cn, calc_molecular_cn
+from mdproptools.structural.rdf_cn import (
+    calc_atomic_rdf,
+    calc_molecular_rdf,
+    calc_atomic_cn,
+    calc_molecular_cn,
+)
+from mdproptools.structural.cluster_analysis import get_clusters
 from mdproptools.dynamical.diffusion import Diffusion
 
 from mispr.lammps.utilities.utilities import get_db, process_ff_doc, add_ff_labels_to_dict
 
-from mispr.lammps.defaults import MSD_SETTINGS, DIFF_SETTINGS, RDF_SETTINGS, CN_SETTINGS
+from mispr.lammps.defaults import (
+    MSD_SETTINGS,
+    DIFF_SETTINGS,
+    RDF_SETTINGS,
+    CN_SETTINGS,
+    CLUSTERS_SETTINGS,
+)
 from mispr.gaussian.utilities.metadata import get_mol_formula
 
 __author__ = "Matthew Bliss"
@@ -523,6 +535,69 @@ class CalcCN(FiretaskBase):
                 "cn": cn_settings_spec,
             }
         )
+
+
+@explicit_serialize
+class ExtractClusters(FiretaskBase):
+    _fw_name = "Extract Atomic Clusters"
+    required_params = []
+    optional_params = ["cluster_settings", "working_dir"]
+
+    def run_task(self, fw_spec):
+        cluster_settings = CLUSTERS_SETTINGS.copy()
+        cluster_settings.update(self.get("cluster_settings", {}))
+        working_dir = self.get("working_dir", os.getcwd())
+        os.makedirs(working_dir, exist_ok=True)
+        filename = cluster_settings.get("filename")
+        atom_type = cluster_settings.get("atom_type")
+        if not atom_type:
+            raise ValueError("No atom type specified to perform cluster analysis")
+        num_mols = cluster_settings.get(
+            "num_mols", fw_spec.get("num_mols_list", [])
+        )
+        num_mols = [int(i) for i in num_mols]
+        num_atoms_per_mol = cluster_settings.get(
+            "num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", [])
+        )
+        # TODO: get elements from fw_spec
+        elements = cluster_settings.get("elements", None)
+        prev_rcut = fw_spec.get("cn", {}).get("r_cut")
+        cur_rcut = min(prev_rcut) if prev_rcut else None
+        r_cut = cluster_settings.get("r_cut", cur_rcut)
+        full_trajectory = cluster_settings.get("full_trajectory", True)
+        frame = cluster_settings.get("frame", None)
+        alter_atom_ids = cluster_settings.get("alter_atom_ids", False)
+        max_force = cluster_settings.get("max_force", 0.75)
+        cluster_count = get_clusters(
+            filename=filename,
+            atom_type=atom_type,
+            r_cut=r_cut,
+            full_trajectory=full_trajectory,
+            frame=frame,
+            num_mols=num_mols,
+            num_atoms_per_mol=num_atoms_per_mol,
+            elements=elements,
+            alter_atom_ids=alter_atom_ids,
+            max_force=max_force,
+            working_dir=working_dir,
+        )
+
+        cluster_analysis_spec = {
+            "atom_type": atom_type,
+            "r_cut": r_cut,
+            "full_trajectory": full_trajectory,
+            "frame": frame,
+            "num_mols": num_mols,
+            "num_atoms_per_mol": num_atoms_per_mol,
+            "elements": elements,
+            "alter_atom_ids": alter_atom_ids,
+            "max_force": max_force,
+            "filename": filename,
+            "working_dir": working_dir,
+            "num_clusters": cluster_count,
+        }
+
+        return FWAction(update_spec={"clusters": cluster_analysis_spec})
 
 
 @explicit_serialize
