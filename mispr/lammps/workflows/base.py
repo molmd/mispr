@@ -179,7 +179,7 @@ def lammps_run_fws(
 
     for index, step in enumerate(recipe):
         cur_step_dir = os.path.join(working_dir, step[0])
-
+        lammpsin_key = f"run_{index}"
         matching_default_step_index = None
         if step[0] in default_recipe_step_names:
             matching_default_step_index = default_recipe_step_names.index(step[0])
@@ -214,6 +214,7 @@ def lammps_run_fws(
                 spec=cur_spec_dict,
                 save_run_to_db=save_runs_to_db,
                 save_run_to_file=save_runs_to_file,
+                lammpsin_key=lammpsin_key,
                 **kwargs,
             )
             fireworks.append(cur_firework)
@@ -224,6 +225,7 @@ def lammps_run_fws(
                 template_str=step[1][1],
                 control_settings=cur_setting,
                 db=db,
+                lammpsin_key=lammpsin_key,
                 spec=cur_spec_dict,
                 **kwargs,
             )
@@ -245,16 +247,17 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
         )
 
     for index, analysis in enumerate(analysis_list):
+        cur_settings = analysis_settings[index]
         if analysis == "diffusion":
             diff_dir = os.path.join(analysis_dir, "diff")
             name = "diffusion_analysis"
-            cur_settings = analysis_settings[index]
             cur_settings.update(
                 {
                     "outputs_dir": os.path.abspath(
-                        os.path.join(diff_dir, "..", "..", "nvt", "dump.nvt.*.dump")
+                        os.path.join(diff_dir, "..", "..", "nvt")
                     )
-                })
+                }
+            )
             cur_firework = Firework(
                 CalcDiff(diff_settings=cur_settings, working_dir=diff_dir),
                 name=name,
@@ -265,7 +268,6 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
         elif analysis == "rdf":
             rdf_dir = os.path.join(analysis_dir, "rdf")
             name = "rdf_analysis"
-            cur_settings = analysis_settings[index].copy()
             cur_settings.update(
                 {
                     "filename": os.path.abspath(
@@ -283,7 +285,6 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
         elif analysis == "cn":
             cn_dir = os.path.join(analysis_dir, "cn")
             name = "cn_analysis"
-            cur_settings = analysis_settings[index].copy()
             cur_settings.update(
                 {
                     "filename": os.path.abspath(
@@ -327,7 +328,7 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
         ),
         parents=fireworks[:],
         name="analysis_postprocessing",
-        spec={"_launch_dir": analysis_dir}
+        spec={"_launch_dir": analysis_dir},
     )
     fireworks.append(final_analysis_fw)
     return fireworks, links_dict
