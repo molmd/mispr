@@ -22,6 +22,7 @@ from mispr.lammps.firetasks.parse_outputs import (
     GetRDF,
     CalcCN,
     CalcDiff,
+    ExtractClusters,
     ProcessAnalysis,
 )
 
@@ -298,8 +299,29 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
                 spec={"_launch_dir": cn_dir},
             )
             fireworks.append(cur_firework)
+
+        elif analysis == "clusters":
+            clusters_dir = os.path.join(analysis_dir, "clusters")
+            name = "cluster_analysis"
+            cur_settings.update(
+                {
+                    "filename": os.path.abspath(
+                        os.path.join(clusters_dir, "..", "..", "nvt", "dump.nvt.*.dump")
+                    )
+                }
+            )
+            cur_firework = Firework(
+                ExtractClusters(
+                    cluster_settings=cur_settings, working_dir=clusters_dir
+                ),
+                name=name,
+                spec={"_launch_dir": clusters_dir},
+            )
+            fireworks.append(cur_firework)
+
         else:
             raise ValueError(f"Unsupported analysis type: {analysis}")
+
         analysis_fw_ids[name] = [cur_firework.fw_id, cur_settings]
 
     if "cn_analysis" in analysis_fw_ids:
@@ -314,6 +336,19 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
                 links_dict[analysis_fw_ids["rdf_analysis"][0]] = analysis_fw_ids[
                     "cn_analysis"
                 ][0]
+        if "cluster_analysis" in analysis_fw_ids:
+            if "r_cut" not in analysis_fw_ids["cluster_analysis"][1]:
+                links_dict[analysis_fw_ids["cn_analysis"][0]] = analysis_fw_ids[
+                    "cluster_analysis"
+                ][0]
+
+    if "cluster_analysis" in analysis_fw_ids and "cn_analysis" not in analysis_fw_ids:
+        if "r_cut" not in analysis_fw_ids["cluster_analysis"][1]:
+            raise ValueError(
+                "Cutoff distance required for extracting clusters is "
+                "not found and cannot be computed without performing "
+                "a CN analysis"
+            )
 
     final_analysis_fw = Firework(
         ProcessAnalysis(
