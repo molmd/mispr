@@ -5,7 +5,7 @@ RDF_SETTINGS = {
     "rdf_type": "atomic",
     "r_cut": 20,
     "bin_size": [0.05],
-    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "log.lammps")),
+    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")),
     "path_or_buff": "rdf.csv",
     "save_mode": True,
 }
@@ -14,9 +14,17 @@ RDF_SETTINGS = {
 CN_SETTINGS = {
     "cn_type": "atomic",
     "bin_size": [0.05],
-    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "log.lammps")),
+    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")),
     "path_or_buff": "cn.csv",
     "save_mode": True,
+}
+
+# default cluster analysis settings
+CLUSTERS_SETTINGS = {
+    "full_trajectory": True,
+    "alter_atom_ids": False,
+    "max_force": 0.75,
+    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")),
 }
 
 # default msd settings
