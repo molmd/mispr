@@ -35,6 +35,7 @@ logger = logging.getLogger(__name__)
 TEMPLATE_DIR = os.path.normpath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates")
 )
+DEFAULT_KEY = "lammpsin_key"
 
 
 @explicit_serialize
@@ -201,6 +202,7 @@ class WriteControlFile(FiretaskBase):
         "control_settings",
         "save_to_db",
         "save_to_file",
+        "lammpsin_key"
     ]
 
     def run_task(self, fw_spec):
@@ -293,11 +295,16 @@ class WriteControlFile(FiretaskBase):
                 "default_masses": default_masses_list,
                 "recalc_masses": recalc_masses_list}
 
+        uid = self.get("lammpsin_key")
+        print(f"UD is: {uid}")
+        set_dict = {f"lammpsin->{DEFAULT_KEY}": run_doc}
+        if uid:
+            set_dict[f"lammpsin->{uid}"] = run_doc
+        mod_dict = {"_set": set_dict}
         if run_list:
-            mod_dict = {"_push": run_list}
-            return FWAction(update_spec=spec, mod_spec=mod_dict)
-        else:
-            return FWAction(update_spec=spec)
+            mod_dict.update({"_push": run_list})
+            print(f"mod_dict is: {mod_dict}")
+        return FWAction(update_spec=spec, mod_spec=mod_dict, propagate=True)
 
 
 # TODO: Write a firetask for writing a general data file
