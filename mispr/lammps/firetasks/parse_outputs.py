@@ -28,7 +28,11 @@ from mdproptools.structural.rdf_cn import (
 from mdproptools.structural.cluster_analysis import get_clusters
 from mdproptools.dynamical.diffusion import Diffusion
 
-from mispr.lammps.utilities.utilities import get_db, process_ff_doc, add_ff_labels_to_dict
+from mispr.lammps.utilities.utilities import (
+    get_db,
+    process_ff_doc,
+    add_ff_labels_to_dict,
+)
 
 from mispr.lammps.defaults import (
     MSD_SETTINGS,
@@ -153,9 +157,9 @@ class CalcDiff(FiretaskBase):
         diff_settings = {**MSD_SETTINGS.copy(), **DIFF_SETTINGS.copy()}
         diff_settings.update(self.get("diff_settings", {}))
         msd_method = diff_settings["msd_method"]
-        outputs_dir = diff_settings.get("outputs_dir",
-                                    os.path.abspath(
-                                        os.path.join(working_dir, "..", "..", "nvt")))
+        outputs_dir = diff_settings.get(
+            "outputs_dir", os.path.abspath(os.path.join(working_dir, "..", "..", "nvt"))
+        )
         msd_df = None
         diff = Diffusion(
             timestep=diff_settings["timestep"],
@@ -179,15 +183,17 @@ class CalcDiff(FiretaskBase):
                     i: j
                     for i, j in diff_settings.items()
                     if i in inspect.getfullargspec(diff.get_msd_from_dump).args
-                }
+                },
             )
         elif msd_method == "from_log":
             file_pattern = diff_settings.get("file_pattern", "log.lammps*")
             msd_df = diff.get_msd_from_log(file_pattern)
 
         else:
-            raise ValueError(f"Unsupported msd calculation method: {msd_method}"
-                             f"Supported methods are from_dump and from_log")
+            raise ValueError(
+                f"Unsupported msd calculation method: {msd_method}"
+                f"Supported methods are from_dump and from_log"
+            )
 
         diffusion = diff.calc_diff(
             msd_df[0],
@@ -195,22 +201,35 @@ class CalcDiff(FiretaskBase):
                 i: j
                 for i, j in diff_settings.items()
                 if i in inspect.getfullargspec(diff.calc_diff).args
-            }
+            },
         )
 
-        diff_list = diffusion['diffusion (m2/s)'].to_list()
-        std_list = diffusion['std'].to_list()
-        r2_list = diffusion['R2'].to_list()
+        diff_list = diffusion["diffusion (m2/s)"].to_list()
+        std_list = diffusion["std"].to_list()
+        r2_list = diffusion["R2"].to_list()
 
-        if msd_method == "from_dump" and diff_settings["avg_interval"] and diff_settings["diff_dist"]:
-            diff.get_diff_dist(msd_df[2], **{
-                i: j
-                for i, j in diff_settings.items()
-                if i in inspect.getfullargspec(diff.get_diff_dist).args
-            })
+        if (
+            msd_method == "from_dump"
+            and diff_settings["avg_interval"]
+            and diff_settings["diff_dist"]
+        ):
+            diff.get_diff_dist(
+                msd_df[2],
+                **{
+                    i: j
+                    for i, j in diff_settings.items()
+                    if i in inspect.getfullargspec(diff.get_diff_dist).args
+                },
+            )
 
-        diff_settings.update({"diff_path": working_dir, "diffusion": diff_list,
-                              "std": std_list, "r2": r2_list})
+        diff_settings.update(
+            {
+                "diff_path": working_dir,
+                "diffusion": diff_list,
+                "std": std_list,
+                "r2": r2_list,
+            }
+        )
         return FWAction(
             update_spec={
                 "smiles": fw_spec.get("smiles", []),
@@ -281,7 +300,8 @@ class GetRDF(FiretaskBase):
                 if not num_mols or not num_atoms_per_mol:
                     raise ValueError(
                         "Number of molecules of each type and number of atoms "
-                        "per molecule are not found")
+                        "per molecule are not found"
+                    )
                 num_mols = [int(i) for i in num_mols]
                 if not partial_relations:
                     partial_relations = [[], []]
@@ -399,26 +419,32 @@ class CalcCN(FiretaskBase):
         if not r_cut:
             rdf_path = fw_spec.get("rdf", {}).get("rdf_path")
             rdf_type = fw_spec.get("rdf", {}).get("rdf_type")
-            rdf_use_default_atom_ids = fw_spec.get("rdf", {}).get("rdf_use_default_atom_ids")
+            rdf_use_default_atom_ids = fw_spec.get("rdf", {}).get(
+                "rdf_use_default_atom_ids"
+            )
             if not rdf_path:
-                raise ValueError("Cutoff distance required for calculating the CN is "
-                                 "not found and cannot be computed due to a missing "
-                                 "RDF file")
+                raise ValueError(
+                    "Cutoff distance required for calculating the CN is "
+                    "not found and cannot be computed due to a missing "
+                    "RDF file"
+                )
             else:
-                if cn_type != rdf_type or use_default_atom_ids != rdf_use_default_atom_ids:
+                if (
+                    cn_type != rdf_type
+                    or use_default_atom_ids != rdf_use_default_atom_ids
+                ):
                     raise ValueError("CN settings do not match those of RDF")
                 else:
                     r_cut = []
                     rdf_df = pd.read_csv(rdf_path)
                     for col in rdf_df:
-                        if col != 'r ($\AA$)' and col != 'g_full(r)':
-                            new_df = rdf_df[['r ($\AA$)', col]]
-                            new_df.columns = ['x', 'y']
-                            peaks = find_peaks(new_df['y'], height=1)[0]
-                            minima = argrelmin(new_df['y'].values)[0]
+                        if col != "r ($\AA$)" and col != "g_full(r)":
+                            new_df = rdf_df[["r ($\AA$)", col]]
+                            new_df.columns = ["x", "y"]
+                            peaks = find_peaks(new_df["y"], height=1)[0]
+                            minima = argrelmin(new_df["y"].values)[0]
                             min_3 = new_df.loc[minima[minima > peaks[0]][0:3]]
-                            r_cut.append(np.mean(min_3['x'].tolist()))
-                    print(r_cut)
+                            r_cut.append(np.mean(min_3["x"].tolist()))
 
         bin_size = cn_settings.get("bin_size")
         if isinstance(bin_size, (float, int)):
@@ -450,7 +476,8 @@ class CalcCN(FiretaskBase):
                 if not num_mols or not num_atoms_per_mol:
                     raise ValueError(
                         "Number of molecules of each type and number of atoms "
-                        "per molecule are not found")
+                        "per molecule are not found"
+                    )
                 num_mols = [int(i) for i in num_mols]
                 if not partial_relations:
                     partial_relations = [[], []]
@@ -479,8 +506,10 @@ class CalcCN(FiretaskBase):
 
         elif cn_type == "molecular":
             if not num_mols or not num_atoms_per_mol:
-                raise ValueError("Number of molecules of each type and number of atoms "
-                                 "per molecule are not found")
+                raise ValueError(
+                    "Number of molecules of each type and number of atoms "
+                    "per molecule are not found"
+                )
             num_mols = [int(i) for i in num_mols]
             if not partial_relations:
                 partial_relations = [[], []]
@@ -521,7 +550,7 @@ class CalcCN(FiretaskBase):
             "cn_type": cn_type,
             "cn_use_default_atom_ids": use_default_atom_ids,
             "cn_path": csv_file_path,
-            "cn": cn.loc[0].to_dict()
+            "cn": cn.loc[0].to_dict(),
         }
 
         return FWAction(
@@ -604,8 +633,12 @@ class ExtractClusters(FiretaskBase):
 class ProcessAnalysis(FiretaskBase):
     _fw_name = "Process Analysis Calculations"
     required_params = ["analysis_list"]
-    optional_params = ["db", "save_analysis_to_db", "save_analysis_to_file",
-                       "working_dir"]
+    optional_params = [
+        "db",
+        "save_analysis_to_db",
+        "save_analysis_to_file",
+        "working_dir",
+    ]
 
     def run_task(self, fw_spec):
         db = self.get("db", None)
@@ -640,6 +673,3 @@ class ProcessAnalysis(FiretaskBase):
                 f.write(json.dumps(systems_dict, default=DATETIME_HANDLER))
 
         logger.info("Analysis calculations complete")
-
-
-
