@@ -10,6 +10,8 @@ from fireworks import Firework
 
 from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
 
+from mispr.gaussian.workflows.base.core import _process_mol_check
+from mispr.gaussian.firetasks.geo_transformation import ProcessMoleculeInput
 from mispr.lammps.firetasks.run import RunTleap, RunLammps, RunParmchk, RunAntechamber
 from mispr.gaussian.utilities.metadata import get_chem_schema
 from mispr.lammps.firetasks.write_inputs import (
@@ -32,7 +34,7 @@ logger = logging.getLogger(__name__)
 FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
 
-def ambertools_tasks(mol, **kwargs):
+def ambertools_tasks(**kwargs):
     common_t = [
         RunAntechamber(
             **{
@@ -64,7 +66,6 @@ def ambertools_tasks(mol, **kwargs):
             }
         ),
         ProcessPrmtop(
-            molecule=mol,
             **{
                 i: j
                 for i, j in kwargs.items()
@@ -79,6 +80,7 @@ class GetFFDictFW(Firework):
     def __init__(
         self,
         mol,
+        mol_operation_type,
         data,
         operation_type="get_from_esp",
         label="",
@@ -99,8 +101,21 @@ class GetFFDictFW(Firework):
         #  least usable
         os.makedirs(working_dir, exist_ok=True)
 
-        if not label:
-            label = get_chem_schema(mol)["formula_alphabetical"]
+        tasks.append(
+            ProcessMoleculeInput(
+                mol=mol,
+                operation_type=mol_operation_type,
+                db=db,
+                working_dir=working_dir,
+                **{
+                    i: j
+                    for i, j in kwargs.items()
+                    if i
+                    in ProcessMoleculeInput.required_params
+                    + ProcessMoleculeInput.optional_params
+                }
+            )
+        )
 
         if operation_type == "get_from_esp":
             if not isinstance(data, str):
@@ -109,7 +124,6 @@ class GetFFDictFW(Firework):
                     'file for operation_type="get_from_esp"'
                 )
             tasks += ambertools_tasks(
-                mol,
                 db=db,
                 working_dir=working_dir,
                 input_filename_a=data,
@@ -142,7 +156,6 @@ class GetFFDictFW(Firework):
                 )
             tasks.append(
                 ProcessPrmtop(
-                    molecule=mol,
                     working_dir=working_dir,
                     db=db,
                     prmtop_path=data,
@@ -166,7 +179,6 @@ class GetFFDictFW(Firework):
                 )
             tasks.append(
                 LabelFFDict(
-                    mol=mol,
                     unlabeled_dict=data,
                     working_dir=working_dir,
                     label=label,
