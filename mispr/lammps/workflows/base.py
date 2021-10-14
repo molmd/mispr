@@ -7,6 +7,8 @@ import os
 
 from fireworks.core.firework import Firework, Workflow
 
+from mispr.gaussian.workflows.base.core import _process_mol_check
+from mispr.gaussian.utilities.files import recursive_relative_to_absolute_path
 from mispr.lammps.defaults import (
     NPT_SETTINGS,
     NVT_SETTINGS,
@@ -48,7 +50,8 @@ def lammps_data_fws(
     """
     :param system_species_data: [dict]
               {
-              species1_label: {"molecule": pmg.Molecule,
+              species1_label: {"molecule": any format supported by mispr,
+                               "molecule_operation_type": any format supported by mispr,
                                "ff_param_method": str can be one of the
                                     following ("get_from_esp",
                                                "get_from_prmtop",
@@ -85,27 +88,39 @@ def lammps_data_fws(
     if system_mixture_type == "concentration":
         system_mixture_data = {"Solutes": {}, "Solvents": {}}
 
-    for species, ff_data in system_species_data.items():
+    for label, ff_data in system_species_data.items():
         # Generate ff files in separate directories
+        mol = recursive_relative_to_absolute_path(ff_data["molecule"], working_dir)
+        mol_charge = ff_data.get("charge", None)
+        mol_operation_type, mol, label, _, _, _ = _process_mol_check(
+            working_dir=working_dir,
+            mol_operation_type=ff_data["molecule_operation_type"],
+            mol=mol,
+            mol_name=label,
+            db=db,
+            charge=mol_charge,
+            process_mol_func=kwargs.get("process_mol_func", False),
+        )
         # TODO: add logic for ensuring that directory name is legal or at \
         #  least usable
-        cur_species_dir = os.path.join(working_dir, species)
+        cur_species_dir = os.path.join(working_dir, label)
 
         # TODO: add logic for not setting file names that do not exist, \
         #  but code should work as is
-        mol2_filename = f"{species}.mol2"
-        frcmod_filename = f"{species}.frcmod"
-        prmtop_filename = f"{species}.prmtop"
-        inpcrd_filename = f"{species}.inpcrd"
+        mol2_filename = f"{label}.mol2"
+        frcmod_filename = f"{label}.frcmod"
+        prmtop_filename = f"{label}.prmtop"
+        inpcrd_filename = f"{label}.inpcrd"
 
         save_ff_to_db = ff_data.get("save_ff_to_db")
         save_ff_to_file = ff_data.get("save_ff_to_file")
 
-        cur_firework = GetFFDictFW(
-            ff_data["molecule"],
-            ff_data["ff_param_data"],
+        ff_fw = GetFFDictFW(
+            mol=mol,
+            mol_operation_type=mol_operation_type,
+            data=ff_data["ff_param_data"],
             operation_type=ff_data["ff_param_method"],
-            label=species,
+            label=label,
             db=db,
             working_dir=cur_species_dir,
             output_filename_a=mol2_filename,
@@ -120,21 +135,22 @@ def lammps_data_fws(
                 "prmtop_file_path": os.path.join(cur_species_dir, prmtop_filename),
                 "inpcrd_file_path": os.path.join(cur_species_dir, inpcrd_filename),
             },
+            charge=mol_charge,
             **kwargs,
         )
-        fireworks.append(cur_firework)
+        fireworks.append(ff_fw)
 
         if system_mixture_type == "concentration":
-            system_mixture_data[ff_data["mol_mixture_type"]][species] = ff_data[
+            system_mixture_data[ff_data["mol_mixture_type"]][label] = ff_data[
                 "mixture_data"
             ]
         elif system_mixture_type == "number of molecules":
-            system_mixture_data[species] = ff_data["mixture_data"]
+            system_mixture_data[label] = ff_data["mixture_data"]
 
     spec = kwargs.pop("spec", {})
     spec.update({"tag": tag, "_launch_dir": working_dir})
     extra_data_file_name = kwargs.pop("data_filename", "")
-    firework2 = Firework(
+    data_fw = Firework(
         [
             WriteDataFile(
                 working_dir=working_dir,
@@ -155,7 +171,7 @@ def lammps_data_fws(
         parents=fireworks[-1],
         spec=spec,
     )
-    fireworks.append(firework2)
+    fireworks.append(data_fw)
     return fireworks
 
 
@@ -426,7 +442,5 @@ def lammps_workflow(
         links_dict[fireworks[-1].fw_id] = [i.fw_id for i in analysis_fws]
         fireworks += analysis_fws
         links_dict.update(analysis_links_dict)
-
-    print(links_dict)
 
     return Workflow(fireworks, links_dict=links_dict, name=name)
