@@ -25,7 +25,10 @@ from mdproptools.structural.rdf_cn import (
     calc_atomic_cn,
     calc_molecular_cn,
 )
-from mdproptools.structural.cluster_analysis import get_clusters
+from mdproptools.structural.cluster_analysis import (
+    get_clusters,
+    get_unique_configurations,
+)
 from mdproptools.dynamical.diffusion import Diffusion
 
 from mispr.lammps.utilities.utilities import (
@@ -613,6 +616,25 @@ class ExtractClusters(FiretaskBase):
             working_dir=working_dir,
         )
 
+        # TODO: if molecules are taken from fw_spec, need to make sure if mol_names
+        #  are provided they match the order in fw_spec (which is sorted by the
+        #  num_atoms/mol)
+        type_coord_atoms = cluster_settings.get("type_coord_atoms", None)
+        perc = cluster_settings.get("perc", None)
+        cum_perc = cluster_settings.get("cum_perc", 90)
+        clusters, configurations = get_unique_configurations(
+            cluster_pattern="Cluster_*",
+            r_cut=r_cut,
+            molecules=cluster_settings.get("molecules", fw_spec["molecules"]),
+            type_coord_atoms=type_coord_atoms,
+            working_dir=working_dir,
+            find_top=cluster_settings.get("find_top", True),
+            perc=perc,
+            cum_perc=cum_perc,
+            mol_names=cluster_settings.get("mol_names", None),
+            zip=cluster_settings.get("zip", True),
+        )
+
         cluster_analysis_spec = {
             "atom_type": atom_type,
             "r_cut": r_cut,
@@ -623,9 +645,13 @@ class ExtractClusters(FiretaskBase):
             "elements": elements,
             "alter_atom_ids": alter_atom_ids,
             "max_force": max_force,
+            "num_clusters": cluster_count,
+            "num_configurations": len(configurations),
+            "type_coord_atoms": type_coord_atoms,
+            "perc": perc,
+            "cum_perc": cum_perc,
             "filename": filename,
             "working_dir": working_dir,
-            "num_clusters": cluster_count,
         }
 
         return FWAction(update_spec={"clusters": cluster_analysis_spec})
