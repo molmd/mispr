@@ -15,7 +15,7 @@ improper_style		$improper_style
 pair_style			$pair_style $pair_style_args
 kspace_style		$kspace_style $kspace_style_args
 
-read_data			$data_file_name
+read_data			$data_filename
 
 thermo				1
 thermo_style		custom step etotal pe ebond eangle edihed eimp evdwl ecoul elong press fmax fnorm
@@ -24,6 +24,6 @@ minimize			1e-6 1000 10 10000
 min_style			cg
 minimize			1e-6 100 99990 990000
 #unfix 				1
-write_restart		$restart_final_name
+write_restart		$restart_finalname
 
 write_dump			all custom dump.emin.lammpstrj id type element mol x y z mass q modify element $dump_modify_elements
