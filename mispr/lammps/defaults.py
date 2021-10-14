@@ -5,7 +5,9 @@ RDF_SETTINGS = {
     "rdf_type": "atomic",
     "r_cut": 20,
     "bin_size": [0.05],
-    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")),
+    "filename": os.path.abspath(
+        os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")
+    ),
     "path_or_buff": "rdf.csv",
     "save_mode": True,
 }
@@ -14,7 +16,9 @@ RDF_SETTINGS = {
 CN_SETTINGS = {
     "cn_type": "atomic",
     "bin_size": [0.05],
-    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")),
+    "filename": os.path.abspath(
+        os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")
+    ),
     "path_or_buff": "cn.csv",
     "save_mode": True,
 }
@@ -24,7 +28,13 @@ CLUSTERS_SETTINGS = {
     "full_trajectory": True,
     "alter_atom_ids": False,
     "max_force": 0.75,
-    "filename": os.path.abspath(os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")),
+    "filename": os.path.abspath(
+        os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")
+    ),
+    "find_top": True,
+    "perc": None,
+    "cum_perc": 90,
+    "zip": True
 }
 
 # default msd settings
@@ -41,8 +51,14 @@ MSD_SETTINGS = {
 }
 
 # default diffusion settings
-DIFF_SETTINGS = {"initial_time": None, "final_time": None, "dimension": 3, "save": True,
-                 "plot": True, "diff_dist": False}
+DIFF_SETTINGS = {
+    "initial_time": None,
+    "final_time": None,
+    "dimension": 3,
+    "save": True,
+    "plot": True,
+    "diff_dist": False,
+}
 
 # force field dictionary
 FF_DICT_KEYS = [
