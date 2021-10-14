@@ -292,13 +292,15 @@ class WriteControlFile(FiretaskBase):
             run_list["run_loc_list"] = file
             logger.info("Saved run info to json file")
 
-        spec = {"smiles": smiles_list,
-                "nmols": n_mols_dict,
-                "num_mols_list": num_mols_list,
-                "box": lmp_box,
-                "num_atoms_per_mol": num_atoms_per_mol_list,
-                "default_masses": default_masses_list,
-                "recalc_masses": recalc_masses_list}
+        spec = {
+            "smiles": smiles_list,
+            "nmols": n_mols_dict,
+            "num_mols_list": num_mols_list,
+            "box": lmp_box,
+            "num_atoms_per_mol": num_atoms_per_mol_list,
+            "default_masses": default_masses_list,
+            "recalc_masses": recalc_masses_list,
+        }
 
         uid = self.get("lammpsin_key")
         set_dict = {f"lammpsin->{DEFAULT_KEY}": run_doc}
@@ -376,27 +378,24 @@ class LabelFFDict(FiretaskBase):
         os.chdir(working_dir)
 
         ff_file = self.get("ff_file")
+        mol = self.get("mol", fw_spec.get("prev_calc_molecule"))
 
-        if ff_file is not None:
+        if ff_file:
             with open(ff_file, "r") as file:
                 unlabeled_dict = json.load(file)
-                mol = unlabeled_dict["Molecule"]
+                # mol = unlabeled_dict["Molecule"]
         else:
-
-            if not isinstance(self.get("mol"), Molecule):
+            if not isinstance(mol, Molecule):
                 raise TypeError('"mol" input must be a PyMatGen Molecule object')
 
             if not isinstance(self.get("unlabeled_dict"), dict):
                 raise TypeError('"unlabeled_dict" input must be a dict')
 
-            mol = self.get("mol")
             unlabeled_dict = self.get("unlabeled_dict")
 
-        if isinstance(self.get("label"), str):
-            label = self.get("label", get_mol_formula(mol))
-
+        unlabeled_dict["Molecule"] = mol
+        label = self.get("label", get_mol_formula(mol))
         labeled_dict = add_ff_labels_to_dict(unlabeled_dict, label)
-
         sys_ff_dict = fw_spec.get(
             "system_force_field_dict", self.get("system_force_field_dict", {})
         )
