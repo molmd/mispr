@@ -147,6 +147,10 @@ class WriteDataFile(FiretaskBase):
             lammps_data = lammps_data_wrapper.build_lammps_data()
 
             n_mols_dict = lammps_data_wrapper.nmol_dict
+            molecules_list = [
+                force_fields[mol_label]["Molecule"]
+                for mol_label in lammps_data_wrapper.sorted_mol_names
+            ]
             smiles_list = [
                 get_chem_schema(force_fields[mol_label]["Molecule"])["smiles"]
                 for mol_label in lammps_data_wrapper.sorted_mol_names
@@ -181,6 +185,7 @@ class WriteDataFile(FiretaskBase):
                     "num_atoms_per_mol": num_atoms_per_mol_list,
                     "default_masses": default_masses_list,
                     "recalc_masses": recalc_masses_list,
+                    "molecules": molecules_list,
                     "box": lmp_box,
                 }
             )
