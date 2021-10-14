@@ -61,9 +61,9 @@ GAFF_DOI = "https://doi.org/10.1002/jcc.20035"
 @explicit_serialize
 class ProcessPrmtop(FiretaskBase):
     _fw_name = "Process Prmtop"
-    required_params = ["molecule"]
+    required_params = []
     optional_params = [
-        "working_dir",
+        "molecule" "working_dir",
         "db",
         "prmtop_path",
         "prmtop_filename",
@@ -109,7 +109,7 @@ class ProcessPrmtop(FiretaskBase):
                             "prmtop_filename" exists in "prmtop_dir"'
             )
 
-        molecule = self.get("molecule")
+        molecule = self.get("molecule", fw_spec["prev_calc_molecule"])
 
         if not isinstance(molecule, Molecule):
             raise Exception('"molecule" is not a pymatgen Molecule object')
@@ -586,9 +586,7 @@ class ExtractClusters(FiretaskBase):
         atom_type = cluster_settings.get("atom_type")
         if not atom_type:
             raise ValueError("No atom type specified to perform cluster analysis")
-        num_mols = cluster_settings.get(
-            "num_mols", fw_spec.get("num_mols_list", [])
-        )
+        num_mols = cluster_settings.get("num_mols", fw_spec.get("num_mols_list", []))
         num_mols = [int(i) for i in num_mols]
         num_atoms_per_mol = cluster_settings.get(
             "num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", [])
