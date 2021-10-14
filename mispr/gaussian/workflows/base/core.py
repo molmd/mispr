@@ -59,9 +59,10 @@ def _process_mol_check(
     mol_name=None,
     db=None,
     dir_structure=None,
+    charge=None,
 ):
     if process_mol_func:
-        mol = process_mol(mol_operation_type, mol, db=db, working_dir=working_dir)
+        mol = process_mol(mol_operation_type, mol, db=db, charge=charge, working_dir=working_dir)
         mol_operation_type = "get_from_mol"
         mol_formula = get_mol_formula(mol)
         opt_job_name = get_job_name(mol, "optimization")
