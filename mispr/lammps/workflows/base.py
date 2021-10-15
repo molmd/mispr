@@ -390,7 +390,7 @@ def lammps_workflow(
     system_mixture_type=None,
     box_data=None,
     box_data_type="cubic",
-    data_file_name="complex.data",
+    data_file_name="data.mixture",
     recipe=LAMMPS_RECIPE,
     recipe_settings=RECIPE_SETTINGS,
     recipe_qadapter=QADAPTER_RUN_LAMMPS_SPEC,
