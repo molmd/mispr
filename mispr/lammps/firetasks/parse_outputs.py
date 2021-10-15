@@ -145,6 +145,7 @@ class ProcessPrmtop(FiretaskBase):
                 "ff_param_dict_general": ff_param_dict_general,
             },
             update_spec={"system_force_field_dict": sys_ff_dict},
+            propagate=True
         )
 
 
