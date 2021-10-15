@@ -6,6 +6,7 @@
 import os
 import logging
 
+from copy import deepcopy
 from fireworks import Firework, Workflow
 
 from mispr.gaussian.utilities.mol import process_mol
@@ -62,7 +63,8 @@ def _process_mol_check(
     charge=None,
 ):
     if process_mol_func:
-        mol = process_mol(mol_operation_type, mol, db=db, charge=charge, working_dir=working_dir)
+        mol = process_mol(mol_operation_type, mol, db=db, charge=charge,
+                          working_dir=working_dir)
         mol_operation_type = "get_from_mol"
         mol_formula = get_mol_formula(mol)
         opt_job_name = get_job_name(mol, "optimization")
@@ -109,6 +111,9 @@ def common_fw(
     if not gout_key:
         gout_key = "mol"
 
+    original_mol_operation_type = deepcopy(mol_operation_type)
+    original_mol = deepcopy(mol)
+
     (
         mol_operation_type,
         mol,
@@ -125,6 +130,7 @@ def common_fw(
         mol_name,
         db,
         kwargs.get("dir_structure", []),
+        kwargs.get("charge", None)
     )
 
     if skips is None:
@@ -184,7 +190,7 @@ def common_fw(
                     **kwargs,
                 )
                 fws.append(freq_fw)
-            elif mol_operation_type not in [
+            elif original_mol_operation_type not in [
                 "get_from_gout",
                 "get_from_gout_file",
                 "get_from_run_dict",
@@ -230,7 +236,7 @@ def common_fw(
     else:
         # if user chooses to skip both opt and freq, only process the mol and
         # restrict the mol input to any gaussian output format
-        if mol_operation_type not in [
+        if original_mol_operation_type not in [
             "get_from_gout",
             "get_from_gout_file",
             "get_from_run_dict",
@@ -239,7 +245,8 @@ def common_fw(
         ]:
             raise GoutTypeError()
         else:
-            run = process_run(mol_operation_type, mol, db=db, working_dir=working_dir)
+            run = process_run(original_mol_operation_type, original_mol, db=db,
+                              working_dir=working_dir)
             if check_result:
                 keys_exist = []
                 for grun_key in check_result:
