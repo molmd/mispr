@@ -260,8 +260,8 @@ class RunLammpsFW(Firework):
                 WriteControlFile(
                     working_dir=working_dir,
                     db=db,
-                    save_to_db=save_run_to_db,
-                    save_to_file=save_run_to_file,
+                    save_runs_to_db=save_run_to_db,
+                    save_runs_to_file=save_run_to_file,
                     **{
                         i: j
                         for i, j in kwargs.items()
