@@ -74,7 +74,8 @@ def run_hybrid_calcs(
     kwargs.pop("dir_structure", None)
     charges = kwargs.pop("charge", [0] * num_mols)
 
-    # perform geometry optimization and frequency calc for each molecule
+    # either perform geometry optimization and frequency calc for each molecule or
+    # the full esp workflow depending on the ff method for each method
     for ind, [operation, molecule, key, skip, molecule_name, charge, ff] in enumerate(
         zip(
             mol_operation_type,
@@ -147,6 +148,7 @@ def run_hybrid_calcs(
             "charge": charges[ind],
         }
 
+    # add the lammps workflow
     md_wf = lammps_workflow(
         system_species_data=system_species_data,
         system_mixture_type=mixture_type,
