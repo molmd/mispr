@@ -50,6 +50,7 @@ class ProcessMoleculeInput(FiretaskBase):
         "force_field",
         "steps",
         "str_type",
+        "working_dir"
     ]
 
     @staticmethod
@@ -74,7 +75,7 @@ class ProcessMoleculeInput(FiretaskBase):
     def run_task(self, fw_spec):
         mol = self["mol"]
         operation_type = self.get("operation_type", "get_from_mol")
-        working_dir = os.getcwd()
+        working_dir = self.get("working_dir") or os.getcwd()
         db = self.get("db")
 
         if self.get("from_fw_spec"):
