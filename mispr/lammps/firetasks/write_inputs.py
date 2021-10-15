@@ -205,8 +205,8 @@ class WriteControlFile(FiretaskBase):
         "template_dir",
         "template_str",
         "control_settings",
-        "save_to_db",
-        "save_to_file",
+        "save_runs_to_db",
+        "save_runs_to_file",
         "lammpsin_key",
     ]
 
@@ -219,8 +219,8 @@ class WriteControlFile(FiretaskBase):
         os.chdir(working_dir)
 
         db = self.get("db", None)
-        save_to_db = self.get("save_to_db", False)
-        save_to_file = self.get("save_to_file", True)
+        save_to_db = self.get("save_runs_to_db", False)
+        save_to_file = self.get("save_runs_to_file", True)
 
         # Set filename for control file
         control_filename = self.get("control_filename", "complex.lammpsin")
