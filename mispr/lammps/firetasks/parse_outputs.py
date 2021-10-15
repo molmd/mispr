@@ -695,12 +695,12 @@ class ProcessAnalysis(FiretaskBase):
             db = get_db(input_db=db)
             db.insert_system(systems_dict)
 
-        if fw_spec.get("run_loc_list"):
-            systems_dict["run_locs"] = fw_spec["run_loc_list"]
+        if fw_spec.get("lammps_run_loc_list"):
+            systems_dict["lammps_run_locs"] = fw_spec["lammps_run_loc_list"]
 
         if save_analysis_to_file:
-            if "run_ids" in systems_dict:
-                del systems_dict["run_ids"]
+            if "lammps_run_ids" in systems_dict:
+                del systems_dict["lammps_run_ids"]
             file = os.path.join(working_dir, "system.json")
             with open(file, "w") as f:
                 f.write(json.dumps(systems_dict, default=DATETIME_HANDLER))
