@@ -624,7 +624,7 @@ class ExtractClusters(FiretaskBase):
         clusters, configurations = get_unique_configurations(
             cluster_pattern="Cluster_*",
             r_cut=r_cut,
-            molecules=cluster_settings.get("molecules", fw_spec["molecules"]),
+            molecules=cluster_settings.get("molecules", fw_spec.get("molecules")),
             type_coord_atoms=type_coord_atoms,
             working_dir=working_dir,
             find_top=cluster_settings.get("find_top", True),
