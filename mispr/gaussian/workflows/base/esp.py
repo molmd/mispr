@@ -44,7 +44,7 @@ def get_esp_charges(
     fws = []
     working_dir = working_dir or os.getcwd()
     mol = recursive_relative_to_absolute_path(mol, working_dir)
-    gout_keys = ["mol", "mol_esp"]
+    gout_keys = kwargs.pop("gout_keys", ["mol", "mol_esp"])
 
     gaussian_inputs = handle_gaussian_inputs(
         {
@@ -68,7 +68,7 @@ def get_esp_charges(
         freq_gaussian_inputs=freq_gaussian_inputs,
         cart_coords=cart_coords,
         oxidation_states=oxidation_states,
-        gout_keys=gout_keys[0],
+        gout_key=gout_keys[0],
         skips=skips,
         **kwargs
     )
