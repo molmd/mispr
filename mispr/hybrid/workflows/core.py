@@ -120,39 +120,35 @@ def run_hybrid_calcs(
         fws, name=name, **{i: j for i, j in kwargs.items() if i in WORKFLOW_KWARGS}
     )
 
-    # perform esp calc for molecules that user requests amber ff for
-    # TODO: check if all kwargs can be given to this workflow
-    # TODO: correctly add the parent-child relationship; currently doing it after all opt_freq calcs
-    for ind, ff in enumerate(ff_method):
-        if ff == "get_from_esp":
-            esp_wf = get_esp_charges(
-                mol_operation_type="get_from_run_dict",
-                mol=gout_keys[ind + 1],
-                db=db,
-                working_dir=working_dir,
-                opt_gaussian_inputs=opt_gaussian_inputs,
-                freq_gaussian_inputs=freq_gaussian_inputs,
-                esp_gaussian_inputs=esp_gaussian_inputs,
-                solvent_gaussian_inputs=solvent_gaussian_inputs,
-                solvent_properties=solvent_properties,
-                cart_coords=cart_coords,
-                oxidation_states=oxidation_states,
-                skips=["opt", "freq"],
-                mol_name=labels[ind + 1],
-                **kwargs,
-            )
-            wf.append_wf(esp_wf, fws[:])
+    # prepare the system_species_data dict in the format required by lammps_workflow
+    system_species_data = {}
+    for ind, label in enumerate(labels):
+        system_species_data[label] = {
+            "molecule": gout_keys[ind],
+            "molecule_operation_type": "get_from_run_dict",
+            "ff_param_method": ff_method[ind],
+            "ff_param_data": ff_params[ind],
+            "mol_mixture_type": mol_type[ind],
+            "mixture_data": mol_data[ind],
+            "save_ff_to_db": kwargs.get("save_ff_to_db", False),
+            "save_ff_to_file": kwargs.get("save_ff_to_file", True),
+            "charge": charges[ind],
+        }
 
-    # firetask/function that prepares inputs to the lammps workflow
-    # system_species_data = {}
-    # md_wf = lammps_workflow(system_species_data=system_species_data,
-    #                         system_mixture_type=mol_type,
-    #                         box_data=box_data, box_data_type=box_data_type,
-    #                         db=db,
-    #                         working_dir=working_dir,
-    #                         analysis_list=analysis_list,
-    #                         analysis_settings=analysis_settings,
-    #                         name=name,
-    #                         **kwargs)
-    # wf.append(md_wf, wf.fws[-1])
+    md_wf = lammps_workflow(
+        system_species_data=system_species_data,
+        system_mixture_type=mixture_type,
+        box_data=box_data,
+        box_data_type=box_data_type,
+        data_file_name=data_file_name,
+        db=db,
+        working_dir=working_dir,
+        analysis_list=analysis_list,
+        analysis_settings=analysis_settings,
+        name=name,
+        process_mol_func=False,
+        from_fw_spec=True,
+        **kwargs,
+    )
+    wf.append_wf(md_wf, list(wf.id_fw.keys()))
     return wf
