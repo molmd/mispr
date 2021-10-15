@@ -125,4 +125,4 @@ def get_esp_charges(
         fws,
         name=get_job_name(label, name),
         **{i: j for i, j in kwargs.items() if i in WORKFLOW_KWARGS}
-    )
+    ), label
