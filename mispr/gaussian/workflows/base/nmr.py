@@ -69,7 +69,7 @@ def get_nmr_tensors(
         freq_gaussian_inputs=freq_gaussian_inputs,
         cart_coords=cart_coords,
         oxidation_states=oxidation_states,
-        gout_keys=gout_keys[0],
+        gout_key=gout_keys[0],
         skips=skips,
         **kwargs
     )
