@@ -282,14 +282,14 @@ class WriteControlFile(FiretaskBase):
         if save_to_db:
             run_db = get_db(input_db=db)
             run_id = run_db.insert_run(run_doc)
-            run_list["run_id_list"] = run_id
+            run_list["lammps_run_id_list"] = run_id
             logger.info("Saved run info to db")
 
         if save_to_file:
             file = os.path.join(working_dir, "run_file.json")
             with open(file, "w") as run_file:
                 run_file.write(json.dumps(run_doc, default=DATETIME_HANDLER))
-            run_list["run_loc_list"] = file
+            run_list["lammps_run_loc_list"] = file
             logger.info("Saved run info to json file")
 
         spec = {
