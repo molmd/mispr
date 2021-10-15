@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 def process_mol(operation_type, mol, local_opt=False, **kwargs):
-    working_dir = kwargs["working_dir"] if "working_dir" in kwargs else os.getcwd()
+    working_dir = kwargs.get("working_dir", os.getcwd())
 
     def get_db_():
         return get_db(kwargs["db"]) if "db" in kwargs else get_db()
