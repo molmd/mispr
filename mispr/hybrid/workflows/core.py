@@ -1,3 +1,8 @@
+# coding: utf-8
+
+
+# Defines the DFT-MD hybrid workflow.
+
 import os
 
 from copy import deepcopy
@@ -9,6 +14,13 @@ from mispr.gaussian.utilities.files import recursive_relative_to_absolute_path
 from mispr.gaussian.utilities.inputs import handle_gaussian_inputs
 from mispr.gaussian.workflows.base.esp import get_esp_charges
 from mispr.gaussian.workflows.base.core import common_fw, WORKFLOW_KWARGS
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Oct 2021"
+__version__ = "0.0.1"
 
 
 def run_hybrid_calcs(
