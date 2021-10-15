@@ -187,7 +187,7 @@ class WriteDataFile(FiretaskBase):
                     "recalc_masses": recalc_masses_list,
                     "molecules": molecules_list,
                     "box": lmp_box,
-                }
+                }, propagate=True
             )
         else:
             pass
