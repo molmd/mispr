@@ -4,15 +4,18 @@
 # Defines the DFT-MD workflow that extracts solvation structures and computes their
 # nuclear magnetic resonances.
 import os
+
 from copy import deepcopy
+
 from fireworks import Firework, Workflow
+
 from mispr.hybrid.defaults import (
     NMR_GAUSSIAN_INPUTS,
     OPT_GAUSSIAN_INPUTS,
     FREQ_GAUSSIAN_INPUTS,
 )
-from mispr.hybrid.firetasks.nmr_from_md import NMRFromMD
 from mispr.hybrid.workflows.core import run_hybrid_calcs
+from mispr.hybrid.firetasks.nmr_from_md import NMRFromMD
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -107,9 +110,7 @@ def get_solvation_structures_nmr(
             additional_kwargs=kwargs,
         ),
         name="nmr_calculation",
-        spec={
-            "_launch_dir": nmr_dir,
-        },
+        spec={"_launch_dir": nmr_dir,},
     )
     wf.append_wf(Workflow.from_Firework(nmr_fw), dft_md_fw_ids)
     return wf
