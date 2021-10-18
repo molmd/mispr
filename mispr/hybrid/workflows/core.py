@@ -44,7 +44,7 @@ def run_hybrid_calcs(
     oxidation_states=None,
     skips=None,
     box_data_type="cubic",
-    data_file_name="complex.data",
+    data_file_name="data.mixture",
     analysis_list=None,
     analysis_settings=None,
     **kwargs,
