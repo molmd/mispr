@@ -145,7 +145,7 @@ class ProcessPrmtop(FiretaskBase):
                 "ff_param_dict_general": ff_param_dict_general,
             },
             update_spec={"system_force_field_dict": sys_ff_dict},
-            propagate=True
+            propagate=True,
         )
 
 
@@ -633,6 +633,11 @@ class ExtractClusters(FiretaskBase):
             mol_names=cluster_settings.get("mol_names", None),
             zip=cluster_settings.get("zip", True),
         )
+        top_config_files = [
+            f"{working_dir}/{file}"
+            for file in os.listdir(working_dir)
+            if file.startswith("config_") and file.endswith(".xyz")
+        ]
 
         cluster_analysis_spec = {
             "atom_type": atom_type,
@@ -653,7 +658,12 @@ class ExtractClusters(FiretaskBase):
             "working_dir": working_dir,
         }
 
-        return FWAction(update_spec={"clusters": cluster_analysis_spec})
+        return FWAction(
+            update_spec={
+                "clusters": cluster_analysis_spec,
+                "top_config_files": top_config_files,
+            }
+        )
 
 
 @explicit_serialize
