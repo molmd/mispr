@@ -29,7 +29,7 @@ CONFIG_PATH = os.path.normpath(
 
 
 @explicit_serialize
-class RunLammps(FiretaskBase):
+class RunLammpsDirect(FiretaskBase):
     _fw_name = "Run Lammps"
     required_params = []
     optional_params = ["working_dir", "control_filename", "lammps_cmd"]
