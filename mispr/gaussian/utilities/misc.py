@@ -33,3 +33,29 @@ def recursive_signature_remove(d):
         }
     else:
         return d
+
+
+def recursive_compare_dicts(dict1, dict2, dict1_name, dict2_name, path=""):
+    error = ""
+    old_path = path
+    for key in dict1.keys():
+        path = f"{old_path}[{key}]"
+        if key not in dict2.keys():
+            error += f"Key {dict1_name}{path} not in {dict2_name}\n"
+        else:
+            if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+                error += recursive_compare_dicts(
+                    dict1[key], dict2[key], "d1", "d2", path
+                )
+            else:
+                if dict1[key] != dict2[key]:
+                    error += (
+                        f"Value of {dict1_name}{path} ({dict1[key]}) "
+                        f"not same as {dict2_name}{path} ({dict2[key]})\n"
+                    )
+
+    for key in dict2.keys():
+        path = f"{old_path}[{key}]"
+        if key not in dict1.keys():
+            error += f"Key {dict2_name}{path} not in {dict1_name}\n"
+    return error

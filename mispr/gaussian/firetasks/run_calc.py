@@ -20,7 +20,9 @@ from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.core.firework import Firework, FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
-from pymatgen.io.gaussian import GaussianInput, GaussianOutput
+from pymatgen.io.gaussian import GaussianInput
+
+from mispr.gaussian.utilities.misc import recursive_compare_dicts
 
 from custodian import Custodian
 from custodian.gaussian.jobs import GaussianJob
@@ -257,32 +259,6 @@ class RunGaussianFake(FiretaskBase):
         else:
             return obj
 
-    @staticmethod
-    def _recursive_compare_dicts(dict1, dict2, dict1_name, dict2_name, path=""):
-        error = ""
-        old_path = path
-        for key in dict1.keys():
-            path = f"{old_path}[{key}]"
-            if key not in dict2.keys():
-                error += f"Key {dict1_name}{path} not in {dict2_name}\n"
-            else:
-                if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
-                    error += RunGaussianFake._recursive_compare_dicts(
-                        dict1[key], dict2[key], "d1", "d2", path
-                    )
-                else:
-                    if dict1[key] != dict2[key]:
-                        error += (
-                            f"Value of {dict1_name}{path} ({dict1[key]}) "
-                            f"not same as {dict2_name}{path} ({dict2[key]})\n"
-                        )
-
-        for key in dict2.keys():
-            path = f"{old_path}[{key}]"
-            if key not in dict1.keys():
-                error += f"Key {dict2_name}{path} not in {dict1_name}\n"
-        return error
-
     def _verify_inputs(self):
         ref_dir = self["ref_dir"]
         working_dir = self.get("working_dir", os.getcwd())
@@ -298,9 +274,7 @@ class RunGaussianFake(FiretaskBase):
 
         ref_dict = self._recursive_lowercase(ref_gin.as_dict())
         user_dict = self._recursive_lowercase(user_gin.as_dict())
-        diff = self._recursive_compare_dicts(
-            ref_dict, user_dict, "ref_dict", "user_dict"
-        )
+        diff = recursive_compare_dicts(ref_dict, user_dict, "ref_dict", "user_dict")
 
         if diff:
             raise ValueError(
