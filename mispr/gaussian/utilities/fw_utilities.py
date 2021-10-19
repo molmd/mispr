@@ -1,11 +1,15 @@
 # coding: utf-8
 
 
-# Contains utility functions for modifying workflow settings.
+# Contains utility functions for modifying workflow settings. Based on atomate powerups.
 
 import logging
 
-from mispr.gaussian.firetasks.run_calc import RunGaussianDirect, RunGaussianCustodian
+from mispr.gaussian.firetasks.run_calc import (
+    RunGaussianFake,
+    RunGaussianDirect,
+    RunGaussianCustodian,
+)
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -103,5 +107,19 @@ def replace_runtask(
                 for i, j in task_params.items()
                 if i in firetask.required_params + firetask.optional_params
             }
+        )
+    return workflow
+
+
+def run_fake_gaussian(workflow, ref_dirs, input_files=None):
+    list_fireworks_and_tasks = get_list_fireworks_and_tasks(
+        workflow, task_substring=["RunGaussian"]
+    )
+    if not input_files:
+        input_files = ["mol.com"] * len(ref_dirs)
+
+    for ind, (i_firework, i_task) in enumerate(list_fireworks_and_tasks):
+        workflow.fws[i_firework].tasks[i_task] = RunGaussianFake(
+            ref_dir=ref_dirs[ind], input_file=input_files[ind]
         )
     return workflow
