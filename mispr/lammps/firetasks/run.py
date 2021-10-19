@@ -4,6 +4,8 @@
 # Defines firetasks for running LAMMPS simulations and AmberTools.
 
 import os
+import re
+import shutil
 import logging
 import subprocess
 
@@ -11,6 +13,10 @@ from configparser import ConfigParser
 
 from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
+
+from pymatgen.io.lammps.inputs import LammpsInput
+
+from mispr.gaussian.utilities.misc import recursive_compare_dicts
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -61,9 +67,66 @@ class RunLammpsDirect(FiretaskBase):
         logger.info("Finished running with return code: {}".format(return_code))
 
 
-# TODO: LAMMPS Custodian Firetask
+@explicit_serialize
+class RunLammpsFake(FiretaskBase):
+    required_params = ["ref_dir"]
+    optional_params = ["working_dir", "control_filename"]
 
-# TODO: Fake LAMMPS Firetask
+    def run_task(self, fw_spec):
+        self._verify_inputs()
+        self._clear_inputs()
+        self._generate_outputs()
+
+    def _verify_inputs(self):
+        ref_dir = self["ref_dir"]
+        working_dir = self.get("working_dir", os.getcwd())
+        control_file = self.get("control_filename", "complex.lammpsin")
+
+        user_control = LammpsInput.from_file(f"{working_dir}/{control_file}")
+        ref_control = LammpsInput.from_file(f"{ref_dir}/{control_file}")
+
+        ref_dict = ref_control.as_dict()
+        user_dict = user_control.as_dict()
+
+        # remove spaces and keys starting with a #
+        user_dict = {
+            k: user_dict[k]
+            for k in user_dict
+            if not re.match(r"#(\s+)?", k)
+            if re.match(r"\S+?", k)
+        }
+        ref_dict = {
+            k: ref_dict[k]
+            for k in ref_dict
+            if not re.match(r"#(\s+)?", k)
+            if re.match(r"\S+?", k)
+        }
+        diff = recursive_compare_dicts(ref_dict, user_dict, "ref_dict", "user_dict")
+
+        if diff:
+            raise ValueError(
+                f"Control settings are inconsistent with reference control!\n{diff}!"
+            )
+        logger.info("RunLammpsFake: verified control successfully")
+
+    def _clear_inputs(self):
+        working_dir = self.get("working_dir", os.getcwd())
+        control_file = self.get("control_filename", "complex.lammpsin")
+        control_file = f"{working_dir}/{control_file}"
+        if os.path.exists(control_file):
+            os.remove(control_file)
+
+    def _generate_outputs(self):
+        ref_dir = self["ref_dir"]
+        working_dir = self.get("working_dir", os.getcwd())
+        for file in os.listdir(ref_dir):
+            full_path = f"{ref_dir}/{file}"
+            if os.path.isfile(full_path):
+                shutil.copy(full_path, working_dir)
+        logger.info("RunLammpsFake: ran fake Lammps, generated outputs")
+
+
+# TODO: LAMMPS Custodian Firetask
 
 
 @explicit_serialize
