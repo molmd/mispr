@@ -12,7 +12,7 @@ from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
 
 from mispr.gaussian.workflows.base.core import _process_mol_check
 from mispr.gaussian.firetasks.geo_transformation import ProcessMoleculeInput
-from mispr.lammps.firetasks.run import RunTleap, RunLammps, RunParmchk, RunAntechamber
+from mispr.lammps.firetasks.run import RunTleap, RunLammpsDirect, RunParmchk, RunAntechamber
 from mispr.gaussian.utilities.metadata import get_chem_schema
 from mispr.lammps.firetasks.write_inputs import (
     LabelFFDict,
@@ -273,12 +273,12 @@ class RunLammpsFW(Firework):
             )
 
         tasks.append(
-            RunLammps(
+            RunLammpsDirect(
                 working_dir=working_dir,
                 **{
                     i: j
                     for i, j in kwargs.items()
-                    if i in RunLammps.required_params + RunLammps.optional_params
+                    if i in RunLammpsDirect.required_params + RunLammpsDirect.optional_params
                 }
             )
         )
