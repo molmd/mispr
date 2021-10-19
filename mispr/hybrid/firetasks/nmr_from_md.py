@@ -28,7 +28,7 @@ class NMRFromMD(FiretaskBase):
         additional_kwargs = self.get("additional_kwargs", {})
         for key in ["mol_name", "skips", "process_mol_func", "charge"]:
             additional_kwargs.pop(key, None)
-        top_config_files = fw_spec.get("top_config_files")
+        top_config_files = sorted(fw_spec.get("top_config_files"))
         for file in top_config_files:
             config_file = ntpath.basename(file)
             shutil.copy(file, f"{working_dir}/{config_file}")
