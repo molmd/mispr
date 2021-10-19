@@ -77,8 +77,8 @@ def get_esp_charges(
     # add to doc: user should not add esp path to input parameters
     if "input_parameters" not in esp_gaussian_inputs:
         esp_gaussian_inputs["input_parameters"] = {}
-    mol_esp = "{}_esp".format(os.path.join(working_dir, label, "ESP", label))
-    esp_gaussian_inputs["input_parameters"].update({mol_esp: None})
+    # mol_esp = "{}_esp".format(os.path.join(working_dir, label, "ESP", label))
+    esp_gaussian_inputs["input_parameters"].update({f"{label}_esp": None})
 
     spec = kwargs.pop("spec", {})
     if not skips or len(skips) == 1 and skips[0].lower() == "opt":
