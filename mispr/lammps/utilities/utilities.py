@@ -6,9 +6,12 @@
 import os
 
 from collections import OrderedDict
+
 from fireworks.fw_config import CONFIG_FILE_DIR
 
+from mispr.lammps.firetasks.run import RunLammpsFake
 from mispr.gaussian.utilities.metadata import get_chem_schema
+from mispr.gaussian.utilities.fw_utilities import get_list_fireworks_and_tasks
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -87,6 +90,7 @@ def add_ff_labels_to_dict(ff_dict, label):
 
 def get_db(input_db=None):
     from mispr.lammps.database import LammpsSysDb
+
     if not input_db:
         input_db = f"{CONFIG_FILE_DIR}/db.json"
         if not os.path.isfile(input_db):
@@ -118,6 +122,20 @@ def process_run(smiles, nmols, box, template_filename, control_settings=None):
         "nmols": nmols,
         "box": box_setting,
         "job_type": template_filename,
-        "control_settings": control_settings
+        "control_settings": control_settings,
     }
     return run_dict
+
+
+def run_fake_lammps(workflow, ref_dirs, control_filenames=None):
+    list_fireworks_and_tasks = get_list_fireworks_and_tasks(
+        workflow, task_substring=["RunLammps"]
+    )
+    if not control_filenames:
+        control_filenames = ["complex.lammpsin"] * len(ref_dirs)
+
+    for ind, (i_firework, i_task) in enumerate(list_fireworks_and_tasks):
+        workflow.fws[i_firework].tasks[i_task] = RunLammpsFake(
+            ref_dir=ref_dirs[ind], control_filename=control_filenames[ind]
+        )
+    return workflow
