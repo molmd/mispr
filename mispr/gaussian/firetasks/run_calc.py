@@ -4,11 +4,14 @@
 # Defines firetasks for running Gaussian calculations.
 
 import os
+import shutil
 import logging
 import subprocess
 
 from timeit import default_timer as timer
 from configparser import ConfigParser
+
+import numpy as np
 
 from monty.os.path import zpath
 from monty.serialization import loadfn
@@ -16,6 +19,8 @@ from monty.serialization import loadfn
 from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.core.firework import Firework, FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
+
+from pymatgen.io.gaussian import GaussianInput, GaussianOutput
 
 from custodian import Custodian
 from custodian.gaussian.jobs import GaussianJob
@@ -227,5 +232,94 @@ class RunGaussianCustodian(FiretaskBase):
 
 @explicit_serialize
 class RunGaussianFake(FiretaskBase):
+    required_params = ["ref_dir"]
+    optional_params = ["working_dir", "input_file"]
+
     def run_task(self, fw_spec):
-        pass
+        self._verify_inputs()
+        self._clear_inputs()
+        self._generate_outputs()
+
+    @staticmethod
+    def _recursive_lowercase(obj):
+        if isinstance(obj, dict):
+            updated_obj = {}
+            for k, v in obj.items():
+                updated_obj[k.lower()] = RunGaussianFake._recursive_lowercase(v)
+            return updated_obj
+        elif isinstance(obj, str):
+            return obj.lower()
+        elif hasattr(obj, "__iter__"):
+            updated_obj = []
+            for i in obj:
+                updated_obj.append(RunGaussianFake._recursive_lowercase(i))
+            return updated_obj
+        else:
+            return obj
+
+    @staticmethod
+    def _recursive_compare_dicts(dict1, dict2, dict1_name, dict2_name, path=""):
+        error = ""
+        old_path = path
+        for key in dict1.keys():
+            path = f"{old_path}[{key}]"
+            if key not in dict2.keys():
+                error += f"Key {dict1_name}{path} not in {dict2_name}\n"
+            else:
+                if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
+                    error += RunGaussianFake._recursive_compare_dicts(
+                        dict1[key], dict2[key], "d1", "d2", path
+                    )
+                else:
+                    if dict1[key] != dict2[key]:
+                        error += (
+                            f"Value of {dict1_name}{path} ({dict1[key]}) "
+                            f"not same as {dict2_name}{path} ({dict2[key]})\n"
+                        )
+
+        for key in dict2.keys():
+            path = f"{old_path}[{key}]"
+            if key not in dict1.keys():
+                error += f"Key {dict2_name}{path} not in {dict1_name}\n"
+        return error
+
+    def _verify_inputs(self):
+        ref_dir = self["ref_dir"]
+        working_dir = self.get("working_dir", os.getcwd())
+        gin_file = self.get("input_file", "mol.com")
+
+        user_gin = GaussianInput.from_file(f"{working_dir}/{gin_file}")
+        ref_gin = GaussianInput.from_file(f"{ref_dir}/{gin_file}")
+
+        np.testing.assert_equal(ref_gin.molecule.species, user_gin.molecule.species)
+        np.testing.assert_allclose(
+            ref_gin.molecule.cart_coords, user_gin.molecule.cart_coords, atol=0.0001
+        )
+
+        ref_dict = self._recursive_lowercase(ref_gin.as_dict())
+        user_dict = self._recursive_lowercase(user_gin.as_dict())
+        diff = self._recursive_compare_dicts(
+            ref_dict, user_dict, "ref_dict", "user_dict"
+        )
+
+        if diff:
+            raise ValueError(
+                f"Gaussian input is inconsistent with reference input!\n{diff}!"
+            )
+        logger.info("RunGausianFake: verified input successfully")
+
+    def _clear_inputs(self):
+        working_dir = self.get("working_dir", os.getcwd())
+        gin_file = self.get("input_file", "mol.com")
+        gin_file = f"{working_dir}/{gin_file}"
+        if os.path.exists(gin_file):
+            os.remove(gin_file)
+
+    def _generate_outputs(self):
+        ref_dir = self["ref_dir"]
+        working_dir = self.get("working_dir", os.getcwd())
+        for file in os.listdir(ref_dir):
+            full_path = f"{ref_dir}/{file}"
+            if os.path.isfile(full_path):
+                shutil.copy(full_path, working_dir)
+        logger.info("RunGaussianFake: ran fake Gaussian, generated outputs")
