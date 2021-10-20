@@ -123,3 +123,23 @@ def run_fake_gaussian(workflow, ref_dirs, input_files=None):
             ref_dir=ref_dirs[ind], input_file=input_files[ind]
         )
     return workflow
+
+
+def add_common_mods(workflow, fw_mods=None):
+    fw_mods = fw_mods or {}
+
+    if fw_mods.get("CONTROL_WORKER"):
+        workflow = control_worker(workflow, **fw_mods.get("CONTROL_WORKER", {}))
+
+    if fw_mods.get("MODIFY_QUEUE_PARAMETERS"):
+        workflow = modify_queue_parameters(
+            workflow, **fw_mods.get("MODIFY_QUEUE_PARAMETERS", {})
+        )
+
+    if fw_mods.get("REPLACE_RUNTASK"):
+        workflow = replace_runtask(workflow, **fw_mods.get("REPLACE_RUNTASK", {}))
+
+    if fw_mods.get("RUN_FAKE_GAUSSIAN"):
+        workflow = run_fake_gaussian(workflow, **fw_mods.get("RUN_FAKE_GAUSSIAN", {}))
+
+    return workflow
