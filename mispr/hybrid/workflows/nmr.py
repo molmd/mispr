@@ -113,5 +113,5 @@ def get_solvation_structures_nmr(
         name="nmr_calculation",
         spec={"_launch_dir": nmr_dir},
     )
-    wf.append_wf(Workflow.from_Firework(nmr_fw), dft_md_fw_ids)
+    wf.append_wf(Workflow.from_Firework(nmr_fw), dft_md_fw_ids[:-1])
     return wf
