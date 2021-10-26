@@ -636,7 +636,7 @@ class ExtractClusters(FiretaskBase):
         top_config_files = [
             f"{working_dir}/{file}"
             for file in os.listdir(working_dir)
-            if file.startswith("config_") and file.endswith(".xyz")
+            if file.startswith("conf_") and file.endswith(".xyz")
         ]
 
         cluster_analysis_spec = {
