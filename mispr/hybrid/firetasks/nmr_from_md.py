@@ -2,6 +2,7 @@ import os
 import ntpath
 import shutil
 
+from copy import deepcopy
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
@@ -48,9 +49,9 @@ class NMRFromMD(FiretaskBase):
                 mol=config_file,
                 db=self.get("db"),
                 working_dir=working_dir,
-                opt_gaussian_inputs=self.get("opt_gaussian_inputs"),
-                freq_gaussian_inputs=self.get("freq_gaussian_inputs"),
-                nmr_gaussian_inputs=self.get("nmr_gaussian_inputs"),
+                opt_gaussian_inputs=deepcopy(self.get("opt_gaussian_inputs")),
+                freq_gaussian_inputs=deepcopy(self.get("freq_gaussian_inputs")),
+                nmr_gaussian_inputs=deepcopy(self.get("nmr_gaussian_inputs")),
                 solvent_gaussian_inputs=self.get("solvent_gaussian_inputs"),
                 solvent_properties=self.get("solvent_properties"),
                 cart_coords=self.get("cart_coords"),
