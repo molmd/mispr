@@ -243,8 +243,8 @@ RECIPE_SETTINGS = [
 QADAPTER_RUN_LAMMPS_SPEC = [
     {"walltime": "00:10:00", "job_name": "emin"},
     {"walltime": "08:00:00", "job_name": "npt"},
-    {"walltime": "03:00:00", "job_name": "melt"},
-    {"walltime": "06:00:00", "job_name": "quench"},
+    {"walltime": "08:00:00", "job_name": "melt"},
+    {"walltime": "12:00:00", "job_name": "quench"},
     {"walltime": "48:00:00", "job_name": "nvt"},
 ]
 
