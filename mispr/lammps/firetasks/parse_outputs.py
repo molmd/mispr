@@ -172,9 +172,9 @@ class CalcDiff(FiretaskBase):
             diff_dir=working_dir,
         )
         if msd_method == "from_dump":
-            num_mols = fw_spec.get("num_mols_list", None)
+            num_mols = diff_settings.pop("num_mols", fw_spec.get("num_mols_list", []))
+            num_atoms_per_mol = diff_settings.pop("num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", []))
             num_mols = [int(i) for i in num_mols] if num_mols else None
-            num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", None)
             mass = fw_spec.get("default_masses", None)
             file_pattern = diff_settings.pop("file_pattern", "dump.nvt.*.dump")
 
@@ -279,7 +279,7 @@ class GetRDF(FiretaskBase):
             bin_size = [bin_size]
         elif not isinstance(bin_size, (list, tuple)):
             pass
-        mass = fw_spec.get("default_masses", [])
+        mass = rdf_settings.get("mass", fw_spec.get("default_masses", []))
         if not mass:
             raise ValueError("Atomic masses not found")
         num_types = len(mass)
@@ -457,7 +457,7 @@ class CalcCN(FiretaskBase):
             bin_size = [bin_size]
         elif not isinstance(bin_size, (list, tuple)):
             pass
-        mass = fw_spec.get("default_masses", [])
+        mass = cn_settings.get("mass", fw_spec.get("default_masses", []))
         if not mass:
             raise ValueError("Atomic masses not found")
         num_types = len(mass)
