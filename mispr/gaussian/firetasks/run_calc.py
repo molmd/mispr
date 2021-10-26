@@ -235,7 +235,7 @@ class RunGaussianCustodian(FiretaskBase):
 @explicit_serialize
 class RunGaussianFake(FiretaskBase):
     required_params = ["ref_dir"]
-    optional_params = ["working_dir", "input_file"]
+    optional_params = ["working_dir", "input_file", "tolerance"]
 
     def run_task(self, fw_spec):
         self._verify_inputs()
@@ -266,10 +266,11 @@ class RunGaussianFake(FiretaskBase):
 
         user_gin = GaussianInput.from_file(f"{working_dir}/{gin_file}")
         ref_gin = GaussianInput.from_file(f"{ref_dir}/{gin_file}")
+        tol = self.get("tolerance", 0.0001)
 
         np.testing.assert_equal(ref_gin.molecule.species, user_gin.molecule.species)
         np.testing.assert_allclose(
-            ref_gin.molecule.cart_coords, user_gin.molecule.cart_coords, atol=0.0001
+            ref_gin.molecule.cart_coords, user_gin.molecule.cart_coords, atol=tol
         )
 
         ref_dict = self._recursive_lowercase(ref_gin.as_dict())
