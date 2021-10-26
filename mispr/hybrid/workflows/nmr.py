@@ -61,8 +61,8 @@ def get_solvation_structures_nmr(
         working_dir = os.getcwd()
     if not analysis_list:
         analysis_list = []
-    analysis_list += ["diffusion", "rdf", "cn", "clusters"]
-    analysis_list = list(set(analysis_list))
+    # analysis_list += ["diffusion", "rdf", "cn", "clusters"]
+    # analysis_list = list(set(analysis_list))
 
     wf = run_hybrid_calcs(
         mol_operation_type,
@@ -98,12 +98,9 @@ def get_solvation_structures_nmr(
         NMRFromMD(
             db=db,
             working_dir=nmr_dir,
-            opt_gaussian_inputs=deepcopy(opt_nmr_gaussian_inputs)
-            or deepcopy(OPT_GAUSSIAN_INPUTS),
-            freq_gaussian_inputs=deepcopy(freq_nmr_gaussian_inputs)
-            or deepcopy(FREQ_GAUSSIAN_INPUTS),
-            nmr_gaussian_inputs=deepcopy(nmr_gaussian_inputs)
-            or deepcopy(NMR_GAUSSIAN_INPUTS),
+            opt_gaussian_inputs=opt_nmr_gaussian_inputs or OPT_GAUSSIAN_INPUTS,
+            freq_gaussian_inputs=freq_nmr_gaussian_inputs or FREQ_GAUSSIAN_INPUTS,
+            nmr_gaussian_inputs=nmr_gaussian_inputs or NMR_GAUSSIAN_INPUTS,
             solvent_gaussian_inputs=nmr_solvent_gaussian_inputs,
             solvent_properties=nmr_solvent_properties,
             cart_coords=cart_coords,
