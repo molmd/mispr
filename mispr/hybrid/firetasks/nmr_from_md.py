@@ -68,6 +68,7 @@ class NMRFromMD(FiretaskBase):
                     nmr_wf,
                     ref_dirs=ref_dirs[ind * 3: ind * 3 + 3],
                     input_files=input_files[ind * 3: ind * 3 + 3],
+                    tolerance=fake_gaussian_kwargs.get("tolerance")
                 )
             nmr_wfs.append(nmr_wf)
         return FWAction(detours=nmr_wfs)
