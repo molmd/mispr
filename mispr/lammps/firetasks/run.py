@@ -11,6 +11,7 @@ import subprocess
 
 from configparser import ConfigParser
 
+from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.core.firework import FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
@@ -57,7 +58,7 @@ class RunLammpsDirect(FiretaskBase):
 
         if not command:
             config = ConfigParser()
-            config.read(CONFIG_PATH)
+            config.read(CONFIG_FILE_DIR + "/config.ini")
             command = config["LammpsRunCalc"]["lcmd"]
         command = command.replace("$control_path$", control_file_path)
         command = command.replace("$SLURM_NTASKS", str(net_ntasks))
@@ -161,7 +162,7 @@ class RunAntechamber(FiretaskBase):
 
         if not command:
             config = ConfigParser()
-            config.read(CONFIG_PATH)
+            config.read(CONFIG_FILE_DIR + "/config.ini")
             command = config["AmbertoolsRunCalc"]["acmd"]
         command = (
             command.replace("$input_file$", input_file_path)
@@ -205,7 +206,7 @@ class RunParmchk(FiretaskBase):
 
         if not command:
             config = ConfigParser()
-            config.read(CONFIG_PATH)
+            config.read(CONFIG_FILE_DIR + "/config.ini")
             command = config["AmbertoolsRunCalc"]["pcmd"]
         command = command.replace("$input_file$", input_file_path).replace(
             "$output_file$", output_file_path
@@ -238,7 +239,7 @@ class RunTleap(FiretaskBase):
 
         if not command:
             config = ConfigParser()
-            config.read(CONFIG_PATH)
+            config.read(CONFIG_FILE_DIR + "/config.ini")
             command = config["AmbertoolsRunCalc"]["tcmd"]
         command = command.replace("$input_file$", script_file_path)
 
