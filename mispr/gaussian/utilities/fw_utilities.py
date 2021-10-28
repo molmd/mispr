@@ -112,7 +112,7 @@ def replace_runtask(
 
 
 def run_fake_gaussian(
-    workflow, ref_dirs, input_files=None, working_dir=None, tolerance=None
+    workflow, ref_dirs, input_files=None, tolerance=None
 ):
     list_fireworks_and_tasks = get_list_fireworks_and_tasks(
         workflow, task_substring=["RunGaussian"]
@@ -124,7 +124,6 @@ def run_fake_gaussian(
         workflow.fws[i_firework].tasks[i_task] = RunGaussianFake(
             ref_dir=ref_dirs[ind],
             input_file=input_files[ind],
-            working_dir=working_dir,
             tolerance=tolerance,
         )
     return workflow
