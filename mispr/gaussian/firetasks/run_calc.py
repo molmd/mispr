@@ -274,7 +274,9 @@ class RunGaussianFake(FiretaskBase):
         )
 
         ref_dict = self._recursive_lowercase(ref_gin.as_dict())
+        del ref_dict["molecule"]
         user_dict = self._recursive_lowercase(user_gin.as_dict())
+        del user_dict["molecule"]
         diff = recursive_compare_dicts(ref_dict, user_dict, "ref_dict", "user_dict")
 
         if diff:
