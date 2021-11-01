@@ -266,7 +266,7 @@ class RunGaussianFake(FiretaskBase):
 
         user_gin = GaussianInput.from_file(f"{working_dir}/{gin_file}")
         ref_gin = GaussianInput.from_file(f"{ref_dir}/{gin_file}")
-        tol = self.get("tolerance", 0.0001)
+        tol = self.get("tolerance") or 0.0001
 
         np.testing.assert_equal(ref_gin.molecule.species, user_gin.molecule.species)
         np.testing.assert_allclose(
