@@ -13,7 +13,7 @@ MISPR is a software that executes, manages, and stores computational materials s
 simulations. It contains pre-defined DFT and MD workflows to calculate and analyze different 
 properties of materials.
 
-- **Source:** https://github.com/tufts-university-rajput-lab/mispr
+- **Source:** https://github.com/molmd/mispr
 
 # Installation
 
