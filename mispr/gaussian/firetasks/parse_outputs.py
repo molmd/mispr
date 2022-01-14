@@ -311,7 +311,9 @@ class ESPtoDB(FiretaskBase):
 
         # check if polarizability is available (from freq calc of esp workflow)
         if "polarizability" in gout_dict[-2]["output"]["output"]:
-            esp_dict["polarizability"] = gout_dict[-2]["output"]["output"]["polarizability"]
+            esp_dict["polarizability"] = gout_dict[-2]["output"]["output"][
+                "polarizability"
+            ]
 
         if self.get("additional_prop_doc_fields"):
             esp_dict.update(self.get("additional_prop_doc_fields"))
