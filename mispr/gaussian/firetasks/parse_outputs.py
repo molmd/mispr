@@ -14,6 +14,7 @@ from configparser import ConfigParser
 
 import numpy as np
 import pymongo
+import networkx as nx
 import matplotlib.image as img
 import matplotlib.pyplot as plt
 
@@ -25,6 +26,9 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 
 from pymatgen.io.gaussian import GaussianInput
+from pymatgen.core.structure import Molecule
+from pymatgen.analysis.graphs import MoleculeGraph
+from pymatgen.analysis.local_env import OpenBabelNN
 
 from mispr import __version__ as mispr_version
 from mispr.gaussian.utilities.mol import process_mol
@@ -110,6 +114,35 @@ class ProcessRun(FiretaskBase):
             working_dir=working_dir,
             db=db,
         )
+
+        # get initial and final molecule
+        input_mol = Molecule.from_dict(gout_dict["input"]["molecule"])
+        output_mol = Molecule.from_dict(gout_dict["output"]["output"]["molecule"])
+
+        # Build initial and final molgraphs
+        input_molgraph = MoleculeGraph.with_local_env_strategy(input_mol, OpenBabelNN())
+        output_molgraph = MoleculeGraph.with_local_env_strategy(
+            output_mol, OpenBabelNN()
+        )
+
+        # Detect any structural change that occurred during calculation
+        if input_molgraph.isomorphic_to(output_molgraph):
+            change = "no_change"
+        else:
+            input_graph = input_molgraph.graph
+            output_graph = output_molgraph.graph
+            if nx.is_connected(input_graph.to_undirected()) and not nx.is_connected(
+                output_graph.to_undirected()
+            ):
+                change = "unconnected_fragments"
+            elif output_graph.number_of_edges() < input_graph.number_of_edges():
+                change = "fewer_bonds"
+            elif output_graph.number_of_edges() > input_graph.number_of_edges():
+                change = "more_bonds"
+            else:
+                change = "bond_change"
+        gout_dict["structural_change"] = change
+
         if "_id" in gout_dict:
             gout_dict["_id"] = ObjectId(gout_dict["_id"])
         if "tag" in fw_spec:
