@@ -283,8 +283,8 @@ class GetRDF(FiretaskBase):
         if not mass:
             raise ValueError("Atomic masses not found")
         num_types = len(mass)
-        num_mols = fw_spec.get("num_mols_list", [])
-        num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", [])
+        num_mols = rdf_settings.get("num_mols", fw_spec.get("num_mols_list", []))
+        num_atoms_per_mol = rdf_settings.get("num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", []))
         partial_relations = rdf_settings.get("partial_relations", None)
         filename = rdf_settings.get("filename")
         save_mode = rdf_settings.get("save_mode")
@@ -461,8 +461,8 @@ class CalcCN(FiretaskBase):
         if not mass:
             raise ValueError("Atomic masses not found")
         num_types = len(mass)
-        num_mols = fw_spec.get("num_mols_list", [])
-        num_atoms_per_mol = fw_spec.get("num_atoms_per_mol", [])
+        num_mols = cn_settings.get("num_mols", fw_spec.get("num_mols_list", []))
+        num_atoms_per_mol = cn_settings.get("num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", []))
         partial_relations = cn_settings.get("partial_relations", None)
         filename = cn_settings.get("filename")
         save_mode = cn_settings.get("save_mode")
