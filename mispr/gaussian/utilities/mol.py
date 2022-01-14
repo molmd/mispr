@@ -144,12 +144,12 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
         # TODO: add a checking step in the original molecule to make sure no
         #  overlapping happens
         # mol = {'operation_type': ['get_from_file', 'get_from_mol_db'],
-        #        'mol': ['kes/rasa/defe.xyz', 'mol_inchi'],
+        #        'mol': ['mol1.xyz', 'mol_inchi'],
         #        'index': [3, 5],
         #        'bond_order': 2}
 
         # mol = {'operation_type': ['get_from_file', 'derive_molecule'],
-        #        'mol': ['kes/rasa/defe.xyz', {'operation_type':
+        #        'mol': ['mol2.xyz', {'operation_type':
         #        'get_from_mol_db, 'mol': inchi}],
         #        'index': [3, 5],
         #        'bond_order': 2}
