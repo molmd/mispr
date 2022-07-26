@@ -41,6 +41,56 @@ def get_esp_charges(
     skips=None,
     **kwargs
 ):
+    """
+    Defines a workflow for calculating the electrostatic partial charges.
+
+        Firework 1: Optimize the molecule.
+        Firework 2: Run a frequency analysis.
+        Firework 3: Run an ESP calculation.
+
+    Args:
+        mol_operation_type (str): the type of molecule operation. See xyz for supported operations.
+        mol (Molecule, GaussianOutput, str, dict): source of the molecule to be processed. Should match the mol_operation_type.
+        db (str or dict): database credentials; could be provided as the path to the
+            db.json file or in the form of a dictionary; if none is provided, attempts
+            to get it from the configuration files
+        name (str): name of the workflow; defaults to "esp_charges_calculation"
+        working_dir (str): path of the working directory where any required input files
+            can be found and output will be created; defaults to the current working directory
+        opt_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
+            optimization step of the ESP workflow; for example:
+            {
+            "functional": "HF",
+            "basis_set": "6-31G(d)",
+            "route_parameters": {"Opt": None},
+            "link0_parameters": {
+                "%chk": "checkpoint.chk",
+                "%mem": "45GB",
+                "%NProcShared": "28",
+            }
+            default parameters will be used if not specified
+        freq_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
+            frequency step of the ESP workflow; default parameters will be used if not specified
+        esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
+            ESP step of the ESP workflow; default parameters will be used if not specified
+        solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the
+            implicit solvent model to be used in the ESP calculations, if any; for example: "(Solvent=TetraHydroFuran)";
+            these parameters should only be specified here and not included in the main
+            gaussian_inputs dictionary for each job (i.e. opt_gaussian_inputs, freq_esp_gaussian_inputs, etc.);
+            defaults to None
+        solvent_properties (dict): additional input parameters to be used in the ESP calculations and
+            relevant to the solvent model, if any; for example, {"EPS":12}; defaults to None
+        cart_coords (bool): uses cartesian coordinates in writing Gaussian input files if set to True,
+            otherwise uses z-matrix; defaults to True
+        oxidation_states (dict): dictionary of oxidation states that can be used in setting the charge and
+            spin multiplicity of the molecule; for example: {"Li":1, "O":-2}; defaults to None
+        skips (list): list of jobs to skip; for example: ["freq", "esp"]; defaults to None
+        **kwargs (keyword arguments): dditional kwargs to be passed to the workflow
+
+    Returns:
+        Workflow
+        label: label of the molecule (e.g. "H2O", "water", etc.)
+    """
     fws = []
     working_dir = working_dir or os.getcwd()
     mol = recursive_relative_to_absolute_path(mol, working_dir)
