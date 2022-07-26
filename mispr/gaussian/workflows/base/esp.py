@@ -39,7 +39,7 @@ def get_esp_charges(
     cart_coords=True,
     oxidation_states=None,
     skips=None,
-    **kwargs
+    **kwargs,
 ):
     """
     Defines a workflow for calculating the electrostatic partial charges.
@@ -120,7 +120,7 @@ def get_esp_charges(
         oxidation_states=oxidation_states,
         gout_key=gout_keys[0],
         skips=skips,
-        **kwargs
+        **kwargs,
     )
     fws += opt_freq_fws
 
@@ -149,7 +149,7 @@ def get_esp_charges(
         cart_coords=cart_coords,
         gout_key=gout_keys[1],
         spec=spec,
-        **kwargs
+        **kwargs,
     )
     fws.append(esp_fw)
 
@@ -163,7 +163,7 @@ def get_esp_charges(
                 i: j
                 for i, j in kwargs.items()
                 if i in ESPtoDB.required_params + ESPtoDB.optional_params
-            }
+            },
         ),
         parents=fws[:],
         name="{}-{}".format(label, "esp_analysis"),
@@ -171,8 +171,11 @@ def get_esp_charges(
     )
     fws.append(fw_analysis)
 
-    return Workflow(
-        fws,
-        name=get_job_name(label, name),
-        **{i: j for i, j in kwargs.items() if i in WORKFLOW_KWARGS}
-    ), label
+    return (
+        Workflow(
+            fws,
+            name=get_job_name(label, name),
+            **{i: j for i, j in kwargs.items() if i in WORKFLOW_KWARGS},
+        ),
+        label,
+    )
