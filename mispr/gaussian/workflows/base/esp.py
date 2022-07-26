@@ -89,7 +89,7 @@ def get_esp_charges(
 
     Returns:
         Workflow
-        label (str): label of the molecule (e.g. "H2O", "water", etc.)
+        str: label of the molecule (e.g. "H2O", "water", etc.)
     """
     fws = []
     working_dir = working_dir or os.getcwd()
