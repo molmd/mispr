@@ -49,7 +49,7 @@ def get_esp_charges(
         Firework 3: Run an ESP calculation.
 
     Args:
-        mol_operation_type (str): the type of molecule operation. See xyz for supported operations.
+        mol_operation_type (str): the type of molecule operation. See mispr/gaussian/utilities/mol/process_mol for supported operations.
         mol (Molecule, GaussianOutput, str, dict): source of the molecule to be processed. Should match the mol_operation_type.
         db (str or dict): database credentials; could be provided as the path to the
             db.json file or in the form of a dictionary; if none is provided, attempts
@@ -89,7 +89,7 @@ def get_esp_charges(
 
     Returns:
         Workflow
-        label: label of the molecule (e.g. "H2O", "water", etc.)
+        label (str): label of the molecule (e.g. "H2O", "water", etc.)
     """
     fws = []
     working_dir = working_dir or os.getcwd()
