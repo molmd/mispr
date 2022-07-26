@@ -50,8 +50,10 @@ def get_esp_charges(
         Firework 4: Create ESP document/json file.
 
     Args:
-        mol_operation_type (str): the type of molecule operation. See process_mol defined in mispr/gaussian/utilities/mol.py for supported operations.
-        mol (Molecule, GaussianOutput, str, dict): source of the molecule to be processed. Should match the mol_operation_type.
+        mol_operation_type (str): the type of molecule operation. See process_mol defined in
+            mispr/gaussian/utilities/mol.py for supported operations.
+        mol (Molecule, GaussianOutput, str, dict): source of the molecule to be processed. Should match the
+            mol_operation_type.
         db (str or dict): database credentials; could be provided as the path to the
             db.json file or in the form of a dictionary; if none is provided, attempts
             to get it from the configuration files
