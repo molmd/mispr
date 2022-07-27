@@ -87,7 +87,7 @@ def get_esp_charges(
         oxidation_states (dict): dictionary of oxidation states that can be used in setting the charge and
             spin multiplicity of the molecule; for example: {"Li":1, "O":-2}; defaults to None
         skips (list): list of jobs to skip; for example: ["opt", "freq"]; defaults to None
-        **kwargs (keyword arguments): dditional kwargs to be passed to the workflow
+        **kwargs (keyword arguments): additional kwargs to be passed to the workflow
 
     Returns:
         Workflow
