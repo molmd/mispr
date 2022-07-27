@@ -350,24 +350,23 @@ def get_ip_ea(
         num_electrons (int): the number of electrons to be transferred;
             defaults to 1.
         opt_gaussian_inputs (dict): dictionary of Gaussian input
-            parameters for the optimization step; for example:
+            parameters for the optimization step; e.g.:
             {
-            "functional": "HF",
-            "basis_set": "6-31G(d)",
-            "route_parameters": {"Opt": None},
-            "link0_parameters": {
-                "%chk": "checkpoint.chk",
-                "%mem": "45GB",
-                "%NProcShared": "28",
-                }
+                "functional": "B3LYP",
+                "basis_set": "6-31G(d)",
+                "route_parameters": {"Opt": None},
+                "link0_parameters": {
+                    "%chk": "checkpoint.chk",
+                    "%mem": "45GB",
+                    "%NProcShared": "24"}
             }
-            default parameters will be used if not specified
+            the above default parameters will be used if not specified
         freq_gaussian_inputs (dict): dictionary of Gaussian input
             parameters for the frequency step; default parameters will
             be used if not specified
         solvent_gaussian_inputs (str): Gaussian input parameters
             corresponding to the implicit solvent model to be used in
-            the redox potential calculations, if any; for example:
+            the redox potential calculations, if any; e.g.:
             "(Solvent=TetraHydroFuran)"; these parameters should only
             be specified here and not included in the main
             gaussian_inputs dictionary for each job
@@ -375,7 +374,7 @@ def get_ip_ea(
             defaults to None
         solvent_properties (dict): additional input parameters to be
             used in the ESP calculations and relevant to the solvent
-            model, if any; for example, {"EPS":12}; defaults to None
+            model, if any; e.g., {"EPS":12}; defaults to None
         states (list): list of states to be calculated; e.g.
             ["cation"] for oxidation, ["anion"] for reduction, or
             ["cation", "anion"] for oxidation and reduction calculations;
@@ -387,7 +386,7 @@ def get_ip_ea(
         electrode_potentials (dict): dictionary of electrode potentials
             to be used in converting the absolute oxidation
             and reduction potentials to commonly used potential scales;
-            for example:
+            e.g.:
             {
              lithium": {
                         "potential": 1.40,
@@ -414,7 +413,7 @@ def get_ip_ea(
         cart_coords (bool): uses cartesian coordinates in writing
             Gaussian input files if set to True, otherwise uses z-matrix;
             defaults to True
-        ref_skips (list): list of jobs to skip; for example:
+        ref_skips (list): list of jobs to skip; e.g.:
             ["opt", "freq"]; only applies to the molecule in the
             reference state; defaults to None
         **kwargs (keyword arguments): additional kwargs to be passed

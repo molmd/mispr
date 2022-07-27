@@ -64,17 +64,17 @@ def get_esp_charges(
             required input files can be found and output will be created;
             defaults to the current working directory
         opt_gaussian_inputs (dict): dictionary of Gaussian input
-            parameters for the optimization step; for example:
+            parameters for the optimization step; e.g.:
             {
-            "functional": "HF",
-            "basis_set": "6-31G(d)",
-            "route_parameters": {"Opt": None},
-            "link0_parameters": {
-                "%chk": "checkpoint.chk",
-                "%mem": "45GB",
-                "%NProcShared": "28",
+                "functional": "B3LYP",
+                "basis_set": "6-31G(d)",
+                "route_parameters": {"Opt": None},
+                "link0_parameters": {
+                    "%chk": "checkpoint.chk",
+                    "%mem": "45GB",
+                    "%NProcShared": "24"}
             }
-            default parameters will be used if not specified
+            the above default parameters will be used if not specified
         freq_gaussian_inputs (dict): dictionary of Gaussian input
             parameters for the frequency step; default parameters will
             be used if not specified
@@ -83,7 +83,7 @@ def get_esp_charges(
             used if not specified
         solvent_gaussian_inputs (str): Gaussian input parameters
             corresponding to the implicit solvent model to be used in
-            the ESP calculations, if any; for example:
+            the ESP calculations, if any; e.g.:
             "(Solvent=TetraHydroFuran)"; these parameters should only
             be specified here and not included in the main
             gaussian_inputs dictionary for each job
@@ -91,14 +91,14 @@ def get_esp_charges(
             defaults to None
         solvent_properties (dict): additional input parameters to be
             used in the ESP calculations and relevant to the solvent
-            model, if any; for example, {"EPS":12}; defaults to None
+            model, if any; e.g., {"EPS":12}; defaults to None
         cart_coords (bool): uses cartesian coordinates in writing
             Gaussian input files if set to True,otherwise uses z-matrix;
             defaults to True
         oxidation_states (dict): dictionary of oxidation states that
             can be used in setting the charge and spin multiplicity of
-            the molecule; for example: {"Li":1, "O":-2}; defaults to None
-        skips (list): list of jobs to skip; for example: ["opt", "freq"];
+            the molecule; e.g.: {"Li":1, "O":-2}; defaults to None
+        skips (list): list of jobs to skip; e.g.: ["opt", "freq"];
             defaults to None
         **kwargs (keyword arguments): additional kwargs to be passed
             to the workflow
