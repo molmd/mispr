@@ -41,6 +41,84 @@ def get_binding_energies(
     skips=None,
     **kwargs
 ):
+    """
+    Defines a workflow for calculating the binding energy between
+    two molecules.
+
+        Fireworks 1 & 2: Optimize the two molecules in parallel.
+        Firework 3 & 4: Run a frequency calculation on each molecule.
+        Firework 5: Link the two optimized molecules at a binding site
+            and optimize the geometry of the generated complex.
+        Firework 6: Run a frequency calculation on the optimized complex.
+        Firework 7: Calculate the binding energy of the complex and
+            create BE document/json file.
+
+    Args:
+        mol_operation_type (list): list of strings of the type of
+            molecule operations. See process_mol defined in
+            mispr/gaussian/utilities/mol.py for supported operations;
+            e.g. ["get_from_mol", "get_from_file"] to get the first
+            molecule from a Molecule object and the second molecule
+            from a file
+        mol (list): list of the source of the two molecules to be
+            processed. Should match the order in mol_operation_type;
+            e.g. if mol_operation_type is ["get_from_mol", "get_from_file"],
+            mol should be [Molecule, path to molecule file]
+        index (list): list of indices of the two sites in the molecules
+            at which they are expected to bind; order should match that
+            in mol_operation_type and mol
+        bond_order (int): bond order to calculate the bond length
+            between the two sites; defaults to 1
+        db (str or dict): database credentials; could be provided as
+            the path to the db.json file or in the form of a dictionary;
+            if none is provided, attempts to get it from the
+            configuration files
+        name (str): name of the workflow; defaults to
+            "binding_energy_calculation"
+        working_dir (str): path of the working directory where any
+            required input files can be found and output will be created;
+            defaults to the current working directory
+        opt_gaussian_inputs (dict): dictionary of Gaussian input
+            parameters for the optimization step; e.g.:
+            {
+                "functional": "B3LYP",
+                "basis_set": "6-31G(d)",
+                "route_parameters": {"Opt": None},
+                "link0_parameters": {
+                    "%chk": "checkpoint.chk",
+                    "%mem": "45GB",
+                    "%NProcShared": "24"}
+            }
+            the above default parameters will be used if not specified
+        freq_gaussian_inputs (dict): dictionary of Gaussian input
+            parameters for the frequency step; default parameters will
+            be used if not specified
+        solvent_gaussian_inputs (str): Gaussian input parameters
+            corresponding to the implicit solvent model to be used in
+            the ESP calculations, if any; for example:
+            "(Solvent=TetraHydroFuran)"; these parameters should only
+            be specified here and not included in the main
+            gaussian_inputs dictionary for each job
+            (i.e. opt_gaussian_inputs, freq_gaussian_inputs, etc.);
+            defaults to None
+        solvent_properties (dict): additional input parameters to be
+            used in the ESP calculations and relevant to the solvent
+            model, if any; for example, {"EPS":12}; defaults to None
+        cart_coords (bool): uses cartesian coordinates in writing
+            Gaussian input files if set to True, otherwise uses z-matrix;
+            defaults to True
+        oxidation_states (dict): dictionary of oxidation states that
+            can be used in setting the charge and spin multiplicity of
+            the molecule; for example: {"Li":1, "O":-2}; defaults to None
+        skips (list): list of lists of jobs to skip for each molecule;
+            e.g.: [["opt", "freq"], ["opt"]]; order should be consistent
+            with that in mol_operation_type and mol; defaults to None
+        **kwargs (keyword arguments): additional kwargs to be passed
+            to the workflow
+
+    Returns:
+        Workflow
+    """
     # TODO: test with different charges and spin multiplicities when
     #  deriving molecules
     # TODO: include an option to use free energy instead of SCF energy
