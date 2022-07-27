@@ -266,6 +266,80 @@ def get_ip_ea(
     ref_skips=None,
     **kwargs,
 ):
+    """
+    Defines a workflow for calculating the ionization potential (IP) and electron affinity (EA) in eV.
+
+    Args:
+        mol_operation_type (str): the type of molecule operation. See process_mol defined in
+            mispr/gaussian/utilities/mol.py for supported operations.
+        mol (Molecule, GaussianOutput, str, dict): source of the molecule to be processed. Should match the
+            mol_operation_type.
+        ref_charge (int): the initial charge on the molecule
+        single_step (bool): whether to run the electron transfer in a single or multiple steps; e.g. if num_electrons
+            is set to 2 and single_step is False, the workflow will run the electron transfer in two steps; defaults to
+            False.
+        vertical (bool): whether to run the vertical IP/EA calculations, in which optimization is performed only at the
+            reference state at each phase specified, thereby skipping the optimization step at the charge states;
+             defaults to False.
+        pcet (bool): whether to run sequential proton-coupled electron transfer calculations; number of hydrogen transfer
+            steps is assumed to be equal to the number of electron transfers; defaults to False.
+        h_index (int): the site index in the molecule at which to attach the hydrogen atoms in the PCET calculations;
+            defaults to None.
+        num_electrons (int): the number of electrons to be transferred; defaults to 1.
+        opt_gaussian_inputs (dict): dictionary of Gaussian input parameters for the optimization step; for example:
+            {
+            "functional": "HF",
+            "basis_set": "6-31G(d)",
+            "route_parameters": {"Opt": None},
+            "link0_parameters": {
+                "%chk": "checkpoint.chk",
+                "%mem": "45GB",
+                "%NProcShared": "28",
+                }
+            }
+            default parameters will be used if not specified
+        freq_gaussian_inputs (dict): dictionary of Gaussian input parameters for the frequency step; default
+            parameters will be used if not specified
+        solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the
+            implicit solvent model to be used in the redox potential calculations, if any;
+            for example: "(Solvent=TetraHydroFuran)";
+            these parameters should only be specified here and not included in the main
+            gaussian_inputs dictionary for each job (i.e. opt_gaussian_inputs, freq_gaussian_inputs); defaults to None
+        solvent_properties (dict): additional input parameters to be used in the ESP calculations and
+            relevant to the solvent model, if any; for example, {"EPS":12}; defaults to None
+        states (list): list of states to be calculated; e.g. ["cation"] for oxidation, ["anion"] for reduction, or
+            ["cation", "anion"] for oxidation and reduction calculations; runs both if None is specified
+        phases (list): list of phases to be calculated; e.g. ["solution"] for liquid phase, ["gas"] for gas phase, or
+            ["gas", "solution"] for the full thermodynamic cycle; runs both if None is specified
+        electrode_potentials (dict): dictionary of electrode potentials to be used in converting the absolute oxidation
+            and reduction potentials to commonly used potential scales; for example:
+            {
+             lithium": {
+                        "potential": 1.40,
+                        "ref": bibtex_parser("li_pot.bib", data_dir),
+                    }
+            }
+            uses hydrogen, magnesium, and lithium if None is specified; overwrites the existing values if any of these
+            are specified; if different potential scales are specified, computes the potential relative to the three
+            default scales as well as the new ones specified.
+        gibbs_elec (float): the electron gibbs free energy in Hartree; defaults to -0.001378786
+        gibbs_h (float): the hydrogen gibbs free energy in Hartree; defaults to -0.41816
+        db (str or dict): database credentials; could be provided as the path to the
+            db.json file or in the form of a dictionary; if none is provided, attempts
+            to get it from the configuration files
+        name (str): name of the workflow; defaults to "ip_ea_calculation"
+        working_dir (str): path of the working directory where any required input files
+            can be found and output will be created; defaults to the current working directory
+        cart_coords (bool): uses cartesian coordinates in writing Gaussian input files if set to True,
+            otherwise uses z-matrix; defaults to True
+        ref_skips (list): list of jobs to skip; for example: ["opt", "freq"]; only applies to the molecule in the
+            reference state; defaults to None
+        **kwargs (keyword arguments): additional kwargs to be passed to the workflow
+
+    Returns:
+        Workflow
+
+    """
     # gibbs_elec and gibbs_h in Ha
     # TODO: HOMO and LUMO of the neutral state as an approximation to IP and EA
     fws = []
