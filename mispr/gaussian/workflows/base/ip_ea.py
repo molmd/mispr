@@ -31,10 +31,13 @@ logger = logging.getLogger(__name__)
 
 class Node:
     """
-    Generates the fireworks corresponding to different molecule states in the IP/EA workflow. Each molecule state is
-    corresponds to a node in the tree. The node is a leaf if it is the last node in the tree, otherwise it is a branch.
-    Not meant to be instantiated directly.
+    Generates the fireworks corresponding to different molecule states
+    in the IP/EA workflow. Each molecule state is corresponds to a
+    node in the tree. The node is a leaf if it is the last node in the
+    tree, otherwise it is a branch. Not meant to be instantiated
+    directly.
     """
+
     def __init__(
         self,
         state: str,
@@ -55,19 +58,28 @@ class Node:
             state (str): current state of the molecule: cation or anion
             phase (str): current phase of the molecule: gas or solution
             num_electrons (int): number of electrons to transfer
-            mol_operation_type (str): type of molecule operation; required for the parent node, i.e. initial molecule
+            mol_operation_type (str): type of molecule operation;
+                required for the parent node, i.e. initial molecule
                 state, but not for the child nodes
-            mol (Molecule, GaussianOutput, str, dict): molecule to be processed; required for the parent node, i.e.
-                initial molecule state, but not for the child nodes since these are generated from the parent node
-            skips (list): list of jobs to skip; only relevant to the parent node, i.e. initial molecule state
-            check_result (list): list of properties to check for in the output file; only relevant when skipping jobs
-                at the parent node; currently checks for "final_energy" and "Gibbs Free Energy", since these are used
-                in calculating the redox potential
-            parent (str): parent node of the current node; None if the node corresponds to the initial molecule state
-            ref_charge (int): the initial charge on the molecule; only relevant to the parent node
-            branch_cation_from_anion (bool): whether to add a hydrogen atom at the current node; relevant for PCET
-                calculations
-            h_index (int): the site index in the molecule at which to attach the hydrogen atoms in the PCET calculations
+            mol (Molecule, GaussianOutput, str, dict): molecule to be
+                processed; required for the parent node, i.e. initial
+                molecule state, but not for the child nodes since these
+                are generated from the parent node
+            skips (list): list of jobs to skip; only relevant to the
+                parent node, i.e. initial molecule state
+            check_result (list): list of properties to check for in
+                the output file; only relevant when skipping jobs at the
+                parent node; currently checks for "final_energy" and
+                "Gibbs Free Energy", since these are used in calculating
+                the redox potential
+            parent (str): parent node of the current node; None if the
+                node corresponds to the initial molecule state
+            ref_charge (int): the initial charge on the molecule;
+                only relevant to the parent node
+            branch_cation_from_anion (bool): whether to add a hydrogen
+                atom at the current node; relevant for PCET calculations
+            h_index (int): the site index in the molecule at which to
+                attach the hydrogen atoms in the PCET calculations
         """
         self.phase = phase
         self.state = state
@@ -148,7 +160,8 @@ class Node:
         **kwargs,
     ):
         """
-        Generates the optimization and/or frequency fireworks corresponding to the current node.
+        Generates the optimization and/or frequency fireworks corresponding
+        to the current node.
         """
         if "mol_name" in kwargs:
             self.mol_name = kwargs["mol_name"]
@@ -223,7 +236,8 @@ class Node:
         vertical,
     ):
         """
-        Generates the children nodes of the current node in the tree representing the IP/EA workflow.
+        Generates the children nodes of the current node in the tree
+        representing the IP/EA workflow.
         """
         if self.state == "cation":
             branching_states = [i for i in branching_states if i != "anion"]
@@ -298,35 +312,45 @@ def get_ip_ea(
     **kwargs,
 ):
     """
-    Defines a workflow for calculating the ionization potential (IP) and electron affinity (EA) in eV.
-    Supports multiple methods for calculating redox potentials in gas and/or solution:
+    Defines a workflow for calculating the ionization potential (IP) and
+    electron affinity (EA) in eV. Supports multiple methods for
+    calculating redox potentials in gas and/or solution:
 
         1. Direct electron transfer
         2. Vertical calculation of IP and EA
         3. Adiabatic IP/EA
         3. Sequential PCET
 
-    Uses a tree structure to dynamically define the dependencies of the fireworks. The structure of the tree varies
-    based on the inputs to the workflow.
+    Uses a tree structure to dynamically define the dependencies of the
+    fireworks. The structure of the tree varies based on the inputs to
+    the workflow.
 
     Args:
-        mol_operation_type (str): the type of molecule operation. See process_mol defined in
-            mispr/gaussian/utilities/mol.py for supported operations.
-        mol (Molecule, GaussianOutput, str, dict): source of the molecule to be processed. Should match the
-            mol_operation_type.
+        mol_operation_type (str): the type of molecule operation.
+            See process_mol defined in mispr/gaussian/utilities/mol.py
+            for supported operations.
+        mol (Molecule, GaussianOutput, str, dict): source of the
+            molecule to be processed. Should match the mol_operation_type.
         ref_charge (int): the initial charge on the molecule
-        single_step (bool): whether to run the electron transfer in a single or multiple steps; e.g. if num_electrons
-            is set to 2 and single_step is False, the workflow will run the electron transfer in two steps; defaults to
-            False.
-        vertical (bool): whether to run the vertical IP/EA calculations, in which optimization is performed only at the
-            reference state at each phase specified, thereby skipping the optimization step at the charge states;
-             defaults to False.
-        pcet (bool): whether to run sequential proton-coupled electron transfer calculations; number of hydrogen transfer
-            steps is assumed to be equal to the number of electron transfers; defaults to False.
-        h_index (int): the site index in the molecule at which to attach the hydrogen atoms in the PCET calculations;
+        single_step (bool): whether to run the electron transfer in a
+            single or multiple steps; e.g. if num_electrons is set to 2
+            and single_step is False, the workflow will run the
+            electron transfer in two steps; defaults to False.
+        vertical (bool): whether to run the vertical IP/EA calculations,
+            in which optimization is performed only at the reference
+            state at each phase specified, thereby skipping the
+            optimization step at the charge states; defaults to False.
+        pcet (bool): whether to run sequential proton-coupled electron
+            transfer calculations; number of hydrogen transfer steps is
+            assumed to be equal to the number of electron transfers;
+            defaults to False.
+        h_index (int): the site index in the molecule at which to
+            attach the hydrogen atoms in the PCET calculations;
             defaults to None.
-        num_electrons (int): the number of electrons to be transferred; defaults to 1.
-        opt_gaussian_inputs (dict): dictionary of Gaussian input parameters for the optimization step; for example:
+        num_electrons (int): the number of electrons to be transferred;
+            defaults to 1.
+        opt_gaussian_inputs (dict): dictionary of Gaussian input
+            parameters for the optimization step; for example:
             {
             "functional": "HF",
             "basis_set": "6-31G(d)",
@@ -338,49 +362,68 @@ def get_ip_ea(
                 }
             }
             default parameters will be used if not specified
-        freq_gaussian_inputs (dict): dictionary of Gaussian input parameters for the frequency step; default
-            parameters will be used if not specified
-        solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the
-            implicit solvent model to be used in the redox potential calculations, if any;
-            for example: "(Solvent=TetraHydroFuran)";
-            these parameters should only be specified here and not included in the main
-            gaussian_inputs dictionary for each job (i.e. opt_gaussian_inputs, freq_gaussian_inputs); defaults to None
-        solvent_properties (dict): additional input parameters to be used in the ESP calculations and
-            relevant to the solvent model, if any; for example, {"EPS":12}; defaults to None
-        states (list): list of states to be calculated; e.g. ["cation"] for oxidation, ["anion"] for reduction, or
-            ["cation", "anion"] for oxidation and reduction calculations; runs both if None is specified
-        phases (list): list of phases to be calculated; e.g. ["solution"] for liquid phase, ["gas"] for gas phase, or
-            ["gas", "solution"] for the full thermodynamic cycle; runs both if None is specified
-        electrode_potentials (dict): dictionary of electrode potentials to be used in converting the absolute oxidation
-            and reduction potentials to commonly used potential scales; for example:
+        freq_gaussian_inputs (dict): dictionary of Gaussian input
+            parameters for the frequency step; default parameters will
+            be used if not specified
+        solvent_gaussian_inputs (str): Gaussian input parameters
+            corresponding to the implicit solvent model to be used in
+            the redox potential calculations, if any; for example:
+            "(Solvent=TetraHydroFuran)"; these parameters should only
+            be specified here and not included in the main
+            gaussian_inputs dictionary for each job
+            (i.e. opt_gaussian_inputs, freq_gaussian_inputs);
+            defaults to None
+        solvent_properties (dict): additional input parameters to be
+            used in the ESP calculations and relevant to the solvent
+            model, if any; for example, {"EPS":12}; defaults to None
+        states (list): list of states to be calculated; e.g.
+            ["cation"] for oxidation, ["anion"] for reduction, or
+            ["cation", "anion"] for oxidation and reduction calculations;
+            runs both if None is specified
+        phases (list): list of phases to be calculated; e.g.
+            ["solution"] for liquid phase, ["gas"] for gas phase, or
+            ["gas", "solution"] for the full thermodynamic cycle;
+            runs both if None is specified
+        electrode_potentials (dict): dictionary of electrode potentials
+            to be used in converting the absolute oxidation
+            and reduction potentials to commonly used potential scales;
+            for example:
             {
              lithium": {
                         "potential": 1.40,
                         "ref": bibtex_parser("li_pot.bib", data_dir),
                     }
             }
-            uses hydrogen, magnesium, and lithium if None is specified; overwrites the existing values if any of these
-            are specified; if different potential scales are specified, computes the potential relative to the three
+            uses hydrogen, magnesium, and lithium if None is specified;
+            overwrites the existing values if any of these
+            are specified; if different potential scales are specified,
+            computes the potential relative to the three
             default scales as well as the new ones specified.
-        gibbs_elec (float): the electron gibbs free energy in Hartree; defaults to -0.001378786
-        gibbs_h (float): the hydrogen gibbs free energy in Hartree; defaults to -0.41816
-        db (str or dict): database credentials; could be provided as the path to the
-            db.json file or in the form of a dictionary; if none is provided, attempts
-            to get it from the configuration files
+        gibbs_elec (float): the electron gibbs free energy in Hartree;
+            defaults to -0.001378786
+        gibbs_h (float): the hydrogen gibbs free energy in Hartree;
+            defaults to -0.41816
+        db (str or dict): database credentials; could be provided as
+            the path to the db.json file or in the form of a dictionary;
+            if none is provided, attempts to get it from the
+            configuration files
         name (str): name of the workflow; defaults to "ip_ea_calculation"
-        working_dir (str): path of the working directory where any required input files
-            can be found and output will be created; defaults to the current working directory
-        cart_coords (bool): uses cartesian coordinates in writing Gaussian input files if set to True,
-            otherwise uses z-matrix; defaults to True
-        ref_skips (list): list of jobs to skip; for example: ["opt", "freq"]; only applies to the molecule in the
+        working_dir (str): path of the working directory where any
+            required input files can be found and output will be
+            created; defaults to the current working directory
+        cart_coords (bool): uses cartesian coordinates in writing
+            Gaussian input files if set to True, otherwise uses z-matrix;
+            defaults to True
+        ref_skips (list): list of jobs to skip; for example:
+            ["opt", "freq"]; only applies to the molecule in the
             reference state; defaults to None
-        **kwargs (keyword arguments): additional kwargs to be passed to the workflow
+        **kwargs (keyword arguments): additional kwargs to be passed
+            to the workflow
 
     Returns:
         Workflow
 
     """
-    # gibbs_elec and gibbs_h in Ha
     # TODO: HOMO and LUMO of the neutral state as an approximation to IP and EA
     fws = []
     fireworks_dict = {}
