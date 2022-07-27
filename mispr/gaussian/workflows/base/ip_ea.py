@@ -422,7 +422,6 @@ def get_ip_ea(
 
     Returns:
         Workflow
-
     """
     # TODO: HOMO and LUMO of the neutral state as an approximation to IP and EA
     fws = []
