@@ -108,7 +108,7 @@ def get_solvation_structures_nmr(
             from the ESP calculations that is performed at the beginning of the workflow;
             if "get_from_prmtop" is used, the corresponding ff_param should be the
             path to the prmtop file; if "get_from_dict" is used, the corresponding
-            ff_param should be a dictionary, for example:
+            ff_param should be a dictionary, e.g.:
             {
                 "Labels": ["mg"],
                 "Masses": OrderedDict({"mg": 24.305}),
@@ -128,17 +128,17 @@ def get_solvation_structures_nmr(
         working_dir (str): path of the working directory where any required input files
             can be found and output will be created
         opt_esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
-            optimization step of the ESP workflow; for example:
+            optimization step of the ESP workflow; e.g.:
             {
-            "functional": "HF",
-            "basis_set": "6-31G(d)",
-            "route_parameters": {"Opt": None},
-            "link0_parameters": {
-                "%chk": "checkpoint.chk",
-                "%mem": "45GB",
-                "%NProcShared": "28",
+                "functional": "B3LYP",
+                "basis_set": "6-31G(d)",
+                "route_parameters": {"Opt": None},
+                "link0_parameters": {
+                    "%chk": "checkpoint.chk",
+                    "%mem": "45GB",
+                    "%NProcShared": "24"}
             }
-            default parameters will be used if not specified
+            the above default parameters will be used if not specified
         freq_esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
             frequency step of the ESP workflow; default parameters will be used if not specified
         esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
@@ -150,36 +150,36 @@ def get_solvation_structures_nmr(
         nmr_gaussian_inputs (dict): dictionary of Gaussian input parameters for the
             NMR step of the NMR workflow; default parameters will be used if not specified
         esp_solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the
-            implicit solvent model to be used in the ESP calculations, if any; for example: "(Solvent=TetraHydroFuran)";
+            implicit solvent model to be used in the ESP calculations, if any; e.g.: "(Solvent=TetraHydroFuran)";
             these parameters should only be specified here and not included in the main
             gaussian_inputs dictionary for each job (i.e. opt_gaussian_inputs, freq_esp_gaussian_inputs, etc.)
         esp_solvent_properties (dict): additional input parameters to be used in the ESP calculations and
-            relevant to the solvent model, if any; for example, {"EPS":12}
+            relevant to the solvent model, if any; e.g., {"EPS":12}
         nmr_solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the
-            implicit solvent model to be used in the NMR calculations, if any; for example: "(Solvent=TetraHydroFuran)";
+            implicit solvent model to be used in the NMR calculations, if any; e.g.: "(Solvent=TetraHydroFuran)";
             these parameters should only be specified here and not included in the main
             gaussian_inputs dictionary for each job (i.e. opt_nmr_gaussian_inputs, freq_nmr_gaussian_inputs, etc.)
         nmr_solvent_properties (dict): additional input parameters to be used in the NMR calculations and
-            relevant to the solvent model, if any; for example, {"EPS":12}
+            relevant to the solvent model, if any; e.g., {"EPS":12}
         cart_coords (bool): uses cartesian coordinates in writing Gaussian input files if set to True,
             otherwise uses z-matrix; defaults to True
         oxidation_states (dict): dictionary of oxidation states that can be used in setting the charge and
             spin multiplicity of the clusters extracted from MD simulations to be used in the NMR workflow
         skips (list of lists): type of DFT calculation to skip in the ESP workflow for each molecule;
-            for example ["opt", "freq"], ["opt"], ["freq"], or [];
+            e.g. ["opt", "freq"], ["opt"], ["freq"], or [];
         box_data_type (str): Can be one of the following: 'cubic','rectangular', or 'LammpsBox'.
             If 'cubic', box_data must be a float or int; if 'rectangular', box_data must be an array-like
             with size (3,2); if 'LammpsBox', box_data must be a pymatgen.io.lammps.data.LammpsBox object.
             Defaults to 'cubic'.
         data_file_name (str): name of the LAMMPS data file to create and use; defaults to "data.mixture"
         analysis_list (list of str): type of MD analysis to perform after the MD simulations are finished;
-            for example: ["diffusion", "rdf", "cn", "clusters"] if user wants to perform diffusion,
+            e.g.: ["diffusion", "rdf", "cn", "clusters"] if user wants to perform diffusion,
             RDF, coordination number, and cluster analysis
         analysis_settings (list of dict): settings of the MD analysis steps; please
             refer to the mdproptools documentation for details of inputs used in the analysis functions;
             order of settings should correspond to the order used in "analysis_list"
         **kwargs keyword arguments): additional kwargs to be passed to the workflow;
-            for example: lammps "recipe" and "recipe_settings"; the defaults for these
+            e.g.: lammps "recipe" and "recipe_settings"; the defaults for these
             inputs are specified in the mispr/lammps/defaults.py
 
     Returns:
