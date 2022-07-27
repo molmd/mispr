@@ -30,6 +30,11 @@ logger = logging.getLogger(__name__)
 
 
 class Node:
+    """
+    Generates the fireworks corresponding to different molecule states in the IP/EA workflow. Each molecule state is
+    corresponds to a node in the tree. The node is a leaf if it is the last node in the tree, otherwise it is a branch.
+    Not meant to be instantiated directly.
+    """
     def __init__(
         self,
         state: str,
@@ -44,6 +49,26 @@ class Node:
         branch_cation_from_anion: bool = False,
         h_index: list = None,
     ):
+        """
+
+        Args:
+            state (str): current state of the molecule: cation or anion
+            phase (str): current phase of the molecule: gas or solution
+            num_electrons (int): number of electrons to transfer
+            mol_operation_type (str): type of molecule operation; required for the parent node, i.e. initial molecule
+                state, but not for the child nodes
+            mol (Molecule, GaussianOutput, str, dict): molecule to be processed; required for the parent node, i.e.
+                initial molecule state, but not for the child nodes since these are generated from the parent node
+            skips (list): list of jobs to skip; only relevant to the parent node, i.e. initial molecule state
+            check_result (list): list of properties to check for in the output file; only relevant when skipping jobs
+                at the parent node; currently checks for "final_energy" and "Gibbs Free Energy", since these are used
+                in calculating the redox potential
+            parent (str): parent node of the current node; None if the node corresponds to the initial molecule state
+            ref_charge (int): the initial charge on the molecule; only relevant to the parent node
+            branch_cation_from_anion (bool): whether to add a hydrogen atom at the current node; relevant for PCET
+                calculations
+            h_index (int): the site index in the molecule at which to attach the hydrogen atoms in the PCET calculations
+        """
         self.phase = phase
         self.state = state
         self.parent = parent
@@ -122,6 +147,9 @@ class Node:
         branch_cation_from_anion,
         **kwargs,
     ):
+        """
+        Generates the optimization and/or frequency fireworks corresponding to the current node.
+        """
         if "mol_name" in kwargs:
             self.mol_name = kwargs["mol_name"]
             self.dir_head = kwargs["mol_name"]
@@ -194,6 +222,9 @@ class Node:
         h_index,
         vertical,
     ):
+        """
+        Generates the children nodes of the current node in the tree representing the IP/EA workflow.
+        """
         if self.state == "cation":
             branching_states = [i for i in branching_states if i != "anion"]
         if self.state == "anion":
@@ -268,6 +299,15 @@ def get_ip_ea(
 ):
     """
     Defines a workflow for calculating the ionization potential (IP) and electron affinity (EA) in eV.
+    Supports multiple methods for calculating redox potentials in gas and/or solution:
+
+        1. Direct electron transfer
+        2. Vertical calculation of IP and EA
+        3. Adiabatic IP/EA
+        3. Sequential PCET
+
+    Uses a tree structure to dynamically define the dependencies of the fireworks. The structure of the tree varies
+    based on the inputs to the workflow.
 
     Args:
         mol_operation_type (str): the type of molecule operation. See process_mol defined in
