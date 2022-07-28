@@ -209,6 +209,3 @@ def handle_gaussian_inputs(
             gaussian_inputs, solvent_gaussian_inputs, solvent_properties
         )
     return gaussian_inputs
-
-
-
