@@ -17,6 +17,18 @@ logger = logging.getLogger(__name__)
 
 
 def bibtex_parser(bib_file, working_dir):
+    """
+    Parses a bibtex file and returns a dictionary of the entries.
+
+    Args:
+        bib_file (str): relative or absolute path to the bibtex file
+        working_dir (str): name of the working directory where the
+            bibtex file is located if bib_file path is relative;
+            else None
+
+    Returns:
+        dict: dictionary of the entries in the bibtex file
+    """
     try:
         import bibtexparser
     except ModuleNotFoundError:
@@ -34,6 +46,20 @@ def bibtex_parser(bib_file, working_dir):
 
 
 def recursive_relative_to_absolute_path(operand, working_dir):
+    """
+    Recursively converts relative paths to absolute paths.
+
+    Args:
+        operand (str, list, dict): file, list of files, or
+            a dictionary where the values are the files; the file(s)
+            path can be relative or absolute
+        working_dir (str): name of the working directory where the
+            file(s) is/are located if operand path is relative; else None
+
+    Returns:
+        str or list or dict: file, list of files, or dict where the
+            values are the absolute paths;
+    """
     if isinstance(operand, str):
         if os.path.isabs(operand):
             return operand
