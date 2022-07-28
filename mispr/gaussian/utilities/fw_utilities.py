@@ -227,8 +227,9 @@ def run_fake_gaussian(workflow, ref_dirs, input_files=None, tolerance=None):
 def add_common_mods(workflow, fw_mods=None):
     """
     Wrapper function to add common modifications to a workflow.
+
     Args:
-        workflow:
+        workflow (Workflow): The workflow to modify
         fw_mods (dict): A dictionary of modifications to be applied to
             the workflow; supported ones are "CONTROL_WORKER",
             "MODIFY_QUEUE_PARAMETERS", "REPLACE_RUNTASK", and
