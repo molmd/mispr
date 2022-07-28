@@ -21,6 +21,16 @@ logger = logging.getLogger(__name__)
 
 
 def get_chem_schema(mol):
+    """
+    Returns a dictionary of chemical schema for a given molecule to use
+    in building db documents or json file.
+
+    Args:
+        mol (Molecule): Molecule object.
+
+    Returns:
+        dict: Chemical schema.
+    """
     mol_dict = mol.as_dict()
     comp = mol.composition
     a = BabelMolAdaptor(mol)
@@ -45,11 +55,33 @@ def get_chem_schema(mol):
 
 
 def get_mol_formula(mol):
+    """
+    Gets the alphabetical molecular formula for a molecule.
+
+    Args:
+        mol (Molecule): Molecule object
+
+    Returns:
+        str: Alphabetical molecular formula.
+    """
     mol_schema = get_chem_schema(mol)
     return mol_schema["formula_alphabetical"].replace(" ", "")
 
 
 def get_job_name(mol, name):
+    """
+    Appends a molecule label to the name of a workflow for easy
+    monitoring and identification.
+
+    Args:
+        mol (Molecule or str): If a Molecule is provides, the appended
+            label will be the molecular formula; otherwise the label
+            will be the provided string
+        name (str): original name of the workflow
+
+    Returns:
+        str: Job name with molecule label
+    """
     if not isinstance(mol, Molecule):
         job_name = "{}_{}".format(mol, name)
     else:
