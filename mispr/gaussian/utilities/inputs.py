@@ -189,50 +189,6 @@ def handle_gaussian_inputs(
     for one or more job in a workflow. Checks for implicit solvent
     parameters and adds missing keywords for a given job.
 
-    For example, if:
-    gaussian_inputs = {
-        "opt": {
-            "functional": "wB97X",
-            "basis_set": "Def2TZVP",
-            "route_parameters": {"Opt": None,
-                                 "EmpiricalDispersion": "GD3"},
-        },
-        "freq": {"Freq": None},
-    }
-    solvent_gaussian_inputs = "(solvent=water)"
-    the function will reformat the inputs to:
-    gaussian_inputs = {
-        "opt": {
-            "functional": "wB97X",
-            "basis_set": "Def2TZVP",
-            "route_parameters": {
-                "Opt": None,
-                "EmpiricalDispersion": "GD3",
-                "SCRF": "(Solvent=Water)",
-            },
-            "link0_parameters": {
-                "%chk": "checkpoint.chk",
-                "%mem": "45GB",
-                "%NProcShared": "24",
-            },
-        },
-        "freq": {
-            "functional": "wB97X",
-            "basis_set": "Def2TZVP",
-            "route_parameters": {
-                "EmpiricalDispersion": "GD3",
-                "Freq": None,
-                "SCRF": "(Solvent=Water)",
-            },
-            "link0_parameters": {
-                "%chk": "checkpoint.chk",
-                "%mem": "45GB",
-                "%NProcShared": "24",
-            },
-            "Freq": None,
-        },
-    }
-
     Args:
         gaussian_inputs (dict): dictionary of dictionaries of Gaussian
             inputs, e.g. {"opt": {opt_gaussian_inputs},
