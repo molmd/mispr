@@ -21,6 +21,17 @@ logger = logging.getLogger(__name__)
 
 
 def get_db(input_db=None):
+    """
+    Helper function to create a GaussianCalcDb instance from a file or
+    a dict.
+
+    Args:
+        input_db (str or dict): path to db file or a dict containing db
+            info.
+
+    Returns:
+        GaussianCalcDb
+    """
     if not input_db:
         input_db = f"{CONFIG_FILE_DIR}/db.json"
         if not os.path.isfile(input_db):
@@ -35,6 +46,5 @@ def get_db(input_db=None):
 
 def find_calc_in_db(query_criteria, db):
     from mispr.gaussian.utilities.gout import process_run
-
     g_out = process_run(operation_type="get_from_run_query", run=query_criteria, db=db)
     pass
