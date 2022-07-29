@@ -56,8 +56,8 @@ def process_run(operation_type, run, input_file=None, **kwargs):
             specified at the end of the Gaussian input file will not be
             saved since they are not easily retrieved from the Gaussian
             output file
-        **kwargs (dict): additional keyword arguments for the operation:
-            namely, working_dir and db
+        **kwargs (keyword arguments): additional keyword arguments for
+            the operation: namely, working_dir and db
 
     Returns:
         dict: cleaned up Gaussian output dictionary
