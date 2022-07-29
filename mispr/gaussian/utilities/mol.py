@@ -72,10 +72,10 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
             specified as "get_from_mol_db", etc.
         local_opt (bool): whether to perform local optimization on the
             input structure using OpenBabel
-        **kwargs (dict): keyword arguments:
+        **kwargs: keyword arguments:
             1. working_dir
             2. db
-            3. fmt (format of string if operation_type = "get_from_str",
+            3. str_type (format of string if operation_type = "get_from_str",
             e.g. "smi" or any other format supported by OpenBabel)
             4. force_field (force field to use for local optimization
             if local_opt is True): "gaff", "ghemical", "mmff94",
