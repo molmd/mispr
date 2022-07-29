@@ -28,6 +28,65 @@ logger = logging.getLogger(__name__)
 
 
 def process_mol(operation_type, mol, local_opt=False, **kwargs):
+    """
+    Processes a molecule. Used for handling different molecule formats
+    provided to Gaussian workflows.
+
+    Args:
+        operation_type (str): operation to perform for the molecule to
+            process the input structure format. Supported commands:
+            1. "get_from_mol": if the input is a pymatgen Molecule object
+            2. "get_from_file": if the input is any file format supported
+                by Openabel and pymatgen
+            3. "get_from_gout_file": if the input is a Gaussian output
+                file
+            4. "get_from_str": if the input is a string
+            5. "get_from_mol_db": if the input is an InChI representation
+                of the molecule to be used to query the database
+            6. "get_from_gout": if the input is a pymatgen
+                GaussianOutput object
+            7. "get_from_run_dict": if the input is a GaussianOutput
+                dictionary
+            8. "get_from_run_id": if the input is a MongoDB document
+                ID to be used to query the database
+            9. "get_from_run_query": if the input is a dictionary with
+                criteria to search the database: e.g.
+                "{'inchi': inchi, 'type': type, 'functional': func, ...}
+            10. "derive_molecule": used for deriving a molecule by
+                attaching a functional group at a site and the
+                corresponding mol input should be a dictionary,
+                e.g. {'operation_type': <mol_operation_type for the
+                base structure>, 'mol': <base_mol>,
+                'func_grp': func_group_name, ...}
+            11."link_molecules": used for linking two structures by
+                forming a bond at specific sites and the corresponding
+                mol input should be a dictionary, e.g.
+                {'operation_type': ['get_from_file',
+                                    'get_from_mol_db'],
+                 'mol': ['mol1.xyz', 'mol_inchi'],
+                 'index': [3, 5],
+                 'bond_order': 1}
+        mol (Molecule, str, GaussianOutput, dict): sources of structure,
+            e.g. file path if mol_operation_type is specified as
+            "get_from_file", InChI string if mol_operation_type is
+            specified as "get_from_mol_db", etc.
+        local_opt (bool): whether to perform local optimization on the
+            input structure using OpenBabel
+        **kwargs (dict): keyword arguments:
+            1. working_dir
+            2. db
+            3. fmt (format of string if operation_type = "get_from_str",
+            e.g. "smi" or any other format supported by OpenBabel)
+            4. force_field (force field to use for local optimization
+            if local_opt is True): "gaff", "ghemical", "mmff94",
+            "mmff94s", and "uff"
+            5. steps (number of steps for local optimization if
+            local_opt is True)
+            6. charge
+
+    Returns:
+        Molecule: pymatgen Molecule object
+    """
     working_dir = kwargs.get("working_dir", os.getcwd())
 
     def get_db_():
@@ -178,6 +237,20 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
 
 
 def perform_local_opt(mol, force_field="uff", steps=200):
+    """
+    Perform a local optimization on the molecule using OpenBabel.
+
+    Args:
+        mol (Molecule): The molecule to be optimized
+        force_field (str): The force field to be used for the
+            optimization; options include "gaff", "ghemical", "mmff94",
+            "mmff94s", and "uff"; defaults to "uff"
+        steps (int): The number of steps to be performed in the local
+            optimization; defaults to 200
+
+    Returns:
+        Molecule: The optimized molecule
+    """
     a = BabelMolAdaptor(mol)
     a.localopt(forcefield=force_field, steps=steps)
     mol_opt = a.pymatgen_mol
@@ -185,6 +258,22 @@ def perform_local_opt(mol, force_field="uff", steps=200):
 
 
 def label_atoms(mol):
+    """
+    Gets the SMILES representation of a molecule and label the atoms
+    that appear in the SMILES string with the atom indexes as they
+    appear in the molecule; e.g. if a monoglyme molecule is provided,
+    the returned strings are:
+    O(C)CCOC
+    0 1 2345
+    Helpful to know the atom indexes in the molecule without having to
+    visualize it.
+
+    Args:
+        mol (Molecule): The molecule to be labeled
+
+    Returns:
+        str: SMILES string followed by atom indexes
+    """
     # supports all atom types and molecules as large as 999 atoms; does not
     # support clusters
     a = BabelMolAdaptor(mol)
@@ -247,9 +336,17 @@ def label_atoms(mol):
 
 def get_bond_order_str(mol):
     """
-    Finds bond order as a string by iterating over bonds of a molecule. First
-    converts pymatgen mol to openbabel mol to use openbabel in finding bond
-    order.
+    Finds bond order as a string ("U": unbonded, "S", "D": double,
+    "T": triple, "A": aromatic) by iterating over bonds of a molecule.
+    First converts pymatgen mol to openbabel mol to use openbabel in
+    finding bond order.
+
+    Args:
+        mol (Molecule): pymatgen Molecule object
+
+    Returns:
+        dict: dictionary of bond orders with keys as tuples of atom
+            indexes forming the bond and values as bond order
     """
     bond_order = {}
     a = BabelMolAdaptor(mol).openbabel_mol
