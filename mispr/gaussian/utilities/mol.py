@@ -336,7 +336,7 @@ def label_atoms(mol):
 
 def get_bond_order_str(mol):
     """
-    Finds bond order as a string ("U": unbonded, "S", "D": double,
+    Finds bond order as a string ("U": unspecified, "S", "D": double,
     "T": triple, "A": aromatic) by iterating over bonds of a molecule.
     First converts pymatgen mol to openbabel mol to use openbabel in
     finding bond order.
