@@ -23,6 +23,14 @@ def get_rdkit_mol(mol, sanitize=True, remove_h=False):
     """
     Converts a pymatgen mol object to RDKit rdmol object. Uses RDKit to perform
     the conversion <http://rdkit.org>. Accounts for aromaticity.
+
+    Args:
+        mol (Molecule): pymatgen Molecule object
+        sanitize (bool): whether to sanitize the molecule
+        remove_h (bool): whether to remove hydrogens
+
+    Returns:
+        Mol: RDKit Mol object
     """
     try:
         import rdkit
@@ -71,6 +79,17 @@ def get_rdkit_mol(mol, sanitize=True, remove_h=False):
 
 
 def calc_energy(rdkit_mol, maxIters=200):
+    """
+    Performs local optimization on an rdkit Mol object and calculates
+    its energy using UFF.
+
+    Args:
+        rdkit_mol (Mol): RDKit Mol object
+        maxIters (int): maximum number of iterations to perform
+
+    Returns:
+        float: energy of the molecule
+    """
     from rdkit.Chem import AllChem
 
     AllChem.UFFOptimizeMolecule(rdkit_mol, maxIters)
@@ -81,6 +100,14 @@ def calc_energy(rdkit_mol, maxIters=200):
 
 
 def draw_rdkit_mol(rdkit_mol, filename="mol.png", working_dir=None):
+    """
+    Draws the 2D structure of a molecule and saves it to a file.
+
+    Args:
+        rdkit_mol (Mol): RDKit Mol object
+        filename (str): name of the file to save the image to
+        working_dir (str): directory to save the image to
+    """
     from rdkit.Chem import Draw, AllChem
 
     working_dir = working_dir or os.getcwd()
@@ -91,6 +118,24 @@ def draw_rdkit_mol(rdkit_mol, filename="mol.png", working_dir=None):
 def draw_rdkit_mol_with_highlighted_bonds(
     rdkit_mol, bonds, filename="mol.png", colors=None, working_dir=None
 ):
+    """
+    Draws the 2D structure of a molecule and highlights the bonds
+    specified by the user.
+
+    Args:
+        rdkit_mol (Mol): RDKit Mol object
+        bonds (list): list of tuples of indexes of atoms forming a
+            bond to highlight; e.g. [(3, 11), (5, 13)] to highlight the
+            bonds between sites 3 and 11 and sites 5 and 13
+        filename (str): name of the file to save the image to
+        colors (list): list of colors to use for highlighting the bonds;
+            colors should be provided in rgb format,
+            e.g. (0.0, 0.0, 0.0) for black; if not provided or number
+            of colors provided is less than number of bonds to
+            highlight, will randomly generate colors
+        working_dir (str): directory to save the image to
+    """
+
     def _generate_color():
         bond_color = (random.random(), random.random(), random.random())
         # prevent the generation of a white color
