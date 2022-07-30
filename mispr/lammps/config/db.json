@@ -1,0 +1,13 @@
+{
+    "admin_user": "ratwi01",
+    "admin_password": "glm-30-glmR",
+    "aliases": {},
+    "collection": "molecules",
+    "database": "lammps",
+    "host": ["cluster0-shard-00-00-w8yks.mongodb.net",
+        "cluster0-shard-00-01-w8yks.mongodb.net",
+        "cluster0-shard-00-02-w8yks.mongodb.net"],
+    "port": 27017,
+    "authsource": "admin",
+    "mongoclient_kwargs": {"ssl": true, "retrywrites": true, "w": "majority"}
+}
