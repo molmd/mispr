@@ -645,9 +645,7 @@ class BreakMolecule(FiretaskBase):
         # break the bonds: either those specified by the user inputs or all
         # the bonds in the molecule; only supports breaking bonds or opening
         # ring in the principle molecule
-        mol_graph = MoleculeGraph.with_local_env_strategy(
-            mol, OpenBabelNN(), reorder=False, extend_structure=False
-        )
+        mol_graph = MoleculeGraph.with_local_env_strategy(mol, OpenBabelNN())
         all_bonds = self.get("bonds", None)
         if not all_bonds:
             all_bonds = [
