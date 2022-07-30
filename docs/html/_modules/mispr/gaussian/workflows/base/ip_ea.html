@@ -1,0 +1,864 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
+
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>mispr.gaussian.workflows.base.ip_ea - MISPR 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../../index.html"><div class="brand">MISPR 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
+  
+  
+  <span class="sidebar-brand-text">MISPR 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../modules.html">API Docs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../mispr.html">mispr package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../mispr.gaussian.html">mispr.gaussian package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.gaussian.firetasks.html">mispr.gaussian.firetasks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.gaussian.fireworks.html">mispr.gaussian.fireworks package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../mispr.gaussian.workflows.html">mispr.gaussian.workflows package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="../../../../../mispr.gaussian.workflows.base.html">mispr.gaussian.workflows.base package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../mispr.hybrid.html">mispr.hybrid package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.hybrid.firetasks.html">mispr.hybrid.firetasks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.hybrid.workflows.html">mispr.hybrid.workflows package</a></li>
+</ul>
+</li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../mispr.lammps.html">mispr.lammps package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.firetasks.html">mispr.lammps.firetasks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.fireworks.html">mispr.lammps.fireworks package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.tests.html">mispr.lammps.tests package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.utilities.html">mispr.lammps.utilities package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.workflows.html">mispr.lammps.workflows package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for mispr.gaussian.workflows.base.ip_ea</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+
+<span class="c1"># Defines the redox potentials workflow.</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+
+<span class="kn">from</span> <span class="nn">fireworks</span> <span class="kn">import</span> <span class="n">Firework</span><span class="p">,</span> <span class="n">Workflow</span>
+
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.files</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">bibtex_parser</span><span class="p">,</span>
+    <span class="n">recursive_relative_to_absolute_path</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.inputs</span> <span class="kn">import</span> <span class="n">handle_gaussian_inputs</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.workflows.base.core</span> <span class="kn">import</span> <span class="n">common_fw</span><span class="p">,</span> <span class="n">WORKFLOW_KWARGS</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.firetasks.parse_outputs</span> <span class="kn">import</span> <span class="n">IPEAtoDB</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Rasha Atwi&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Rasha Atwi&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;rasha.atwi@stonybrook.edu&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Jan 2021&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.1&quot;</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../../../../mispr.gaussian.workflows.base.html#mispr.gaussian.workflows.base.ip_ea.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates the fireworks corresponding to different molecule states</span>
+<span class="sd">    in the IP/EA workflow. Each molecule state is corresponds to a</span>
+<span class="sd">    node in the tree. The node is a leaf if it is the last node in the</span>
+<span class="sd">    tree, otherwise it is a branch. Not meant to be instantiated</span>
+<span class="sd">    directly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">phase</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">num_electrons</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">mol_operation_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">mol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">skips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">check_result</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="s2">&quot;Node&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">ref_charge</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">branch_cation_from_anion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">h_index</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            state (str): current state of the molecule: cation or anion</span>
+<span class="sd">            phase (str): current phase of the molecule: gas or solution</span>
+<span class="sd">            num_electrons (int): number of electrons to transfer</span>
+<span class="sd">            mol_operation_type (str): type of molecule operation;</span>
+<span class="sd">                required for the parent node, i.e. initial molecule</span>
+<span class="sd">                state, but not for the child nodes</span>
+<span class="sd">            mol (Molecule, GaussianOutput, str, dict): molecule to be</span>
+<span class="sd">                processed; required for the parent node, i.e. initial</span>
+<span class="sd">                molecule state, but not for the child nodes since these</span>
+<span class="sd">                are generated from the parent node</span>
+<span class="sd">            skips (list): list of jobs to skip; only relevant to the</span>
+<span class="sd">                parent node, i.e. initial molecule state</span>
+<span class="sd">            check_result (list): list of properties to check for in</span>
+<span class="sd">                the output file; only relevant when skipping jobs at the</span>
+<span class="sd">                parent node; currently checks for &quot;final_energy&quot; and</span>
+<span class="sd">                &quot;Gibbs Free Energy&quot;, since these are used in calculating</span>
+<span class="sd">                the redox potential</span>
+<span class="sd">            parent (str): parent node of the current node; None if the</span>
+<span class="sd">                node corresponds to the initial molecule state</span>
+<span class="sd">            ref_charge (int): the initial charge on the molecule;</span>
+<span class="sd">                only relevant to the parent node</span>
+<span class="sd">            branch_cation_from_anion (bool): whether to add a hydrogen</span>
+<span class="sd">                atom at the current node; relevant for PCET calculations</span>
+<span class="sd">            h_index (int): the site index in the molecule at which to</span>
+<span class="sd">                attach the hydrogen atoms in the PCET calculations</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="o">=</span> <span class="n">phase</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+
+        <span class="n">add_charge</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="mi">1</span> <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;cation&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;anion&quot;</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="n">add_charge</span> <span class="o">*=</span> <span class="n">num_electrons</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">added_e</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">added_h</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">charge</span> <span class="o">=</span> <span class="n">ref_charge</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">add_charge</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">branch_cation_from_anion</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">added_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">added_e</span> <span class="o">-</span> <span class="n">add_charge</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">added_h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">added_h</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">added_e</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">added_e</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">added_h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">added_h</span> <span class="o">+</span> <span class="n">add_charge</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">charge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">charge</span> <span class="o">+</span> <span class="n">add_charge</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">gout_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">added_e</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">added_h</span><span class="si">}</span><span class="s2">&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fireworks</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">mol</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="p">(</span>
+                <span class="n">mol_operation_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="p">),</span> <span class="s2">&quot;if parent is None, a mol_operation type should be given&quot;</span>
+            <span class="k">assert</span> <span class="n">mol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;if parent is None, mol should be given&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mol_operation_type</span> <span class="o">=</span> <span class="n">mol_operation_type</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mol</span> <span class="o">=</span> <span class="n">mol</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check</span> <span class="o">=</span> <span class="n">check_result</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">process_mol_func</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">from_fw_spec</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">branch_cation_from_anion</span> <span class="ow">and</span> <span class="n">add_charge</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">h_atom</span> <span class="o">=</span> <span class="s2">&quot;[H]&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mol_operation_type</span> <span class="o">=</span> <span class="s2">&quot;link_molecules&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mol</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;operation_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;get_from_run_dict&quot;</span><span class="p">,</span> <span class="s2">&quot;get_from_str&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;mol&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">gout_key</span><span class="p">,</span> <span class="n">h_atom</span><span class="p">],</span>
+                    <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">h_index</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">added_h</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">&quot;bond_order&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="k">if</span> <span class="n">num_electrons</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_electrons</span><span class="p">):</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">mol</span> <span class="o">=</span> <span class="p">{</span>
+                            <span class="s2">&quot;operation_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;link_molecules&quot;</span><span class="p">,</span> <span class="s2">&quot;get_from_str&quot;</span><span class="p">],</span>
+                            <span class="s2">&quot;mol&quot;</span><span class="p">:</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span> <span class="n">h_atom</span><span class="p">],</span>
+                            <span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">h_index</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">added_h</span> <span class="o">+</span> <span class="n">i</span><span class="p">],</span> <span class="mi">0</span><span class="p">],</span>
+                            <span class="s2">&quot;bond_order&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                        <span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mol_operation_type</span> <span class="o">=</span> <span class="s2">&quot;get_from_run_dict&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">gout_key</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">process_mol_func</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">from_fw_spec</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">dir_head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">skip</span> <span class="o">=</span> <span class="n">skips</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Node.create_fireworks"><a class="viewcode-back" href="../../../../../mispr.gaussian.workflows.base.html#mispr.gaussian.workflows.base.ip_ea.Node.create_fireworks">[docs]</a>    <span class="k">def</span> <span class="nf">create_fireworks</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">opt_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">freq_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">solvent_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">solvent_properties</span><span class="p">,</span>
+        <span class="n">working_dir</span><span class="p">,</span>
+        <span class="n">db</span><span class="p">,</span>
+        <span class="n">cart_coords</span><span class="p">,</span>
+        <span class="n">branch_cation_from_anion</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the optimization and/or frequency fireworks corresponding</span>
+<span class="sd">        to the current node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;mol_name&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mol_name&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;mol_name&quot;</span><span class="p">]</span>
+            <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;mol_name&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;process_mol_func&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">process_mol_func</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;process_mol_func&quot;</span><span class="p">]</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;process_mol_func&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;process_mol_func&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;process_mol_func&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+
+        <span class="n">opt_gins</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">opt_gaussian_inputs</span><span class="p">)</span>
+        <span class="n">freq_gins</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">freq_gaussian_inputs</span><span class="p">)</span>
+        <span class="n">solvent_gins</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">solvent_gaussian_inputs</span><span class="p">)</span>
+        <span class="n">solvent_props</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">solvent_properties</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;solution&quot;</span><span class="p">:</span>
+            <span class="n">solvent_gins</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">solvent_props</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">gaussian_inputs</span> <span class="o">=</span> <span class="n">handle_gaussian_inputs</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;opt&quot;</span><span class="p">:</span> <span class="n">opt_gins</span><span class="p">,</span> <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="n">freq_gins</span><span class="p">},</span> <span class="n">solvent_gins</span><span class="p">,</span> <span class="n">solvent_props</span>
+        <span class="p">)</span>
+        <span class="n">opt_gins</span> <span class="o">=</span> <span class="n">gaussian_inputs</span><span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">]</span>
+        <span class="n">freq_gins</span> <span class="o">=</span> <span class="n">gaussian_inputs</span><span class="p">[</span><span class="s2">&quot;freq&quot;</span><span class="p">]</span>
+
+        <span class="n">dir_structure</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">]</span>
+        <span class="n">sec_dir_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">added_e</span><span class="si">}</span><span class="s2">e&quot;</span>
+        <span class="k">if</span> <span class="n">branch_cation_from_anion</span><span class="p">:</span>
+            <span class="n">sec_dir_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sec_dir_name</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">added_h</span><span class="si">}</span><span class="s2">h&quot;</span>
+        <span class="n">dir_structure</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sec_dir_name</span><span class="p">)</span>
+
+        <span class="n">local_mol</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">local_fws</span> <span class="o">=</span> <span class="n">common_fw</span><span class="p">(</span>
+            <span class="n">mol_operation_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mol_operation_type</span><span class="p">,</span>
+            <span class="n">mol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mol</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">opt_gaussian_inputs</span><span class="o">=</span><span class="n">opt_gins</span><span class="p">,</span>
+            <span class="n">freq_gaussian_inputs</span><span class="o">=</span><span class="n">freq_gins</span><span class="p">,</span>
+            <span class="n">cart_coords</span><span class="o">=</span><span class="n">cart_coords</span><span class="p">,</span>
+            <span class="n">oxidation_states</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">process_mol_func</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">process_mol_func</span><span class="p">,</span>
+            <span class="n">mol_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mol_name</span><span class="p">,</span>
+            <span class="n">dir_head</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span><span class="p">,</span>
+            <span class="n">gout_key</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gout_key</span><span class="p">,</span>
+            <span class="n">skips</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skip</span><span class="p">,</span>
+            <span class="n">check_result</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">check</span><span class="p">,</span>
+            <span class="n">dir_structure</span><span class="o">=</span><span class="n">dir_structure</span><span class="p">,</span>
+            <span class="n">from_fw_spec</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">from_fw_spec</span><span class="p">,</span>
+            <span class="n">charge</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+            <span class="n">str_type</span><span class="o">=</span><span class="s2">&quot;smi&quot;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dir_head</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fireworks</span> <span class="o">=</span> <span class="n">local_fws</span>
+        <span class="k">return</span></div>
+
+<div class="viewcode-block" id="Node.branch"><a class="viewcode-back" href="../../../../../mispr.gaussian.workflows.base.html#mispr.gaussian.workflows.base.ip_ea.Node.branch">[docs]</a>    <span class="k">def</span> <span class="nf">branch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">branching_states</span><span class="p">,</span>
+        <span class="n">branching_phases</span><span class="p">,</span>
+        <span class="n">num_of_electrons</span><span class="p">,</span>
+        <span class="n">branch_cation_from_anion</span><span class="p">,</span>
+        <span class="n">h_index</span><span class="p">,</span>
+        <span class="n">vertical</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates the children nodes of the current node in the tree</span>
+<span class="sd">        representing the IP/EA workflow.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;cation&quot;</span><span class="p">:</span>
+            <span class="n">branching_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">branching_states</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">&quot;anion&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;anion&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">branch_cation_from_anion</span><span class="p">:</span>
+                <span class="n">branching_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">branching_states</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s2">&quot;cation&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">branching_states</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vertical</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;reference&quot;</span><span class="p">:</span>
+                    <span class="n">skips</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">skips</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">skips</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Node</span><span class="p">(</span>
+                    <span class="n">state</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">,</span>
+                    <span class="n">num_of_electrons</span><span class="p">,</span>
+                    <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">branch_cation_from_anion</span><span class="o">=</span><span class="n">branch_cation_from_anion</span><span class="p">,</span>
+                    <span class="n">h_index</span><span class="o">=</span><span class="n">h_index</span><span class="p">,</span>
+                    <span class="n">skips</span><span class="o">=</span><span class="n">skips</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">phase</span> <span class="ow">in</span> <span class="n">branching_phases</span><span class="p">:</span>
+            <span class="n">branching_phases</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phase</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">branching_phases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">vertical</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="s2">&quot;reference&quot;</span><span class="p">:</span>
+                    <span class="n">skips</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">skips</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">skips</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Node</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+                    <span class="n">phase</span><span class="p">,</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">branch_cation_from_anion</span><span class="o">=</span><span class="n">branch_cation_from_anion</span><span class="p">,</span>
+                    <span class="n">skips</span><span class="o">=</span><span class="n">skips</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">children_nodes</span></div></div>
+
+
+<div class="viewcode-block" id="get_ip_ea"><a class="viewcode-back" href="../../../../../mispr.gaussian.workflows.base.html#mispr.gaussian.workflows.base.ip_ea.get_ip_ea">[docs]</a><span class="k">def</span> <span class="nf">get_ip_ea</span><span class="p">(</span>
+    <span class="n">mol_operation_type</span><span class="p">,</span>
+    <span class="n">mol</span><span class="p">,</span>
+    <span class="n">ref_charge</span><span class="p">,</span>
+    <span class="n">single_step</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">vertical</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">pcet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">h_index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">num_electrons</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">opt_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">freq_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">solvent_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">solvent_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">states</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">phases</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">electrode_potentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">gibbs_elec</span><span class="o">=-</span><span class="mf">0.001378786</span><span class="p">,</span>
+    <span class="n">gibbs_h</span><span class="o">=-</span><span class="mf">0.41816</span><span class="p">,</span>
+    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;ip_ea_calculation&quot;</span><span class="p">,</span>
+    <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cart_coords</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">ref_skips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Defines a workflow for calculating the ionization potential (IP) and</span>
+<span class="sd">    electron affinity (EA) in eV. Supports multiple methods for</span>
+<span class="sd">    calculating redox potentials in gas and/or solution:</span>
+
+<span class="sd">        1. Direct electron transfer</span>
+<span class="sd">        2. Vertical calculation of IP and EA</span>
+<span class="sd">        3. Adiabatic IP/EA</span>
+<span class="sd">        3. Sequential PCET</span>
+
+<span class="sd">    Uses a tree structure to dynamically define the dependencies of the</span>
+<span class="sd">    fireworks. The structure of the tree varies based on the inputs to</span>
+<span class="sd">    the workflow.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol_operation_type (str): the type of molecule operation.</span>
+<span class="sd">            See process_mol defined in mispr/gaussian/utilities/mol.py</span>
+<span class="sd">            for supported operations.</span>
+<span class="sd">        mol (Molecule, GaussianOutput, str, dict): source of the</span>
+<span class="sd">            molecule to be processed. Should match the mol_operation_type.</span>
+<span class="sd">        ref_charge (int): the initial charge on the molecule</span>
+<span class="sd">        single_step (bool): whether to run the electron transfer in a</span>
+<span class="sd">            single or multiple steps; e.g. if num_electrons is set to 2</span>
+<span class="sd">            and single_step is False, the workflow will run the</span>
+<span class="sd">            electron transfer in two steps; defaults to False.</span>
+<span class="sd">        vertical (bool): whether to run the vertical IP/EA calculations,</span>
+<span class="sd">            in which optimization is performed only at the reference</span>
+<span class="sd">            state at each phase specified, thereby skipping the</span>
+<span class="sd">            optimization step at the charge states; defaults to False.</span>
+<span class="sd">        pcet (bool): whether to run sequential proton-coupled electron</span>
+<span class="sd">            transfer calculations; number of hydrogen transfer steps is</span>
+<span class="sd">            assumed to be equal to the number of electron transfers;</span>
+<span class="sd">            defaults to False.</span>
+<span class="sd">        h_index (int): the site index in the molecule at which to</span>
+<span class="sd">            attach the hydrogen atoms in the PCET calculations;</span>
+<span class="sd">            defaults to None.</span>
+<span class="sd">        num_electrons (int): the number of electrons to be transferred;</span>
+<span class="sd">            defaults to 1.</span>
+<span class="sd">        opt_gaussian_inputs (dict): dictionary of Gaussian input</span>
+<span class="sd">            parameters for the optimization step; e.g.:</span>
+<span class="sd">            {</span>
+<span class="sd">                &quot;functional&quot;: &quot;B3LYP&quot;,</span>
+<span class="sd">                &quot;basis_set&quot;: &quot;6-31G(d)&quot;,</span>
+<span class="sd">                &quot;route_parameters&quot;: {&quot;Opt&quot;: None},</span>
+<span class="sd">                &quot;link0_parameters&quot;: {</span>
+<span class="sd">                    &quot;%chk&quot;: &quot;checkpoint.chk&quot;,</span>
+<span class="sd">                    &quot;%mem&quot;: &quot;45GB&quot;,</span>
+<span class="sd">                    &quot;%NProcShared&quot;: &quot;24&quot;}</span>
+<span class="sd">            }</span>
+<span class="sd">            the above default parameters will be used if not specified</span>
+<span class="sd">        freq_gaussian_inputs (dict): dictionary of Gaussian input</span>
+<span class="sd">            parameters for the frequency step; default parameters will</span>
+<span class="sd">            be used if not specified</span>
+<span class="sd">        solvent_gaussian_inputs (str): Gaussian input parameters</span>
+<span class="sd">            corresponding to the implicit solvent model to be used in</span>
+<span class="sd">            the redox potential calculations, if any; e.g.:</span>
+<span class="sd">            &quot;(Solvent=TetraHydroFuran)&quot;; these parameters should only</span>
+<span class="sd">            be specified here and not included in the main</span>
+<span class="sd">            gaussian_inputs dictionary for each job</span>
+<span class="sd">            (i.e. opt_gaussian_inputs, freq_gaussian_inputs);</span>
+<span class="sd">            defaults to None</span>
+<span class="sd">        solvent_properties (dict): additional input parameters to be</span>
+<span class="sd">            used in the ESP calculations and relevant to the solvent</span>
+<span class="sd">            model, if any; e.g., {&quot;EPS&quot;:12}; defaults to None</span>
+<span class="sd">        states (list): list of states to be calculated; e.g.</span>
+<span class="sd">            [&quot;cation&quot;] for oxidation, [&quot;anion&quot;] for reduction, or</span>
+<span class="sd">            [&quot;cation&quot;, &quot;anion&quot;] for oxidation and reduction calculations;</span>
+<span class="sd">            runs both if None is specified</span>
+<span class="sd">        phases (list): list of phases to be calculated; e.g.</span>
+<span class="sd">            [&quot;solution&quot;] for liquid phase, [&quot;gas&quot;] for gas phase, or</span>
+<span class="sd">            [&quot;gas&quot;, &quot;solution&quot;] for the full thermodynamic cycle;</span>
+<span class="sd">            runs both if None is specified</span>
+<span class="sd">        electrode_potentials (dict): dictionary of electrode potentials</span>
+<span class="sd">            to be used in converting the absolute oxidation</span>
+<span class="sd">            and reduction potentials to commonly used potential scales;</span>
+<span class="sd">            e.g.:</span>
+<span class="sd">            {</span>
+<span class="sd">             lithium&quot;: {</span>
+<span class="sd">                        &quot;potential&quot;: 1.40,</span>
+<span class="sd">                        &quot;ref&quot;: bibtex_parser(&quot;li_pot.bib&quot;, data_dir),</span>
+<span class="sd">                    }</span>
+<span class="sd">            }</span>
+<span class="sd">            uses hydrogen, magnesium, and lithium if None is specified;</span>
+<span class="sd">            overwrites the existing values if any of these</span>
+<span class="sd">            are specified; if different potential scales are specified,</span>
+<span class="sd">            computes the potential relative to the three</span>
+<span class="sd">            default scales as well as the new ones specified.</span>
+<span class="sd">        gibbs_elec (float): the electron gibbs free energy in Hartree;</span>
+<span class="sd">            defaults to -0.001378786</span>
+<span class="sd">        gibbs_h (float): the hydrogen gibbs free energy in Hartree;</span>
+<span class="sd">            defaults to -0.41816</span>
+<span class="sd">        db (str or dict): database credentials; could be provided as</span>
+<span class="sd">            the path to the db.json file or in the form of a dictionary;</span>
+<span class="sd">            if none is provided, attempts to get it from the</span>
+<span class="sd">            configuration files</span>
+<span class="sd">        name (str): name of the workflow; defaults to &quot;ip_ea_calculation&quot;</span>
+<span class="sd">        working_dir (str): path of the working directory where any</span>
+<span class="sd">            required input files can be found and output will be</span>
+<span class="sd">            created; defaults to the current working directory</span>
+<span class="sd">        cart_coords (bool): uses cartesian coordinates in writing</span>
+<span class="sd">            Gaussian input files if set to True, otherwise uses z-matrix;</span>
+<span class="sd">            defaults to True</span>
+<span class="sd">        ref_skips (list): list of jobs to skip; e.g.:</span>
+<span class="sd">            [&quot;opt&quot;, &quot;freq&quot;]; only applies to the molecule in the</span>
+<span class="sd">            reference state; defaults to None</span>
+<span class="sd">        **kwargs (keyword arguments): additional kwargs to be passed</span>
+<span class="sd">            to the workflow</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Workflow</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: HOMO and LUMO of the neutral state as an approximation to IP and EA</span>
+    <span class="n">fws</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">fireworks_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">links_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">parents_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">working_dir</span> <span class="o">=</span> <span class="n">working_dir</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="n">mol</span> <span class="o">=</span> <span class="n">recursive_relative_to_absolute_path</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">)</span>
+    <span class="n">mol_object</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ref_charge</span> <span class="o">!=</span> <span class="n">opt_gaussian_inputs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;charge&quot;</span><span class="p">,</span> <span class="n">ref_charge</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+            <span class="s2">&quot;The provided reference charge is not consistent with &quot;</span>
+            <span class="s2">&quot;the one found in the gaussian input parameters.&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">states</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cation&quot;</span><span class="p">,</span> <span class="s2">&quot;anion&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">phases</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;gas&quot;</span><span class="p">,</span> <span class="s2">&quot;solution&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">states</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">states</span><span class="p">,</span> <span class="s2">&quot;states list is empty&quot;</span>
+        <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;cation&quot;</span><span class="p">,</span> <span class="s2">&quot;anion&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The provided states are not supported. Supported&quot;</span>
+                <span class="s2">&quot; ones are reference, cation, and/or anion.&quot;</span>
+            <span class="p">)</span>
+    <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">phases</span><span class="p">,</span> <span class="s2">&quot;phases list is empty&quot;</span>
+        <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gas&quot;</span><span class="p">,</span> <span class="s2">&quot;solution&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The provided phases are not supported. Supported&quot;</span>
+                <span class="s2">&quot; ones are gas and/or solution.&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">pcet</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="p">(</span>
+            <span class="n">h_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="p">),</span> <span class="s2">&quot;index at which to attach hydrogen atom should be provided as input&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">h_index</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_electrons</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;number of indices at which to attach hydrogen atoms should be &quot;</span>
+            <span class="s2">&quot;consistent with number of transfer steps&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ref_skips</span><span class="p">:</span>
+        <span class="n">check_result</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;final_energy&quot;</span><span class="p">,</span> <span class="s2">&quot;Gibbs Free Energy&quot;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">check_result</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="s2">&quot;solution&quot;</span> <span class="ow">in</span> <span class="n">phases</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">solvent_gaussian_inputs</span><span class="p">:</span>
+        <span class="n">solvent_gaussian_inputs</span> <span class="o">=</span> <span class="s2">&quot;(PCM, Solvent=Water)&quot;</span>
+
+    <span class="k">if</span> <span class="n">electrode_potentials</span><span class="p">:</span>
+        <span class="n">electrode_potentials</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">k</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="p">{</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+            <span class="k">else</span> <span class="n">v</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">electrode_potentials</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">electrode_potentials</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">dict</span> <span class="ow">or</span> <span class="s2">&quot;potential&quot;</span> <span class="ow">and</span> <span class="s2">&quot;ref&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Standard electrode potential dict should &quot;</span>
+                    <span class="s2">&quot;contain potential and ref keys.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">electrode_potentials</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s2">&quot;ref&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bibtex_parser</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s2">&quot;ref&quot;</span><span class="p">],</span> <span class="n">working_dir</span><span class="p">)</span>
+
+    <span class="n">root_node</span> <span class="o">=</span> <span class="n">Node</span><span class="p">(</span>
+        <span class="s2">&quot;reference&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;gas&quot;</span> <span class="k">if</span> <span class="s2">&quot;gas&quot;</span> <span class="ow">in</span> <span class="n">phases</span> <span class="k">else</span> <span class="s2">&quot;solution&quot;</span><span class="p">,</span>
+        <span class="mi">0</span><span class="p">,</span>
+        <span class="n">mol_operation_type</span><span class="p">,</span>
+        <span class="n">mol_object</span><span class="p">,</span>
+        <span class="n">skips</span><span class="o">=</span><span class="n">ref_skips</span><span class="p">,</span>
+        <span class="n">check_result</span><span class="o">=</span><span class="n">check_result</span><span class="p">,</span>
+        <span class="n">ref_charge</span><span class="o">=</span><span class="n">ref_charge</span><span class="p">,</span>
+        <span class="n">branch_cation_from_anion</span><span class="o">=</span><span class="n">pcet</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">solved_nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">active_nodes</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">()</span>
+    <span class="n">active_nodes</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">root_node</span><span class="p">)</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">active_nodes</span><span class="o">.</span><span class="n">empty</span><span class="p">():</span>
+        <span class="n">current_node</span> <span class="o">=</span> <span class="n">active_nodes</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">current_node</span><span class="o">.</span><span class="n">create_fireworks</span><span class="p">(</span>
+            <span class="n">opt_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">freq_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">solvent_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">solvent_properties</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">db</span><span class="p">,</span>
+            <span class="n">cart_coords</span><span class="p">,</span>
+            <span class="n">pcet</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">fws</span> <span class="o">+=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">fireworks</span>
+        <span class="n">fireworks_dict</span><span class="p">[</span><span class="n">current_node</span><span class="o">.</span><span class="n">gout_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">fireworks</span>
+        <span class="k">if</span> <span class="n">current_node</span><span class="o">.</span><span class="n">parent</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">links_dict</span><span class="p">[</span><span class="n">current_node</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">fireworks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">links_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="n">current_node</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">fireworks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[]</span>
+            <span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">current_node</span><span class="o">.</span><span class="n">fireworks</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="n">parents_dict</span><span class="p">[</span><span class="n">current_node</span><span class="o">.</span><span class="n">gout_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">gout_key</span>
+
+        <span class="k">if</span> <span class="n">single_step</span><span class="p">:</span>
+            <span class="n">addition_electrons</span> <span class="o">=</span> <span class="n">num_electrons</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">addition_electrons</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">abs</span><span class="p">(</span><span class="n">current_node</span><span class="o">.</span><span class="n">added_e</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">num_electrons</span>
+            <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">current_node</span><span class="o">.</span><span class="n">added_h</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">num_electrons</span>
+        <span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;gas&quot;</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">current_node</span><span class="o">.</span><span class="n">phase</span> <span class="o">==</span> <span class="s2">&quot;solution&quot;</span><span class="p">:</span>
+                    <span class="c1"># no branching is done on solution if gas is in the phases</span>
+                    <span class="n">branching_phases</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">branching_states</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">branching_phases</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;solution&quot;</span><span class="p">]</span>
+                    <span class="n">branching_states</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">branching_phases</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">branching_states</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">current_node</span><span class="o">.</span><span class="n">added_e</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_electrons</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">pcet</span> <span class="ow">and</span> <span class="n">current_node</span><span class="o">.</span><span class="n">added_h</span> <span class="o">&lt;</span> <span class="n">num_electrons</span><span class="p">:</span>
+                    <span class="n">branching_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">branching_states</span> <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;cation&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">branching_states</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">current_node</span><span class="o">.</span><span class="n">added_h</span><span class="p">)</span> <span class="o">==</span> <span class="n">num_electrons</span><span class="p">:</span>
+                <span class="n">branching_states</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="n">branching_phases</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">branching_phases</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">]</span>
+            <span class="n">children</span> <span class="o">=</span> <span class="n">current_node</span><span class="o">.</span><span class="n">branch</span><span class="p">(</span>
+                <span class="n">branching_states</span><span class="p">,</span>
+                <span class="n">branching_phases</span><span class="p">,</span>
+                <span class="n">addition_electrons</span><span class="p">,</span>
+                <span class="n">pcet</span><span class="p">,</span>
+                <span class="n">h_index</span><span class="p">,</span>
+                <span class="n">vertical</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+                <span class="n">active_nodes</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="n">solved_nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_node</span><span class="p">)</span>
+
+    <span class="n">gout_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">gout_key</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">solved_nodes</span><span class="p">]</span>
+    <span class="n">fw_analysis</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+        <span class="n">IPEAtoDB</span><span class="p">(</span>
+            <span class="n">num_electrons</span><span class="o">=</span><span class="n">num_electrons</span><span class="p">,</span>
+            <span class="n">states</span><span class="o">=</span><span class="n">states</span><span class="p">,</span>
+            <span class="n">phases</span><span class="o">=</span><span class="n">phases</span><span class="p">,</span>
+            <span class="n">steps</span><span class="o">=</span><span class="s2">&quot;single&quot;</span> <span class="k">if</span> <span class="n">single_step</span> <span class="k">else</span> <span class="s2">&quot;multi&quot;</span><span class="p">,</span>
+            <span class="n">root_node_key</span><span class="o">=</span><span class="n">root_node</span><span class="o">.</span><span class="n">gout_key</span><span class="p">,</span>
+            <span class="n">keys</span><span class="o">=</span><span class="n">gout_keys</span><span class="p">,</span>
+            <span class="n">pcet</span><span class="o">=</span><span class="n">pcet</span><span class="p">,</span>
+            <span class="n">vertical</span><span class="o">=</span><span class="n">vertical</span><span class="p">,</span>
+            <span class="n">solvent_gaussian_inputs</span><span class="o">=</span><span class="n">solvent_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">solvent_properties</span><span class="o">=</span><span class="n">solvent_properties</span><span class="p">,</span>
+            <span class="n">electrode_potentials</span><span class="o">=</span><span class="n">electrode_potentials</span><span class="p">,</span>
+            <span class="n">gibbs_elec</span><span class="o">=</span><span class="n">gibbs_elec</span><span class="p">,</span>
+            <span class="n">gibbs_h</span><span class="o">=</span><span class="n">gibbs_h</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">{</span>
+                <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">IPEAtoDB</span><span class="o">.</span><span class="n">required_params</span> <span class="o">+</span> <span class="n">IPEAtoDB</span><span class="o">.</span><span class="n">optional_params</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+        <span class="n">parents</span><span class="o">=</span><span class="n">fws</span><span class="p">[:],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">-</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root_node</span><span class="o">.</span><span class="n">dir_head</span><span class="p">,</span> <span class="s2">&quot;ip_ea_analysis&quot;</span><span class="p">),</span>
+        <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">root_node</span><span class="o">.</span><span class="n">dir_head</span><span class="p">,</span> <span class="s2">&quot;analysis&quot;</span><span class="p">)},</span>
+    <span class="p">)</span>
+    <span class="n">fws</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fw_analysis</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Workflow</span><span class="p">(</span>
+        <span class="n">fws</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">root_node</span><span class="o">.</span><span class="n">dir_head</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span>
+        <span class="n">links_dict</span><span class="o">=</span><span class="n">links_dict</span><span class="p">,</span>
+        <span class="o">**</span><span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">WORKFLOW_KWARGS</span><span class="p">},</span>
+    <span class="p">)</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, MolMD Group
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+    <script src="../../../../../_static/jquery.js"></script>
+    <script src="../../../../../_static/underscore.js"></script>
+    <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../../_static/doctools.js"></script>
+    <script src="../../../../../_static/scripts/furo.js"></script>
+    </body>
+</html>
