@@ -42,6 +42,16 @@ logger = logging.getLogger(__name__)
 
 @explicit_serialize
 class RunGaussianDirect(FiretaskBase):
+    """
+    Execute a command directly for running Gaussian (no custodian).
+
+    Optional Args:
+        input_file (str): name of the Gaussian input file
+        output_file (str): name of the Gaussian output file
+        gaussian_cmd (str): the name of the full executable to run; if
+            not provided, will attempt to find the command in the
+            config file
+    """
     required_params = []
     optional_params = ["input_file", "output_file", "gaussian_cmd"]
 
@@ -73,6 +83,61 @@ class RunGaussianDirect(FiretaskBase):
 
 @explicit_serialize
 class RunGaussianCustodian(FiretaskBase):
+    """
+    Run Gaussian using custodian.
+
+    Optional Args:
+        input_file (str): name of the Gaussian input file
+        output_file (str): name of the Gaussian output file
+        gaussian_cmd (str): the name of the full executable to run; if
+            not provided, will attempt to find the command in the
+            config file
+        stderr_file (str): name of the file to direct standard error to
+        job_type (str): type of job to run; supported options are (1)
+            normal and (2) better_guess; defaults to "normal"
+        backup (bool): whether to backup the initial input file; if True,
+            the input will be copied with a ".orig" appended;
+            defaults to True
+        scf_max_cycles (int): maximum number of SCF cycles to run;
+            defaults to 100
+        opt_max_cycles (int): maximum number of optimization cycles to
+            run; defaults to 100
+        cart_coords (bool): whether to use cartesian coordinates;
+            defaults to True
+        max_errors (int): maximum number of errors to handle before
+            giving up; defaults to the number specified in
+            mispr.gaussian.defaults.py
+        lower_functional (str): lower level of theory to use if the
+            optimization fails and job_type is set to "better_guess;
+            this will attempt to generate a better initial guess of the
+            geometry before running the job again at the higher level
+            of theory
+        lower_basis_set (str): less expensive basis set to use if the
+            optimization fails and job_type is set to "better_guess;
+            this will attempt to generate a better initial guess of the
+            geometry before running the job again at the higher level
+            of theory
+        prefix (str): prefix to the files; defaults to error, which means a
+            series of error.1.tar.gz, error.2.tar.gz, ... will be generated.
+        suffix (str): a suffix to be appended to the final output;
+            e.g., to rename all Gaussian output from mol.out to
+            mol.out.1, provide ".1" as the suffix
+        check_convergence (bool): whether to check convergence in an
+            optimization job; this will also generate a plot with the
+            convergence criteria as a function of the number of
+            iterations; defaults to True
+        wall_time (int): wall time set to the job in seconds; if provided,
+            will add the WalTimeErrorHandler, which will restart the job
+            if it hits the wall time limit
+        buffer_time (int): buffer time set to the job in seconds; if
+            provided; if the remaining time for the job = buffer_time,
+            the WalTimeErrorHandler will cancel the job and restart it;
+            this is done because if the job hits wall time on its own
+            and is cancelled, it will no longer be possible to restart
+            it; defaults to 300 seconds
+        max_wall_time_corrections (int): maximum number of wall time
+            corrections to make; defaults to 3
+    """
     required_params = []
     optional_params = [
         "input_file",
@@ -234,6 +299,21 @@ class RunGaussianCustodian(FiretaskBase):
 
 @explicit_serialize
 class RunGaussianFake(FiretaskBase):
+    """
+    Run a fake Gaussian calculation.
+
+    Args:
+        ref_dir (str): path to reference Gaussian run directory with
+            input and output files in the folder
+
+    Optional Args:
+        working_dir (str): directory where the fake calculation will be
+            run
+        input_file (str): name of the input file (both reference input
+            and new input); defaults to mol.com
+        tolerance (float): tolerance for the comparison of the reference
+            and user input file; defaults to 0.0001
+    """
     required_params = ["ref_dir"]
     optional_params = ["working_dir", "input_file", "tolerance"]
 
