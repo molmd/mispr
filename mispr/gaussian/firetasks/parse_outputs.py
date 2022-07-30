@@ -216,7 +216,7 @@ class ProcessRun(FiretaskBase):
 @explicit_serialize
 class RetrieveGaussianOutput(FiretaskBase):
     """
-    Returns a Gaussian output dict from fw_spec or the database,
+    Gets a Gaussian output dict from fw_spec or the database,
     converts it to a GaussianInput object, and add it to fw_spec.
 
     Optional Args:
