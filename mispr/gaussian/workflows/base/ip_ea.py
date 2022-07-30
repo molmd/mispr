@@ -53,7 +53,6 @@ class Node:
         h_index: list = None,
     ):
         """
-
         Args:
             state (str): current state of the molecule: cation or anion
             phase (str): current phase of the molecule: gas or solution
