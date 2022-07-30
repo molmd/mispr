@@ -37,6 +37,10 @@ logger.setLevel(20)
 
 
 class GaussianCalcDb:
+    """
+    Class to help manage database insertions of molecules and Gaussian
+    calculations.
+    """
     def __init__(
         self,
         host,
@@ -94,6 +98,13 @@ class GaussianCalcDb:
 
     @abstractmethod
     def build_indexes(self, background=True):
+        """
+        Builds indexes for the database.
+
+        Args:
+            background: if ``True``, this index should be created in the
+            background.
+        """
         self.molecules.create_index("inchi", unique=False, background=background)
         self.molecules.create_index("smiles", unique=True, background=background)
         self.molecules.create_index(
@@ -128,6 +139,17 @@ class GaussianCalcDb:
         )
 
     def query_molecules(self, query):
+        """
+        Query the molecules collection.
+
+        Args:
+            query (dict): a query document that selects which documents
+                to include in the result set; e.g. keys can be inchi,
+                smiles, chemsys, etc.
+
+        Returns:
+            pd.DataFrame: a dataframe of documents that match the query
+        """
         projection = {
             "inchi": 1,
             "smiles": 1,
@@ -144,6 +166,14 @@ class GaussianCalcDb:
         return pd.DataFrame(list(self.molecules.find(query, projection)))
 
     def insert_molecule(self, mol, update_duplicates=False):
+        """
+        Insert a molecule into the molecules collection.
+
+        Args:
+            mol (Molecule): a pymatgen Molecule object to insert
+            update_duplicates (bool): if ``True``, update the existing
+                molecule in the db with the new one
+        """
         mol_dict = get_chem_schema(mol)
         # Check if mol is already in db
         result = self.molecules.find_one({"inchi": mol_dict["inchi"]})
@@ -186,12 +216,33 @@ class GaussianCalcDb:
             return mol_dict["inchi"]
 
     def retrieve_molecule(self, inchi):
+        """
+        Retrieve a molecule from the molecules collection.
+
+        Args:
+            inchi (str): the inchi representation of the molecule
+
+        Returns:
+            dict
+        """
         return self.molecules.find_one({"inchi": inchi})
 
     def delete_molecule(self, inchi):
+        """
+        Delete a molecule from the molecules collection.
+
+        Args:
+            inchi (str): the inchi representation of the molecule to delete
+        """
         return self.molecules.delete_one({"inchi": inchi})
 
     def insert_run(self, grun):
+        """
+        Insert a Gaussian run into the runs collection.
+
+        Args:
+            grun (dict): a dictionary containing the Gaussian run
+        """
         if "_id" in grun:
             stored_run = self.retrieve_run(_id=grun["_id"])
             if stored_run:
@@ -209,6 +260,21 @@ class GaussianCalcDb:
         basis=None,
         **kwargs
     ):
+        """
+        Retrieve a document from any collection of the database.
+
+        Args:
+            collection_name (str): the name of the collection, e.g.
+                bde, molecules, runs, etc.
+            inchi (str): the inchi representation of the molecule
+            smiles (str): the smiles representation of the molecule
+            functional (str): the name of the density functional
+            basis (str): the name of the basis set
+            **kwargs: other kwargs that can be used to query the collection
+
+        Returns:
+            list: a list of documents that match the query
+        """
         query = {}
         if inchi:
             query["inchi"] = inchi
@@ -224,6 +290,19 @@ class GaussianCalcDb:
     def retrieve_run(
         self, inchi=None, smiles=None, functional=None, basis=None, **kwargs
     ):
+        """
+        Retrieve a run from the runs collection.
+
+        Args:
+            inchi (str): the inchi representation of the molecule
+            smiles (str): the smiles representation of the molecule
+            functional (str): the name of the density functional
+            basis (str): the name of the basis set
+            **kwargs: other kwargs that can be used to query the collection
+
+        Returns:
+            list: a list of documents that match the query
+        """
         result = self.retrieve_doc(
             "runs",
             inchi=inchi,
@@ -243,6 +322,17 @@ class GaussianCalcDb:
         basis=None,
         **kwargs
     ):
+        """
+        Move documents from the runs collection to another collection.
+
+        Args:
+            new_collection (str): the name of the collection to move the runs to
+            inchi (str): the inchi representation of the molecule
+            smiles (str): the smiles representation of the molecule
+            functional (str): the name of the density functional
+            basis (str): the name of the basis set
+            **kwargs : other kwargs that can be used to query the collection
+        """
         runs = self.retrieve_run(inchi, smiles, functional, basis, **kwargs)
         self.db[new_collection].insert_many(runs)
 
@@ -257,6 +347,21 @@ class GaussianCalcDb:
         phase=None,
         **kwargs
     ):
+        """
+        Update a document in the runs collection. If multiple documents
+        match the query criteria, will select the first one.
+
+        Args:
+            new_values (dict): the new output values to update the
+                document with, e.g. {"polarizability": 3.5}
+            inchi (str): the inchi representation of the molecule
+            smiles (str): the smiles representation of the molecule
+            job_type (str): the type of job, e.g. "opt", "freq"
+            functional (str): the name of the density functional
+            basis (str): the name of the basis set
+            phase (str): the phase of the job, e.g. "gas", "solution"
+            **kwargs: other kwargs that can be used to query the collection
+        """
         query = {}
         if inchi:
             query["inchi"] = inchi
@@ -277,6 +382,16 @@ class GaussianCalcDb:
 
     @classmethod
     def from_db_file(cls, db_file, admin=True):
+        """
+        Create a new database object from a database file.
+
+        Args:
+            db_file (str): the path to the database file
+            admin (bool): whether to use admin credentials
+
+        Returns:
+            GaussianCalcDb
+        """
         creds = loadfn(db_file)
 
         if admin and "admin_user" not in creds and "readonly_user" in creds:
@@ -313,6 +428,13 @@ class GaussianCalcDb:
         )
 
     def insert_fg(self, fg_file):
+        """
+        Insert functional groups into their collection using a json
+        file. The file can contain one or more functional groups.
+
+        Args:
+            fg_file (str): the path to the json file
+        """
         # file can contain one fg dictionary or multiple ones
         with open(fg_file) as f:
             func_group = json.load(f)
@@ -329,9 +451,26 @@ class GaussianCalcDb:
         self.functional_groups.insert_many(list_of_groups)
 
     def retrieve_fg(self, name):
+        """
+        Retrieve a functional group from the functional_groups collection.
+
+        Args:
+            name (str): the name of the functional group to retrieve
+
+        Returns:
+            dict
+        """
         return self.functional_groups.find_one({"name": name})
 
     def insert_derived_mol(self, derived_mol, update_duplicates):
+        """
+        Insert a derived molecule into the derived_molecules collection.
+
+        Args:
+            derived_mol (Molecule): pymatgen.Molecule object
+            update_duplicates (bool): whether to update duplicates if
+                the molecule already exists
+        """
         if isinstance(derived_mol, Molecule):
             derived_mol_dict = get_chem_schema(derived_mol)
             result = self.derived_molecules.find_one(
@@ -353,6 +492,21 @@ class GaussianCalcDb:
             logger.info("No molecule provided")
 
     def insert_property(self, collection_name, property_dict, index, **kwargs):
+        """
+        Insert a document into a property collection in the database.
+        If the property already exists,
+
+        Args:
+            collection_name (str): the name of the collection to insert
+                the property into; e.g. bde, binding_energy, etc.
+            property_dict (dict): the property dictionary to insert
+            index (str, list[tuple]): the indexes to use for fast lookup;
+            **kwargs: additional kwargs to pass to
+                pymongo.collection.create_index
+
+        Returns:
+
+        """
         collection = self.db[collection_name]
         collection.create_index(index, **kwargs)
         collection.insert_one(property_dict)
