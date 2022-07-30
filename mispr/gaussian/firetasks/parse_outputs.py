@@ -61,6 +61,41 @@ R = 8.31446
 
 @explicit_serialize
 class ProcessRun(FiretaskBase):
+    """
+    Processes Gaussian output files from a single run. Enters the
+    run to db and/or creates a summary json file.
+
+    Args:
+        run (GaussianOutput, str, dict): the actual Gaussian run; type
+            depends on the operation_type
+
+    Optional Args:
+        operation_type (str): Type of operation to be performed; refer
+            to mispr.gaussian.utilities.gout.process_run for supported
+            ones
+        db (str or dict): database credentials to store the run; could
+            be provided as the path to the db.json file or in the form
+            of a dictionary
+        save_to_db (bool): whether to save the run to db
+        save_to_file (bool): whether to save the run to a json file
+        filename (str): name of the json file to save the run to; uses
+            "run.json" if not provided
+        input_file (str): the input file for the run; used for adding
+            Gaussian input parameters to the final Gaussian dictionary;
+            if not specified, will get these parameters from the run
+            itself, but in this case, "input_parameters" usually
+            specified at the end of the Gaussian input file will not be
+            saved since they are not easily retrieved from the Gaussian
+            output file
+        gout_key (str): the key to use for the run in the mod_spec dict
+            passed to FWAction; used when contents of the run are needed
+            in other tasks
+        format_chk (bool): whether to create a formatted check file
+            from the Gaussian checkpoint file
+        formchk_cmd (str): the full command to use for formatting the
+            checkpoint file; if not provided, will attempt to find one
+            in the configuration files
+    """
     required_params = ["run"]
     optional_params = [
         "operation_type",
@@ -96,7 +131,6 @@ class ProcessRun(FiretaskBase):
                         "$output_path$", f"{chk_file}.fchk"
                     )
 
-                    logger.info("Running command: {}".format(cmd))
                     logger.info("Running command: {}".format(cmd))
                     return_code = subprocess.call(cmd, shell=True)
                     logger.info(
@@ -182,8 +216,28 @@ class ProcessRun(FiretaskBase):
 @explicit_serialize
 class RetrieveGaussianOutput(FiretaskBase):
     """
-    Returns a Gaussian output object from the database and converts it to a
-    Gaussian input object
+    Returns a Gaussian output dict from fw_spec or the database,
+    converts it to a GaussianInput object, and add it to fw_spec.
+
+    Optional Args:
+        db (str or dict): database credentials; could be provided as
+            the path to the db.json file or in the form of a dictionary
+        gaussian_input_params (dict): parameters to use in creating the
+            GaussianInput object; if not provided, will use the ones
+            in the passed or retrieved Gaussian output dict
+        run_id (str): id of the run to retrieve from the database;
+            e.g. "5e3737d9da0b1cbbd5d556f7"
+        inchi (str): InChI of the molecule; used as a query criteria
+            to retrieve the run from the db
+        functional (str): density functional of the run in the db;
+            used as a query criteria
+        basis (str): basis set of the run in the db; used as a query
+            criteria
+        type (str): type of the Gaussian job run in the db; e.g. "opt"
+            or "freq"; used as a query criteria
+        phase (str): phase of the run in the db; e.g. "gas" or
+            "solution"; used as a query criteria
+        tag (str): tag of the run in the db; used as a query criteria
     """
 
     required_params = []
@@ -237,7 +291,8 @@ class RetrieveGaussianOutput(FiretaskBase):
         # create a gaussian input object from run
         if self.get("gaussian_input_params") is None:
             logger.info(
-                "No gaussian input parameters provided; will use " "run parameters"
+                "No gaussian input parameters provided; will use "
+                "run parameters"
             )
         inputs = {}
         for k, v in run["input"].items():
@@ -255,6 +310,30 @@ class RetrieveGaussianOutput(FiretaskBase):
 
 @explicit_serialize
 class ESPtoDB(FiretaskBase):
+    """
+    Enter an ESP run into the database.
+
+    Args:
+        keys (list): list of keys of Gaussian runs in fw_spec to use in
+            building the ESP document; e.g. these keys could correspond to
+            optimization, frequency, and ESP jobs leading to the final
+            result
+
+    Optional Args:
+        db (str or dict): database credentials to store the run; could
+            be provided as the path to the db.json file or in the form
+            of a dictionary
+        save_to_db (bool): whether to insert the ESP dict to the ESP
+            collection in the db
+        save_to_file (bool): whether to save the ESP dict to a json
+            file; if True, will save to a file named "esp.json"
+        additional_prop_doc_fields (dict): additional fields to add to
+            the final ESP dict
+        solvent_gaussian_inputs (str): gaussian inputs for the implicit
+            solvent model to add to the final ESP dict, if any
+        solvent_properties (dict): implicit solvent properties to add
+            to the final ESP dict, if any
+    """
     required_params = ["keys"]
     optional_params = [
         "db",
@@ -351,6 +430,30 @@ class ESPtoDB(FiretaskBase):
 
 @explicit_serialize
 class NMRtoDB(FiretaskBase):
+    """
+    Enter an NMR run into the database.
+
+    Args:
+        keys (list): list of keys of Gaussian runs in fw_spec to use in
+            building the NMR document; e.g. these keys could correspond to
+            optimization, frequency, and NMR jobs leading to the final
+            result
+
+    Optional Args:
+        db (str or dict): database credentials to store the run; could
+            be provided as the path to the db.json file or in the form
+            of a dictionary
+        save_to_db (bool): whether to insert the NMR dict to the NMR
+            collection in the db
+        save_to_file (bool): whether to save the NMR dict to a json
+            file; if True, will save to a file named "nmr.json"
+        additional_prop_doc_fields (dict): additional fields to add to
+            the final NMR dict
+        solvent_gaussian_inputs (str): gaussian inputs for the implicit
+            solvent model to add to the final NMR dict, if any
+        solvent_properties (dict): implicit solvent properties to add
+            to the final NMR dict, if any
+    """
     required_params = ["keys"]
     optional_params = [
         "db",
@@ -440,6 +543,34 @@ class NMRtoDB(FiretaskBase):
 
 @explicit_serialize
 class BindingEnergytoDB(FiretaskBase):
+    """
+    Enter a binding energy run into the database. The binding energy
+    value is in eV.
+
+    Args:
+        index (list): list of indices of the two sites in the molecules
+            at which they are expected to bind
+        keys (list): list of keys of Gaussian runs in fw_spec to use in
+            building the binding energy document; e.g. these keys could
+            correspond to set of optimization and frequency jobs leading
+            to the final result
+
+    Optional Args:
+        db (str or dict): database credentials to store the run; could
+            be provided as the path to the db.json file or in the form
+            of a dictionary
+        save_to_db (bool): whether to insert the binding energy dict to
+            the binding energy collection in the db
+        save_to_file (bool): whether to save the binding energy dict to
+            a json file; if True, will save to a file named
+            "binding_energy.json"
+        additional_prop_doc_fields (dict): additional fields to add to
+            the final binding energy dict
+        solvent_gaussian_inputs (str): gaussian inputs for the implicit
+            solvent model to add to the final binding energy dict, if any
+        solvent_properties (dict): implicit solvent properties to add
+            to the final binding energy dict, if any
+    """
     required_params = ["index", "keys"]
     optional_params = [
         "db",
@@ -549,6 +680,63 @@ class BindingEnergytoDB(FiretaskBase):
 
 @explicit_serialize
 class IPEAtoDB(FiretaskBase):
+    """
+    Inserts a redox potential run into the database. Saves both gibbs
+    free energies and redox potentials. If a calculation is performed in
+    multiple steps, saves all intermediate energies.
+
+    Args:
+        num_electrons (int): number of electrons transferred;
+        states (list): list of states used in the calculation; e.g.
+            ["cation"] for oxidation, ["anion"] for reduction, or
+            ["cation", "anion"] for oxidation and reduction calculations
+        phases (list): list of phases to involved in the calculations;
+            e.g. ["solution"] for liquid phase, ["gas"] for gas phase, or
+            ["gas", "solution"] for the full thermodynamic cycle
+        steps (str): whether the redox potential calculation is
+            performed in a single or multi step electron transfer
+            process
+        root_node_key (str): key of the Gaussian run corresponding to
+            the root node in fw_spec
+        keys (list): list of keys of Gaussian runs in fw_spec to use in
+            building the redox potential document; e.g. these keys could
+            correspond to set of optimization and frequency jobs leading
+            to the final result
+        pcet (bool): whether a PCET calculation is performed
+        vertical (bool): whether a vertical IP/EA calculation is
+            performed
+
+    Optional Args:
+        db (str or dict): database credentials to store the run; could
+            be provided as the path to the db.json file or in the form
+            of a dictionary
+        save_to_db (bool): whether to insert the redox potential dict
+            to the redox potential collection in the db
+        save_to_file (bool): whether to save the redox potential dict
+            to a json file; if True, will save to a file named
+            "ip_ea.json"
+        solvent_gaussian_inputs (str): gaussian inputs for the implicit
+            solvent model to add to the redox potential dict, if any
+        solvent_properties (dict): implicit solvent properties to add
+            to the final redox potential dict, if any
+        electrode_potentials (dict): dictionary of additional electrode
+            potentials to be used in converting the absolute oxidation
+            and reduction potentials to commonly used potential scales;
+            note that the hydrogen, lithium, and magnesium scales are
+            already included; the dictionary should be in the form:
+            {
+             "<metal>": {
+                        "potential": <float>,
+                        "ref": bibtex_parser("<ref_bib_file>", dir),
+                    }
+            }
+            Note that bibtex_parser need to be imported from
+            mispr.gaussian.utilities.files
+        additional_prop_doc_fields (dict): additional fields to add to
+            the final redox potential dict
+        gibbs_elec (float): the electron gibbs free energy in Hartree
+        gibbs_h (float): the hydrogen gibbs free energy in Hartree
+    """
     required_params = [
         "num_electrons",
         "states",
@@ -796,6 +984,34 @@ class IPEAtoDB(FiretaskBase):
 
 @explicit_serialize
 class BDEtoDB(FiretaskBase):
+    """
+    Enter a bond dissociation energy calculation into the database. The
+    calculation can correspond to one or more bonds in the same
+    molecule.
+
+    Optional Args:
+        principle_mol_key (str): key of the Gaussian run corresponding
+            to the principle molecule in the fw_spec
+        db (str or dict): database credentials to store the run; could
+            be provided as the path to the db.json file or in the form
+            of a dictionary
+        save_to_db (bool): whether to insert the BDE dict to the BDE
+            collection in the db
+        save_to_file (bool): whether to save the BDE dict to a json
+            file; if True, will save to a file named "bde.json"
+        solvent_gaussian_inputs (str): gaussian inputs for the implicit
+            solvent model to add to the BDE dict, if any
+        solvent_properties (dict): implicit solvent properties to add
+            to the final BDE dict, if any
+        additional_prop_doc_fields (dict): additional fields to add to
+            the final BDE dict
+        visualize (bool): whether to create a bar plot of the BDE
+            results along with the 2D structure of the principle
+            molecule with highlighted broken bonds
+        color (tuple): rgb color to use for highlighting the broken
+            bonds in the molecule; e.g. (0.0, 0.0, 0.0) for black;
+            if not provided, will use (197 / 255, 237 / 255, 223 / 255, 1)
+    """
     required_params = []
     optional_params = [
         "principle_mol_key",
