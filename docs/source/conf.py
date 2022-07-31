@@ -46,4 +46,4 @@ exclude_patterns = []
 html_theme = 'furo'
 html_static_path = ["_static"]
 
-master_doc = "overview"
+master_doc = "index"
