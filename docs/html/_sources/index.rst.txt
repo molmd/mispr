@@ -90,12 +90,17 @@ Some of the workflows available as of July 2022 are:
    * NMR: deriving NMR chemicals for stable solvation structures
      extracted from MD simulations
 
+One can customize any of the above workflows or create their own by reusing
+the building blocks provided by MISPR. The above preset workflows are in
+``mispr/gaussian/workflows/base``, ``mispr/lammps/workflows/base``, and
+``mispr/hybrid/workflows``.
+
 **Note**: An interface for the automatic generation of
 `OPLS <http://zarbi.chem.yale.edu/oplsaam.html>`_ parameters
 is under development.
+
 **Note**: Other types of force field parameters can be provided as
 inputs to the MD workflow, thereby skipping the force field generation step.
-
 
 =======
 Getting started
@@ -108,6 +113,8 @@ Installation
 =======
 What's new?
 =======
+Track changes to atomate through the :ref:`changelog` and the GitHub
+commit log for a record of changes.
 
 =======
 Citing MISPR
@@ -126,7 +133,7 @@ License
    :maxdepth: 2
    :caption: Documentation:
 
-   Introduction
+   introduction
    API Docs<modules>
 
 
