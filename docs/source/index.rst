@@ -5,6 +5,7 @@
 .. title:: mispr (Materials Science Workflows)
 .. image:: _static/logo.png
    :alt: mispr logo
+   :scale: 70%
 
 =======
 Overview

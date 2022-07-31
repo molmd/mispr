@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="&lt;no title&gt;" href="installation.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>&lt;no title&gt; - MISPR 0.0.1 documentation</title>
+        <title>MISPR developer installation - MISPR 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -134,7 +134,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -154,7 +154,10 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  
+  <ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installing MISPR in development mode</a></li>
+</ul>
+
 </div>
 </div>
 
@@ -180,13 +183,57 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main">
-          
+          <section id="installing-mispr-in-development-mode">
+<span id="developer-installation"></span><h1>Installing MISPR in development mode<a class="headerlink" href="#installing-mispr-in-development-mode" title="Permalink to this heading">#</a></h1>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<p id="codes-develop-mode">To make changes directly to the source and contribute to the development
+of MISPR, you can install MISPR in development mode.</p>
+<p><strong>Note</strong>: If you had already installed MISPR via pip or conda, you
+should uninstall that first before starting the installation in
+development mode. This ensures that you will not have any conflicts
+resulting from two different code installations.</p>
+<p>The steps for installing the packages in development mode are below.</p>
+<ol class="arabic">
+<li><p>Activate your conda environment or virtual environment</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">codes</span></code> directory in <code class="docutils literal notranslate"><span class="pre">|CODES_DIR|</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cd</span></code> to your newly created <code class="docutils literal notranslate"><span class="pre">|CODES_DIR|/codes</span></code> directory</p></li>
+<li><p>Clone the packages you want to install in development mode using git:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">molmd</span><span class="o">/</span><span class="n">pymatgen</span><span class="o">/</span><span class="n">tree</span><span class="o">/</span><span class="n">molmd_fix</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">molmd</span><span class="o">/</span><span class="n">custodian</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">molmd</span><span class="o">/</span><span class="n">mdproptools</span><span class="o">.</span><span class="n">git</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">molmd</span><span class="o">/</span><span class="n">mispr</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+<p>Now you should have pymatgen, custodian, mdproptools, and mispr
+directories in your <code class="docutils literal notranslate"><span class="pre">codes</span></code> directory.</p>
+</li>
+<li><p>For each of these packages, <code class="docutils literal notranslate"><span class="pre">cd</span></code> into their folders and run
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> or use the <code class="docutils literal notranslate"><span class="pre">conda</span></code> equivalent. Once installed,
+if you make changes to the code in these packages, the changes
+will take effect immediately without having to reinstall the package.</p></li>
+</ol>
+</section>
+<section id="post-installation">
+<h2>Post-installation<a class="headerlink" href="#post-installation" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p>Before you go any further, confirm your package installations are correct.
+First start IPython by typing <code class="docutils literal notranslate"><span class="pre">ipython</span></code> in your terminal, then confirm that
+the commands <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">pymatgen</span></code>, <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">custodian</span></code>, <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">mdproptools</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">import</span> <span class="pre">mispr</span></code> execute without any errors</p></li>
+<li><p>To update these codes later on, execute <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span></code> followed by
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">.</span></code> or the <code class="docutils literal notranslate"><span class="pre">conda</span></code> equivalent in the corresponding
+folder</p></li>
+</ol>
+</section>
+</section>
+
         </article>
       </div>
       <footer>
@@ -224,8 +271,28 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Installing MISPR in development mode</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#post-installation">Post-installation</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
