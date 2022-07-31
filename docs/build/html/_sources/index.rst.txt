@@ -1,7 +1,7 @@
 
 
 .. toctree::
-   :caption: Contents:
+   :hidden:
 
    overview
    API Docs<modules>
