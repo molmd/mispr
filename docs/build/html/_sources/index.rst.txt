@@ -122,7 +122,7 @@ Citing MISPR
 If you find MISPR useful in your research, please consider citing the following paper:
 
 **Paper 1 (MISPR):**
-.. code-block:: bibtex
+
    @article{atwi2022mispr,
      title={MISPR: An automated infrastructure for high-throughput DFT and MD simulations},
      author={Atwi, Rasha and Bliss, Matthew and Makeev, Maxim and Rajput, Nav Nidhi},
@@ -131,7 +131,7 @@ If you find MISPR useful in your research, please consider citing the following 
 Download as :download:`BibTeX <_static/mispr_citation.bib>`
 
 **Paper 2 (Hybrid NMR Workflow):**
-.. code-block:: bibtex
+
    @article{atwi2022automated,
      title={An automated framework for high-throughput predictions of NMR chemical shifts within liquid solutions},
      author={Atwi, Rasha and Chen, Ying and Han, Kee Sung and Mueller, Karl T and Murugesan, Vijayakumar and Rajput, Nav Nidhi},
