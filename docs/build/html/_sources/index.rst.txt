@@ -6,6 +6,19 @@
 .. image:: _static/logo.png
    :alt: mispr logo
 
+.. toctree::
+   :hidden:
+
+   overview
+   workflows
+   getting started
+   installation
+   what's new
+   citing mispr
+   contributing/contact/support
+   license
+   code documentation
+
 =======
 Overview
 =======
@@ -113,7 +126,7 @@ Installation
 =======
 What's new?
 =======
-Track changes to atomate through the :doc:`changelog` and the GitHub
+Track changes to MISPR through the :doc:`changelog` and the GitHub
 commit log for a record of changes.
 
 =======
