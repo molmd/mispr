@@ -45,3 +45,27 @@ exclude_patterns = []
 
 html_theme = 'furo'
 html_static_path = ["_static"]
+
+html_theme_options = {
+    "canonical_url": "https://molmd.github.io/mispr",
+    "logo_only": True,
+    "display_version": True,
+    "prev_next_buttons_location": None,
+    "style_external_links": True,
+    "style_nav_header_background": "linear-gradient(0deg, rgba(23,63,162,1) 0%, rgba(0,70,192,1) 100%)",
+    "collapse_navigation": True,
+    "sticky_navigation": True,
+    "navigation_depth": 4,
+    "includehidden": True,
+    "titles_only": False,
+}
+
+html_context = {
+    "display_github": True,
+    "github_user": "molmd",
+    "github_repo": "mispr",
+    "github_version": "master",
+    "conf_py_path": "/docs/source/",
+}
+
+master_doc = "index"
