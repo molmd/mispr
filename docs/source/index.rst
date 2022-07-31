@@ -55,13 +55,9 @@ Contributing / Contact / Support
 License
 =======
 
-=======
-Documentation
-=======
-
 .. toctree::
    :maxdepth: 2
-   :caption:
+   :caption: Documentation:
 
    Introduction
    API Docs<modules>
