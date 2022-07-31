@@ -113,7 +113,7 @@ Installation
 =======
 What's new?
 =======
-Track changes to atomate through the :ref:`changelog` and the GitHub
+Track changes to atomate through the :doc:`changelog` and the GitHub
 commit log for a record of changes.
 
 =======
