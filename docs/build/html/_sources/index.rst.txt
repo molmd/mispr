@@ -9,6 +9,17 @@
 =======
 Overview
 =======
+MISPR (Materials Informatics for Structure-Property Relationships) is a
+high-throughput computational infrastructure aimed at guiding and
+accelerating materials discovery, optimization, and deployment for
+liquid solutions by seamlessly integrating density functional theory
+(DFT) with classical molecular dynamics (MD) techniques. MISPR is
+motivated by the Materials Genome Initiative (MGI) principles and is
+built on top of open-source Python packages developed for the Materials
+Project such as `pymatgen <https://pymatgen.org>`_,
+`FireWorks <https://materialsproject.github.io/fireworks/>`_ ,
+and `custodian <https://materialsproject.github.io/custodian/>`_.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
