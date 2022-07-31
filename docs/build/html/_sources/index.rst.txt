@@ -20,6 +20,17 @@ Project such as `pymatgen <https://pymatgen.org>`_,
 `FireWorks <https://materialsproject.github.io/fireworks/>`_ ,
 and `custodian <https://materialsproject.github.io/custodian/>`_.
 
+Features of MISPR include:
+
+* Automation of DFT and MD simulations and all their underlying tasks from
+file management and job submission to supercomputing resources, to output
+parsing and data analytics
+
+* Creation of computational databases of force field parameters and DFT
+and MD derived properties of molecular systems for establishing
+structure-property relations and maintaining data provenance and
+reproducibility
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
