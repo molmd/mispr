@@ -6,9 +6,12 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>mispr (Materials Science Workflows) - MISPR 0.0.1 documentation</title>
+        <title>Overview - Materials informatics for structure-property relationships</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -18,6 +21,8 @@
   body {
     --color-code-background: #f8f8f8;
   --color-code-foreground: black;
+  --color-brand-primary: #991B1E;
+  --color-brand-content: #991B1E;
   
   }
   @media not print {
@@ -123,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">MISPR 0.0.1 documentation</div></a>
+      <a href="index.html"><div class="brand">Materials informatics for structure-property relationships</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -143,21 +148,28 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="index.html">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
   
-  <span class="sidebar-brand-text">MISPR 0.0.1 documentation</span>
+  <span class="sidebar-brand-text">Materials informatics for structure-property relationships</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  
-</div>
-</div>
+<div id="searchbox"></div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing MISPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
 
+</div>
+</div>
       </div>
       
     </div>
@@ -172,7 +184,16 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          <div class="theme-toggle-container theme-toggle-content">
+          <div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/molmd/mispr/docs/edit/master/overview.rst" title="Edit this page">
+    <svg aria-hidden="true" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+      <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+    </svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -186,20 +207,24 @@
           </label>
         </div>
         <article role="main">
-          <img alt="mispr logo" src="_images/logo.png" />
-<section id="overview">
+          <section id="overview">
 <h1>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">#</a></h1>
 <p>MISPR (Materials Informatics for Structure-Property Relationships) is a
 high-throughput computational infrastructure aimed at guiding and
 accelerating materials discovery, optimization, and deployment for
 liquid solutions by seamlessly integrating density functional theory
-(DFT) with classical molecular dynamics (MD) techniques. MISPR is
-motivated by the Materials Genome Initiative (MGI) principles and is
+(DFT) with classical molecular dynamics (MD) techniques.</p>
+<p>MISPR is motivated by the Materials Genome Initiative (MGI) principles and is
 built on top of open-source Python packages developed for the Materials
 Project such as <a class="reference external" href="https://pymatgen.org">pymatgen</a>,
 <a class="reference external" href="https://materialsproject.github.io/fireworks/">FireWorks</a> ,
-and <a class="reference external" href="https://materialsproject.github.io/custodian/">custodian</a>.</p>
-<p>Features of MISPR include:</p>
+and <a class="reference external" href="https://materialsproject.github.io/custodian/">custodian</a>, as
+well as <a class="reference external" href="https://github.com/molmd/mdproptools">MDPropTools</a>, which
+is an in-house package for analyzing MD output and trajectory files.</p>
+<figure class="align-default">
+<img alt="_images/overview.png" src="_images/overview.png" />
+</figure>
+<p><strong>Features of MISPR include</strong>:</p>
 <ul class="simple">
 <li><p>Automation of DFT and MD simulations and all their underlying tasks
 from file management and job submission to supercomputing resources,
@@ -236,141 +261,13 @@ the electronic environment, which is crucial to derive reliable energetics
 and other properties such as NMR chemical shifts and redox potentials
 and match them to experimental data</p></li>
 </ul>
-<p><strong>Note</strong>: MISPR is primarily built to work with <a class="reference external" href="https://gaussian.com">Gaussian</a>
-electronic structure software for DFT calculation and <a class="reference external" href="https://www.lammps.org/#gsc.tab=0">LAMMPS</a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MISPR is primarily built to work with <a class="reference external" href="https://gaussian.com">Gaussian</a>
+electronic structure software for DFT calculation and
+<a class="reference external" href="https://www.lammps.org/#gsc.tab=0">LAMMPS</a>
 open-source software for MD simulations.</p>
-</section>
-<section id="workflows">
-<h1>Workflows<a class="headerlink" href="#workflows" title="Permalink to this heading">#</a></h1>
-<p>Some of the workflows available as of July 2022 are:</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt>DFT:</dt><dd><ul>
-<li><p>Electrostatic partial charges (ESP)</p></li>
-<li><p>NMR shifts</p></li>
-<li><p>Redox potentials</p></li>
-<li><p>Binding energies</p></li>
-<li><p>Bond dissociation energies</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>MD:</dt><dd><ul>
-<li><p>Initial configuration building, generation of <a class="reference external" href="http://ambermd.org">GAFF</a> parameters,
-running of MD simulations</p></li>
-<li><p>Analysis of output and trajectory files (e.g. RDF, coordination
-number, diffusion coefficients, etc.)</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>Hybrid:</dt><dd><ul>
-<li><p>Core workflow for optimizing the individual structure of the
-mixture of components, generating their ESP charges, and using
-them in MD simulations</p></li>
-<li><p>NMR: deriving NMR chemicals for stable solvation structures
-extracted from MD simulations</p></li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-<p>One can customize any of the above workflows or create their own by reusing
-the building blocks provided by MISPR. The above preset workflows are in
-<code class="docutils literal notranslate"><span class="pre">mispr/gaussian/workflows/base</span></code>, <code class="docutils literal notranslate"><span class="pre">mispr/lammps/workflows/base</span></code>, and
-<code class="docutils literal notranslate"><span class="pre">mispr/hybrid/workflows</span></code>.</p>
-<p><strong>Note</strong>: An interface for the automatic generation of
-<a class="reference external" href="http://zarbi.chem.yale.edu/oplsaam.html">OPLS</a> parameters
-is under development.</p>
-<p><strong>Note</strong>: Other types of force field parameters can be provided as
-inputs to the MD workflow, thereby skipping the force field generation step.</p>
-</section>
-<section id="getting-started">
-<h1>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this heading">#</a></h1>
-</section>
-<section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
-</section>
-<section id="what-s-new">
-<h1>What’s new?<a class="headerlink" href="#what-s-new" title="Permalink to this heading">#</a></h1>
-<p>Track changes to MISPR through the <a class="reference internal" href="changelog.html"><span class="doc">MISPR Changelog</span></a> and the GitHub
-commit log for a record of changes.</p>
-</section>
-<section id="citing-mispr">
-<h1>Citing MISPR<a class="headerlink" href="#citing-mispr" title="Permalink to this heading">#</a></h1>
-<p>If you find MISPR useful in your research, please consider citing the following papers:</p>
-<p><strong>Paper 1 (MISPR):</strong></p>
-<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">atwi2022mispr</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{MISPR: An automated infrastructure for high-throughput DFT and MD simulations}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Atwi, Rasha and Bliss, Matthew and Makeev, Maxim and Rajput, Nav Nidhi}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2022}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
 </div>
-<p>Download as <a class="reference download internal" download="" href="_downloads/fdd29a5720b48392c0789affcc4fb5e8/mispr_citation.bib"><code class="xref download docutils literal notranslate"><span class="pre">BibTeX</span></code></a></p>
-<p><strong>Paper 2 (Hybrid NMR Workflow):</strong></p>
-<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">atwi2022automated</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">title</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{An automated framework for high-throughput predictions of NMR chemical shifts within liquid solutions}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">author</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{Atwi, Rasha and Chen, Ying and Han, Kee Sung and Mueller, Karl T and Murugesan, Vijayakumar and Rajput, Nav Nidhi}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">journal</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="s">{Nature Computational Science}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">volume</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{2}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">number</span><span class="w">       </span><span class="p">=</span><span class="w"> </span><span class="s">{2}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">pages</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="s">{112--122}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">year</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="s">{2022}</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="na">publisher</span><span class="w">    </span><span class="p">=</span><span class="w"> </span><span class="s">{Nature Publishing Group}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</pre></div>
-</div>
-<p>Download as <a class="reference download internal" download="" href="_downloads/06920989aa58eec95718018206509e48/nmr_citation.bib"><code class="xref download docutils literal notranslate"><span class="pre">BibTeX</span></code></a></p>
-</section>
-<section id="contributing-contact-support">
-<h1>Contributing / Contact / Support<a class="headerlink" href="#contributing-contact-support" title="Permalink to this heading">#</a></h1>
-</section>
-<section id="license">
-<h1>License<a class="headerlink" href="#license" title="Permalink to this heading">#</a></h1>
-<p>MISPR is released under the MIT License.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">MIT</span> <span class="n">License</span> <span class="p">(</span><span class="n">MIT</span><span class="p">)</span>
-
-<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2022</span> <span class="n">Stony</span> <span class="n">Brook</span> <span class="n">University</span>
-
-<span class="n">Permission</span> <span class="ow">is</span> <span class="n">hereby</span> <span class="n">granted</span><span class="p">,</span> <span class="n">free</span> <span class="n">of</span> <span class="n">charge</span><span class="p">,</span> <span class="n">to</span> <span class="nb">any</span> <span class="n">person</span> <span class="n">obtaining</span> <span class="n">a</span> <span class="n">copy</span>
-<span class="n">of</span> <span class="n">this</span> <span class="n">software</span> <span class="ow">and</span> <span class="n">associated</span> <span class="n">documentation</span> <span class="n">files</span> <span class="p">(</span><span class="n">the</span> <span class="s2">&quot;Software&quot;</span><span class="p">),</span> <span class="n">to</span> <span class="n">deal</span>
-<span class="ow">in</span> <span class="n">the</span> <span class="n">Software</span> <span class="n">without</span> <span class="n">restriction</span><span class="p">,</span> <span class="n">including</span> <span class="n">without</span> <span class="n">limitation</span> <span class="n">the</span> <span class="n">rights</span>
-<span class="n">to</span> <span class="n">use</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">modify</span><span class="p">,</span> <span class="n">merge</span><span class="p">,</span> <span class="n">publish</span><span class="p">,</span> <span class="n">distribute</span><span class="p">,</span> <span class="n">sublicense</span><span class="p">,</span> <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">sell</span>
-<span class="n">copies</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span><span class="p">,</span> <span class="ow">and</span> <span class="n">to</span> <span class="n">permit</span> <span class="n">persons</span> <span class="n">to</span> <span class="n">whom</span> <span class="n">the</span> <span class="n">Software</span> <span class="ow">is</span>
-<span class="n">furnished</span> <span class="n">to</span> <span class="n">do</span> <span class="n">so</span><span class="p">,</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span><span class="p">:</span>
-
-<span class="n">The</span> <span class="n">above</span> <span class="n">copyright</span> <span class="n">notice</span> <span class="ow">and</span> <span class="n">this</span> <span class="n">permission</span> <span class="n">notice</span> <span class="n">shall</span> <span class="n">be</span> <span class="n">included</span> <span class="ow">in</span> <span class="nb">all</span>
-<span class="n">copies</span> <span class="ow">or</span> <span class="n">substantial</span> <span class="n">portions</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Software</span><span class="o">.</span>
-
-<span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="s2">&quot;AS IS&quot;</span><span class="p">,</span> <span class="n">WITHOUT</span> <span class="n">WARRANTY</span> <span class="n">OF</span> <span class="n">ANY</span> <span class="n">KIND</span><span class="p">,</span> <span class="n">EXPRESS</span> <span class="n">OR</span>
-<span class="n">IMPLIED</span><span class="p">,</span> <span class="n">INCLUDING</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span> <span class="n">THE</span> <span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span><span class="p">,</span>
-<span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">AND</span> <span class="n">NONINFRINGEMENT</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span>
-<span class="n">AUTHORS</span> <span class="n">OR</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">BE</span> <span class="n">LIABLE</span> <span class="n">FOR</span> <span class="n">ANY</span> <span class="n">CLAIM</span><span class="p">,</span> <span class="n">DAMAGES</span> <span class="n">OR</span> <span class="n">OTHER</span>
-<span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">AN</span> <span class="n">ACTION</span> <span class="n">OF</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">TORT</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">,</span> <span class="n">ARISING</span> <span class="n">FROM</span><span class="p">,</span>
-<span class="n">OUT</span> <span class="n">OF</span> <span class="n">OR</span> <span class="n">IN</span> <span class="n">CONNECTION</span> <span class="n">WITH</span> <span class="n">THE</span> <span class="n">SOFTWARE</span> <span class="n">OR</span> <span class="n">THE</span> <span class="n">USE</span> <span class="n">OR</span> <span class="n">OTHER</span> <span class="n">DEALINGS</span> <span class="n">IN</span> <span class="n">THE</span>
-<span class="n">SOFTWARE</span><span class="o">.</span>
-</pre></div>
-</div>
-</section>
-<section id="code-documentation">
-<h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this heading">#</a></h1>
-<p>Autogenerated code documentation below:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">API Docs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="mispr.html">mispr package</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<ul class="simple">
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
-</ul>
 </section>
 
         </article>
@@ -393,6 +290,11 @@ commit log for a record of changes.</p>
           </div>
           <div class="right-details">
             <div class="icons">
+              <a class="muted-link " href="https://github.com/molmd/mispr" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
               
             </div>
           </div>
@@ -412,5 +314,9 @@ commit log for a record of changes.</p>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/scripts/furo.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script src="_static/js/rtd_sphinx_search.min.js"></script>
     </body>
 </html>
