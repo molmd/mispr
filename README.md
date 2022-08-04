@@ -3,6 +3,7 @@
 # MISPR: Materials Informatics for Structure-Property Relationships 
 
 **Rasha Atwi, Matthew Bliss, Maxim Makeev, and Nav Nidhi Rajput**
+
 **Stony Brook University** 
 
 MISPR is a software that executes, manages, and stores computational materials science 
