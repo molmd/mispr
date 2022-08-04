@@ -17,7 +17,6 @@ setuptools.setup(
         "pymongo >= 3.11.0",
         "pymongo <= 3.12.0",
         "matplotlib >= 3.3.1",
-        "bson",
         "networkx >= 2.5",
         "fireworks >= 1.9.6",
         "monty >= 4.0.0",
