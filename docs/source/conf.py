@@ -37,11 +37,13 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     'sphinx_search.extension',
+    "sphinx_tabs.tabs"
 ]
 autosectionlabel_prefix_document = True
 templates_path = ["_templates"]
 exclude_patterns = []
-
+sphinx_tabs_valid_builders = ['linkcheck']
+sphinx_tabs_disable_tab_closing = True
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

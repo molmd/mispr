@@ -1,0 +1,11 @@
+{
+    "host": "<<HOSTNAME>>",
+    "port": <<PORT>>,
+    "database": "<<DB_NAME>>",
+    "collection": "tasks",
+    "admin_user": "<<ADMIN_USERNAME>>",
+    "admin_password": "<<ADMIN_PASSWORD>>",
+    "readonly_user": "<<READ_ONLY_PASSWORD>>",
+    "readonly_password": "<<READ_ONLY_PASSWORD>>",
+    "aliases": {}
+}
