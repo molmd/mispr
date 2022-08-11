@@ -1,0 +1,520 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>Configuration Files - Materials informatics for structure-property relationships</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #991B1E;
+  --color-brand-content: #991B1E;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Materials informatics for structure-property relationships</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Materials informatics for structure-property relationships</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="citing.html">Citing MISPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="edit-this-page">
+  <a class="muted-link" href="https://github.com/molmd/mispr/docs/edit/master/configuration.rst" title="Edit this page">
+    <svg aria-hidden="true" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <path d="M4 20h4l10.5 -10.5a1.5 1.5 0 0 0 -4 -4l-10.5 10.5v4" />
+      <line x1="13.5" y1="6.5" x2="17.5" y2="10.5" />
+    </svg>
+    <span class="visually-hidden">Edit this page</span>
+  </a>
+</div><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="configuration-files">
+<h1>Configuration Files<a class="headerlink" href="#configuration-files" title="Permalink to this heading">#</a></h1>
+<p>After setting up the environment and installing the software, you will
+need to configure the software to work with your system. This is done by
+creating the following set of configuration files.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This page is intended to help you get set-up for the first time using
+FireWorks and MISPR so you can learn how these software work. Please
+refer to the <a class="reference external" href="https://materialsproject.github.io/fireworks/">FireWorks</a>
+documentation for more information on these files and how FireWorks works.
+Here, we will only discuss the basic configuration options which are
+sufficient for using MISPR as in this tutorial.</p>
+</div>
+<section id="writing-the-configuration-files">
+<h2>Writing the Configuration Files<a class="headerlink" href="#writing-the-configuration-files" title="Permalink to this heading">#</a></h2>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="15762cb9-578c-4d77-af63-be3cd7d61001" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
+</input><label class="sd-tab-label" for="15762cb9-578c-4d77-af63-be3cd7d61001">
+db.json</label><div class="sd-tab-content docutils">
+<p>This file contains the basic MongoDB information like the
+credentials required to connect to the database where the
+calculation outputs will be stored. Note that
+JSON strings require double quotes except for the value of
+“port” which is an integer.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span>{
+    &quot;admin_user&quot;: &quot;|ADMIN_USERNAME|&quot;,
+    &quot;admin_password&quot;: &quot;|ADMIN_PASSWORD|&quot;,
+    &quot;aliases&quot;: {},
+    &quot;collection&quot;: &quot;|COLLECTION|&quot;,
+    &quot;database&quot;: &quot;|DB_NAME|&quot;,
+    &quot;host&quot;: &quot;|HOSTNAME|&quot;,
+    &quot;port&quot;: |PORT|,
+}
+</pre></div>
+</div>
+</div>
+<input id="3e7621bd-b130-4591-978b-2e69a6edd35d" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
+</input><label class="sd-tab-label" for="3e7621bd-b130-4591-978b-2e69a6edd35d">
+my_fworker.yaml</label><div class="sd-tab-content docutils">
+<p>This file stores your FireWorker’s credentials. In
+<a class="reference external" href="https://materialsproject.github.io/fireworks/index.html#centralized-server-and-worker-model">FireWorks</a>, a
+FireWorker can be as simple as the workstation used to host the
+LaunchPad or complicated like a supercomputing center with a
+queueing system.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>name: |WORKER_NAME|
+category: &#39;&#39;
+query: &#39;{}&#39;
+env:
+    db_file: |CODES_DIR|/config/db.json
+    scratch_dir: null
+</pre></div>
+</div>
+<p>The following parameters are defined in the file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the name of the worker where your job will be run;
+this is helpful when you have multiple workers; see
+<a class="reference external" href="https://materialsproject.github.io/fireworks/controlworker.html?highlight=category">FireWorks documentation on controlling the Worker</a>
+if you need more information on setting up this file if you are
+using more than one worker.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">category</span></code> and <code class="docutils literal notranslate"><span class="pre">queue</span></code>: these parameters can control which
+calculations are run on which worker; the default settings will
+allow all calculations to be run</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">env</span></code>: defines worker-specific settings like the path to the
+db file and the scratch directory for fast disk access</p></li>
+</ul>
+</div>
+<input id="62ce1b78-0845-448b-8e6e-8c3193dde583" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
+</input><label class="sd-tab-label" for="62ce1b78-0845-448b-8e6e-8c3193dde583">
+my_launchpad.yaml</label><div class="sd-tab-content docutils">
+<p>This is the FireWorks LaunchPad file that contains the MongoDB
+credentials required to connect to the database for storing
+and managing workflows within FireWorks. Note that the <code class="docutils literal notranslate"><span class="pre">db.json</span></code>
+file we created earlier is used to connect to the database
+where the results are stored and is used by MISPR while
+<code class="docutils literal notranslate"><span class="pre">my_launchpad.yaml</span></code> is used by FireWorks. The two databases
+can be the same or different databases. If they are the same databases,
+then the information here will be mostly the same as that in the
+<code class="docutils literal notranslate"><span class="pre">db.json</span></code> file.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>host: |HOSTNAME|
+port: |PORT|
+name: |LAUNCHPAD_NAME|
+username: |ADMIN_USERNAME|
+password: |ADMIN_PASSWORD|
+logdir: null
+strm_lvl: INFO
+user_indices: []
+wf_user_indices: []
+authsource: null
+uri_mode: |URI_MODE|
+mongoclient_kwargs: {}
+</pre></div>
+</div>
+<p>The following parameters need to be defined in the file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">host</span></code>: the hostname of the MongoDB server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">port</span></code>: the port number of the MongoDB server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: the name of the MongoDB server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">username</span></code>: the username to connect to the MongoDB server</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">password</span></code>: the password to connect to the MongoDB server</p></li>
+</ul>
+<p>Note that if the <code class="docutils literal notranslate"><span class="pre">uri_mode</span></code> is set to true, the <code class="docutils literal notranslate"><span class="pre">host</span></code>
+should be the full <a class="reference external" href="https://www.mongodb.com/docs/manual/reference/connection-string/">URI string</a>.
+In this case, the <code class="docutils literal notranslate"><span class="pre">username</span></code> and <code class="docutils literal notranslate"><span class="pre">password</span></code> are not used.</p>
+<p>If you want to pass other custom keyword arguments
+(e.g., SSL/TLS arguments) to the MongoClient connection, you
+can do that via <code class="docutils literal notranslate"><span class="pre">mongoclient_kwargs</span></code>. See
+<a class="reference external" href="https://pymongo.readthedocs.io/en/stable/api/pymongo/mongo_client.html">pymongo documentation</a>
+for more details.</p>
+</div>
+<input id="390d861c-dd62-4751-8fe1-c0f959a8d92a" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
+</input><label class="sd-tab-label" for="390d861c-dd62-4751-8fe1-c0f959a8d92a">
+my_qadapter.yaml</label><div class="sd-tab-content docutils">
+<p>This is the queue adapter file required by FireWorks to
+automatically communicate with the queueing system.
+The example provided here is for SLURM machines and does not
+include a full list of possible parameters, but you can
+check the rest of the parameters or parameters that can be
+specified for other queue systems (e.g., PBS, SGE, etc.)
+<a class="reference external" href="https://github.com/materialsproject/fireworks/tree/main/fireworks/user_objects/queue_adapters">here</a>.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>_fw_name: CommonAdapter
+_fw_q_type: SLURM
+rocket_launch: rlaunch -w |CODES_DIR|/config singleshot
+nodes: 1
+walltime: 24:00:00
+queue: null
+account: null
+job_name: null
+pre_rocket: null
+post_rocket: null
+logdir: |CODES_DIR|/logs
+</pre></div>
+</div>
+<p>The following parameters are defined in the file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_fw_name</span></code>: <code class="docutils literal notranslate"><span class="pre">CommonAdapter</span></code> means that the queue is one of
+the built-in queue systems</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_fw_q_type</span></code>: the queue system type (e.g., SLURM, PBS, SGE, etc.)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rocket_launch</span></code>: the method to use for launching Rockets</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nodes</span></code>, <code class="docutils literal notranslate"><span class="pre">walltime</span></code>, <code class="docutils literal notranslate"><span class="pre">queue</span></code>, <code class="docutils literal notranslate"><span class="pre">account</span></code>, <code class="docutils literal notranslate"><span class="pre">job_name</span></code>:
+parameters you normally specify in your SLURM script for
+allocating resources</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pre_rocket</span></code> and  <code class="docutils literal notranslate"><span class="pre">post_rocket</span></code>: the commands to run
+before and after launching the Rocket (e.g., module load
+packages)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">logdir</span></code>: path to the log directory</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Specifying singleshot in the file will limit each
+reserved job to running only one firework at a time even if other
+fireworks are waiting to be run. This can be changed to rapidfire
+to run all fireworks in parallel. You can go over the FireWorks
+documentation to learn the difference between these launching modes.</p>
+</div>
+</div>
+<input id="78333e81-8117-4226-b68e-eeca3205b3cd" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
+</input><label class="sd-tab-label" for="78333e81-8117-4226-b68e-eeca3205b3cd">
+config.ini</label><div class="sd-tab-content docutils">
+<p>This file contains the commands to run Gaussian, LAMMPS, and AmberTools.
+These commands are specific to your computing resources you are
+running on. The example provided here is meant to show how these
+commands should be defined, but you need to change them to match your
+system.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">RunCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="nt">gcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">g16 &lt; &quot;$input_path$&quot; &gt; &quot;$output_path$&quot;</span><span class="w"></span>
+<span class="nt">formchkcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">formchk &quot;$input_path$&quot; &quot;$output_path$&quot;</span><span class="w"></span>
+
+<span class="p p-Indicator">[</span><span class="nv">LammpsRunCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="nt">lcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mpirun -np $SLURM_NTASKS lmp_mpi -in $control_path$</span><span class="w"></span>
+<span class="nt">lammps_gpu_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w"></span>
+
+<span class="p p-Indicator">[</span><span class="nv">AmbertoolsRunCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="nt">acmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antechamber -i $input_file$ -fi $input_type$ -o $output_file$ -fo $output_type$ -c $charge_method$ -s 2</span><span class="w"></span>
+<span class="nt">pcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">parmchk2 -i $input_file$ -f mol2 -o $output_file$</span><span class="w"></span>
+<span class="nt">tcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tleap -f $input_file$</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The following commands are defined in the file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gcmd</span></code>: the command to run Gaussian</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">formchkcmd</span></code>: the command to run Gaussian formchk to convert
+a Gaussian checkpoint file into formatted forms</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lcmd</span></code>: the command to run LAMMPS</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lammps_gpu_cmd</span></code>: the command to run LAMMPS on a GPU</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">acmd</span></code>: the command to run Antechamber</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcmd</span></code>: the command to run Parmchk2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tcmd</span></code>: the command to run tleap</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Anything between two dollar signs ($ $) is a placeholder for
+a variable and should not be changed.</p>
+<p>Anything between the square brackets ([]), e.g., [RunCalc],
+or before the colons (:), e.g., gmcd, should not be changed
+since these are used to point MISPR to the commands to run.</p>
+</div>
+</div>
+<input id="91994084-77df-487f-9836-c32849c02966" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
+</input><label class="sd-tab-label" for="91994084-77df-487f-9836-c32849c02966">
+FW_config.yaml</label><div class="sd-tab-content docutils">
+<p>This is the master FireWorks configuration file that controls
+FireWorks settings and points to the location of the other
+configuration files.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span>CONFIG_FILE_DIR: |CODES_DIR|/config
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">CONFIG_FILE_DIR</span></code> is expected to contain the
+other configuration files. For a list of control settings that
+can be added to this file, check
+<a class="reference external" href="https://materialsproject.github.io/fireworks/config_tutorial.html">FireWorks documentation on modifying the FW config</a>.</p>
+</div>
+</div>
+</section>
+<section id="configuring-bash-profile">
+<h2>Configuring Bash Profile<a class="headerlink" href="#configuring-bash-profile" title="Permalink to this heading">#</a></h2>
+<p>After creating the above six configuration files and replacing the
+placeholders with your specific settings, create a directory in
+your <code class="docutils literal notranslate"><span class="pre">|CODES_DIR|</span></code> (see <a class="reference internal" href="keywords.html"><span class="doc">Definition</span></a>) called <code class="docutils literal notranslate"><span class="pre">config</span></code>
+and move the above configuration files into it. The <code class="docutils literal notranslate"><span class="pre">|CODES_DIR|/config</span></code>
+should look like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>config
+├── config.ini
+├── db.json
+├── FW_config.yaml
+├── my_fworker.yaml
+├── my_launchpad.yaml
+└── my_qadapter.yaml
+</pre></div>
+</div>
+<p>Now, append the following lines to your <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code> or <code class="docutils literal notranslate"><span class="pre">.bashrc</span></code>
+file in order to set an environment variable that tells FireWorks where
+to find the <code class="docutils literal notranslate"><span class="pre">FW_config.yaml</span></code> file, which will in turn tell FireWorks
+where the rest of the configuration files are:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">FW_CONFIG_FILE</span><span class="o">=</span><span class="p">|</span>CODES_DIR<span class="p">|</span>/config/FW_config.yaml
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, MolMD Group
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/molmd/mispr" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Configuration Files</a><ul>
+<li><a class="reference internal" href="#writing-the-configuration-files">Writing the Configuration Files</a></li>
+<li><a class="reference internal" href="#configuring-bash-profile">Configuring Bash Profile</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script src="_static/js/rtd_sphinx_search.min.js"></script>
+    </body>
+</html>

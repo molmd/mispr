@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
@@ -10,6 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -246,7 +247,7 @@ failed fragment.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
@@ -325,7 +326,7 @@ warning and proceed normally</p></li>
 to the workflow</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Workflow</p>
 </dd>
 </dl>
@@ -353,7 +354,7 @@ Firework 7: Calculate the binding energy of the complex and</p>
 </div></blockquote>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>list</em>) – list of strings of the type of
 molecule operations. See process_mol defined in
@@ -423,7 +424,7 @@ with that in mol_operation_type and mol; defaults to None</p></li>
 to the workflow</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Workflow</p>
 </dd>
 </dl>
@@ -448,7 +449,7 @@ to the workflow</p></li>
 Firework 2: Run a frequency analysis.</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
@@ -490,7 +491,7 @@ format provided as an input (e.g. Gaussian output dictionary)</p></li>
 to the Fireworks and Firetasks</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><dl class="simple">
 <dt>type varies based on the</dt><dd><p>input mol and the operations performed inside the function</p>
 </dd>
@@ -499,7 +500,7 @@ to the Fireworks and Firetasks</p></li>
 list: list of Fireworks</p>
 </p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Molecule, GaussianOutput, str, dict</p>
 </dd>
 </dl>
@@ -519,7 +520,7 @@ Firework 3: Run an ESP calculation.
 Firework 4: Create ESP document/json file.</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
@@ -580,7 +581,7 @@ defaults to None</p></li>
 to the workflow</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Workflow
 str: label of the molecule (e.g. “H2O”, “water”, etc.)</p>
 </dd>
@@ -633,7 +634,7 @@ calculating redox potentials in gas and/or solution:</p>
 fireworks. The structure of the tree varies based on the inputs to
 the workflow.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
@@ -741,7 +742,7 @@ reference state; defaults to None</p></li>
 to the workflow</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Workflow</p>
 </dd>
 </dl>
@@ -762,7 +763,7 @@ Firework 3: Calculate the NMR tensors.
 Firework 4: Create NMR document/json file.</p>
 </div></blockquote>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
@@ -823,7 +824,7 @@ defaults to None</p></li>
 to the workflow</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Workflow</p>
 </dd>
 </dl>

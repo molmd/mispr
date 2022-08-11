@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
@@ -10,6 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -220,7 +221,7 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
 <p>Attaches a functional group to a molecule and adds it to fw_spec.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func_grp</strong> (<em>str</em>) – name of the functional group (e.g. carboxyl)</p></li>
 <li><p><strong>index</strong> (<em>int</em>) – site index in the molecule at which to attach the
@@ -272,7 +273,7 @@ specified</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -284,7 +285,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -382,7 +383,7 @@ True</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -394,7 +395,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -409,7 +410,7 @@ these multiple resources.</p>
 <p>Reads a molecule from a file, converts it to a Molecule object,
 and saves it as dict to mongodb.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>mol_file</strong> (<em>str</em>) – molecule file; supported file formats include
 xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,
 gaussian input (gjf|g03|g09|com|inp),
@@ -443,7 +444,7 @@ update_duplicates (bool): whether to update molecule document</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -455,7 +456,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -470,7 +471,7 @@ these multiple resources.</p>
 <p>Links two molecules using one site from the first and another site
 from the second molecule and adds the resulting molecule to fw_spec.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index1</strong> (<em>int</em>) – site index in the first molecule at which to link
 the two molecules</p></li>
@@ -526,7 +527,7 @@ specified</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -538,7 +539,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -553,7 +554,7 @@ these multiple resources.</p>
 <p>Processes a molecule and generates a Molecule object. Used for
 handling different molecule formats provided to Gaussian workflows.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>str</em><em>, </em><em>GaussianOutput</em><em>, </em><em>dict</em>) – source of the
 structure; should correspond to that of the “operation_type”;
 see mispr.gaussian.utilities.mol.process_mol for more
@@ -624,7 +625,7 @@ by OpenBabel)</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -636,7 +637,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -651,7 +652,7 @@ these multiple resources.</p>
 <p>Retrieves a molecule object from the database using InChI as
 an identifier and add it to the fw_spec.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>inchi</strong> (<em>str</em>) – InChI string</p>
 </dd>
 </dl>
@@ -686,7 +687,7 @@ specified</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -698,7 +699,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -759,7 +760,7 @@ if not provided, will use (197 / 255, 237 / 255, 223 / 255, 1)</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -771,7 +772,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -786,7 +787,7 @@ these multiple resources.</p>
 <p>Enter a binding energy run into the database. The binding energy
 value is in eV.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>index</strong> (<em>list</em>) – list of indices of the two sites in the molecules
 at which they are expected to bind</p></li>
@@ -833,7 +834,7 @@ of a dictionary</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -845,7 +846,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -859,7 +860,7 @@ these multiple resources.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
 <p>Enter an ESP run into the database.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>keys</strong> (<em>list</em>) – list of keys of Gaussian runs in fw_spec to use in
 building the ESP document; e.g. these keys could correspond to
 optimization, frequency, and ESP jobs leading to the final
@@ -901,7 +902,7 @@ of a dictionary</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -913,7 +914,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -929,7 +930,7 @@ these multiple resources.</p>
 free energies and redox potentials. If a calculation is performed in
 multiple steps, saves all intermediate energies.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>num_electrons</strong> (<em>int</em>) – number of electrons transferred;</p></li>
 <li><p><strong>states</strong> (<em>list</em>) – list of states used in the calculation; e.g.
@@ -1010,7 +1011,7 @@ gibbs_h (float): the hydrogen gibbs free energy in Hartree</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1022,7 +1023,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1036,7 +1037,7 @@ these multiple resources.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
 <p>Enter an NMR run into the database.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>keys</strong> (<em>list</em>) – list of keys of Gaussian runs in fw_spec to use in
 building the NMR document; e.g. these keys could correspond to
 optimization, frequency, and NMR jobs leading to the final
@@ -1078,7 +1079,7 @@ of a dictionary</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1090,7 +1091,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1105,7 +1106,7 @@ these multiple resources.</p>
 <p>Processes Gaussian output files from a single run. Enters the
 run to db and/or creates a summary json file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>run</strong> (<em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – the actual Gaussian run; type
 depends on the operation_type</p>
 </dd>
@@ -1161,7 +1162,7 @@ in the configuration files</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1173,7 +1174,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1227,7 +1228,7 @@ in the passed or retrieved Gaussian output dict</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1239,7 +1240,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1331,7 +1332,7 @@ it; defaults to 300 seconds</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1343,7 +1344,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1383,7 +1384,7 @@ config file</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1395,7 +1396,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1409,7 +1410,7 @@ these multiple resources.</p>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
 <p>Run a fake Gaussian calculation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>ref_dir</strong> (<em>str</em>) – path to reference Gaussian run directory with
 input and output files in the folder</p>
 </dd>
@@ -1442,7 +1443,7 @@ input and output files in the folder</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1454,7 +1455,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>
@@ -1514,7 +1515,7 @@ molecule</p>
 Firework spec, perform some task using that data, and then return an
 output in the form of a FWAction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fw_spec</strong> (<em>dict</em>) – A Firework spec. This comes from the master spec.
 In addition, this spec contains a special “_fw_env” key that
 contains the env settings of the FWorker calling this method.
@@ -1526,7 +1527,7 @@ relevant “foo1” or “foo2”. You can then write a task that
 uses fw_spec[“_fw_env”][“foo”] that will work across all
 these multiple resources.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>(FWAction)</p>
 </dd>
 </dl>

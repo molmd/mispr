@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
@@ -10,6 +10,7 @@
       <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -266,7 +267,7 @@ calculations.</p>
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">background</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.build_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.build_indexes" title="Permalink to this definition">#</a></dt>
 <dd><p>Builds indexes for the database.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>background</strong> – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, this index should be created in the</p></li>
 <li><p><strong>background.</strong> – </p></li>
@@ -280,7 +281,7 @@ calculations.</p>
 <span class="sig-name descname"><span class="pre">delete_molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inchi</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.delete_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.delete_molecule" title="Permalink to this definition">#</a></dt>
 <dd><p>Delete a molecule from the molecules collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>inchi</strong> (<em>str</em>) – the inchi representation of the molecule to delete</p>
 </dd>
 </dl>
@@ -291,13 +292,13 @@ calculations.</p>
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_db_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">db_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.from_db_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a new database object from a database file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>db_file</strong> (<em>str</em>) – the path to the database file</p></li>
 <li><p><strong>admin</strong> (<em>bool</em>) – whether to use admin credentials</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>GaussianCalcDb</p>
 </dd>
 </dl>
@@ -308,7 +309,7 @@ calculations.</p>
 <span class="sig-name descname"><span class="pre">insert_derived_mol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">derived_mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_duplicates</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_derived_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol" title="Permalink to this definition">#</a></dt>
 <dd><p>Insert a derived molecule into the derived_molecules collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>derived_mol</strong> (<em>Molecule</em>) – pymatgen.Molecule object</p></li>
 <li><p><strong>update_duplicates</strong> (<em>bool</em>) – whether to update duplicates if
@@ -324,7 +325,7 @@ the molecule already exists</p></li>
 <dd><p>Insert functional groups into their collection using a json
 file. The file can contain one or more functional groups.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>fg_file</strong> (<em>str</em>) – the path to the json file</p>
 </dd>
 </dl>
@@ -335,7 +336,7 @@ file. The file can contain one or more functional groups.</p>
 <span class="sig-name descname"><span class="pre">insert_molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_duplicates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule" title="Permalink to this definition">#</a></dt>
 <dd><p>Insert a molecule into the molecules collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol</strong> (<em>Molecule</em>) – a pymatgen Molecule object to insert</p></li>
 <li><p><strong>update_duplicates</strong> (<em>bool</em>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code>, update the existing
@@ -351,7 +352,7 @@ molecule in the db with the new one</p></li>
 <dd><p>Insert a document into a property collection in the database.
 If the property already exists,</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>collection_name</strong> (<em>str</em>) – the name of the collection to insert
 the property into; e.g. bde, binding_energy, etc.</p></li>
@@ -370,7 +371,7 @@ pymongo.collection.create_index</p></li>
 <span class="sig-name descname"><span class="pre">insert_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grun</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_run" title="Permalink to this definition">#</a></dt>
 <dd><p>Insert a Gaussian run into the runs collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>grun</strong> (<em>dict</em>) – a dictionary containing the Gaussian run</p>
 </dd>
 </dl>
@@ -381,7 +382,7 @@ pymongo.collection.create_index</p></li>
 <span class="sig-name descname"><span class="pre">move_runs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_collection</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inchi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.move_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs" title="Permalink to this definition">#</a></dt>
 <dd><p>Move documents from the runs collection to another collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>new_collection</strong> (<em>str</em>) – the name of the collection to move the runs to</p></li>
 <li><p><strong>inchi</strong> (<em>str</em>) – the inchi representation of the molecule</p></li>
@@ -399,15 +400,15 @@ pymongo.collection.create_index</p></li>
 <span class="sig-name descname"><span class="pre">query_molecules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.query_molecules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules" title="Permalink to this definition">#</a></dt>
 <dd><p>Query the molecules collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>query</strong> (<em>dict</em>) – a query document that selects which documents
 to include in the result set; e.g. keys can be inchi,
 smiles, chemsys, etc.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a dataframe of documents that match the query</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
@@ -418,7 +419,7 @@ smiles, chemsys, etc.</p>
 <span class="sig-name descname"><span class="pre">retrieve_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">collection_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inchi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc" title="Permalink to this definition">#</a></dt>
 <dd><p>Retrieve a document from any collection of the database.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>collection_name</strong> (<em>str</em>) – the name of the collection, e.g.
 bde, molecules, runs, etc.</p></li>
@@ -429,10 +430,10 @@ bde, molecules, runs, etc.</p></li>
 <li><p><strong>**kwargs</strong> – other kwargs that can be used to query the collection</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of documents that match the query</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -443,10 +444,10 @@ bde, molecules, runs, etc.</p></li>
 <span class="sig-name descname"><span class="pre">retrieve_fg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_fg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_fg" title="Permalink to this definition">#</a></dt>
 <dd><p>Retrieve a functional group from the functional_groups collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – the name of the functional group to retrieve</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
@@ -457,10 +458,10 @@ bde, molecules, runs, etc.</p></li>
 <span class="sig-name descname"><span class="pre">retrieve_molecule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inchi</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_molecule" title="Permalink to this definition">#</a></dt>
 <dd><p>Retrieve a molecule from the molecules collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>inchi</strong> (<em>str</em>) – the inchi representation of the molecule</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
@@ -471,7 +472,7 @@ bde, molecules, runs, etc.</p></li>
 <span class="sig-name descname"><span class="pre">retrieve_run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inchi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smiles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functional</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run" title="Permalink to this definition">#</a></dt>
 <dd><p>Retrieve a run from the runs collection.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>inchi</strong> (<em>str</em>) – the inchi representation of the molecule</p></li>
 <li><p><strong>smiles</strong> (<em>str</em>) – the smiles representation of the molecule</p></li>
@@ -480,10 +481,10 @@ bde, molecules, runs, etc.</p></li>
 <li><p><strong>**kwargs</strong> – other kwargs that can be used to query the collection</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>a list of documents that match the query</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
@@ -495,7 +496,7 @@ bde, molecules, runs, etc.</p></li>
 <dd><p>Update a document in the runs collection. If multiple documents
 match the query criteria, will select the first one.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>new_values</strong> (<em>dict</em>) – the new output values to update the
 document with, e.g. {“polarizability”: 3.5}</p></li>
