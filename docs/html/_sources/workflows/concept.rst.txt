@@ -20,7 +20,7 @@ A Firetask is an atomic computing job that can call shell scripts,
 transfer files, write/delete files, or execute other Python functions.
 An example of the structure of a workflow in MISPR is shown below:
 
-.. figure:: ../static/workflow.png
+.. figure:: ../_static/workflow.png
 
 Once a Workflow object is created, the user can use the FireWorks package
 to execute the calculations on various computing resources. The goal of
