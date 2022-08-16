@@ -164,6 +164,29 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-tree">
   <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/dependencies.html">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/configuration.html">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/test.html">Running a Test Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keywords.html">Keywords</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="workflows/concept.html">Workflow Concept</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/supported.html">Supported Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/tutorials.html">Workflow Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/custom.html">Creating Custom Workflows</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources/resources.html">Helpful Links</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPMENT</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing MISPR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -251,7 +274,7 @@ failed fragment.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for supported operations.</p></li>
+for workflows operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>ref_charge</strong> (<em>int</em>) – charge on the principle molecule</p></li>
@@ -358,7 +381,7 @@ Firework 7: Calculate the binding energy of the complex and</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>list</em>) – list of strings of the type of
 molecule operations. See process_mol defined in
-mispr/gaussian/utilities/mol.py for supported operations;
+mispr/gaussian/utilities/mol.py for workflows operations;
 e.g. [“get_from_mol”, “get_from_file”] to get the first
 molecule from a Molecule object and the second molecule
 from a file</p></li>
@@ -453,7 +476,7 @@ Firework 2: Run a frequency analysis.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for supported operations.</p></li>
+for workflows operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>working_dir</strong> (<em>str</em>) – path of the working directory where any
@@ -524,7 +547,7 @@ Firework 4: Create ESP document/json file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for supported operations.</p></li>
+for workflows operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>db</strong> (<em>str</em><em> or </em><em>dict</em>) – database credentials; could be provided as
@@ -638,7 +661,7 @@ the workflow.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for supported operations.</p></li>
+for workflows operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>ref_charge</strong> (<em>int</em>) – the initial charge on the molecule</p></li>
@@ -767,7 +790,7 @@ Firework 4: Create NMR document/json file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for supported operations.</p></li>
+for workflows operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>db</strong> (<em>str</em><em> or </em><em>dict</em>) – database credentials; could be provided as

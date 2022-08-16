@@ -21,7 +21,7 @@ To start using MISPR, you need to follow the steps in order:
 4. Set up :ref:`dependencies:MongoDB` database
 5. :ref:`Install MISPR and MDPropTools <installation:Installing MISPR and MDPropTools>`
 6. Prepare the :doc:`configuration files <configuration>`
-7. Run a test workflow
+7. :doc:`Run a test workflow <test>`
 
 
 Installing MISPR and MDPropTools

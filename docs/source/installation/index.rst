@@ -1,9 +1,24 @@
 ===========
 Installation
 ===========
-Before installing MISPR, you need to go over the :doc:`prerequisites
-for MISPR <dependencies>` and make sure you have all the dependencies
-installed.
+
+.. toctree::
+   :hidden:
+
+   dependencies
+   configuration
+   test
+
+Before installing MISPR, you need to follow the steps below in order:
+
+1. (Optional) Create a :ref:`installation/dependencies:Virtual python environment`
+2. Make sure you have access to the :ref:`installation/dependencies:Computational chemistry software`
+   needed to run the DFT and MD simulations
+3. Install :ref:`installation/dependencies:Materials Project base libraries`
+4. Set up :ref:`installation/dependencies:MongoDB` database
+5. :ref:`Install MISPR and MDPropTools <installation/index:Installing MISPR and MDPropTools>`
+6. Prepare the :doc:`configuration files <configuration>`
+7. :doc:`Run a test workflow <test>`
 
 .. note::
    Throughout the installation instructions, it is assumed that you are
@@ -11,18 +26,6 @@ installed.
    `Linux Journey <https://linuxjourney.com/lesson/the-shell>`_ and
    `Python For Beginners <https://www.python.org/about/gettingstarted/>`_
    are some recommended starting points.
-
-To start using MISPR, you need to follow the steps in order:
-
-1. (Optional) Create a :ref:`dependencies:Virtual python environment`
-2. Make sure you have access to the :ref:`dependencies:Computational chemistry software`
-   needed to run the DFT and MD simulations
-3. Install :ref:`dependencies:Materials Project base libraries`
-4. Set up :ref:`dependencies:MongoDB` database
-5. :ref:`Install MISPR and MDPropTools <installation:Installing MISPR and MDPropTools>`
-6. Prepare the :doc:`configuration files <configuration>`
-7. Run a test workflow
-
 
 Installing MISPR and MDPropTools
 ------------------------------

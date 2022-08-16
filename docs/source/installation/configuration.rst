@@ -253,4 +253,3 @@ where the rest of the configuration files are:
 .. code-block:: bash
 
     export FW_CONFIG_FILE=|CODES_DIR|/config/FW_config.yaml
-

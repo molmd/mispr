@@ -36,22 +36,10 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "sphinx_design",
     "sphinx_copybutton",
-    'sphinx_search.extension',
-    "sphinx_tabs.tabs"
+    "sphinx_search.extension",
+    "sphinx_tabs.tabs",
 ]
-autosectionlabel_prefix_document = True
-templates_path = ["_templates"]
-exclude_patterns = []
-sphinx_tabs_valid_builders = ['linkcheck']
-sphinx_tabs_disable_tab_closing = True
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
-
-html_theme = 'furo'
-html_static_path = ["_static"]
-html_logo = "_static/logo.png"
-html_title = "Materials informatics for structure-property relationships"
 html_sidebars = {
     "**": [
         "sidebar/scroll-start.html",
@@ -62,6 +50,21 @@ html_sidebars = {
         "sidebar/scroll-end.html",
     ]
 }
+
+autosectionlabel_prefix_document = True
+templates_path = ["_templates"]
+exclude_patterns = []
+sphinx_tabs_valid_builders = ["linkcheck"]
+sphinx_tabs_disable_tab_closing = True
+
+# -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+
+html_theme = "furo"
+html_static_path = ["_static"]
+html_logo = "_static/logo.png"
+html_title = "Materials informatics for structure-property relationships"
+
 html_theme_options = {
     "footer_icons": [
         {
@@ -73,7 +76,7 @@ html_theme_options = {
                 </svg>
             """,
             "class": "",
-            "prefers-color-scheme": "light"
+            "prefers-color-scheme": "light",
         },
     ],
     "source_repository": "https://github.com/molmd/mispr/docs",

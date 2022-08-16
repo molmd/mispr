@@ -5,9 +5,13 @@
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../../genindex.html" /><link rel="search" title="Search" href="../../../../../search.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
-        <title>mispr.gaussian.workflows.base.ip_ea - MISPR 0.0.1 documentation</title>
+        <title>mispr.gaussian.workflows.base.ip_ea - Materials informatics for structure-property relationships</title>
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
@@ -17,6 +21,8 @@
   body {
     --color-code-background: #f8f8f8;
   --color-code-foreground: black;
+  --color-brand-primary: #991B1E;
+  --color-brand-content: #991B1E;
   
   }
   @media not print {
@@ -122,7 +128,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../../../../../index.html"><div class="brand">MISPR 0.0.1 documentation</div></a>
+      <a href="../../../../../index.html"><div class="brand">Materials informatics for structure-property relationships</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -142,10 +148,13 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../../../../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../../../../index.html">
   
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../../../../_static/logo.png" alt="Logo"/>
+  </div>
   
-  <span class="sidebar-brand-text">MISPR 0.0.1 documentation</span>
+  <span class="sidebar-brand-text">Materials informatics for structure-property relationships</span>
   
 </a><form class="sidebar-search-container" method="get" action="../../../../../search.html" role="search">
   <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
@@ -153,37 +162,33 @@
   <input type="hidden" name="area" value="default">
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../installation/dependencies.html">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../installation/configuration.html">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../../installation/test.html">Running a Test Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../keywords.html">Keywords</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../introduction.html">Introduction</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../modules.html">API Docs</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../../mispr.html">mispr package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../mispr.gaussian.html">mispr.gaussian package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.gaussian.firetasks.html">mispr.gaussian.firetasks package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.gaussian.fireworks.html">mispr.gaussian.fireworks package</a></li>
-<li class="toctree-l4 has-children"><a class="reference internal" href="../../../../../mispr.gaussian.workflows.html">mispr.gaussian.workflows package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l5"><a class="reference internal" href="../../../../../mispr.gaussian.workflows.base.html">mispr.gaussian.workflows.base package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/concept.html">Workflow Concept and Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/supported.html">Supported Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/tutorials.html">Workflow Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/custom.html">Creating Custom Workflows</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">RESOURCES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../resources/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../resources/resources.html">Helpful Links</a></li>
 </ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../mispr.hybrid.html">mispr.hybrid package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.hybrid.firetasks.html">mispr.hybrid.firetasks package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.hybrid.workflows.html">mispr.hybrid.workflows package</a></li>
-</ul>
-</li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../../mispr.lammps.html">mispr.lammps package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.firetasks.html">mispr.lammps.firetasks package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.fireworks.html">mispr.lammps.fireworks package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.tests.html">mispr.lammps.tests package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.utilities.html">mispr.lammps.utilities package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../../../../mispr.lammps.workflows.html">mispr.lammps.workflows package</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPMENT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../citing.html">Citing MISPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../license.html">License</a></li>
 </ul>
 
 </div>
@@ -547,7 +552,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        mol_operation_type (str): the type of molecule operation.</span>
 <span class="sd">            See process_mol defined in mispr/gaussian/utilities/mol.py</span>
-<span class="sd">            for supported operations.</span>
+<span class="sd">            for workflows operations.</span>
 <span class="sd">        mol (Molecule, GaussianOutput, str, dict): source of the</span>
 <span class="sd">            molecule to be processed. Should match the mol_operation_type.</span>
 <span class="sd">        ref_charge (int): the initial charge on the molecule</span>
@@ -665,14 +670,14 @@
         <span class="k">assert</span> <span class="n">states</span><span class="p">,</span> <span class="s2">&quot;states list is empty&quot;</span>
         <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;cation&quot;</span><span class="p">,</span> <span class="s2">&quot;anion&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The provided states are not supported. Supported&quot;</span>
+                <span class="s2">&quot;The provided states are not workflows. Supported&quot;</span>
                 <span class="s2">&quot; ones are reference, cation, and/or anion.&quot;</span>
             <span class="p">)</span>
     <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">phases</span><span class="p">,</span> <span class="s2">&quot;phases list is empty&quot;</span>
         <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gas&quot;</span><span class="p">,</span> <span class="s2">&quot;solution&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The provided phases are not supported. Supported&quot;</span>
+                <span class="s2">&quot;The provided phases are not workflows. Supported&quot;</span>
                 <span class="s2">&quot; ones are gas and/or solution.&quot;</span>
             <span class="p">)</span>
 
@@ -841,6 +846,11 @@
           </div>
           <div class="right-details">
             <div class="icons">
+              <a class="muted-link " href="https://github.com/molmd/mispr" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
               
             </div>
           </div>
@@ -860,5 +870,10 @@
     <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../../../_static/doctools.js"></script>
     <script src="../../../../../_static/scripts/furo.js"></script>
+    <script src="../../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/tabs.js"></script>
+    <script src="../../../../../_static/design-tabs.js"></script>
+    <script src="../../../../../_static/js/rtd_sphinx_search.min.js"></script>
     </body>
 </html>
