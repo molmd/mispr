@@ -148,7 +148,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../../../../index.html">
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="../../../../../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../../../../../_static/logo.png" alt="Logo"/>
@@ -161,7 +161,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+<div id="searchbox"></div><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../overview.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -174,7 +174,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/concept.html">Workflow Concept and Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/concept.html">Workflow Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/supported.html">Supported Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/tutorials.html">Workflow Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../../workflows/custom.html">Creating Custom Workflows</a></li>
@@ -193,7 +193,6 @@
 
 </div>
 </div>
-
       </div>
       
     </div>
@@ -552,7 +551,7 @@
 <span class="sd">    Args:</span>
 <span class="sd">        mol_operation_type (str): the type of molecule operation.</span>
 <span class="sd">            See process_mol defined in mispr/gaussian/utilities/mol.py</span>
-<span class="sd">            for workflows operations.</span>
+<span class="sd">            for supported operations.</span>
 <span class="sd">        mol (Molecule, GaussianOutput, str, dict): source of the</span>
 <span class="sd">            molecule to be processed. Should match the mol_operation_type.</span>
 <span class="sd">        ref_charge (int): the initial charge on the molecule</span>
@@ -670,14 +669,14 @@
         <span class="k">assert</span> <span class="n">states</span><span class="p">,</span> <span class="s2">&quot;states list is empty&quot;</span>
         <span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;cation&quot;</span><span class="p">,</span> <span class="s2">&quot;anion&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The provided states are not workflows. Supported&quot;</span>
+                <span class="s2">&quot;The provided states are not supported. Supported&quot;</span>
                 <span class="s2">&quot; ones are reference, cation, and/or anion.&quot;</span>
             <span class="p">)</span>
     <span class="k">for</span> <span class="n">phase</span> <span class="ow">in</span> <span class="n">phases</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">phases</span><span class="p">,</span> <span class="s2">&quot;phases list is empty&quot;</span>
         <span class="k">if</span> <span class="n">phase</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;gas&quot;</span><span class="p">,</span> <span class="s2">&quot;solution&quot;</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The provided phases are not workflows. Supported&quot;</span>
+                <span class="s2">&quot;The provided phases are not supported. Supported&quot;</span>
                 <span class="s2">&quot; ones are gas and/or solution.&quot;</span>
             <span class="p">)</span>
 

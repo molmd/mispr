@@ -274,7 +274,7 @@ failed fragment.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for workflows operations.</p></li>
+for supported operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>ref_charge</strong> (<em>int</em>) – charge on the principle molecule</p></li>
@@ -381,7 +381,7 @@ Firework 7: Calculate the binding energy of the complex and</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>list</em>) – list of strings of the type of
 molecule operations. See process_mol defined in
-mispr/gaussian/utilities/mol.py for workflows operations;
+mispr/gaussian/utilities/mol.py for supported operations;
 e.g. [“get_from_mol”, “get_from_file”] to get the first
 molecule from a Molecule object and the second molecule
 from a file</p></li>
@@ -476,7 +476,7 @@ Firework 2: Run a frequency analysis.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for workflows operations.</p></li>
+for supported operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>working_dir</strong> (<em>str</em>) – path of the working directory where any
@@ -547,7 +547,7 @@ Firework 4: Create ESP document/json file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for workflows operations.</p></li>
+for supported operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>db</strong> (<em>str</em><em> or </em><em>dict</em>) – database credentials; could be provided as
@@ -661,7 +661,7 @@ the workflow.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for workflows operations.</p></li>
+for supported operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>ref_charge</strong> (<em>int</em>) – the initial charge on the molecule</p></li>
@@ -790,7 +790,7 @@ Firework 4: Create NMR document/json file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>mol_operation_type</strong> (<em>str</em>) – the type of molecule operation.
 See process_mol defined in mispr/gaussian/utilities/mol.py
-for workflows operations.</p></li>
+for supported operations.</p></li>
 <li><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>GaussianOutput</em><em>, </em><em>str</em><em>, </em><em>dict</em>) – source of the
 molecule to be processed. Should match the mol_operation_type.</p></li>
 <li><p><strong>db</strong> (<em>str</em><em> or </em><em>dict</em>) – database credentials; could be provided as
