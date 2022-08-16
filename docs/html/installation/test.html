@@ -281,7 +281,9 @@ by creating a file called <code class="docutils literal notranslate"><span class
 <span class="kn">from</span> <span class="nn">fireworks</span> <span class="kn">import</span> <span class="n">LaunchPad</span><span class="p">,</span> <span class="n">Workflow</span>
 
 <span class="n">lpad</span> <span class="o">=</span> <span class="n">LaunchPad</span><span class="o">.</span><span class="n">auto_load</span><span class="p">()</span>
-<span class="n">wf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">([</span><span class="n">CalcFromMolFW</span><span class="p">(</span><span class="s2">&quot;monoglyme.xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;get_from_file&quot;</span><span class="p">,</span> <span class="n">save_to_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_to_db</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+<span class="n">wf</span> <span class="o">=</span> <span class="n">Workflow</span><span class="p">([</span><span class="n">CalcFromMolFW</span><span class="p">(</span><span class="s2">&quot;monoglyme.xyz&quot;</span><span class="p">,</span> <span class="s2">&quot;get_from_file&quot;</span><span class="p">,</span>
+                              <span class="n">gaussian_input_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}},</span>
+                              <span class="n">save_to_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_to_db</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
 <span class="n">lpad</span><span class="o">.</span><span class="n">add_wf</span><span class="p">(</span><span class="n">wf</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -301,8 +303,8 @@ command in terminal:</p>
 <p>It will return something like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;fw_id&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;created_on&quot;</span><span class="p">:</span> <span class="s2">&quot;2022-08-15T21:16:36.088714&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;updated_on&quot;</span><span class="p">:</span> <span class="s2">&quot;2022-08-15T21:16:49.606417&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;created_on&quot;</span><span class="p">:</span> <span class="s2">&quot;2022-08-16T20:32:54.554404&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;updated_on&quot;</span><span class="p">:</span> <span class="s2">&quot;2022-08-16T20:32:54.554716&quot;</span><span class="p">,</span>
     <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;READY&quot;</span><span class="p">,</span>
     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;calc_from_mol&quot;</span>
 <span class="p">}</span>
@@ -328,9 +330,9 @@ flag to specify how many jobs to launch at once to prevent submitting
 too many jobs at once.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">multi</span></code>: creates one job with multiple fireworks runs</p></li>
 </ul>
-<p>Here is example command for launching one job from the terminal in the
+<p>Here is an example command for launching one job from the terminal in the
 same working directory as before:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qlaunch</span> <span class="n">rapidfire</span> <span class="o">-</span><span class="n">m</span> <span class="mi">1</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qlaunch</span> <span class="n">singleshot</span>
 </pre></div>
 </div>
 <p>If you are not running your jobs through a queue, replace the
