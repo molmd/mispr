@@ -148,7 +148,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../../../index.html">
+      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="../../../../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../../../../_static/logo.png" alt="Logo"/>
@@ -161,7 +161,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+<div id="searchbox"></div><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -174,7 +174,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/concept.html">Workflow Concept and Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/concept.html">Workflow Concept</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../workflows/supported.html">Supported Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../workflows/tutorials.html">Workflow Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../workflows/custom.html">Creating Custom Workflows</a></li>
@@ -193,7 +193,6 @@
 
 </div>
 </div>
-
       </div>
       
     </div>
@@ -268,7 +267,7 @@
 <span class="sd">        mol (Molecule, str, GaussianOutput, dict): source of the</span>
 <span class="sd">            structure; should correspond to that of the &quot;operation_type&quot;;</span>
 <span class="sd">            see mispr.gaussian.utilities.mol.process_mol for more</span>
-<span class="sd">            details; besides the formats workflows by</span>
+<span class="sd">            details; besides the formats supported by</span>
 <span class="sd">            mispr.gaussian.utilities.mol.process_mol, if the molecule</span>
 <span class="sd">            is to be obtained via fw_spec, mol should be a string</span>
 <span class="sd">            corresponding to the key in fw_spec</span>
@@ -276,7 +275,7 @@
 <span class="sd">    Optional Args:</span>
 <span class="sd">        operation_type (str): Type of operation to perform. See</span>
 <span class="sd">            mispr.gaussian.utilities.mol.process_mol for details of</span>
-<span class="sd">            workflows types</span>
+<span class="sd">            supported types</span>
 <span class="sd">        db (str or dict): database credentials; could be provided as</span>
 <span class="sd">            the path to the db.json file or in the form of a dictionary;</span>
 <span class="sd">            if none is provided, attempts to get it from the</span>
@@ -297,11 +296,11 @@
 <span class="sd">        local_opt (bool): whether to perform local optimization on the</span>
 <span class="sd">            molecule</span>
 <span class="sd">        force_field (str): force field to use for local optimization;</span>
-<span class="sd">            see mispr.gaussian.utilities.mol.process_mol for workflows</span>
+<span class="sd">            see mispr.gaussian.utilities.mol.process_mol for supported</span>
 <span class="sd">            force field types</span>
 <span class="sd">        steps (int): number of steps to perform local optimization</span>
 <span class="sd">        str_type (str): format of string if operation_type is</span>
-<span class="sd">            &quot;get_from_str&quot;; e.g. &quot;smi&quot; or any other format workflows</span>
+<span class="sd">            &quot;get_from_str&quot;; e.g. &quot;smi&quot; or any other format supported</span>
 <span class="sd">            by OpenBabel)</span>
 <span class="sd">        working_dir (str): working directory to save the molecule file</span>
 <span class="sd">            to or read input files from</span>
@@ -386,7 +385,7 @@
 <span class="sd">    and saves it as dict to mongodb.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        mol_file (str): molecule file; workflows file formats include</span>
+<span class="sd">        mol_file (str): molecule file; supported file formats include</span>
 <span class="sd">            xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,</span>
 <span class="sd">            gaussian input (gjf|g03|g09|com|inp),</span>
 <span class="sd">            Gaussian output (.out), and</span>

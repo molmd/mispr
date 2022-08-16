@@ -146,4 +146,4 @@ database. Alternatively, you can the view the results using MongoDB
 Compass, and the generated documents from the run will appear like the
 following in the ``runs`` collection of the ``gaussian`` database:
 
-.. figure:: _static/document.png
+.. figure:: ../_static/document.png
