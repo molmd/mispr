@@ -1,0 +1,13 @@
+===========
+Running a Test Workflow
+===========
+
+Initialize the database
+
+Add a workflow
+
+Verify the workflow
+
+Submit the workflow
+
+Query the database for the results

@@ -75,8 +75,13 @@ Materials Project base libraries
   simply type::
 
     pip install FireWorks
-  Further details can be found in the `FireWorks documentation
-  <https://materialsproject.github.io/fireworks/installation.html>`_.
+  Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
+
+  .. note::
+   While FireWorks is used in MISPR for managing the DFT and MD
+   workflows due to its many advantages, it takes some time to learn
+   and get used to it.
+
 * `custodian <https://materialsproject.github.io/custodian/>`_: MISPR uses
   custodian for handling errors that occur during the simulations and
   correcting them according to predefined rules. We have added a Gaussian
@@ -136,4 +141,3 @@ Testing your MongoDB connection
 ============================
 * MongoDB GUI:
 * PyMongo:
-

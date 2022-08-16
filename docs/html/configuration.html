@@ -149,7 +149,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="_static/logo.png" alt="Logo"/>
@@ -162,8 +162,24 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div><div class="sidebar-tree">
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/dependencies.html">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/configuration.html">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/test.html">Running a Test Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keywords.html">Keywords</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources/resources.html">Resources and Helpful Links</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPMENT</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing MISPR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -171,6 +187,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -225,8 +242,8 @@ sufficient for using MISPR as in this tutorial.</p>
 <section id="writing-the-configuration-files">
 <h2>Writing the Configuration Files<a class="headerlink" href="#writing-the-configuration-files" title="Permalink to this heading">#</a></h2>
 <div class="sd-tab-set docutils">
-<input checked="checked" id="15762cb9-578c-4d77-af63-be3cd7d61001" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
-</input><label class="sd-tab-label" for="15762cb9-578c-4d77-af63-be3cd7d61001">
+<input checked="checked" id="ce79c278-14d8-4e85-b02c-d4ce6e8f2a31" name="5d595139-767c-42de-a67a-73815a701520" type="radio">
+</input><label class="sd-tab-label" for="ce79c278-14d8-4e85-b02c-d4ce6e8f2a31">
 db.json</label><div class="sd-tab-content docutils">
 <p>This file contains the basic MongoDB information like the
 credentials required to connect to the database where the
@@ -245,8 +262,8 @@ JSON strings require double quotes except for the value of
 </pre></div>
 </div>
 </div>
-<input id="3e7621bd-b130-4591-978b-2e69a6edd35d" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
-</input><label class="sd-tab-label" for="3e7621bd-b130-4591-978b-2e69a6edd35d">
+<input id="f87cb4c8-8420-4ea8-9262-8b4fc632b606" name="5d595139-767c-42de-a67a-73815a701520" type="radio">
+</input><label class="sd-tab-label" for="f87cb4c8-8420-4ea8-9262-8b4fc632b606">
 my_fworker.yaml</label><div class="sd-tab-content docutils">
 <p>This file stores your FireWorker’s credentials. In
 <a class="reference external" href="https://materialsproject.github.io/fireworks/index.html#centralized-server-and-worker-model">FireWorks</a>, a
@@ -275,8 +292,8 @@ allow all calculations to be run</p></li>
 db file and the scratch directory for fast disk access</p></li>
 </ul>
 </div>
-<input id="62ce1b78-0845-448b-8e6e-8c3193dde583" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
-</input><label class="sd-tab-label" for="62ce1b78-0845-448b-8e6e-8c3193dde583">
+<input id="be612057-51f3-4730-8aa0-2187d2fb01f3" name="5d595139-767c-42de-a67a-73815a701520" type="radio">
+</input><label class="sd-tab-label" for="be612057-51f3-4730-8aa0-2187d2fb01f3">
 my_launchpad.yaml</label><div class="sd-tab-content docutils">
 <p>This is the FireWorks LaunchPad file that contains the MongoDB
 credentials required to connect to the database for storing
@@ -318,8 +335,8 @@ can do that via <code class="docutils literal notranslate"><span class="pre">mon
 <a class="reference external" href="https://pymongo.readthedocs.io/en/stable/api/pymongo/mongo_client.html">pymongo documentation</a>
 for more details.</p>
 </div>
-<input id="390d861c-dd62-4751-8fe1-c0f959a8d92a" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
-</input><label class="sd-tab-label" for="390d861c-dd62-4751-8fe1-c0f959a8d92a">
+<input id="cfcfa52c-5ced-415a-9563-483b0dd7aff8" name="5d595139-767c-42de-a67a-73815a701520" type="radio">
+</input><label class="sd-tab-label" for="cfcfa52c-5ced-415a-9563-483b0dd7aff8">
 my_qadapter.yaml</label><div class="sd-tab-content docutils">
 <p>This is the queue adapter file required by FireWorks to
 automatically communicate with the queueing system.
@@ -364,8 +381,8 @@ to run all fireworks in parallel. You can go over the FireWorks
 documentation to learn the difference between these launching modes.</p>
 </div>
 </div>
-<input id="78333e81-8117-4226-b68e-eeca3205b3cd" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
-</input><label class="sd-tab-label" for="78333e81-8117-4226-b68e-eeca3205b3cd">
+<input id="62c15b11-87d7-40ed-9d65-0ee778b19c1c" name="5d595139-767c-42de-a67a-73815a701520" type="radio">
+</input><label class="sd-tab-label" for="62c15b11-87d7-40ed-9d65-0ee778b19c1c">
 config.ini</label><div class="sd-tab-content docutils">
 <p>This file contains the commands to run Gaussian, LAMMPS, and AmberTools.
 These commands are specific to your computing resources you are
@@ -406,8 +423,8 @@ or before the colons (:), e.g., gmcd, should not be changed
 since these are used to point MISPR to the commands to run.</p>
 </div>
 </div>
-<input id="91994084-77df-487f-9836-c32849c02966" name="1f124f39-7fc0-4aea-b0e0-1e085ee32245" type="radio">
-</input><label class="sd-tab-label" for="91994084-77df-487f-9836-c32849c02966">
+<input id="3dbc37b1-9b0f-4703-affa-14e43a513f41" name="5d595139-767c-42de-a67a-73815a701520" type="radio">
+</input><label class="sd-tab-label" for="3dbc37b1-9b0f-4703-affa-14e43a513f41">
 FW_config.yaml</label><div class="sd-tab-content docutils">
 <p>This is the master FireWorks configuration file that controls
 FireWorks settings and points to the location of the other

@@ -7,6 +7,31 @@
 .. toctree::
    :hidden:
 
+   overview
+   installation/index
+   keywords
+
+.. toctree::
+   :caption: WORKFLOWS
+   :hidden:
+
+   workflows/concept
+   workflows/supported
+   workflows/tutorials
+   workflows/custom
+
+.. toctree::
+   :caption: RESOURCES
+   :hidden:
+
+   resources/faq
+   resources/resources
+
+
+.. toctree::
+   :caption: DEVELOPMENT
+   :hidden:
+
    changelog
    citing
    license
@@ -40,7 +65,8 @@ Installation
             pip install mispr
 
 
-Further details are available in the :doc:`Installation Guide <installation>`.
+Please check the :doc:`installation guide <installation/index>` for
+other details required for setting up MISPR.
 
 ************
 Learning Resources
@@ -55,7 +81,7 @@ Learning Resources
         ^^^
 
         - :doc:`Overview  <overview>`
-        - :doc:`Dependencies and prerequisites <dependencies>`
+        - :doc:`Dependencies and prerequisites <installation/dependencies>`
 
     .. grid-item-card::
         :padding: 2
@@ -63,9 +89,9 @@ Learning Resources
         Workflows
         ^^^
 
-        - :doc:`Workflow concept  <concept>`
-        - :doc:`Supported workflows <workflows>`
-        - :doc:`External learning resources <resources>`
+        - :doc:`Workflow concept  <workflows/concept>`
+        - :doc:`Supported workflows <workflows/supported>`
+        - :doc:`External learning resources <resources/resources>`
 
     .. grid-item-card::
         :padding: 2
@@ -73,8 +99,8 @@ Learning Resources
         How-tos
         ^^^
 
-        - :doc:`Tutorials <tutorials>`
-        - :doc:`MISPR FAQ <faq>`
+        - :doc:`Tutorials <workflows/tutorials>`
+        - :doc:`MISPR FAQ <resources/faq>`
 
     .. grid-item-card::
         :padding: 2

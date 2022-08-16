@@ -164,6 +164,29 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-tree">
   <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation/dependencies.html">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/configuration.html">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/test.html">Running a Test Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="keywords.html">Keywords</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="workflows/concept.html">Workflow Concept</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/supported.html">Supported Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/tutorials.html">Workflow Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflows/custom.html">Creating Custom Workflows</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="resources/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="resources/resources.html">Helpful Links</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPMENT</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="citing.html">Citing MISPR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -411,7 +434,7 @@ these multiple resources.</p>
 and saves it as dict to mongodb.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>mol_file</strong> (<em>str</em>) – molecule file; supported file formats include
+<dd class="field-odd"><p><strong>mol_file</strong> (<em>str</em>) – molecule file; workflows file formats include
 xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,
 gaussian input (gjf|g03|g09|com|inp),
 Gaussian output (.out), and
@@ -558,7 +581,7 @@ handling different molecule formats provided to Gaussian workflows.</p>
 <dd class="field-odd"><p><strong>mol</strong> (<em>Molecule</em><em>, </em><em>str</em><em>, </em><em>GaussianOutput</em><em>, </em><em>dict</em>) – source of the
 structure; should correspond to that of the “operation_type”;
 see mispr.gaussian.utilities.mol.process_mol for more
-details; besides the formats supported by
+details; besides the formats workflows by
 mispr.gaussian.utilities.mol.process_mol, if the molecule
 is to be obtained via fw_spec, mol should be a string
 corresponding to the key in fw_spec</p>
@@ -567,7 +590,7 @@ corresponding to the key in fw_spec</p>
 <dl>
 <dt>Optional Args:</dt><dd><dl class="simple">
 <dt>operation_type (str): Type of operation to perform. See</dt><dd><p>mispr.gaussian.utilities.mol.process_mol for details of
-supported types</p>
+workflows types</p>
 </dd>
 <dt>db (str or dict): database credentials; could be provided as</dt><dd><p>the path to the db.json file or in the form of a dictionary;
 if none is provided, attempts to get it from the
@@ -592,14 +615,14 @@ update_duplicates (bool): whether to update molecule document</p>
 </dd>
 <dt>local_opt (bool): whether to perform local optimization on the</dt><dd><p>molecule</p>
 </dd>
-<dt>force_field (str): force field to use for local optimization;</dt><dd><p>see mispr.gaussian.utilities.mol.process_mol for supported
+<dt>force_field (str): force field to use for local optimization;</dt><dd><p>see mispr.gaussian.utilities.mol.process_mol for workflows
 force field types</p>
 </dd>
 </dl>
 <p>steps (int): number of steps to perform local optimization
 str_type (str): format of string if operation_type is</p>
 <blockquote>
-<div><p>“get_from_str”; e.g. “smi” or any other format supported
+<div><p>“get_from_str”; e.g. “smi” or any other format workflows
 by OpenBabel)</p>
 </div></blockquote>
 <dl class="simple">
@@ -1113,7 +1136,7 @@ depends on the operation_type</p>
 </dl>
 <dl>
 <dt>Optional Args:</dt><dd><dl class="simple">
-<dt>operation_type (str): Type of operation to be performed; refer</dt><dd><p>to mispr.gaussian.utilities.gout.process_run for supported
+<dt>operation_type (str): Type of operation to be performed; refer</dt><dd><p>to mispr.gaussian.utilities.gout.process_run for workflows
 ones</p>
 </dd>
 <dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
@@ -1265,7 +1288,7 @@ gaussian_cmd (str): the name of the full executable to run; if</p>
 config file</p>
 </div></blockquote>
 <p>stderr_file (str): name of the file to direct standard error to
-job_type (str): type of job to run; supported options are (1)</p>
+job_type (str): type of job to run; workflows options are (1)</p>
 <blockquote>
 <div><p>normal and (2) better_guess; defaults to “normal”</p>
 </div></blockquote>

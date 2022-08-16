@@ -1,5 +1,5 @@
 ==========
-Workflows
+Supported Workflows
 ==========
 Some of the workflows available as of July 2022 are:
 
