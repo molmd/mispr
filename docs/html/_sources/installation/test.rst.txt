@@ -51,7 +51,9 @@ by creating a file called ``optimize_geometry.py``:
     from fireworks import LaunchPad, Workflow
 
     lpad = LaunchPad.auto_load()
-    wf = Workflow([CalcFromMolFW("monoglyme.xyz", "get_from_file", save_to_file=True, save_to_db=True)])
+    wf = Workflow([CalcFromMolFW("monoglyme.xyz", "get_from_file",
+                                  gaussian_input_params={"route_parameters": {"opt": None}},
+                                  save_to_file=True, save_to_db=True)])
     lpad.add_wf(wf)
 
 and then running the following command in terminal::
@@ -72,8 +74,8 @@ It will return something like this::
 
     {
         "fw_id": 1,
-        "created_on": "2022-08-15T21:16:36.088714",
-        "updated_on": "2022-08-15T21:16:49.606417",
+        "created_on": "2022-08-16T20:32:54.554404",
+        "updated_on": "2022-08-16T20:32:54.554716",
         "state": "READY",
         "name": "calc_from_mol"
     }
@@ -99,10 +101,10 @@ qlaunch has 3 modes: singleshot, rapidfire, and multi:
   too many jobs at once.
 * ``multi``: creates one job with multiple fireworks runs
 
-Here is example command for launching one job from the terminal in the
+Here is an example command for launching one job from the terminal in the
 same working directory as before::
 
-    qlaunch rapidfire -m 1
+    qlaunch singleshot
 
 If you are not running your jobs through a queue, replace the
 ``qlaunch`` command with ``rlaunch``.
