@@ -89,7 +89,7 @@ Learning Resources
         Workflows
         ^^^
 
-        - :doc:`Workflow concept  <workflows/concept>`
+        - :doc:`Workflow basics  <workflows/basics>`
         - :doc:`Supported workflows <workflows/supported>`
         - :doc:`External learning resources <resources/resources>`
 
