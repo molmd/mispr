@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Supported Workflows" href="supported.html" /><link rel="prev" title="Keywords" href="../keywords.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Workflow Basics - Materials informatics for structure-property relationships</title>
@@ -149,7 +149,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../_static/logo.png" alt="Logo"/>
@@ -162,7 +162,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div><div class="sidebar-tree">
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -174,7 +174,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../keywords.html">Keywords</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Workflow Basics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="supported.html">Supported Workflows</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Workflow Tutorials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="custom.html">Creating Custom Workflows</a></li>
@@ -193,6 +194,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -237,9 +239,12 @@ procedure leading to the final data used to predict the desired property
 of a given molecule or system. It consists of multiple steps ranging
 from the initial setup of a molecule or system of molecules to a
 sequence of calculations with dependencies and optional automated
-post-processing of parsed data to derive properties of interest.
-The workflow model we use to encode DFT and MD recipes in MISPR is
+post-processing of parsed data to derive properties of interest.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The workflow model we use to encode DFT and MD recipes in MISPR is
 defined by the FireWorks workflow software.</p>
+</div>
 <p>A workflow in FireWorks is modeled as a Directed Acyclic Graph
 representing the chain of relationships between
 computational operations. A workflow consists of one or more Fireworks
@@ -264,8 +269,8 @@ of a JSON file and/or MongoDB document. It contains all the input parameters
 used in the calculations, the output data, general information about the
 calculation like the software version used (Gaussian, LAMMPS, MISPR, etc.),
 the wall time the full run took, and chemical metadata about the molecule
-or system of molecules (e.g. SMILES, InChI, molecular formula, etc.).
-In general, each property predicted by MISPR workflows is the result of
+or system of molecules (e.g. SMILES, InChI, molecular formula, etc.).</p>
+<p>In general, each property predicted by MISPR workflows is the result of
 multiple Gaussian or LAMMPS calculations, and the predicted property is
 represented by a single file/document summarizing data and “raw” information
 collected from different calculation steps. The MongoDB document
@@ -282,6 +287,13 @@ the analysis files/documents:</p>
 <figure class="align-default">
 <img alt="../_images/analysis.png" src="../_images/analysis.png" />
 </figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above diagram shows one example of the structure of a workflow
+where the Fireworks are executed sequentially. Some workflows contain
+parallel Fireworks. However, the analysis Firework
+is always the last Firework in all the workflows in MISPR.</p>
+</div>
 </section>
 
         </article>
@@ -289,8 +301,26 @@ the analysis files/documents:</p>
       <footer>
         
         <div class="related-pages">
-          
-          
+          <a class="next-page" href="supported.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Supported Workflows</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../keywords.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Keywords</div>
+                
+              </div>
+            </a>
         </div>
         <div class="bottom-of-page">
           <div class="left-details">
