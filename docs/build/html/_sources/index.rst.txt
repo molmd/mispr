@@ -15,7 +15,7 @@
    :caption: WORKFLOWS
    :hidden:
 
-   workflows/concept
+   workflows/basics
    workflows/supported
    workflows/tutorials
    workflows/custom
