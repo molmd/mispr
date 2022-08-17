@@ -7,8 +7,10 @@ of a given molecule or system. It consists of multiple steps ranging
 from the initial setup of a molecule or system of molecules to a
 sequence of calculations with dependencies and optional automated
 post-processing of parsed data to derive properties of interest.
-The workflow model we use to encode DFT and MD recipes in MISPR is
-defined by the FireWorks workflow software.
+
+.. note::
+   The workflow model we use to encode DFT and MD recipes in MISPR is
+   defined by the FireWorks workflow software.
 
 A workflow in FireWorks is modeled as a Directed Acyclic Graph
 representing the chain of relationships between
@@ -36,6 +38,7 @@ used in the calculations, the output data, general information about the
 calculation like the software version used (Gaussian, LAMMPS, MISPR, etc.),
 the wall time the full run took, and chemical metadata about the molecule
 or system of molecules (e.g. SMILES, InChI, molecular formula, etc.).
+
 In general, each property predicted by MISPR workflows is the result of
 multiple Gaussian or LAMMPS calculations, and the predicted property is
 represented by a single file/document summarizing data and "raw" information
@@ -53,3 +56,9 @@ The following diagram summarizes the process in MISPR workflows to generate
 the analysis files/documents:
 
 .. figure:: ../_static/analysis.png
+
+.. note::
+   The above diagram shows one example of the structure of a workflow
+   where the Fireworks are executed sequentially. Some workflows contain
+   parallel Fireworks. However, the analysis Firework
+   is always the last Firework in all the workflows in MISPR.
