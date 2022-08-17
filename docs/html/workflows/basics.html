@@ -248,7 +248,7 @@ about the links between Fireworks to execute them in the correct order.
 Each Firework consists of one or more Firetasks that run sequentially.
 A Firetask is an atomic computing job that can call shell scripts,
 transfer files, write/delete files, or execute other Python functions.
-An example of the structure of a workflow in MISPR is shown below:</p>
+An example of the structure of a DFT workflow in MISPR is shown below:</p>
 <figure class="align-default">
 <img alt="../_images/workflow.png" src="../_images/workflow.png" />
 </figure>
@@ -258,6 +258,30 @@ MISPR infrastructure is to provide preset workflows for
 computing properties relevant to the molecular science community and to
 simplify the process of creating new workflows by using the implemented
 FireWorks and Firetasks in MISPR as building blocks for custom workflows.</p>
+<p>At the end of each workflow in MISPR, an analysis FireTask is performed
+to analyze the results and generate a report. The report is in the form
+of a JSON file and/or MongoDB document. It contains all the input parameters
+used in the calculations, the output data, general information about the
+calculation like the software version used (Gaussian, LAMMPS, MISPR, etc.),
+the wall time the full run took, and chemical metadata about the molecule
+or system of molecules (e.g. SMILES, InChI, molecular formula, etc.).
+In general, each property predicted by MISPR workflows is the result of
+multiple Gaussian or LAMMPS calculations, and the predicted property is
+represented by a single file/document summarizing data and “raw” information
+collected from different calculation steps. The MongoDB document
+corresponding to a predicted property is stored in a MongoDB collection
+named after the property. For example, bond dissociation energies are
+stored in a <code class="docutils literal notranslate"><span class="pre">bde</span></code> collection in the database while electrostatic
+partial charges are saved in an <code class="docutils literal notranslate"><span class="pre">esp</span></code> collection and so on. Some of
+the analysis FireTasks also include optional plotting of the results.
+Besides the final summary file/document, MISPR stores data from the
+intermediate calculation steps into a collection called <code class="docutils literal notranslate"><span class="pre">runs</span></code> in the
+database.</p>
+<p>The following diagram summarizes the process in MISPR workflows to generate
+the analysis files/documents:</p>
+<figure class="align-default">
+<img alt="../_images/analysis.png" src="../_images/analysis.png" />
+</figure>
 </section>
 
         </article>
