@@ -22,6 +22,7 @@ setuptools.setup(
         "monty >= 4.0.0",
         "scipy >= 1.5.2",
         "pandas >= 1.1.2",
+        "pubchempy"
     ],
     packages=setuptools.find_packages(),
     classifiers=[
