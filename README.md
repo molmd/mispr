@@ -33,4 +33,4 @@ Please include the following two citations if MISPR and/or MDPropTools were used
 Nature Computational Science, 2(2), 112-122.
 
 ## License Information
-MISPR is a free, open-source software package (distributed under the [MIT license](https://github.com/molmd/mispr/blob/70f1f5a511562730a478c847a144a2b3bde4c3b2/LICENSE)).
+MISPR is a free, open-source software package (distributed under the [MIT license](https://github.com/molmd/mispr/blob/master/LICENSE)).
