@@ -16,6 +16,7 @@ from pymatgen.io.gaussian import GaussianOutput
 from pymatgen.core.structure import Molecule
 
 from mispr.gaussian.utilities.db_utilities import get_db
+from mispr.common.pubchem import PubChemRunner
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -52,13 +53,15 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
             9. "get_from_run_query": if the input is a dictionary with
                 criteria to search the database: e.g.
                 "{'inchi': inchi, 'type': type, 'functional': func, ...}
-            10. "derive_molecule": used for deriving a molecule by
+            10. "get_from_pubchem": if the input is a common name for
+                the molecule to be used in searching the PubChem database
+            11. "derive_molecule": used for deriving a molecule by
                 attaching a functional group at a site and the
                 corresponding mol input should be a dictionary,
                 e.g. {'operation_type': <mol_operation_type for the
                 base structure>, 'mol': <base_mol>,
                 'func_grp': func_group_name, ...}
-            11."link_molecules": used for linking two structures by
+            12."link_molecules": used for linking two structures by
                 forming a bond at specific sites and the corresponding
                 mol input should be a dictionary, e.g.
                 {'operation_type': ['get_from_file',
@@ -83,6 +86,9 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
             5. steps (number of steps for local optimization if
             local_opt is True)
             6. charge
+            7. abbreviation (abbreviation to be used for the molecule
+             when downloading it from the PubChem database; defaults to
+             mol)
 
     Returns:
         Molecule: pymatgen Molecule object
@@ -177,6 +183,13 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
         run = max(run, key=lambda i: i["last_updated"])
         mol_dict = run["output"]["output"]["molecule"]
         output_mol = Molecule.from_dict(mol_dict)
+
+    elif operation_type == "get_from_pubchem":
+        pb = PubChemRunner(
+            abbreviation=kwargs.get("abbreviation", "mol"),
+            working_dir=working_dir
+        )
+        output_mol = pb.get_mol(mol)
 
     elif operation_type == "derive_molecule":
         # mol = {'operation_type': 'get_from_file', 'mol': file_path,
