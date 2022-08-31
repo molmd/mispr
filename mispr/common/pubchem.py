@@ -21,7 +21,7 @@ class PubChemRunner:
         self.working_dir = working_dir or os.getcwd()
         self.cid = None
 
-    def get_mol(self, name, save_to_file=True, fmt="xyz", cleanup=True):
+    def get_mol(self, name, save_to_file=True, fmt="pdb", cleanup=True):
         """
         Wrapper function that searches for a molecule in the PubChem database,
         downloads it in the form of an SDF file, and converts the file
