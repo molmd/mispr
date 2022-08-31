@@ -5,7 +5,7 @@ import pubchempy as pcp
 from pymatgen.core.structure import Molecule
 
 
-class PubChem:
+class PubChemRunner:
     """
     Wrapper for retrieving molecules from PubChem database.
     """
