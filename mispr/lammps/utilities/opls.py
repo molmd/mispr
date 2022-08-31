@@ -1,3 +1,9 @@
+# coding: utf-8
+
+
+# Implements a core class MaestroRunner for assigning force field
+# parameters on a molecule using Maestro software.
+
 import itertools
 import logging
 import os
@@ -11,6 +17,13 @@ import pandas as pd
 
 from fireworks.fw_config import CONFIG_FILE_DIR
 from pymatgen.core.structure import Molecule
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Aug 2022"
+__version__ = "0.0.2"
 
 logger = logging.getLogger(__name__)
 

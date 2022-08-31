@@ -1,8 +1,21 @@
+# coding: utf-8
+
+
+# Implements a core class PubChemRunner for retrieving molecules from
+# the PubChem database using a molecule name as a query criteria.
+
 import os
 
 import pubchempy as pcp
 
 from pymatgen.core.structure import Molecule
+
+__author__ = "Rasha Atwi"
+__maintainer__ = "Rasha Atwi"
+__email__ = "rasha.atwi@stonybrook.edu"
+__status__ = "Development"
+__date__ = "Aug 2022"
+__version__ = "0.0.2"
 
 
 class PubChemRunner:
