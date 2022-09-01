@@ -31,6 +31,7 @@ NONBONDED_HEADER = "OPLSAA FORCE FIELD TYPE ASSIGNED\n"
 BONDS_HEADER = " Stretch            k            r0    quality         bt        comment\n"
 ANGLES_HEADER = " Bending                      k       theta0    quality   at  comment\n"
 DIHEDRALS_HEADER = " proper Torsion                     V1      V2      V3      V4    quality  tt  comment\n"
+IMPROPER_HEADER = " improper Torsion                   V2    quality  comment\n"
 
 
 class MaestroRunner:
@@ -340,8 +341,12 @@ class MaestroRunner:
             log_file,
             DIHEDRALS_HEADER,
         )
+        footer_skips = self._get_footer(
+            log_file,
+            IMPROPER_HEADER,
+        )
         dihedrals_df = pd.read_csv(
-            log_file, skiprows=row_skips, delimiter=r"\s+", engine="python"
+            log_file, skiprows=row_skips, skipfooter=footer_skips, delimiter=r"\s+", engine="python"
         ).reset_index()
         dihedrals_df = dihedrals_df[
             ["quality", "comment", "proper", "Torsion", "V1", "V2"]
