@@ -348,57 +348,59 @@ class MaestroRunner:
         dihedrals_df = pd.read_csv(
             log_file, skiprows=row_skips, skipfooter=footer_skips, delimiter=r"\s+", engine="python"
         ).reset_index()
-        dihedrals_df = dihedrals_df[
-            ["quality", "comment", "proper", "Torsion", "V1", "V2"]
-        ]
-        df = dihedrals_df[["quality", "proper", "Torsion", "V1", "V2"]]
-        df.columns = ["comment", "proper", "Torsion", "V1", "V2"]
-        del dihedrals_df["quality"]
-        dihedrals_df = dihedrals_df.append(df)
-        dihedrals_df.columns = ["Dihedral", "V1", "V2", "V3", "V4"]
-        dihedrals_df = dihedrals_df.join(
-            dihedrals_df["Dihedral"]
-            .str.split("-", expand=True)
-            .rename(columns={0: "t1", 1: "t2", 2: "t3", 3: "t4"})
-        )
-        dihedrals_df["Dihedral"] = dihedrals_df.apply(
-            lambda x: "-".join(
-                (
-                    [x["t1"], x["t2"], x["t3"], x["t4"]]
-                    if not (
-                        x["t1"] > x["t4"] or (x["t1"] == x["t4"] and x["t1"] > x["t4"])
-                    )
-                    else [x["t4"], x["t3"], x["t2"], x["t1"]]
-                )
-            ),
-            axis=1,
-        )
-        dihedrals_df.drop(["t1", "t2", "t3", "t4"], axis=1, inplace=True)
-        dihedrals_df[["V1", "V2", "V3", "V4"]] = (
-            dihedrals_df[["V1", "V2", "V3", "V4"]] / 2
-        )
-        dihedrals_df = dihedrals_df.drop_duplicates(subset=["Dihedral"]).reset_index(
-            drop=True
-        )
-        dihedrals_df = dihedrals_df[~dihedrals_df["Dihedral"].str.contains("?", regex=False)]
 
         dihedral_data = []
-        for index, row in dihedrals_df.iterrows():
-            dihedral_data.append(
-                {
-                    "coeffs": [row[i] for i in range(len(dihedrals_df.columns) - 1)],
-                    "types": [tuple(row[0].split("-"))],
-                }
+        if not dihedrals_df.empty:
+            dihedrals_df = dihedrals_df[
+                ["quality", "comment", "proper", "Torsion", "V1", "V2"]
+            ]
+            df = dihedrals_df[["quality", "proper", "Torsion", "V1", "V2"]]
+            df.columns = ["comment", "proper", "Torsion", "V1", "V2"]
+            del dihedrals_df["quality"]
+            dihedrals_df = dihedrals_df.append(df)
+            dihedrals_df.columns = ["Dihedral", "V1", "V2", "V3", "V4"]
+            dihedrals_df = dihedrals_df.join(
+                dihedrals_df["Dihedral"]
+                .str.split("-", expand=True)
+                .rename(columns={0: "t1", 1: "t2", 2: "t3", 3: "t4"})
             )
-        mapping = {0: [1, 0], 1: [2, 180], 2: [3, 0]}
-        for i in range(len(dihedral_data)):
-            list_ = dihedral_data[i]["coeffs"][1:]
-            data = [i for i, e in enumerate(list_) if e != 0]
-            if not data:
-                data = [0]
-            dihedrals = [[list_[i]] + mapping[i] for i in data]
-            dihedrals = [item for sublist in dihedrals for item in sublist]
-            dihedral_data[i]["coeffs"] = ["fourier", len(data)] + dihedrals
+            dihedrals_df["Dihedral"] = dihedrals_df.apply(
+                lambda x: "-".join(
+                    (
+                        [x["t1"], x["t2"], x["t3"], x["t4"]]
+                        if not (
+                            x["t1"] > x["t4"] or (x["t1"] == x["t4"] and x["t1"] > x["t4"])
+                        )
+                        else [x["t4"], x["t3"], x["t2"], x["t1"]]
+                    )
+                ),
+                axis=1,
+            )
+            dihedrals_df.drop(["t1", "t2", "t3", "t4"], axis=1, inplace=True)
+            dihedrals_df[["V1", "V2", "V3", "V4"]] = (
+                dihedrals_df[["V1", "V2", "V3", "V4"]] / 2
+            )
+            dihedrals_df = dihedrals_df.drop_duplicates(subset=["Dihedral"]).reset_index(
+                drop=True
+            )
+            dihedrals_df = dihedrals_df[~dihedrals_df["Dihedral"].str.contains("?", regex=False)]
+
+            for index, row in dihedrals_df.iterrows():
+                dihedral_data.append(
+                    {
+                        "coeffs": [row[i] for i in range(len(dihedrals_df.columns) - 1)],
+                        "types": [tuple(row[0].split("-"))],
+                    }
+                )
+            mapping = {0: [1, 0], 1: [2, 180], 2: [3, 0]}
+            for i in range(len(dihedral_data)):
+                list_ = dihedral_data[i]["coeffs"][1:]
+                data = [i for i, e in enumerate(list_) if e != 0]
+                if not data:
+                    data = [0]
+                dihedrals = [[list_[i]] + mapping[i] for i in data]
+                dihedrals = [item for sublist in dihedrals for item in sublist]
+                dihedral_data[i]["coeffs"] = ["fourier", len(data)] + dihedrals
 
         logger.info("Finished converting OPLS parameters to MISPR format")
 
