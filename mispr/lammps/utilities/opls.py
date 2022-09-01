@@ -375,6 +375,7 @@ class MaestroRunner:
         dihedrals_df = dihedrals_df.drop_duplicates(subset=["Dihedral"]).reset_index(
             drop=True
         )
+        dihedrals_df = dihedrals_df[~dihedrals_df["Dihedral"].str.contains("?", regex=False)]
 
         dihedral_data = []
         for index, row in dihedrals_df.iterrows():
