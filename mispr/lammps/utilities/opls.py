@@ -402,7 +402,7 @@ class MaestroRunner:
 
         logger.info("Finished converting OPLS parameters to MISPR format")
 
-        cosolvent_param = {
+        ff_params = {
             "Labels": labels,
             "Masses": atoms_dict,
             "Nonbond": non_bonded,
@@ -413,7 +413,7 @@ class MaestroRunner:
             "Improper Topologies": None,
             "Charges": charges,
         }
-        return cosolvent_param
+        return ff_params
 
     def cleanup(self):
         """
