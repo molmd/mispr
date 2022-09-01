@@ -213,12 +213,18 @@ class MaestroRunner:
             log_file,
             skiprows=row_skips,
             skipfooter=footer_skips,
-            delimiter=r"\s+",
+            delimiter=r"\s\s+",
             engine="python",
         ).reset_index()
-        nonbonded_df = nonbonded_df[
-            ["level_0", "level_3", "level_4", "level_5", "level_6"]
-        ]
+
+        df_cols = []
+        for i in nonbonded_df.columns[:-1]:
+            if nonbonded_df[i].dtype == 'object':
+                df_cols.append(nonbonded_df[i].str.split(expand=True))
+            else:
+                df_cols.append(nonbonded_df[i])
+        nonbonded_df = pd.concat(df_cols, axis=1, ignore_index=True)
+        nonbonded_df = nonbonded_df[[0, 3, 4, 5, 6]]
         nonbonded_df.columns = ["Atom", "Type", "Charge", "Sigma", "Epsilon"]
         labels = nonbonded_df["Type"].to_list()
         charges = np.asarray(nonbonded_df["Charge"].to_list())
