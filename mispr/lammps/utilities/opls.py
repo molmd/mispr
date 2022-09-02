@@ -89,6 +89,9 @@ class MaestroRunner:
         self.ffld_cmd = ffld_cmd
         self.working_dir = working_dir or os.getcwd()
 
+        if not os.path.isabs(self.input_file):
+            self.input_file = f"{self.working_dir}/{self.input_file}"
+
     def get_opls_params(self, cleanup=True):
         """
         Wrapper function that converts input structure to mae format,
@@ -170,9 +173,9 @@ class MaestroRunner:
             cfg = ConfigParser()
             cfg.read(CONFIG_FILE_DIR + "/config.ini")
             self.mae_cmd = cfg["MaestroCalc"]["mae_cmd"]
-        cmd = self.mae_cmd.replace(
-            "$input_file$", f"{self.working_dir}/{self.input_file}"
-        ).replace("$output_file$", f"{self.working_dir}/{self.name}.mae")
+        cmd = self.mae_cmd.replace("$input_file$", self.input_file).replace(
+            "$output_file$", f"{self.working_dir}/{self.name}.mae"
+        )
         logger.info("Running command: {}".format(cmd))
         return_code = subprocess.call(cmd, env=os.environ, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
