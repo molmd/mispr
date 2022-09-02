@@ -128,6 +128,7 @@ def process_run(smiles, nmols, box, template_filename, control_settings=None):
 
 def run_fake_lammps(workflow, ref_dirs, control_filenames=None):
     from mispr.lammps.firetasks.run import RunLammpsFake
+
     list_fireworks_and_tasks = get_list_fireworks_and_tasks(
         workflow, task_substring=["RunLammps"]
     )
