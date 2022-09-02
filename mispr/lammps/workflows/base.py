@@ -91,6 +91,7 @@ def lammps_data_fws(
     for label, ff_data in system_species_data.items():
         # Generate ff files in separate directories
         mol = recursive_relative_to_absolute_path(ff_data["molecule"], working_dir)
+        ff_data["ff_param_data"] = recursive_relative_to_absolute_path(ff_data["ff_param_data"], working_dir)
         mol_charge = ff_data.get("charge", None)
         mol_operation_type, mol, label, _, _, _ = _process_mol_check(
             working_dir=working_dir,
