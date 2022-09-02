@@ -63,8 +63,7 @@ class MaestroRunner:
     """
     # TODO: process improper torsions
 
-    def __init__(self, name, input_file, mae_cmd=None, ffld_cmd=None,
-                 working_dir=None):
+    def __init__(self, name, input_file, mae_cmd=None, ffld_cmd=None, working_dir=None):
         """
         Args:
             name (str): name of the molecule to use when saving the mae
@@ -223,7 +222,7 @@ class MaestroRunner:
 
         df_cols = []
         for i in nonbonded_df.columns[:-1]:
-            if nonbonded_df[i].dtype == 'object':
+            if nonbonded_df[i].dtype == "object":
                 df_cols.append(nonbonded_df[i].str.split(expand=True))
             else:
                 df_cols.append(nonbonded_df[i])
@@ -349,7 +348,11 @@ class MaestroRunner:
             IMPROPER_HEADER,
         )
         dihedrals_df = pd.read_csv(
-            log_file, skiprows=row_skips, skipfooter=footer_skips, delimiter=r"\s+", engine="python"
+            log_file,
+            skiprows=row_skips,
+            skipfooter=footer_skips,
+            delimiter=r"\s+",
+            engine="python",
         ).reset_index()
 
         dihedral_data = []
@@ -372,7 +375,8 @@ class MaestroRunner:
                     (
                         [x["t1"], x["t2"], x["t3"], x["t4"]]
                         if not (
-                            x["t1"] > x["t4"] or (x["t1"] == x["t4"] and x["t1"] > x["t4"])
+                            x["t1"] > x["t4"]
+                            or (x["t1"] == x["t4"] and x["t1"] > x["t4"])
                         )
                         else [x["t4"], x["t3"], x["t2"], x["t1"]]
                     )
@@ -383,15 +387,19 @@ class MaestroRunner:
             dihedrals_df[["V1", "V2", "V3", "V4"]] = (
                 dihedrals_df[["V1", "V2", "V3", "V4"]] / 2
             )
-            dihedrals_df = dihedrals_df.drop_duplicates(subset=["Dihedral"]).reset_index(
-                drop=True
-            )
-            dihedrals_df = dihedrals_df[~dihedrals_df["Dihedral"].str.contains("?", regex=False)]
+            dihedrals_df = dihedrals_df.drop_duplicates(
+                subset=["Dihedral"]
+            ).reset_index(drop=True)
+            dihedrals_df = dihedrals_df[
+                ~dihedrals_df["Dihedral"].str.contains("?", regex=False)
+            ]
 
             for index, row in dihedrals_df.iterrows():
                 dihedral_data.append(
                     {
-                        "coeffs": [row[i] for i in range(len(dihedrals_df.columns) - 1)],
+                        "coeffs": [
+                            row[i] for i in range(len(dihedrals_df.columns) - 1)
+                        ],
                         "types": [tuple(row[0].split("-"))],
                     }
                 )
