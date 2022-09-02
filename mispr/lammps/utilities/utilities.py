@@ -9,7 +9,6 @@ from collections import OrderedDict
 
 from fireworks.fw_config import CONFIG_FILE_DIR
 
-from mispr.lammps.firetasks.run import RunLammpsFake
 from mispr.gaussian.utilities.metadata import get_chem_schema
 from mispr.gaussian.utilities.fw_utilities import get_list_fireworks_and_tasks
 
@@ -128,6 +127,7 @@ def process_run(smiles, nmols, box, template_filename, control_settings=None):
 
 
 def run_fake_lammps(workflow, ref_dirs, control_filenames=None):
+    from mispr.lammps.firetasks.run import RunLammpsFake
     list_fireworks_and_tasks = get_list_fireworks_and_tasks(
         workflow, task_substring=["RunLammps"]
     )
