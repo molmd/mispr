@@ -230,7 +230,7 @@ class MaestroRunner:
         nonbonded_df = nonbonded_df[[0, 3, 4, 5, 6]]
         nonbonded_df.columns = ["Atom", "Type", "Charge", "Sigma", "Epsilon"]
         labels = nonbonded_df["Type"].to_list()
-        charges = np.asarray(nonbonded_df["Charge"].to_list())
+        charges = nonbonded_df["Charge"].to_list()
         nonbonded_df = nonbonded_df.drop_duplicates(subset=["Type"]).reset_index(
             drop=True
         )
