@@ -307,11 +307,12 @@ class RunMaestro(FiretaskBase):
         ff_params["Molecule"] = molecule
 
         if save_to_db:
+            ff_doc = ff_params.copy()
             ff_db = get_db(input_db=db)
-            ff_db.insert_force_field(ff_params, "opls", doi=OPLS_DOI)
+            ff_db.insert_force_field(ff_doc, "opls", doi=OPLS_DOI)
 
         if save_to_file:
-            ff_doc = process_ff_doc(ff_params, "opls", doi=OPLS_DOI)
+            ff_doc = process_ff_doc(ff_params.copy(), "opls", doi=OPLS_DOI)
             with open(os.path.join(working_dir, ff_filename), "w") as file:
                 json.dump(ff_doc, file)
 
@@ -321,7 +322,6 @@ class RunMaestro(FiretaskBase):
             "system_force_field_dict", self.get("system_force_field_dict", {})
         )
         sys_ff_dict[label] = labeled_ff_params
-        print(sys_ff_dict)
         return FWAction(update_spec={"system_force_field_dict": sys_ff_dict})
 
 
