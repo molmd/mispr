@@ -439,6 +439,11 @@ class MaestroRunner:
                 nonbonded_df[["Atom", "Type"]].set_index("Atom").squeeze().to_dict(),
                 inplace=True,
             )
+            improper_df.drop_duplicates(
+                subset=["level_0", "level_1", "level_2", "improper"],
+                keep="last",
+                inplace=True,
+            )
             for index, row in improper_df.iterrows():
                 improper_data.append(
                     {
