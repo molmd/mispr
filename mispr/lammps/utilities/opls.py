@@ -327,7 +327,8 @@ class MaestroRunner:
                     (
                         [x["t1"], x["t2"], x["t3"]]
                         if not (
-                            x["t1"] > x["t3"] or (x["t1"] == x["t3"] and x["t1"] > x["t3"])
+                            x["t1"] > x["t3"]
+                            or (x["t1"] == x["t3"] and x["t1"] > x["t3"])
                         )
                         else [x["t3"], x["t2"], x["t1"]]
                     )
@@ -419,6 +420,28 @@ class MaestroRunner:
                 dihedrals = [item for sublist in dihedrals for item in sublist]
                 dihedral_data[i]["coeffs"] = ["fourier", len(data)] + dihedrals
 
+        # impropers
+        row_skips = num_lines - self._get_footer(log_file, IMPROPER_HEADER)
+        improper_df = pd.read_csv(
+            log_file, skiprows=row_skips, delimiter=r"\s+", engine="python"
+        ).reset_index()
+
+        improper_data = []
+        if not improper_df.empty:
+            improper_df = improper_df[
+                ["level_0", "level_1", "level_2", "improper", "Torsion"]
+            ].copy()
+            improper_df.replace(
+                nonbonded_df[['Atom', 'Type']].set_index('Atom').squeeze().to_dict(),
+                inplace=True)
+            for index, row in improper_df.iterrows():
+                improper_data.append(
+                    {
+                        "coeffs": ["cvff", row[-1]/2, -1, 2],
+                        "types": [row[i] for i in range(len(improper_df.columns) - 1)],
+                    }
+                )
+
         logger.info("Finished converting OPLS parameters to MISPR format")
 
         ff_params = {
@@ -428,7 +451,7 @@ class MaestroRunner:
             "Bonds": bond_data,
             "Angles": angle_data,
             "Dihedrals": dihedral_data,
-            "Impropers": [],
+            "Impropers": improper_data,
             "Improper Topologies": None,
             "Charges": charges,
         }
