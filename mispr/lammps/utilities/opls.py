@@ -426,44 +426,53 @@ class MaestroRunner:
 
         # impropers
         row_skips = num_lines - self._get_footer(log_file, IMPROPER_HEADER)
-        improper_df = pd.read_csv(
-            log_file, skiprows=row_skips, delimiter=r"\s+", engine="python"
-        ).reset_index()
         improper_data = []
         improper_top_data = []
-        if not improper_df.empty:
-            improper_df = improper_df[
-                ["level_0", "level_1", "level_2", "improper", "Torsion"]
-            ].copy()
 
-            df = nonbonded_df.reset_index()
-            df["index"] += 1
-            improper_top_df = improper_df.copy()
-            improper_top_df.replace(
-                df[["Atom", "index"]].set_index("Atom").squeeze().to_dict(),
-                inplace=True,
-            )
-            improper_top_data = improper_top_df[
-                ["level_0", "level_1", "level_2", "improper"]
-            ].values.tolist()
+        if num_lines > row_skips:
+            improper_df = pd.read_csv(
+                log_file, skiprows=row_skips, delimiter=r"\s+", engine="python"
+            ).reset_index()
+            if not improper_df.empty:
+                improper_df = improper_df[
+                    ["level_0", "level_1", "level_2", "improper", "Torsion"]
+                ].copy()
 
-            improper_df.replace(
-                nonbonded_df[["Atom", "Type"]].set_index("Atom").squeeze().to_dict(),
-                inplace=True,
-            )
-
-            improper_df.drop_duplicates(
-                subset=["level_0", "level_1", "level_2", "improper"],
-                keep="last",
-                inplace=True,
-            )
-            for index, row in improper_df.iterrows():
-                improper_data.append(
-                    {
-                        "coeffs": ["cvff", row[-1] / 2, -1, 2],
-                        "types": [row[i] for i in range(len(improper_df.columns) - 1)],
-                    }
+                df = nonbonded_df.reset_index()
+                df["index"] += 1
+                improper_top_df = improper_df.copy()
+                improper_top_df.replace(
+                    df[["Atom", "index"]].set_index("Atom").squeeze().to_dict(),
+                    inplace=True,
                 )
+                improper_top_data = improper_top_df[
+                    ["level_0", "level_1", "level_2", "improper"]
+                ].values.tolist()
+
+                improper_df.replace(
+                    nonbonded_df[["Atom", "Type"]]
+                    .set_index("Atom")
+                    .squeeze()
+                    .to_dict(),
+                    inplace=True,
+                )
+
+                improper_df.drop_duplicates(
+                    subset=["level_0", "level_1", "level_2", "improper"],
+                    keep="last",
+                    inplace=True,
+                )
+                for index, row in improper_df.iterrows():
+                    improper_data.append(
+                        {
+                            "coeffs": ["cvff", row[-1] / 2, -1, 2],
+                            "types": [
+                                tuple(
+                                    row[i] for i in range(len(improper_df.columns) - 1)
+                                )
+                            ],
+                        }
+                    )
 
         logger.info("Finished converting OPLS parameters to MISPR format")
 
