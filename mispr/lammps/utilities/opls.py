@@ -231,15 +231,15 @@ class MaestroRunner:
         nonbonded_df.columns = ["Atom", "Type", "Charge", "Sigma", "Epsilon"]
         labels = nonbonded_df["Type"].to_list()
         charges = nonbonded_df["Charge"].to_list()
-        nonbonded_df = nonbonded_df.drop_duplicates(subset=["Type"]).reset_index(
+        nonbonded_df_unique = nonbonded_df.drop_duplicates(subset=["Type"]).reset_index(
             drop=True
         )
         atoms_dict = {
             i: self._get_atom_type(j)
-            for i, j in zip(nonbonded_df["Type"], nonbonded_df["Atom"])
+            for i, j in zip(nonbonded_df_unique["Type"], nonbonded_df_unique["Atom"])
         }
         non_bonded = [
-            [i, j] for i, j in zip(nonbonded_df["Epsilon"], nonbonded_df["Sigma"])
+            [i, j] for i, j in zip(nonbonded_df_unique["Epsilon"], nonbonded_df_unique["Sigma"])
         ]
 
         # bonds
@@ -335,7 +335,9 @@ class MaestroRunner:
                 axis=1,
             )
             angles_df.drop(["t1", "t2", "t3"], axis=1, inplace=True)
-            angles_df = angles_df.drop_duplicates(subset=["Angle"]).reset_index(drop=True)
+            angles_df = angles_df.drop_duplicates(subset=["Angle"]).reset_index(
+                drop=True
+            )
 
             for index, row in angles_df.iterrows():
                 angle_data.append(
