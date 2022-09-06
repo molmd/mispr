@@ -12,7 +12,6 @@ import subprocess
 
 from configparser import ConfigParser
 
-import numpy as np
 import pandas as pd
 
 from fireworks.fw_config import CONFIG_FILE_DIR
@@ -240,7 +239,10 @@ class MaestroRunner:
             for i, j in zip(nonbonded_df_unique["Type"], nonbonded_df_unique["Atom"])
         }
         non_bonded = [
-            [i, j] for i, j in zip(nonbonded_df_unique["Epsilon"], nonbonded_df_unique["Sigma"])
+            [i, j]
+            for i, j in zip(
+                nonbonded_df_unique["Epsilon"], nonbonded_df_unique["Sigma"]
+            )
         ]
 
         # bonds
@@ -278,7 +280,8 @@ class MaestroRunner:
                     (
                         [x["t1"], x["t2"]]
                         if not (
-                            x["t1"] > x["t2"] or (x["t1"] == x["t2"] and x["t1"] > x["t2"])
+                            x["t1"] > x["t2"]
+                            or (x["t1"] == x["t2"] and x["t1"] > x["t2"])
                         )
                         else [x["t2"], x["t1"]]
                     )
@@ -433,12 +436,13 @@ class MaestroRunner:
                 ["level_0", "level_1", "level_2", "improper", "Torsion"]
             ].copy()
             improper_df.replace(
-                nonbonded_df[['Atom', 'Type']].set_index('Atom').squeeze().to_dict(),
-                inplace=True)
+                nonbonded_df[["Atom", "Type"]].set_index("Atom").squeeze().to_dict(),
+                inplace=True,
+            )
             for index, row in improper_df.iterrows():
                 improper_data.append(
                     {
-                        "coeffs": ["cvff", row[-1]/2, -1, 2],
+                        "coeffs": ["cvff", row[-1] / 2, -1, 2],
                         "types": [row[i] for i in range(len(improper_df.columns) - 1)],
                     }
                 )
