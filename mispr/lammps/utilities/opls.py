@@ -429,7 +429,6 @@ class MaestroRunner:
         improper_df = pd.read_csv(
             log_file, skiprows=row_skips, delimiter=r"\s+", engine="python"
         ).reset_index()
-
         improper_data = []
         improper_top_data = []
         if not improper_df.empty:
@@ -440,8 +439,13 @@ class MaestroRunner:
             df = nonbonded_df.reset_index()
             df["index"] += 1
             improper_top_df = improper_df.copy()
-            improper_top_df.replace(df[["Atom", "index"]].set_index("Atom").squeeze().to_dict(), inplace=True,)
-            improper_top_data = improper_top_df[["level_0", "level_1", "level_2", "improper"]].values.tolist()
+            improper_top_df.replace(
+                df[["Atom", "index"]].set_index("Atom").squeeze().to_dict(),
+                inplace=True,
+            )
+            improper_top_data = improper_top_df[
+                ["level_0", "level_1", "level_2", "improper"]
+            ].values.tolist()
 
             improper_df.replace(
                 nonbonded_df[["Atom", "Type"]].set_index("Atom").squeeze().to_dict(),
