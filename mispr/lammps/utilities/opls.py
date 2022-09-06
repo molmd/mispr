@@ -218,6 +218,7 @@ class MaestroRunner:
             skipfooter=footer_skips,
             delimiter=r"\s\s+",
             engine="python",
+            keep_default_na=False,
         ).reset_index()
 
         df_cols = []
