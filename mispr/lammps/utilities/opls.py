@@ -258,37 +258,39 @@ class MaestroRunner:
             delimiter=r"\s+",
             engine="python",
         ).reset_index()
-        bonds_df = bonds_df[["quality", "comment", "level_2", "level_3"]]
-        df = bonds_df[["quality", "level_2", "level_3"]]
-        df.columns = ["comment", "level_2", "level_3"]
-        del bonds_df["quality"]
-        bonds_df = bonds_df.append(df)
-        bonds_df.columns = ["Bond", "K", "r"]
-        bonds_df = bonds_df.join(
-            bonds_df["Bond"]
-            .str.split("-", expand=True)
-            .rename(columns={0: "t1", 1: "t2"})
-        )
-        bonds_df["Bond"] = bonds_df.apply(
-            lambda x: "-".join(
-                (
-                    [x["t1"], x["t2"]]
-                    if not (
-                        x["t1"] > x["t2"] or (x["t1"] == x["t2"] and x["t1"] > x["t2"])
-                    )
-                    else [x["t2"], x["t1"]]
-                )
-            ),
-            axis=1,
-        )
-        bonds_df.drop(["t1", "t2"], axis=1, inplace=True)
-        bonds_df = bonds_df.drop_duplicates(subset=["Bond"]).reset_index(drop=True)
 
         bond_data = []
-        for index, row in bonds_df.iterrows():
-            bond_data.append(
-                {"coeffs": [row[1], row[2]], "types": [tuple(row[0].split("-"))]}
+        if not bonds_df.empty:
+            bonds_df = bonds_df[["quality", "comment", "level_2", "level_3"]]
+            df = bonds_df[["quality", "level_2", "level_3"]]
+            df.columns = ["comment", "level_2", "level_3"]
+            del bonds_df["quality"]
+            bonds_df = bonds_df.append(df)
+            bonds_df.columns = ["Bond", "K", "r"]
+            bonds_df = bonds_df.join(
+                bonds_df["Bond"]
+                .str.split("-", expand=True)
+                .rename(columns={0: "t1", 1: "t2"})
             )
+            bonds_df["Bond"] = bonds_df.apply(
+                lambda x: "-".join(
+                    (
+                        [x["t1"], x["t2"]]
+                        if not (
+                            x["t1"] > x["t2"] or (x["t1"] == x["t2"] and x["t1"] > x["t2"])
+                        )
+                        else [x["t2"], x["t1"]]
+                    )
+                ),
+                axis=1,
+            )
+            bonds_df.drop(["t1", "t2"], axis=1, inplace=True)
+            bonds_df = bonds_df.drop_duplicates(subset=["Bond"]).reset_index(drop=True)
+
+            for index, row in bonds_df.iterrows():
+                bond_data.append(
+                    {"coeffs": [row[1], row[2]], "types": [tuple(row[0].split("-"))]}
+                )
 
         # angles
         row_skips = num_lines - self._get_footer(
@@ -306,37 +308,39 @@ class MaestroRunner:
             delimiter=r"\s+",
             engine="python",
         ).reset_index()
-        angles_df = angles_df[["quality", "comment", "level_3", "Bending"]]
-        df = angles_df[["quality", "level_3", "Bending"]]
-        df.columns = ["comment", "level_3", "Bending"]
-        del angles_df["quality"]
-        angles_df = angles_df.append(df)
-        angles_df.columns = ["Angle", "K", "Theta"]
-        angles_df = angles_df.join(
-            angles_df["Angle"]
-            .str.split("-", expand=True)
-            .rename(columns={0: "t1", 1: "t2", 2: "t3"})
-        )
-        angles_df["Angle"] = angles_df.apply(
-            lambda x: "-".join(
-                (
-                    [x["t1"], x["t2"], x["t3"]]
-                    if not (
-                        x["t1"] > x["t3"] or (x["t1"] == x["t3"] and x["t1"] > x["t3"])
-                    )
-                    else [x["t3"], x["t2"], x["t1"]]
-                )
-            ),
-            axis=1,
-        )
-        angles_df.drop(["t1", "t2", "t3"], axis=1, inplace=True)
-        angles_df = angles_df.drop_duplicates(subset=["Angle"]).reset_index(drop=True)
 
         angle_data = []
-        for index, row in angles_df.iterrows():
-            angle_data.append(
-                {"coeffs": [row[1], row[2]], "types": [tuple(row[0].split("-"))]}
+        if not angles_df.empty:
+            angles_df = angles_df[["quality", "comment", "level_3", "Bending"]]
+            df = angles_df[["quality", "level_3", "Bending"]]
+            df.columns = ["comment", "level_3", "Bending"]
+            del angles_df["quality"]
+            angles_df = angles_df.append(df)
+            angles_df.columns = ["Angle", "K", "Theta"]
+            angles_df = angles_df.join(
+                angles_df["Angle"]
+                .str.split("-", expand=True)
+                .rename(columns={0: "t1", 1: "t2", 2: "t3"})
             )
+            angles_df["Angle"] = angles_df.apply(
+                lambda x: "-".join(
+                    (
+                        [x["t1"], x["t2"], x["t3"]]
+                        if not (
+                            x["t1"] > x["t3"] or (x["t1"] == x["t3"] and x["t1"] > x["t3"])
+                        )
+                        else [x["t3"], x["t2"], x["t1"]]
+                    )
+                ),
+                axis=1,
+            )
+            angles_df.drop(["t1", "t2", "t3"], axis=1, inplace=True)
+            angles_df = angles_df.drop_duplicates(subset=["Angle"]).reset_index(drop=True)
+
+            for index, row in angles_df.iterrows():
+                angle_data.append(
+                    {"coeffs": [row[1], row[2]], "types": [tuple(row[0].split("-"))]}
+                )
 
         # dihedrals
         row_skips = num_lines - self._get_footer(
