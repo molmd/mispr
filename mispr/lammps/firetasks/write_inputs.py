@@ -53,6 +53,9 @@ class WriteDataFile(FiretaskBase):
         "system_box_data_type",
         "position_seed",
         "system_mixture_data_type",
+        "scale_charges",
+        "charge_scaling_factor"
+
     ]
 
     def run_task(self, fw_spec):
@@ -129,6 +132,11 @@ class WriteDataFile(FiretaskBase):
 
         # Create LammpsDataWrapper object
         if all((force_fields, mixture, box_data)):
+            scaling_factor = self.get("charge_scaling_factor")
+            if self.get("scale_charges") and scaling_factor:
+                for k, v in force_fields.items():
+                    if round(sum(force_fields[k]["Charges"])) != 0:
+                        force_fields[k]["Charges"] = [i * scaling_factor for i in force_fields[k]["Charges"]]
             box_data_type = self.get("system_box_data_type", "cubic")
             mixture_type = self.get("system_mixture_data_type", "concentration")
             seed = self.get("position_seed", 150)
