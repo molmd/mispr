@@ -60,7 +60,6 @@ class MaestroRunner:
     Check https://www.schrodinger.com/kb/1842 for more details.
 
     """
-    # TODO: process improper torsions
 
     def __init__(self, name, input_file, mae_cmd=None, ffld_cmd=None, working_dir=None):
         """
