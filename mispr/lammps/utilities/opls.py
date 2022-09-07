@@ -439,7 +439,6 @@ class MaestroRunner:
                 ].copy()
 
                 df = nonbonded_df.reset_index()
-                df["index"] += 1
                 improper_top_df = improper_df.copy()
                 improper_top_df.replace(
                     df[["Atom", "index"]].set_index("Atom").squeeze().to_dict(),
