@@ -4,6 +4,8 @@
 # Defines lammps utility functions.
 
 import os
+import json
+import math
 
 from collections import OrderedDict
 
@@ -140,3 +142,24 @@ def run_fake_lammps(workflow, ref_dirs, control_filenames=None):
             ref_dir=ref_dirs[ind], control_filename=control_filenames[ind]
         )
     return workflow
+
+
+def lammps_mass_to_element(lammps_masses):
+    """
+    Create a dict for mapping atom mass to element.
+
+    Args:
+        lammps_masses (list): list of masses in lammps units
+
+    Returns:
+        dict
+    """
+    with open(os.path.join(os.path.dirname(__file__), "../data/masses.json")) as f:
+        masses = json.load(f)
+
+    atoms_dict = {k: "X" for k in lammps_masses}
+    for mass in lammps_masses:
+        for item in masses.items():
+            if math.isclose(mass, item[1], abs_tol=0.01):
+                atoms_dict[mass] = item[0]
+    return atoms_dict
