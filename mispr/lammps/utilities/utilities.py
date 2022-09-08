@@ -157,9 +157,9 @@ def lammps_mass_to_element(lammps_masses):
     with open(os.path.join(os.path.dirname(__file__), "../data/masses.json")) as f:
         masses = json.load(f)
 
-    atoms_dict = {k: "X" for k in lammps_masses}
-    for mass in lammps_masses:
+    elements = ["X"] * len(lammps_masses)
+    for ind, mass in enumerate(lammps_masses):
         for item in masses.items():
             if math.isclose(mass, item[1], abs_tol=0.01):
-                atoms_dict[mass] = item[0]
-    return atoms_dict
+                elements[ind] = item[0]
+    return elements
