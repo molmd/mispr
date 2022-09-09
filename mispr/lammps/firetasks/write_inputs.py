@@ -237,7 +237,7 @@ class WriteControlFile(FiretaskBase):
         control_settings = self.get("control_settings", None)
 
         default_masses_list = fw_spec.get("default_masses", [])
-        if default_masses_list and "dump_modify_elements" in control_settings:
+        if default_masses_list:
             lammps_elements = lammps_mass_to_element(default_masses_list)
             if "X" not in lammps_elements:
                 control_settings["dump_modify_elements"] = "element {}".format(" ".join(lammps_elements))
