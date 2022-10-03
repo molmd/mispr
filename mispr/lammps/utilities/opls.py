@@ -380,6 +380,10 @@ class MaestroRunner:
                 .str.split("-", expand=True)
                 .rename(columns={0: "t1", 1: "t2", 2: "t3", 3: "t4"})
             )
+            dihedrals_df = dihedrals_df.loc[(dihedrals_df["t1"].isin(atoms_dict.keys())) & (
+                dihedrals_df["t2"].isin(atoms_dict.keys())) & (
+                            dihedrals_df["t3"].isin(atoms_dict.keys())) & (
+                            dihedrals_df["t4"].isin(atoms_dict.keys()))]
             dihedrals_df["Dihedral"] = dihedrals_df.apply(
                 lambda x: "-".join(
                     (
@@ -400,9 +404,6 @@ class MaestroRunner:
             dihedrals_df = dihedrals_df.drop_duplicates(
                 subset=["Dihedral"]
             ).reset_index(drop=True)
-            dihedrals_df = dihedrals_df[
-                ~dihedrals_df["Dihedral"].str.contains("?", regex=False)
-            ]
 
             for index, row in dihedrals_df.iterrows():
                 dihedral_data.append(
