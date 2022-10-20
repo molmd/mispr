@@ -431,11 +431,11 @@ class MaestroRunner:
 
         if num_lines > row_skips:
             improper_df = pd.read_csv(
-                log_file, skiprows=row_skips, delimiter=r"\s+", engine="python"
+                log_file, skiprows=row_skips, delimiter=r"\s\s+", engine="python"
             ).reset_index()
             if not improper_df.empty:
                 improper_df = improper_df[
-                    ["level_0", "level_1", "level_2", "improper", "Torsion"]
+                    ["level_0", "level_1", "level_2", "improper Torsion", "V2"]
                 ].copy()
 
                 df = nonbonded_df.reset_index()
@@ -445,7 +445,7 @@ class MaestroRunner:
                     inplace=True,
                 )
                 improper_top_data = improper_top_df[
-                    ["level_0", "level_1", "level_2", "improper"]
+                    ["level_0", "level_1", "level_2", "improper Torsion"]
                 ].values.tolist()
 
                 improper_df.replace(
@@ -457,7 +457,7 @@ class MaestroRunner:
                 )
 
                 improper_df.drop_duplicates(
-                    subset=["level_0", "level_1", "level_2", "improper"],
+                    subset=["level_0", "level_1", "level_2", "improper Torsion"],
                     keep="last",
                     inplace=True,
                 )
