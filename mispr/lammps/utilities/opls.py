@@ -215,6 +215,7 @@ class MaestroRunner:
             skiprows=row_skips,
             skipfooter=footer_skips,
             delimiter=r"\s\s+",
+            comment=":",
             engine="python",
             keep_default_na=False,
         ).reset_index()
