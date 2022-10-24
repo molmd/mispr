@@ -326,6 +326,11 @@ class MaestroRunner:
                 .str.split("-", expand=True)
                 .rename(columns={0: "t1", 1: "t2", 2: "t3"})
             )
+            angles_df = angles_df.loc[
+                (angles_df["t1"].isin(atoms_dict.keys()))
+                & (angles_df["t2"].isin(atoms_dict.keys()))
+                & (angles_df["t3"].isin(atoms_dict.keys()))
+            ]
             angles_df["Angle"] = angles_df.apply(
                 lambda x: "-".join(
                     (
