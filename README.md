@@ -27,7 +27,7 @@ Please see the [Installation](https://molmd.github.io/mispr/html/installation/in
 
 ## How to cite
 Please include the following two citations if MISPR and/or MDPropTools were used for an academic study:
-- Atwi, R., Bliss, M., Makeev, M., & Rajput, N. N. (2022). [MISPR: An automated infrastructure for high-throughput DFT and MD simulations](https://doi.org/10.21203/rs.3.rs-1459580/v2). 
+- Atwi, R., Bliss, M., Makeev, M., & Rajput, N. N. (2022). [MISPR: An automated infrastructure for high-throughput DFT and MD simulations](https://www.nature.com/articles/s41598-022-20009-w). Scientific Reports, 12(1), 1-16.
 - Atwi, R., Chen, Y., Han, K. S., Mueller, K. T., Murugesan, V., & Rajput, N. N. (2022). 
 [An automated framework for high-throughput predictions of NMR chemical shifts within liquid solutions](https://doi.org/10.1038/s43588-022-00200-9). 
 Nature Computational Science, 2(2), 112-122.
