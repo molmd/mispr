@@ -17,7 +17,7 @@ simulations. It contains pre-defined density functional theory (DFT) and molecul
 properties of materials. MISPR uses [MDPropTools](https://github.com/molmd/mdproptools) to perform MD analysis.
 
 ## Installation
-You can either download the source from GitHub, or install directly using pip. 
+You can either download the source from GitHub and compile yourself, or install directly using pip. 
 Please see the [Installation](https://molmd.github.io/mispr/html/installation/index.html) page for detailed instructions.
 
 ## Useful Links
