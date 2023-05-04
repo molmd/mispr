@@ -4,12 +4,13 @@
 # Defines lammps utility functions.
 
 import os
+import json
+import math
 
 from collections import OrderedDict
 
 from fireworks.fw_config import CONFIG_FILE_DIR
 
-from mispr.lammps.firetasks.run import RunLammpsFake
 from mispr.gaussian.utilities.metadata import get_chem_schema
 from mispr.gaussian.utilities.fw_utilities import get_list_fireworks_and_tasks
 
@@ -128,6 +129,8 @@ def process_run(smiles, nmols, box, template_filename, control_settings=None):
 
 
 def run_fake_lammps(workflow, ref_dirs, control_filenames=None):
+    from mispr.lammps.firetasks.run import RunLammpsFake
+
     list_fireworks_and_tasks = get_list_fireworks_and_tasks(
         workflow, task_substring=["RunLammps"]
     )
@@ -139,3 +142,24 @@ def run_fake_lammps(workflow, ref_dirs, control_filenames=None):
             ref_dir=ref_dirs[ind], control_filename=control_filenames[ind]
         )
     return workflow
+
+
+def lammps_mass_to_element(lammps_masses):
+    """
+    Create a dict for mapping atom mass to element.
+
+    Args:
+        lammps_masses (list): list of masses in lammps units
+
+    Returns:
+        dict
+    """
+    with open(os.path.join(os.path.dirname(__file__), "../data/masses.json")) as f:
+        masses = json.load(f)
+
+    elements = ["X"] * len(lammps_masses)
+    for ind, mass in enumerate(lammps_masses):
+        for item in masses.items():
+            if math.isclose(mass, item[1], abs_tol=0.01):
+                elements[ind] = item[0]
+    return elements

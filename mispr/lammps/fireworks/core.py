@@ -12,7 +12,13 @@ from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
 
 from mispr.gaussian.workflows.base.core import _process_mol_check
 from mispr.gaussian.firetasks.geo_transformation import ProcessMoleculeInput
-from mispr.lammps.firetasks.run import RunTleap, RunLammpsDirect, RunParmchk, RunAntechamber
+from mispr.lammps.firetasks.run import (
+    RunTleap,
+    RunLammpsDirect,
+    RunParmchk,
+    RunAntechamber,
+    RunMaestro,
+)
 from mispr.gaussian.utilities.metadata import get_chem_schema
 from mispr.lammps.firetasks.write_inputs import (
     LabelFFDict,
@@ -172,6 +178,31 @@ class GetFFDictFW(Firework):
                 )
             )
 
+        elif operation_type == "get_from_opls":
+            if not isinstance(data, str):
+                raise TypeError(
+                    "data must be a str of the path to the molecule "
+                    "file for operation_type='get_from_opls'. "
+                    "Check https://www.schrodinger.com/kb/1278 for "
+                    "supported structure file formats"
+                )
+            tasks.append(
+                RunMaestro(
+                    input_file=data,
+                    label=label,
+                    db=db,
+                    working_dir=working_dir,
+                    save_ff_to_db=save_ff_to_db,
+                    save_ff_to_file=save_ff_to_file,
+                    ff_filename=ff_filename,
+                    **{
+                        i: j
+                        for i, j in kwargs.items()
+                        if i in RunMaestro.required_params + RunMaestro.optional_params
+                    }
+                )
+            )
+
         elif operation_type == "get_from_dict":
             if not isinstance(data, dict):
                 raise TypeError(
@@ -278,7 +309,8 @@ class RunLammpsFW(Firework):
                 **{
                     i: j
                     for i, j in kwargs.items()
-                    if i in RunLammpsDirect.required_params + RunLammpsDirect.optional_params
+                    if i
+                    in RunLammpsDirect.required_params + RunLammpsDirect.optional_params
                 }
             )
         )
