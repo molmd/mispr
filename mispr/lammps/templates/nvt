@@ -28,7 +28,7 @@ thermo_style		custom step temp press pe pxx pyy pzz pxy pxz pyz $thermo_style_co
 timestep			$timestep
 $reset_timestep_logic reset_timestep		$reset_timestep_value
 dump				1 all custom $dump_period $dump_filename id type element mol x y z ix iy iz xu yu zu vx vy vz fx fy fz mass q
-$dump_modify_logic dump_modify			1 $dump_modify_args
+$dump_modify_logic dump_modify			1 $dump_modify_args $dump_modify_elements
 restart				$restart_period $restart_intermediate_filename
 run					$run
 $shake_logic unfix 	1

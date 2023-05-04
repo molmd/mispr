@@ -5,6 +5,7 @@
 
 import os
 import re
+import json
 import shutil
 import logging
 import subprocess
@@ -12,12 +13,16 @@ import subprocess
 from configparser import ConfigParser
 
 from fireworks.fw_config import CONFIG_FILE_DIR
-from fireworks.core.firework import FiretaskBase
+from fireworks.core.firework import FiretaskBase, FWAction
 from fireworks.utilities.fw_utilities import explicit_serialize
 
 from pymatgen.io.lammps.inputs import LammpsInput
 
+from mispr.gaussian.utilities.mol import process_mol
 from mispr.gaussian.utilities.misc import recursive_compare_dicts
+from mispr.gaussian.utilities.metadata import get_mol_formula
+from mispr.lammps.utilities.opls import MaestroRunner
+from mispr.lammps.utilities.utilities import get_db, process_ff_doc, add_ff_labels_to_dict
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -33,6 +38,8 @@ CONFIG_PATH = os.path.normpath(
         os.path.dirname(os.path.abspath(__file__)), "..", "config", "config.ini"
     )
 )
+
+OPLS_DOI = "10.1002/jcc.20292"
 
 
 @explicit_serialize
@@ -225,7 +232,12 @@ class RunParmchk(FiretaskBase):
 class RunTleap(FiretaskBase):
     _fw_name = "Run Tleap"
     required_params = []
-    optional_params = ["working_dir", "script_filename", "tleap_cmd"]
+    optional_params = [
+        "working_dir",
+        "script_filename",
+        "tleap_cmd",
+        "system_force_field_dict",
+    ]
 
     def run_task(self, fw_spec):
 
@@ -246,6 +258,71 @@ class RunTleap(FiretaskBase):
         logger.info("Running command: {}".format(command))
         return_code = subprocess.call(command, shell=True)
         logger.info("Finished running with return code: {}".format(return_code))
+
+
+@explicit_serialize
+class RunMaestro(FiretaskBase):
+    required_params = ["input_file"]
+    optional_params = [
+        "label",
+        "molecule",
+        "mae_cmd",
+        "ffld_cmd",
+        "working_dir",
+        "maestro_cleanup",
+        "db",
+        "save_ff_to_db",
+        "save_ff_to_file",
+        "ff_filename",
+        "system_force_field_dict"
+    ]
+
+    def run_task(self, fw_spec):
+        input_file = self["input_file"]
+        working_dir = self.get("working_dir", os.getcwd())
+        db = self.get("db", None)
+        ff_filename = self.get("ff_filename", "ff.json")
+        save_to_db = self.get("save_ff_to_db", False)
+        save_to_file = self.get("save_ff_to_file", True)
+
+        molecule = self.get("molecule", fw_spec["prev_calc_molecule"])
+
+        if not molecule:
+            try:
+                molecule = process_mol("get_from_file", self["input_file"])
+            except Exception as e:
+                logger.error("Could not read molecule from file: {}".format(e))
+                raise e
+
+        label = self.get("label", get_mol_formula(molecule))
+
+        maestro = MaestroRunner(
+            name=label,
+            input_file=input_file,
+            mae_cmd=self.get("mae_cmd"),
+            ffld_cmd=self.get("ffld_cmd"),
+            working_dir=working_dir,
+        )
+        ff_params = maestro.get_opls_params(self.get("maestro_cleanup", False))
+        ff_params["Molecule"] = molecule
+
+        if save_to_db:
+            ff_doc = ff_params.copy()
+            ff_db = get_db(input_db=db)
+            ff_db.insert_force_field(ff_doc, "opls", doi=OPLS_DOI)
+
+        if save_to_file:
+            ff_doc = process_ff_doc(ff_params.copy(), "opls", doi=OPLS_DOI)
+            with open(os.path.join(working_dir, ff_filename), "w") as file:
+                json.dump(ff_doc, file)
+
+        labeled_ff_params = add_ff_labels_to_dict(ff_params, label)
+
+        sys_ff_dict = fw_spec.get(
+            "system_force_field_dict", self.get("system_force_field_dict", {})
+        )
+        sys_ff_dict[label] = labeled_ff_params
+        return FWAction(update_spec={"system_force_field_dict": sys_ff_dict})
 
 
 # TODO: tleap Custodian Firetask
