@@ -23,7 +23,6 @@ setuptools.setup(
         "scipy >= 1.5.2",
         "pandas >= 1.1.2",
         "pubchempy",
-        "parmed >= 4.1.0"
     ],
     packages=setuptools.find_packages(),
     classifiers=[
