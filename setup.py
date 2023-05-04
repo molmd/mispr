@@ -22,11 +22,8 @@ setuptools.setup(
         "monty >= 4.0.0",
         "scipy >= 1.5.2",
         "pandas >= 1.1.2",
-<<<<<<< HEAD
-=======
         "pubchempy",
         "parmed >= 4.1.0"
->>>>>>> cef3cdd... added parmed to list of required packages
     ],
     packages=setuptools.find_packages(),
     classifiers=[
