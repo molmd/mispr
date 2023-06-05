@@ -397,39 +397,46 @@ class GaussianCalcDb:
             GaussianCalcDb
         """
         creds = loadfn(db_file)
-
-        if admin and "admin_user" not in creds and "readonly_user" in creds:
-            raise ValueError(
-                "Trying to use admin credentials, "
-                "but no admin credentials are defined. "
-                "Use admin=False if only read_only "
-                "credentials are available."
-            )
-
-        if admin:
-            user = creds.get("admin_user")
-            password = creds.get("admin_password")
-        else:
-            user = creds.get("readonly_user")
-            password = creds.get("readonly_password")
-
+        
         kwargs = creds.get(
             "mongoclient_kwargs", {}
         )  # any other MongoClient kwargs can go here ...
-
-        if "authsource" in creds:
-            kwargs["authsource"] = creds["authsource"]
+        
+        if creds.get("uri_mode", False):
+            return cls(
+                creds["host"],
+                uri_mode=True,
+                **kwargs
+            )
         else:
-            kwargs["authsource"] = creds["database"]
+            if admin and "admin_user" not in creds and "readonly_user" in creds:
+                raise ValueError(
+                    "Trying to use admin credentials, "
+                    "but no admin credentials are defined. "
+                    "Use admin=False if only read_only "
+                    "credentials are available."
+                )
 
-        return cls(
-            creds["host"],
-            int(creds.get("port", 27017)),
-            creds["database"],
-            user,
-            password,
-            **kwargs
-        )
+            if admin:
+                user = creds.get("admin_user")
+                password = creds.get("admin_password")
+            else:
+                user = creds.get("readonly_user")
+                password = creds.get("readonly_password")
+
+            if "authsource" in creds:
+                kwargs["authsource"] = creds["authsource"]
+            else:
+                kwargs["authsource"] = creds["database"]
+
+            return cls(
+                creds["host"],
+                int(creds.get("port", 27017)),
+                creds["database"],
+                user,
+                password,
+                **kwargs
+            )
 
     def insert_fg(self, fg_file):
         """
