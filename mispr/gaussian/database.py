@@ -63,8 +63,8 @@ class GaussianCalcDb:
                 dbname = host.split("/")[-1].split("?")[
                     0
                 ]  # parse URI to extract dbname
+                print(self.connection.list_database_names())
                 self.db = self.connection[dbname]
-                print(self.db.list_database_names())
             else:
                 print("not uri_mode")
                 self.connection = MongoClient(
