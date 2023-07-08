@@ -46,7 +46,7 @@ OPLS_DOI = "10.1002/jcc.20292"
 class RunLammpsDirect(FiretaskBase):
     _fw_name = "Run Lammps"
     required_params = []
-    optional_params = ["working_dir", "control_filename", "lammps_cmd"]
+    optional_params = ["working_dir", "control_filename", "lammps_cmd", "net_ntasks"]
 
     def run_task(self, fw_spec):
 
@@ -60,7 +60,7 @@ class RunLammpsDirect(FiretaskBase):
             "ntasks_per_node", 1
         )
         nodes = fw_spec.get("_queueadapter", {"nodes": 1}).get("nodes", 1)
-        net_ntasks = ntasks_node * nodes
+        net_ntasks = self.get("net_ntasks", ntasks_node * nodes)
         command = self.get("lammps_cmd")
 
         if not command:
