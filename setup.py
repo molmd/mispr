@@ -6,7 +6,7 @@ module_dir = os.path.dirname(os.path.abspath(__file__))
 
 setuptools.setup(
     name="mispr",
-    version="0.0.2",
+    version="0.0.3",
     author="Rasha Atwi, Matthew Bliss",
     author_email="rasha.atwi@stonybrook.edu, matthew.bliss@stonybrook.edu",
     description="mispr contains FireWorks workflows for Materials Science",

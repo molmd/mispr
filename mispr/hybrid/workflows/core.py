@@ -20,7 +20,7 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Oct 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.3"
 
 
 def run_hybrid_calcs(

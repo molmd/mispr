@@ -29,7 +29,7 @@ __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.1"
+__version__ = "0.0.3"
 
 logger = logging.getLogger(__name__)
 
