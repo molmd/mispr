@@ -15,7 +15,7 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Aug 2022"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 
 
 class PubChemRunner:
