@@ -58,15 +58,12 @@ class GaussianCalcDb:
         self.port = int(port) if port else None
         try:
             if uri_mode:
-                print("uri_mode")
                 self.connection = MongoClient(host)
                 dbname = host.split("/")[-1].split("?")[
                     0
                 ]  # parse URI to extract dbname
-                print(self.connection.list_database_names())
                 self.db = self.connection[dbname]
             else:
-                print("not uri_mode")
                 self.connection = MongoClient(
                     self.host,
                     self.port,
@@ -81,7 +78,6 @@ class GaussianCalcDb:
                     authsource=kwargs.get("authsource"),
                 )
                 self.db = self.connection[self.db_name]
-                print(self.db.list_database_names())
         except:
             logger.error("Mongodb connection failed")
             raise Exception
