@@ -10,7 +10,8 @@ Some of the workflows available as of July 2022 are:
    * Binding energies
    * Bond dissociation energies
 * MD:
-   * Initial configuration building, generation of `GAFF <http://ambermd.org>`_ parameters,
+   * Initial configuration building, generation of `GAFF <http://ambermd.org>`_
+     or `OPLS <http://zarbi.chem.yale.edu/oplsaam.html>`_ parameters,
      running of MD simulations
    * Analysis of output and trajectory files (e.g. RDF, coordination
      number, diffusion coefficients, etc.)
@@ -25,11 +26,6 @@ One can customize any of the above workflows or create their own by reusing
 the building blocks provided by MISPR. The above preset workflows are in
 ``mispr/gaussian/workflows/base``, ``mispr/lammps/workflows/base``, and
 ``mispr/hybrid/workflows``.
-
-.. note::
-    An interface for the automatic generation of
-    `OPLS <http://zarbi.chem.yale.edu/oplsaam.html>`_ parameters
-    is under development.
 
 .. note::
     Other types of force field parameters can be provided as

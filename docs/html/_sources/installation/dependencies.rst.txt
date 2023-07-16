@@ -115,11 +115,12 @@ Setting up MongoDB
 Options for getting MongoDB are:
 
 * Install it yourself locally by following the instructions at
-  `MongoDB <https://docs.mongodb.com/manual/>`_. This is pretty simple
-  and typically works well if you are starting out with MISPR and want
-  to learn how to use a database. However, with this option, you are
-  limited with the storage space on your local machine and you do not
-  have the option to share the database with other users.
+  `MongoDB <https://www.mongodb.com/docs/manual/installation/>`_.
+  This is pretty simple and typically works well if you are starting out
+  with MISPR and want to learn how to use a database. However, with this
+  option, you are limited with the storage space on your local machine and
+  you do not have the option to share the database with other users. You
+  also need to have the necessary privileges to install mongo on your machine.
 * Set up an account using a commercial service, which is typically
   the simplest and easiest to use but is not free of charge for databases
   with large size. Examples of such services include Atlas and MongoDB Atlas,
@@ -139,5 +140,29 @@ by FireWorks.
 
 Testing your MongoDB connection
 ============================
-* MongoDB GUI:
-* PyMongo:
+**Establishing a Connection to MongoDB Using Pymongo:**
+
+You need to import MongoClient from pymongo and then create a new MongoClient instance.
+This instance is used to connect to your MongoDB instance:
+
+.. code-block:: python
+
+    from pymongo import MongoClient
+
+    client = MongoClient("mongodb://localhost:27017/")
+
+In this example, we're connecting to a MongoDB instance that runs on the same machine
+(localhost) on port 27017, which is the default port for MongoDB.
+
+**Testing the Connection to MongoDB:**
+
+We can check the connection by listing all the databases:
+
+.. code-block:: python
+
+    print(client.list_database_names())
+If the connection is successful, this command will return a list of names of the databases that are present in the
+MongoDB instance.
+
+Remember, for you to connect to a MongoDB instance, the MongoDB server needs to be installed and running.
+If it's not running on localhost:27017, you will need to provide the appropriate connection string.

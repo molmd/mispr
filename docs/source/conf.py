@@ -24,15 +24,15 @@ sys.path.insert(0, os.path.abspath("../.."))
 project = "MISPR"
 copyright = "2022, MolMD Group"
 author = "MolMD Group"
-release = "0.0.1"
+release = "0.0.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
-    "sphinx.ext.napoleon",
     "sphinx.ext.autosectionlabel",
     "sphinx_design",
     "sphinx_copybutton",
@@ -40,6 +40,7 @@ extensions = [
     "sphinx_tabs.tabs",
 ]
 
+autodoc_mock_imports = ["custodian", "tleap"]
 # html_sidebars = {
 #     "**": [
 #         "sidebar/scroll-start.html",

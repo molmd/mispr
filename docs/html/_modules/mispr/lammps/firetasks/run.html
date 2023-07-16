@@ -9,7 +9,8 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
@@ -147,7 +148,7 @@
   <aside class="sidebar-drawer">
     <div class="sidebar-container">
       
-      <div class="sidebar-sticky"><div class="sidebar-scroll"><a class="sidebar-brand centered" href="../../../../index.html">
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../../../index.html">
   
   <div class="sidebar-logo-container">
     <img class="sidebar-logo" src="../../../../_static/logo.png" alt="Logo"/>
@@ -160,8 +161,31 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
-<div id="searchbox"></div><div class="sidebar-tree">
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation/dependencies.html">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation/configuration.html">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation/test.html">Running a Test Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../keywords.html">Keywords</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/basics.html">Workflow Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/supported.html">Supported Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/tutorials.html">Workflow Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/custom.html">Creating Custom Workflows</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resources/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resources/resources.html">Helpful Links</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPMENT</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../citing.html">Citing MISPR</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
@@ -169,6 +193,7 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
@@ -205,6 +230,7 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
@@ -212,19 +238,23 @@
 <span class="kn">from</span> <span class="nn">configparser</span> <span class="kn">import</span> <span class="n">ConfigParser</span>
 
 <span class="kn">from</span> <span class="nn">fireworks.fw_config</span> <span class="kn">import</span> <span class="n">CONFIG_FILE_DIR</span>
-<span class="kn">from</span> <span class="nn">fireworks.core.firework</span> <span class="kn">import</span> <span class="n">FiretaskBase</span>
+<span class="kn">from</span> <span class="nn">fireworks.core.firework</span> <span class="kn">import</span> <span class="n">FiretaskBase</span><span class="p">,</span> <span class="n">FWAction</span>
 <span class="kn">from</span> <span class="nn">fireworks.utilities.fw_utilities</span> <span class="kn">import</span> <span class="n">explicit_serialize</span>
 
 <span class="kn">from</span> <span class="nn">pymatgen.io.lammps.inputs</span> <span class="kn">import</span> <span class="n">LammpsInput</span>
 
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.mol</span> <span class="kn">import</span> <span class="n">process_mol</span>
 <span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.misc</span> <span class="kn">import</span> <span class="n">recursive_compare_dicts</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.metadata</span> <span class="kn">import</span> <span class="n">get_mol_formula</span>
+<span class="kn">from</span> <span class="nn">mispr.lammps.utilities.opls</span> <span class="kn">import</span> <span class="n">MaestroRunner</span>
+<span class="kn">from</span> <span class="nn">mispr.lammps.utilities.utilities</span> <span class="kn">import</span> <span class="n">get_db</span><span class="p">,</span> <span class="n">process_ff_doc</span><span class="p">,</span> <span class="n">add_ff_labels_to_dict</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Bliss&quot;</span>
 <span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Bliss&quot;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;matthew.bliss@stonybrook.edu&quot;</span>
 <span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span>
 <span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Apr 2020&quot;</span>
-<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.1&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.4&quot;</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -234,12 +264,14 @@
     <span class="p">)</span>
 <span class="p">)</span>
 
+<span class="n">OPLS_DOI</span> <span class="o">=</span> <span class="s2">&quot;10.1002/jcc.20292&quot;</span>
+
 
 <div class="viewcode-block" id="RunLammpsDirect"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.run.RunLammpsDirect">[docs]</a><span class="nd">@explicit_serialize</span>
 <span class="k">class</span> <span class="nc">RunLammpsDirect</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
     <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Run Lammps&quot;</span>
     <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;control_filename&quot;</span><span class="p">,</span> <span class="s2">&quot;lammps_cmd&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;control_filename&quot;</span><span class="p">,</span> <span class="s2">&quot;lammps_cmd&quot;</span><span class="p">,</span> <span class="s2">&quot;net_ntasks&quot;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="RunLammpsDirect.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.run.RunLammpsDirect.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
 
@@ -253,7 +285,7 @@
             <span class="s2">&quot;ntasks_per_node&quot;</span><span class="p">,</span> <span class="mi">1</span>
         <span class="p">)</span>
         <span class="n">nodes</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;_queueadapter&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;nodes&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nodes&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">net_ntasks</span> <span class="o">=</span> <span class="n">ntasks_node</span> <span class="o">*</span> <span class="n">nodes</span>
+        <span class="n">net_ntasks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;net_ntasks&quot;</span><span class="p">,</span> <span class="n">ntasks_node</span> <span class="o">*</span> <span class="n">nodes</span><span class="p">)</span>
         <span class="n">command</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lammps_cmd&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">command</span><span class="p">:</span>
@@ -425,7 +457,12 @@
 <span class="k">class</span> <span class="nc">RunTleap</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
     <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Run Tleap&quot;</span>
     <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;script_filename&quot;</span><span class="p">,</span> <span class="s2">&quot;tleap_cmd&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;working_dir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;script_filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;tleap_cmd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
 
 <div class="viewcode-block" id="RunTleap.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.run.RunTleap.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
 
@@ -446,6 +483,71 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Running command: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">command</span><span class="p">))</span>
         <span class="n">return_code</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Finished running with return code: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">return_code</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="RunMaestro"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.run.RunMaestro">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">RunMaestro</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;input_file&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;label&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;molecule&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mae_cmd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ffld_cmd&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;working_dir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;maestro_cleanup&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_ff_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_ff_to_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ff_filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;system_force_field_dict&quot;</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="RunMaestro.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.run.RunMaestro.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">input_file</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;input_file&quot;</span><span class="p">]</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">ff_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ff_filename&quot;</span><span class="p">,</span> <span class="s2">&quot;ff.json&quot;</span><span class="p">)</span>
+        <span class="n">save_to_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_ff_to_db&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">save_to_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_ff_to_file&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">molecule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">molecule</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">molecule</span> <span class="o">=</span> <span class="n">process_mol</span><span class="p">(</span><span class="s2">&quot;get_from_file&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;input_file&quot;</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Could not read molecule from file: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+                <span class="k">raise</span> <span class="n">e</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">get_mol_formula</span><span class="p">(</span><span class="n">molecule</span><span class="p">))</span>
+
+        <span class="n">maestro</span> <span class="o">=</span> <span class="n">MaestroRunner</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">input_file</span><span class="o">=</span><span class="n">input_file</span><span class="p">,</span>
+            <span class="n">mae_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mae_cmd&quot;</span><span class="p">),</span>
+            <span class="n">ffld_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ffld_cmd&quot;</span><span class="p">),</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ff_params</span> <span class="o">=</span> <span class="n">maestro</span><span class="o">.</span><span class="n">get_opls_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;maestro_cleanup&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">))</span>
+        <span class="n">ff_params</span><span class="p">[</span><span class="s2">&quot;Molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">molecule</span>
+
+        <span class="k">if</span> <span class="n">save_to_db</span><span class="p">:</span>
+            <span class="n">ff_doc</span> <span class="o">=</span> <span class="n">ff_params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">ff_db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="n">input_db</span><span class="o">=</span><span class="n">db</span><span class="p">)</span>
+            <span class="n">ff_db</span><span class="o">.</span><span class="n">insert_force_field</span><span class="p">(</span><span class="n">ff_doc</span><span class="p">,</span> <span class="s2">&quot;opls&quot;</span><span class="p">,</span> <span class="n">doi</span><span class="o">=</span><span class="n">OPLS_DOI</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">save_to_file</span><span class="p">:</span>
+            <span class="n">ff_doc</span> <span class="o">=</span> <span class="n">process_ff_doc</span><span class="p">(</span><span class="n">ff_params</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="s2">&quot;opls&quot;</span><span class="p">,</span> <span class="n">doi</span><span class="o">=</span><span class="n">OPLS_DOI</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">ff_filename</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">ff_doc</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="n">labeled_ff_params</span> <span class="o">=</span> <span class="n">add_ff_labels_to_dict</span><span class="p">(</span><span class="n">ff_params</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="n">sys_ff_dict</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="p">)</span>
+        <span class="n">sys_ff_dict</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">labeled_ff_params</span>
+        <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span><span class="n">update_spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">:</span> <span class="n">sys_ff_dict</span><span class="p">})</span></div></div>
 
 
 <span class="c1"># TODO: tleap Custodian Firetask</span>
@@ -496,7 +598,9 @@
     <script src="../../../../_static/scripts/furo.js"></script>
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/tabs.js"></script>
     <script src="../../../../_static/design-tabs.js"></script>
+    <script src="../../../../_static/js/rtd_search_config.js"></script>
     <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
     </body>
 </html>

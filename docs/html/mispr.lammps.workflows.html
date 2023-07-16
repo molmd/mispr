@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
@@ -237,8 +237,77 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
-<section id="mispr-lammps-workflows-base-module">
-<h2>mispr.lammps.workflows.base module<a class="headerlink" href="#mispr-lammps-workflows-base-module" title="Permalink to this heading">#</a></h2>
+<section id="module-mispr.lammps.workflows.base">
+<span id="mispr-lammps-workflows-base-module"></span><h2>mispr.lammps.workflows.base module<a class="headerlink" href="#module-mispr.lammps.workflows.base" title="Permalink to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="mispr.lammps.workflows.base.lammps_analysis_fws">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_analysis_fws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">analysis_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_analysis_fws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mispr.lammps.workflows.base.lammps_data_fws">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_data_fws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_species_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_mixture_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cubic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'complex.data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unknown'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_data_fws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws" title="Permalink to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>system_species_data</strong> – <p>[dict]
+{
+species1_label: {“molecule”: any format supported by mispr,</p>
+<blockquote>
+<div><p>”molecule_operation_type”: any format supported by mispr,
+“ff_param_method”: str can be one of the</p>
+<blockquote>
+<div><dl class="simple">
+<dt>following (“get_from_esp”,</dt><dd><p>”get_from_prmtop”,
+“get_from_dict”)</p>
+</dd>
+</dl>
+<p>defaults to “get_from_esp”,</p>
+</div></blockquote>
+<dl class="simple">
+<dt>”ff_param_data”: str (path_to_file)</dt><dd><p>or dict (unlabeled_ff_dict),</p>
+</dd>
+</dl>
+<p>”mol_mixture_type”: “Solutes” or “Solvents”,
+“mixture_data”: int or dict depends on</p>
+<blockquote>
+<div><p>system_mixture_type},</p>
+</div></blockquote>
+</div></blockquote>
+<p>…,
+speciesN_label: {…}
+}</p>
+</p></li>
+<li><p><strong>system_mixture_type</strong> – [str] “concentration” or “number of molecules”</p></li>
+<li><p><strong>box_data</strong> – [float, int, list (3,2), array (3,2), or LammpsBox]
+Definitions for box size. See box_data_type for info how to
+define this parameter.</p></li>
+<li><p><strong>box_data_type</strong> – [string] Can be one of the following: ‘cubic’,
+‘rectangular’, or ‘LammpsBox’. If ‘cubic’, box_data must be a
+float or int; if ‘rectangular’, box_data must be an array-like
+with size (3,2); if ‘LammpsBox’, box_data must be a
+pymatgen.io.lammps.data.LammpsBox object. Defaults to ‘cubic’</p></li>
+<li><p><strong>data_file_name</strong> – </p></li>
+<li><p><strong>working_dir</strong> – </p></li>
+<li><p><strong>db</strong> – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mispr.lammps.workflows.base.lammps_run_fws">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_run_fws</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[['emin',</span> <span class="pre">['template_filename',</span> <span class="pre">'emin_gaff']],</span> <span class="pre">['npt',</span> <span class="pre">['template_filename',</span> <span class="pre">'npt']],</span> <span class="pre">['melt',</span> <span class="pre">['template_filename',</span> <span class="pre">'nvt']],</span> <span class="pre">['quench',</span> <span class="pre">['template_filename',</span> <span class="pre">'nvt']],</span> <span class="pre">['nvt',</span> <span class="pre">['template_filename',</span> <span class="pre">'nvt']]]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipe_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[{'data_filename':</span> <span class="pre">'../data.mixture',</span> <span class="pre">'restart_finalname':</span> <span class="pre">'restart.emin'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../emin/restart.emin',</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.npt'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../npt/restart.npt',</span> <span class="pre">'temperature_initial':</span> <span class="pre">500.0,</span> <span class="pre">'temperature_final':</span> <span class="pre">500.0,</span> <span class="pre">'run':</span> <span class="pre">2000000,</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.melt_500K',</span> <span class="pre">'data_final_filename':</span> <span class="pre">'data.melt'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../melt/restart.melt_500K',</span> <span class="pre">'temperature_initial':</span> <span class="pre">500.0,</span> <span class="pre">'temperature_final':</span> <span class="pre">298.15,</span> <span class="pre">'run':</span> <span class="pre">3000000,</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.quench_298K',</span> <span class="pre">'data_final_filename':</span> <span class="pre">'data.quench_298K'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../quench/restart.quench_298K',</span> <span class="pre">'temperature_initial':</span> <span class="pre">298.15,</span> <span class="pre">'temperature_final':</span> <span class="pre">298.15,</span> <span class="pre">'run':</span> <span class="pre">5000000,</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.nvt_5ns',</span> <span class="pre">'data_final_filename':</span> <span class="pre">'data.nvt_5ns'}]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipe_qadapter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[{'walltime':</span> <span class="pre">'00:10:00',</span> <span class="pre">'job_name':</span> <span class="pre">'emin'},</span> <span class="pre">{'walltime':</span> <span class="pre">'08:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'npt'},</span> <span class="pre">{'walltime':</span> <span class="pre">'08:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'melt'},</span> <span class="pre">{'walltime':</span> <span class="pre">'12:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'quench'},</span> <span class="pre">{'walltime':</span> <span class="pre">'48:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'nvt'}]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_spec</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_runs_to_db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_runs_to_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_run_fws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="mispr.lammps.workflows.base.lammps_workflow">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_workflow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">system_species_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">system_mixture_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">box_data_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cubic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data.mixture'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[['emin',</span> <span class="pre">['template_filename',</span> <span class="pre">'emin_gaff']],</span> <span class="pre">['npt',</span> <span class="pre">['template_filename',</span> <span class="pre">'npt']],</span> <span class="pre">['melt',</span> <span class="pre">['template_filename',</span> <span class="pre">'nvt']],</span> <span class="pre">['quench',</span> <span class="pre">['template_filename',</span> <span class="pre">'nvt']],</span> <span class="pre">['nvt',</span> <span class="pre">['template_filename',</span> <span class="pre">'nvt']]]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipe_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[{'data_filename':</span> <span class="pre">'../data.mixture',</span> <span class="pre">'restart_finalname':</span> <span class="pre">'restart.emin'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../emin/restart.emin',</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.npt'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../npt/restart.npt',</span> <span class="pre">'temperature_initial':</span> <span class="pre">500.0,</span> <span class="pre">'temperature_final':</span> <span class="pre">500.0,</span> <span class="pre">'run':</span> <span class="pre">2000000,</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.melt_500K',</span> <span class="pre">'data_final_filename':</span> <span class="pre">'data.melt'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../melt/restart.melt_500K',</span> <span class="pre">'temperature_initial':</span> <span class="pre">500.0,</span> <span class="pre">'temperature_final':</span> <span class="pre">298.15,</span> <span class="pre">'run':</span> <span class="pre">3000000,</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.quench_298K',</span> <span class="pre">'data_final_filename':</span> <span class="pre">'data.quench_298K'},</span> <span class="pre">{'restart_filename':</span> <span class="pre">'../quench/restart.quench_298K',</span> <span class="pre">'temperature_initial':</span> <span class="pre">298.15,</span> <span class="pre">'temperature_final':</span> <span class="pre">298.15,</span> <span class="pre">'run':</span> <span class="pre">5000000,</span> <span class="pre">'restart_final_filename':</span> <span class="pre">'restart.nvt_5ns',</span> <span class="pre">'data_final_filename':</span> <span class="pre">'data.nvt_5ns'}]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipe_qadapter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[{'walltime':</span> <span class="pre">'00:10:00',</span> <span class="pre">'job_name':</span> <span class="pre">'emin'},</span> <span class="pre">{'walltime':</span> <span class="pre">'08:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'npt'},</span> <span class="pre">{'walltime':</span> <span class="pre">'08:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'melt'},</span> <span class="pre">{'walltime':</span> <span class="pre">'12:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'quench'},</span> <span class="pre">{'walltime':</span> <span class="pre">'48:00:00',</span> <span class="pre">'job_name':</span> <span class="pre">'nvt'}]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analysis_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lammps_workflow'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-mispr.lammps.workflows">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mispr.lammps.workflows" title="Permalink to this heading">#</a></h2>
@@ -291,7 +360,7 @@
             <ul>
 <li><a class="reference internal" href="#">mispr.lammps.workflows package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#mispr-lammps-workflows-base-module">mispr.lammps.workflows.base module</a></li>
+<li><a class="reference internal" href="#module-mispr.lammps.workflows.base">mispr.lammps.workflows.base module</a></li>
 <li><a class="reference internal" href="#module-mispr.lammps.workflows">Module contents</a></li>
 </ul>
 </li>
@@ -313,6 +382,7 @@
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script src="_static/design-tabs.js"></script>
+    <script src="_static/js/rtd_search_config.js"></script>
     <script src="_static/js/rtd_sphinx_search.min.js"></script>
     </body>
 </html>

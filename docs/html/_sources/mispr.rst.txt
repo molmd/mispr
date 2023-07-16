@@ -7,6 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   mispr.common
    mispr.gaussian
    mispr.hybrid
    mispr.lammps
