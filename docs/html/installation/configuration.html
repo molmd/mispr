@@ -408,6 +408,10 @@ system.</p>
 <span class="nt">acmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antechamber -i $input_file$ -fi $input_type$ -o $output_file$ -fo $output_type$ -c $charge_method$ -s 2</span><span class="w"></span>
 <span class="nt">pcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">parmchk2 -i $input_file$ -f mol2 -o $output_file$</span><span class="w"></span>
 <span class="nt">tcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tleap -f $input_file$</span><span class="w"></span>
+
+<span class="p p-Indicator">[</span><span class="nv">MaestroCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
+<span class="nt">mae_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SCHRODINGER/utilities/structconvert $input_file$ $output_file$</span><span class="w"></span>
+<span class="nt">ffld_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SCHRODINGER/utilities/ffld_server -imae $input_file$ -version 14 -print_parameters -out_file $output_file$</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The following commands are defined in the file:</p>
