@@ -20,7 +20,7 @@ from pymatgen.io.lammps.data import LammpsData, LammpsDataWrapper
 from pymatgen.io.lammps.inputs import write_lammps_inputs
 
 from mispr.lammps.defaults import TEMPLATE_TYPES, TLEAP_SETTINGS
-from mispr.lammps.utilities.utilities import get_db, process_run, add_ff_labels_to_dict
+from mispr.lammps.utilities.utilities import get_db, process_run, add_ff_labels_to_dict, lammps_mass_to_element
 from mispr.gaussian.utilities.metadata import get_chem_schema, get_mol_formula
 
 __author__ = "Matthew Bliss"
@@ -28,7 +28,7 @@ __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
@@ -53,6 +53,9 @@ class WriteDataFile(FiretaskBase):
         "system_box_data_type",
         "position_seed",
         "system_mixture_data_type",
+        "scale_charges",
+        "charge_scaling_factor"
+
     ]
 
     def run_task(self, fw_spec):
@@ -129,6 +132,11 @@ class WriteDataFile(FiretaskBase):
 
         # Create LammpsDataWrapper object
         if all((force_fields, mixture, box_data)):
+            scaling_factor = self.get("charge_scaling_factor")
+            if self.get("scale_charges") and scaling_factor:
+                for k, v in force_fields.items():
+                    if round(sum(force_fields[k]["Charges"])) != 0:
+                        force_fields[k]["Charges"] = [i * scaling_factor for i in force_fields[k]["Charges"]]
             box_data_type = self.get("system_box_data_type", "cubic")
             mixture_type = self.get("system_mixture_data_type", "concentration")
             seed = self.get("position_seed", 150)
@@ -228,6 +236,12 @@ class WriteControlFile(FiretaskBase):
         # Set the settings parameter
         control_settings = self.get("control_settings", None)
 
+        default_masses_list = fw_spec.get("default_masses", [])
+        if default_masses_list:
+            lammps_elements = lammps_mass_to_element(default_masses_list)
+            if "X" not in lammps_elements:
+                control_settings["dump_modify_elements"] = "element {}".format(" ".join(lammps_elements))
+
         # There are three different cases for input of the template:
         # Case 1: template as string
         if isinstance(self.get("template_str"), str):
@@ -270,7 +284,6 @@ class WriteControlFile(FiretaskBase):
         num_mols_list = fw_spec.get("num_mols_list", [])
         lmp_box = fw_spec.get("box", None)
         num_atoms_per_mol_list = fw_spec.get("num_atoms_per_mol", [])
-        default_masses_list = fw_spec.get("default_masses", [])
         recalc_masses_list = fw_spec.get("recalc_masses", [])
 
         run_doc = process_run(

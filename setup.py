@@ -6,7 +6,7 @@ module_dir = os.path.dirname(os.path.abspath(__file__))
 
 setuptools.setup(
     name="mispr",
-    version="0.0.2",
+    version="0.0.4",
     author="Rasha Atwi, Matthew Bliss",
     author_email="rasha.atwi@stonybrook.edu, matthew.bliss@stonybrook.edu",
     description="mispr contains FireWorks workflows for Materials Science",
@@ -17,12 +17,14 @@ setuptools.setup(
         "pymongo >= 3.11.0",
         "pymongo <= 3.12.0",
         "matplotlib >= 3.3.1",
-        "bson",
         "networkx >= 2.5",
         "fireworks >= 1.9.6",
         "monty >= 4.0.0",
         "scipy >= 1.5.2",
         "pandas >= 1.1.2",
+        "pubchempy",
+        "parmed",
+        "mdproptools"
     ],
     packages=setuptools.find_packages(),
     classifiers=[
@@ -34,5 +36,5 @@ setuptools.setup(
         "Topic :: Scientific/Engineering",
     ],
     python_requires=">=3.6",
-    package_data={"": ["gaussian/data/*.bib"]},
+    package_data={"": ["gaussian/data/*.bib", "lammps/data/*.json"]},
 )
