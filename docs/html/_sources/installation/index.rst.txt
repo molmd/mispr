@@ -86,4 +86,5 @@ Post-installation
 
 2. To update these codes later on, execute ``git pull`` followed by
    ``pip install -e .`` or the ``conda`` equivalent in the corresponding
-   folder
+   folder if you installed in development mode. If you installed via pip,
+   you can simply execute ``pip install --upgrade mispr``.

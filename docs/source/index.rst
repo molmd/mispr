@@ -64,9 +64,10 @@ Installation
 
             pip install mispr
 
+Before you can start using MISPR, there are additional steps you need to follow.
+Please refer to the :doc:`installation guide <installation/index>` for complete setup instructions,
+including any dependencies or configuration files required.
 
-Please check the :doc:`installation guide <installation/index>` for
-other details required for setting up MISPR.
 
 ************
 Learning Resources
