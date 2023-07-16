@@ -19,7 +19,7 @@ __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 
 def add_ff_labels_to_BADI_lists(ff_list, label):

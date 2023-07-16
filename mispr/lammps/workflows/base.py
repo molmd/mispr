@@ -33,7 +33,7 @@ __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 
 
 def lammps_data_fws(
