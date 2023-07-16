@@ -1,0 +1,520 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" />
+
+    <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
+        <title>mispr.hybrid.workflows.nmr - Materials informatics for structure-property relationships</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #991B1E;
+  --color-brand-content: #991B1E;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../../../index.html"><div class="brand">Materials informatics for structure-property relationships</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand centered" href="../../../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="../../../../_static/logo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Materials informatics for structure-property relationships</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../../../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Overview</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../../installation/index.html">Installation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation/dependencies.html">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation/configuration.html">Configuration Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation/test.html">Running a Test Workflow</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../keywords.html">Keywords</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">WORKFLOWS</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/basics.html">Workflow Basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/supported.html">Supported Workflows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/tutorials.html">Workflow Tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../workflows/custom.html">Creating Custom Workflows</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">RESOURCES</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resources/faq.html">FAQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../resources/resources.html">Helpful Links</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">DEVELOPMENT</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../citing.html">Citing MISPR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../license.html">License</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <h1>Source code for mispr.hybrid.workflows.nmr</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+
+<span class="c1"># Defines the DFT-MD workflow that extracts solvation structures and computes their</span>
+<span class="c1"># nuclear magnetic resonances.</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">from</span> <span class="nn">fireworks</span> <span class="kn">import</span> <span class="n">Firework</span><span class="p">,</span> <span class="n">Workflow</span>
+
+<span class="kn">from</span> <span class="nn">mispr.hybrid.defaults</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NMR_GAUSSIAN_INPUTS</span><span class="p">,</span>
+    <span class="n">OPT_GAUSSIAN_INPUTS</span><span class="p">,</span>
+    <span class="n">FREQ_GAUSSIAN_INPUTS</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mispr.hybrid.workflows.core</span> <span class="kn">import</span> <span class="n">run_hybrid_calcs</span>
+<span class="kn">from</span> <span class="nn">mispr.hybrid.firetasks.nmr_from_md</span> <span class="kn">import</span> <span class="n">NMRFromMD</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Rasha Atwi&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Rasha Atwi&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;rasha.atwi@stonybrook.edu&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Oct 2021&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.4&quot;</span>
+
+
+<div class="viewcode-block" id="get_solvation_structures_nmr"><a class="viewcode-back" href="../../../../mispr.hybrid.workflows.html#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr">[docs]</a><span class="k">def</span> <span class="nf">get_solvation_structures_nmr</span><span class="p">(</span>
+    <span class="n">mol_operation_type</span><span class="p">,</span>
+    <span class="n">mol</span><span class="p">,</span>
+    <span class="n">mol_type</span><span class="p">,</span>
+    <span class="n">mol_data</span><span class="p">,</span>
+    <span class="n">box_data</span><span class="p">,</span>
+    <span class="n">ff_method</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">ff_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mixture_type</span><span class="o">=</span><span class="s2">&quot;number of molecules&quot;</span><span class="p">,</span>
+    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;hybrid_calculation&quot;</span><span class="p">,</span>
+    <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">opt_esp_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">freq_esp_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">esp_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">opt_nmr_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">freq_nmr_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">nmr_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">esp_solvent_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">esp_solvent_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">nmr_solvent_gaussian_inputs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">nmr_solvent_properties</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cart_coords</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">oxidation_states</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">skips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">box_data_type</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+    <span class="n">data_file_name</span><span class="o">=</span><span class="s2">&quot;data.mixture&quot;</span><span class="p">,</span>
+    <span class="n">analysis_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">analysis_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a workflow to run hybrid DFT/MD calculations, extract categorize atomic</span>
+<span class="sd">    clusters around a particle of interest, and run the NMR calculations for the</span>
+<span class="sd">    clusters that have the highest frequency of occurrence in solution.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol_operation_type (list of str): operation to perform for each</span>
+<span class="sd">            molecule composing the liquid solution in order to process the input</span>
+<span class="sd">            structure format. Length should correspond to the number of molecules/species</span>
+<span class="sd">            composing the liquid solution. Supported commands:</span>
+<span class="sd">            1. &quot;get_from_mol&quot; if the input is a pymatgen Molecule object,</span>
+<span class="sd">            2. &quot;get_from_file&quot; if the input is any file format supported by Openabel and pymatgen,</span>
+<span class="sd">            3. &quot;get_from_gout_file&quot; if the input is a Gaussian output file,</span>
+<span class="sd">            4. &quot;get_from_str&quot; if the input is a string,</span>
+<span class="sd">            5. &quot;get_from_mol_db&quot; if the input is an InChI representation of the molecule to be used to query the database,</span>
+<span class="sd">            6. &quot;get_from_gout&quot; if the input is a pymatgen GaussianOutput object,</span>
+<span class="sd">            7. &quot;get_from_run_dict&quot; if the input is a GaussianOutput dictionary,</span>
+<span class="sd">            8. &quot;get_from_run_id&quot; if the input is a MongoDB document ID to be used to query the database,</span>
+<span class="sd">            9. &quot;get_from_run_query&quot; if the input is a dictionary with criteria to search the database: e.g. &quot;{&#39;inchi&#39;: inchi, &#39;type&#39;: type, &#39;functional&#39;: func, ...}</span>
+<span class="sd">            10. &quot;derive_molecule&quot;: used for deriving a molecule by attaching a functional group at a site and the corresponding mol input should be a dictionary,</span>
+<span class="sd">                e.g. {&#39;operation_type&#39;: &lt;mol_operation_type for the base structure&gt;, &#39;mol&#39;: &lt;base_mol&gt;,&#39;func_grp&#39;: func_group_name, ....}</span>
+<span class="sd">            11.&quot;link_molecules&quot;: used for linking two structures by forming a bond at specific sites and the corresponding mol input should be a dictionary,</span>
+<span class="sd">                e.g. {&#39;operation_type&#39;: [&#39;get_from_file&#39;, &#39;get_from_mol_db&#39;], &#39;mol&#39;: [&#39;mol1.xyz&#39;, &#39;mol_inchi&#39;], &#39;index&#39;: [3, 5], &#39;bond_order&#39;: 1}</span>
+<span class="sd">        mol (list): sources of structures making up the liquid solution,</span>
+<span class="sd">            e.g. file path if mol_operation_type is specified as &quot;get_from_file&quot;,</span>
+<span class="sd">            InChI string if mol_operation_type is specified as &quot;get_from_mol_db&quot;, etc.</span>
+<span class="sd">            Order should match that in mol_operation_type</span>
+<span class="sd">        mol_type (list of str): type of each structure composing the liquid solution.</span>
+<span class="sd">            Supported types: &quot;Solvents&quot;, &quot;Solutes&quot;. Used for calculating the number of</span>
+<span class="sd">            molecules of each type if this information is not provided.</span>
+<span class="sd">        mol_data (list of int or list of dict): format depends on mixture_type input.</span>
+<span class="sd">            If mixture_type is &quot;number of molecules&quot;, mol_data should be a list of</span>
+<span class="sd">            the number of molecules of each type. If mixture_type is &quot;concentration&quot;,</span>
+<span class="sd">            mol_data should be a list of dict, where each dictionary should follow the format:</span>
+<span class="sd">                {&#39;Initial Molarity&#39;: molarity_i,</span>
+<span class="sd">                 &#39;Final Molarity&#39;: molarity_f,</span>
+<span class="sd">                 &#39;Density&#39;: density,</span>
+<span class="sd">                 &#39;Molar Weight&#39;: molar_weight</span>
+<span class="sd">                }</span>
+<span class="sd">        box_data (float, int, list (3,2), array (3,2), or LammpsBox): definitions for</span>
+<span class="sd">            box size. See box_data_type for info how to define this parameter.</span>
+<span class="sd">        ff_method (list of str): operation to perform for each molecule composing the liquid</span>
+<span class="sd">            solution in order to process the force field parameters. can be &quot;get_from_esp&quot;,</span>
+<span class="sd">            &quot;get_from_prmtop&quot;, or &quot;get_from_dict&quot;. Defaults to &quot;get_from_esp&quot; for all molecules.</span>
+<span class="sd">        ff_params (list of str or dict): sources of the force field parameters for each</span>
+<span class="sd">            molecule type; type depends on what is specified in the ff_method input;</span>
+<span class="sd">            if &quot;get_from_esp&quot; is used, the corresponding ff_param should be an</span>
+<span class="sd">            empty dictionary since the path to the ESP file is automatically detected</span>
+<span class="sd">            from the ESP calculations that is performed at the beginning of the workflow;</span>
+<span class="sd">            if &quot;get_from_prmtop&quot; is used, the corresponding ff_param should be the</span>
+<span class="sd">            path to the prmtop file; if &quot;get_from_dict&quot; is used, the corresponding</span>
+<span class="sd">            ff_param should be a dictionary, e.g.:</span>
+<span class="sd">            {</span>
+<span class="sd">                &quot;Labels&quot;: [&quot;mg&quot;],</span>
+<span class="sd">                &quot;Masses&quot;: OrderedDict({&quot;mg&quot;: 24.305}),</span>
+<span class="sd">                &quot;Nonbond&quot;: [[0.8947000005260684, 1.412252647723565]],</span>
+<span class="sd">                &quot;Bonds&quot;: [],</span>
+<span class="sd">                &quot;Angles&quot;: [],</span>
+<span class="sd">                &quot;Dihedrals&quot;: [],</span>
+<span class="sd">                &quot;Impropers&quot;: [],</span>
+<span class="sd">                &quot;Improper Topologies&quot;: None,</span>
+<span class="sd">                &quot;Charges&quot;: np.asarray([2.0]),</span>
+<span class="sd">            }</span>
+<span class="sd">        mixture_type (str): &quot;concentration&quot; or &quot;number of molecules&quot;</span>
+<span class="sd">        db (str or dict): database credentials; could be provided as the path to the</span>
+<span class="sd">            db.json file or in the form of a dictionary; if none is provided, attempts</span>
+<span class="sd">            to get it from the configuration files</span>
+<span class="sd">        name (str): name of the workflow; defaults to &quot;hybrid_calculation&quot;</span>
+<span class="sd">        working_dir (str): path of the working directory where any required input files</span>
+<span class="sd">            can be found and output will be created</span>
+<span class="sd">        opt_esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the</span>
+<span class="sd">            optimization step of the ESP workflow; e.g.:</span>
+<span class="sd">            {</span>
+<span class="sd">                &quot;functional&quot;: &quot;B3LYP&quot;,</span>
+<span class="sd">                &quot;basis_set&quot;: &quot;6-31G(d)&quot;,</span>
+<span class="sd">                &quot;route_parameters&quot;: {&quot;Opt&quot;: None},</span>
+<span class="sd">                &quot;link0_parameters&quot;: {</span>
+<span class="sd">                    &quot;%chk&quot;: &quot;checkpoint.chk&quot;,</span>
+<span class="sd">                    &quot;%mem&quot;: &quot;45GB&quot;,</span>
+<span class="sd">                    &quot;%NProcShared&quot;: &quot;24&quot;}</span>
+<span class="sd">            }</span>
+<span class="sd">            the above default parameters will be used if not specified</span>
+<span class="sd">        freq_esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the</span>
+<span class="sd">            frequency step of the ESP workflow; default parameters will be used if not specified</span>
+<span class="sd">        esp_gaussian_inputs (dict): dictionary of Gaussian input parameters for the</span>
+<span class="sd">            ESP step of the ESP workflow; default parameters will be used if not specified</span>
+<span class="sd">        opt_nmr_gaussian_inputs (dict): dictionary of Gaussian input parameters for the</span>
+<span class="sd">            optimization step of the NMR workflow; default parameters will be used if not specified</span>
+<span class="sd">        freq_nmr_gaussian_inputs (dict): dictionary of Gaussian input parameters for the</span>
+<span class="sd">            frequency step of the NMR workflow; default parameters will be used if not specified</span>
+<span class="sd">        nmr_gaussian_inputs (dict): dictionary of Gaussian input parameters for the</span>
+<span class="sd">            NMR step of the NMR workflow; default parameters will be used if not specified</span>
+<span class="sd">        esp_solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the</span>
+<span class="sd">            implicit solvent model to be used in the ESP calculations, if any; e.g.: &quot;(Solvent=TetraHydroFuran)&quot;;</span>
+<span class="sd">            these parameters should only be specified here and not included in the main</span>
+<span class="sd">            gaussian_inputs dictionary for each job (i.e. opt_gaussian_inputs, freq_esp_gaussian_inputs, etc.)</span>
+<span class="sd">        esp_solvent_properties (dict): additional input parameters to be used in the ESP calculations and</span>
+<span class="sd">            relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}</span>
+<span class="sd">        nmr_solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the</span>
+<span class="sd">            implicit solvent model to be used in the NMR calculations, if any; e.g.: &quot;(Solvent=TetraHydroFuran)&quot;;</span>
+<span class="sd">            these parameters should only be specified here and not included in the main</span>
+<span class="sd">            gaussian_inputs dictionary for each job (i.e. opt_nmr_gaussian_inputs, freq_nmr_gaussian_inputs, etc.)</span>
+<span class="sd">        nmr_solvent_properties (dict): additional input parameters to be used in the NMR calculations and</span>
+<span class="sd">            relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}</span>
+<span class="sd">        cart_coords (bool): uses cartesian coordinates in writing Gaussian input files if set to True,</span>
+<span class="sd">            otherwise uses z-matrix; defaults to True</span>
+<span class="sd">        oxidation_states (dict): dictionary of oxidation states that can be used in setting the charge and</span>
+<span class="sd">            spin multiplicity of the clusters extracted from MD simulations to be used in the NMR workflow</span>
+<span class="sd">        skips (list of lists): type of DFT calculation to skip in the ESP workflow for each molecule;</span>
+<span class="sd">            e.g. [&quot;opt&quot;, &quot;freq&quot;], [&quot;opt&quot;], [&quot;freq&quot;], or [];</span>
+<span class="sd">        box_data_type (str): Can be one of the following: &#39;cubic&#39;,&#39;rectangular&#39;, or &#39;LammpsBox&#39;.</span>
+<span class="sd">            If &#39;cubic&#39;, box_data must be a float or int; if &#39;rectangular&#39;, box_data must be an array-like</span>
+<span class="sd">            with size (3,2); if &#39;LammpsBox&#39;, box_data must be a pymatgen.io.lammps.data.LammpsBox object.</span>
+<span class="sd">            Defaults to &#39;cubic&#39;.</span>
+<span class="sd">        data_file_name (str): name of the LAMMPS data file to create and use; defaults to &quot;data.mixture&quot;</span>
+<span class="sd">        analysis_list (list of str): type of MD analysis to perform after the MD simulations are finished;</span>
+<span class="sd">            e.g.: [&quot;diffusion&quot;, &quot;rdf&quot;, &quot;cn&quot;, &quot;clusters&quot;] if user wants to perform diffusion,</span>
+<span class="sd">            RDF, coordination number, and cluster analysis</span>
+<span class="sd">        analysis_settings (list of dict): settings of the MD analysis steps; please</span>
+<span class="sd">            refer to the mdproptools documentation for details of inputs used in the analysis functions;</span>
+<span class="sd">            order of settings should correspond to the order used in &quot;analysis_list&quot;</span>
+<span class="sd">        **kwargs keyword arguments): additional kwargs to be passed to the workflow;</span>
+<span class="sd">            e.g.: lammps &quot;recipe&quot; and &quot;recipe_settings&quot;; the defaults for these</span>
+<span class="sd">            inputs are specified in the mispr/lammps/defaults.py</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Workflow</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">working_dir</span><span class="p">:</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">analysis_list</span><span class="p">:</span>
+        <span class="n">analysis_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># analysis_list += [&quot;diffusion&quot;, &quot;rdf&quot;, &quot;cn&quot;, &quot;clusters&quot;]</span>
+    <span class="c1"># analysis_list = list(set(analysis_list))</span>
+
+    <span class="n">wf</span> <span class="o">=</span> <span class="n">run_hybrid_calcs</span><span class="p">(</span>
+        <span class="n">mol_operation_type</span><span class="p">,</span>
+        <span class="n">mol</span><span class="p">,</span>
+        <span class="n">mol_type</span><span class="p">,</span>
+        <span class="n">mol_data</span><span class="p">,</span>
+        <span class="n">box_data</span><span class="p">,</span>
+        <span class="n">ff_method</span><span class="p">,</span>
+        <span class="n">ff_params</span><span class="p">,</span>
+        <span class="n">mixture_type</span><span class="p">,</span>
+        <span class="n">db</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="n">working_dir</span><span class="p">,</span>
+        <span class="n">opt_esp_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">freq_esp_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">esp_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">esp_solvent_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">esp_solvent_properties</span><span class="p">,</span>
+        <span class="n">cart_coords</span><span class="p">,</span>
+        <span class="n">oxidation_states</span><span class="p">,</span>
+        <span class="n">skips</span><span class="p">,</span>
+        <span class="n">box_data_type</span><span class="p">,</span>
+        <span class="n">data_file_name</span><span class="p">,</span>
+        <span class="n">analysis_list</span><span class="p">,</span>
+        <span class="n">analysis_settings</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">dft_md_fw_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">wf</span><span class="o">.</span><span class="n">id_fw</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">nmr_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">working_dir</span><span class="si">}</span><span class="s2">/nmr&quot;</span>
+    <span class="n">nmr_fw</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+        <span class="n">NMRFromMD</span><span class="p">(</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">nmr_dir</span><span class="p">,</span>
+            <span class="n">opt_gaussian_inputs</span><span class="o">=</span><span class="n">opt_nmr_gaussian_inputs</span> <span class="ow">or</span> <span class="n">OPT_GAUSSIAN_INPUTS</span><span class="p">,</span>
+            <span class="n">freq_gaussian_inputs</span><span class="o">=</span><span class="n">freq_nmr_gaussian_inputs</span> <span class="ow">or</span> <span class="n">FREQ_GAUSSIAN_INPUTS</span><span class="p">,</span>
+            <span class="n">nmr_gaussian_inputs</span><span class="o">=</span><span class="n">nmr_gaussian_inputs</span> <span class="ow">or</span> <span class="n">NMR_GAUSSIAN_INPUTS</span><span class="p">,</span>
+            <span class="n">solvent_gaussian_inputs</span><span class="o">=</span><span class="n">nmr_solvent_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">solvent_properties</span><span class="o">=</span><span class="n">nmr_solvent_properties</span><span class="p">,</span>
+            <span class="n">cart_coords</span><span class="o">=</span><span class="n">cart_coords</span><span class="p">,</span>
+            <span class="n">oxidation_states</span><span class="o">=</span><span class="n">oxidation_states</span><span class="p">,</span>
+            <span class="n">additional_kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;nmr_calculation&quot;</span><span class="p">,</span>
+        <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">nmr_dir</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">wf</span><span class="o">.</span><span class="n">append_wf</span><span class="p">(</span><span class="n">Workflow</span><span class="o">.</span><span class="n">from_Firework</span><span class="p">(</span><span class="n">nmr_fw</span><span class="p">),</span> <span class="n">dft_md_fw_ids</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">wf</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, MolMD Group
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              <a class="muted-link " href="https://github.com/molmd/mispr" aria-label="GitHub">
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+                </svg>
+            </a>
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/scripts/furo.js"></script>
+    <script src="../../../../_static/clipboard.min.js"></script>
+    <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/tabs.js"></script>
+    <script src="../../../../_static/design-tabs.js"></script>
+    <script src="../../../../_static/js/rtd_search_config.js"></script>
+    <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
+    </body>
+</html>
