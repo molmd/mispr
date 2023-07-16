@@ -193,6 +193,10 @@ Writing the Configuration Files
                 pcmd: parmchk2 -i $input_file$ -f mol2 -o $output_file$
                 tcmd: tleap -f $input_file$
 
+                [MaestroCalc]
+                mae_cmd: $SCHRODINGER/utilities/structconvert $input_file$ $output_file$
+                ffld_cmd: $SCHRODINGER/utilities/ffld_server -imae $input_file$ -version 14 -print_parameters -out_file $output_file$
+
         The following commands are defined in the file:
 
         * ``gcmd``: the command to run Gaussian
