@@ -218,7 +218,10 @@ class MaestroRunner:
             comment=":",
             engine="python",
             keep_default_na=False,
-        ).reset_index()
+            names=["atom", "type", "vdw", "symbol", "charge", "sigma", "epsilon", "quality", "comment"]
+        ).reset_index(drop=True)
+
+        nonbonded_df = nonbonded_df.drop(0)
 
         df_cols = []
         for i in nonbonded_df.columns[:-1]:
