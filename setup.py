@@ -24,7 +24,8 @@ setuptools.setup(
         "pandas >= 1.1.2",
         "pubchempy",
         "parmed",
-        "mdproptools"
+        "mdproptools",
+        "dnspython"
     ],
     packages=setuptools.find_packages(),
     classifiers=[
