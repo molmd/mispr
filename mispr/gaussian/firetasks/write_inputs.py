@@ -7,13 +7,13 @@ import os
 
 from copy import deepcopy
 
-from fireworks.core.firework import FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
-
 from pymatgen.io.gaussian import GaussianInput
 from pymatgen.core.structure import IMolecule
 from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.local_env import OpenBabelNN
+
+from fireworks.core.firework import FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"

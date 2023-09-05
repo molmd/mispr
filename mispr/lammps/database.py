@@ -9,9 +9,9 @@ import datetime
 from abc import abstractmethod
 
 import pandas as pd
-from monty.serialization import loadfn
 
 from pymongo import ASCENDING, MongoClient
+from monty.serialization import loadfn
 
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.molecule_matcher import MoleculeMatcher
@@ -254,5 +254,5 @@ class LammpsSysDb:
             creds["database"],
             user,
             password,
-            **kwargs
+            **kwargs,
         )

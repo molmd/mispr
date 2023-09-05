@@ -3,6 +3,7 @@ import ntpath
 import shutil
 
 from copy import deepcopy
+
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
@@ -66,9 +67,9 @@ class NMRFromMD(FiretaskBase):
             if fake_gaussian_kwargs:
                 nmr_wf = run_fake_gaussian(
                     nmr_wf,
-                    ref_dirs=ref_dirs[ind * 3: ind * 3 + 3],
-                    input_files=input_files[ind * 3: ind * 3 + 3],
-                    tolerance=fake_gaussian_kwargs.get("tolerance")
+                    ref_dirs=ref_dirs[ind * 3 : ind * 3 + 3],
+                    input_files=input_files[ind * 3 : ind * 3 + 3],
+                    tolerance=fake_gaussian_kwargs.get("tolerance"),
                 )
             nmr_wfs.append(nmr_wf)
         return FWAction(detours=nmr_wfs)

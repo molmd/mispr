@@ -14,7 +14,6 @@ from abc import abstractmethod
 import pandas as pd
 
 from pymongo import ASCENDING, MongoClient
-
 from monty.serialization import loadfn
 
 from pymatgen.core.structure import Molecule
@@ -41,6 +40,7 @@ class GaussianCalcDb:
     Class to help manage database insertions of molecules and Gaussian
     calculations.
     """
+
     def __init__(
         self,
         host,
@@ -393,17 +393,13 @@ class GaussianCalcDb:
             GaussianCalcDb
         """
         creds = loadfn(db_file)
-        
+
         kwargs = creds.get(
             "mongoclient_kwargs", {}
         )  # any other MongoClient kwargs can go here ...
-        
+
         if creds.get("uri_mode", False):
-            return cls(
-                creds["host"],
-                uri_mode=True,
-                **kwargs
-            )
+            return cls(creds["host"], uri_mode=True, **kwargs)
         else:
             if admin and "admin_user" not in creds and "readonly_user" in creds:
                 raise ValueError(

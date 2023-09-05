@@ -15,8 +15,8 @@ from pymatgen.io.babel import BabelMolAdaptor
 from pymatgen.io.gaussian import GaussianOutput
 from pymatgen.core.structure import Molecule
 
-from mispr.gaussian.utilities.db_utilities import get_db
 from mispr.common.pubchem import PubChemRunner
+from mispr.gaussian.utilities.db_utilities import get_db
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -186,8 +186,7 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
 
     elif operation_type == "get_from_pubchem":
         pb = PubChemRunner(
-            abbreviation=kwargs.get("abbreviation", "mol"),
-            working_dir=working_dir
+            abbreviation=kwargs.get("abbreviation", "mol"), working_dir=working_dir
         )
         output_mol = pb.get_mol(mol)
 

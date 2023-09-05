@@ -16,19 +16,18 @@ import numpy as np
 from monty.os.path import zpath
 from monty.serialization import loadfn
 
+from pymatgen.io.gaussian import GaussianInput
+
 from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.core.firework import Firework, FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
-
-from pymatgen.io.gaussian import GaussianInput
-
-from mispr.gaussian.utilities.misc import recursive_compare_dicts
 
 from custodian import Custodian
 from custodian.gaussian.jobs import GaussianJob
 from custodian.gaussian.handlers import WalTimeErrorHandler, GaussianErrorHandler
 
 from mispr.gaussian.defaults import CUSTODIAN_MAX_ERRORS
+from mispr.gaussian.utilities.misc import recursive_compare_dicts
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -52,6 +51,7 @@ class RunGaussianDirect(FiretaskBase):
             not provided, will attempt to find the command in the
             config file
     """
+
     required_params = []
     optional_params = ["input_file", "output_file", "gaussian_cmd"]
 
@@ -138,6 +138,7 @@ class RunGaussianCustodian(FiretaskBase):
         max_wall_time_corrections (int): maximum number of wall time
             corrections to make; defaults to 3
     """
+
     required_params = []
     optional_params = [
         "input_file",
@@ -314,6 +315,7 @@ class RunGaussianFake(FiretaskBase):
         tolerance (float): tolerance for the comparison of the reference
             and user input file; defaults to 0.0001
     """
+
     required_params = ["ref_dir"]
     optional_params = ["working_dir", "input_file", "tolerance"]
 

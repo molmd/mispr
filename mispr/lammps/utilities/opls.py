@@ -4,18 +4,19 @@
 # Implements a core class MaestroRunner for assigning force field
 # parameters on a molecule using Maestro software.
 
-import itertools
-import logging
 import os
 import re
+import logging
+import itertools
 import subprocess
 
 from configparser import ConfigParser
 
 import pandas as pd
 
-from fireworks.fw_config import CONFIG_FILE_DIR
 from pymatgen.core.structure import Molecule
+
+from fireworks.fw_config import CONFIG_FILE_DIR
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
@@ -27,8 +28,12 @@ __version__ = "0.0.4"
 logger = logging.getLogger(__name__)
 
 NONBONDED_HEADER = "OPLSAA FORCE FIELD TYPE ASSIGNED\n"
-BONDS_HEADER = " Stretch            k            r0    quality         bt        comment\n"
-ANGLES_HEADER = " Bending                      k       theta0    quality   at  comment\n"
+BONDS_HEADER = (
+    " Stretch            k            r0    quality         bt        comment\n"
+)
+ANGLES_HEADER = (
+    " Bending                      k       theta0    quality   at  comment\n"
+)
 DIHEDRALS_HEADER = " proper Torsion                     V1      V2      V3      V4    quality  tt  comment\n"
 IMPROPER_HEADER = " improper Torsion                   V2    quality  comment\n"
 
@@ -218,7 +223,17 @@ class MaestroRunner:
             comment=":",
             engine="python",
             keep_default_na=False,
-            names=["atom", "type", "vdw", "symbol", "charge", "sigma", "epsilon", "quality", "comment"]
+            names=[
+                "atom",
+                "type",
+                "vdw",
+                "symbol",
+                "charge",
+                "sigma",
+                "epsilon",
+                "quality",
+                "comment",
+            ],
         ).reset_index(drop=True)
 
         nonbonded_df = nonbonded_df.drop(0)

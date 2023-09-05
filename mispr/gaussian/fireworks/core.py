@@ -101,6 +101,7 @@ class CalcFromMolFW(Firework):
     """
     Runs a Gaussian calculation from a molecule.
     """
+
     def __init__(
         self,
         mol,
@@ -211,6 +212,7 @@ class CalcFromRunsDBFW(Firework):
     Runs a Gaussian calculation from a previous calculation or the
     runs database.
     """
+
     def __init__(
         self,
         db=None,
