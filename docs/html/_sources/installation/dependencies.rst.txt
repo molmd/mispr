@@ -16,7 +16,7 @@ feel free to use your preferred environment manager
 Creating the virtual environment
 ============================
 To create and activate a new virtual environment, go to your
-``|CODES_DIR|`` (see :doc:`Definition <keywords>`), and run the following commands::
+``|CODES_DIR|`` (see :doc:`Definition <../keywords>`), and run the following commands::
 
     pip install --user --upgrade virtualenv     # install virtualenv tool
     python -m virtualenv mispr_env              # create "mispr_env" environment
