@@ -34,6 +34,7 @@ def get_rdkit_mol(mol, sanitize=True, remove_h=False):
     """
     try:
         import rdkit
+
         from rdkit import Chem
         from rdkit.Geometry import Point3D
     except ModuleNotFoundError:
@@ -143,9 +144,9 @@ def draw_rdkit_mol_with_highlighted_bonds(
             bond_color = _generate_color()
         return bond_color
 
-    from rdkit.Chem.Draw import rdMolDraw2D
     from rdkit import Chem
     from rdkit.Chem import rdDepictor
+    from rdkit.Chem.Draw import rdMolDraw2D
 
     working_dir = working_dir or os.getcwd()
     rdDepictor.SetPreferCoordGen(True)

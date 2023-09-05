@@ -6,43 +6,43 @@
 import os
 import json
 import inspect
+import logging
 
 import numpy as np
 import pandas as pd
-import logging
-from scipy.signal import argrelmin, find_peaks
 
-from fireworks.utilities.fw_serializers import DATETIME_HANDLER
-from fireworks.core.firework import FWAction, FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
+from scipy.signal import argrelmin, find_peaks
 
 from pymatgen.io.ambertools import PrmtopParser
 from pymatgen.core.structure import Molecule
 
+from fireworks.core.firework import FWAction, FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
+from fireworks.utilities.fw_serializers import DATETIME_HANDLER
+
 from mdproptools.structural.rdf_cn import (
-    calc_atomic_rdf,
-    calc_molecular_rdf,
     calc_atomic_cn,
+    calc_atomic_rdf,
     calc_molecular_cn,
+    calc_molecular_rdf,
 )
+from mdproptools.dynamical.diffusion import Diffusion
 from mdproptools.structural.cluster_analysis import (
     get_clusters,
     get_unique_configurations,
 )
-from mdproptools.dynamical.diffusion import Diffusion
 
+from mispr.lammps.defaults import (
+    CN_SETTINGS,
+    MSD_SETTINGS,
+    RDF_SETTINGS,
+    DIFF_SETTINGS,
+    CLUSTERS_SETTINGS,
+)
 from mispr.lammps.utilities.utilities import (
     get_db,
     process_ff_doc,
     add_ff_labels_to_dict,
-)
-
-from mispr.lammps.defaults import (
-    MSD_SETTINGS,
-    DIFF_SETTINGS,
-    RDF_SETTINGS,
-    CN_SETTINGS,
-    CLUSTERS_SETTINGS,
 )
 from mispr.gaussian.utilities.metadata import get_mol_formula
 
@@ -77,7 +77,6 @@ class ProcessPrmtop(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 
@@ -173,7 +172,9 @@ class CalcDiff(FiretaskBase):
         )
         if msd_method == "from_dump":
             num_mols = diff_settings.pop("num_mols", fw_spec.get("num_mols_list", []))
-            num_atoms_per_mol = diff_settings.pop("num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", []))
+            num_atoms_per_mol = diff_settings.pop(
+                "num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", [])
+            )
             num_mols = [int(i) for i in num_mols] if num_mols else None
             mass = fw_spec.get("default_masses", None)
             file_pattern = diff_settings.pop("file_pattern", "dump.nvt.*.dump")
@@ -284,7 +285,9 @@ class GetRDF(FiretaskBase):
             raise ValueError("Atomic masses not found")
         num_types = len(mass)
         num_mols = rdf_settings.get("num_mols", fw_spec.get("num_mols_list", []))
-        num_atoms_per_mol = rdf_settings.get("num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", []))
+        num_atoms_per_mol = rdf_settings.get(
+            "num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", [])
+        )
         partial_relations = rdf_settings.get("partial_relations", None)
         filename = rdf_settings.get("filename")
         save_mode = rdf_settings.get("save_mode")
@@ -462,7 +465,9 @@ class CalcCN(FiretaskBase):
             raise ValueError("Atomic masses not found")
         num_types = len(mass)
         num_mols = cn_settings.get("num_mols", fw_spec.get("num_mols_list", []))
-        num_atoms_per_mol = cn_settings.get("num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", []))
+        num_atoms_per_mol = cn_settings.get(
+            "num_atoms_per_mol", fw_spec.get("num_atoms_per_mol", [])
+        )
         partial_relations = cn_settings.get("partial_relations", None)
         filename = cn_settings.get("filename")
         save_mode = cn_settings.get("save_mode")

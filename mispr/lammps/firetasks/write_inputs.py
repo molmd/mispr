@@ -11,16 +11,21 @@ from string import Template
 
 import numpy as np
 
-from fireworks.core.firework import FWAction, FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
-from fireworks.utilities.fw_serializers import DATETIME_HANDLER
-
 from pymatgen.core.structure import Molecule
 from pymatgen.io.lammps.data import LammpsData, LammpsDataWrapper
 from pymatgen.io.lammps.inputs import write_lammps_inputs
 
+from fireworks.core.firework import FWAction, FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
+from fireworks.utilities.fw_serializers import DATETIME_HANDLER
+
 from mispr.lammps.defaults import TEMPLATE_TYPES, TLEAP_SETTINGS
-from mispr.lammps.utilities.utilities import get_db, process_run, add_ff_labels_to_dict, lammps_mass_to_element
+from mispr.lammps.utilities.utilities import (
+    get_db,
+    process_run,
+    add_ff_labels_to_dict,
+    lammps_mass_to_element,
+)
 from mispr.gaussian.utilities.metadata import get_chem_schema, get_mol_formula
 
 __author__ = "Matthew Bliss"
@@ -54,8 +59,7 @@ class WriteDataFile(FiretaskBase):
         "position_seed",
         "system_mixture_data_type",
         "scale_charges",
-        "charge_scaling_factor"
-
+        "charge_scaling_factor",
     ]
 
     def run_task(self, fw_spec):
@@ -136,7 +140,9 @@ class WriteDataFile(FiretaskBase):
             if self.get("scale_charges") and scaling_factor:
                 for k, v in force_fields.items():
                     if round(sum(force_fields[k]["Charges"])) != 0:
-                        force_fields[k]["Charges"] = [i * scaling_factor for i in force_fields[k]["Charges"]]
+                        force_fields[k]["Charges"] = [
+                            i * scaling_factor for i in force_fields[k]["Charges"]
+                        ]
             box_data_type = self.get("system_box_data_type", "cubic")
             mixture_type = self.get("system_mixture_data_type", "concentration")
             seed = self.get("position_seed", 150)
@@ -195,7 +201,8 @@ class WriteDataFile(FiretaskBase):
                     "recalc_masses": recalc_masses_list,
                     "molecules": molecules_list,
                     "box": lmp_box,
-                }, propagate=True
+                },
+                propagate=True,
             )
         else:
             pass
@@ -219,7 +226,6 @@ class WriteControlFile(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         # Set directory for writing control file
         working_dir = fw_spec.get("working_dir", self.get("working_dir", os.getcwd()))
         template_dir = None
@@ -240,7 +246,9 @@ class WriteControlFile(FiretaskBase):
         if default_masses_list:
             lammps_elements = lammps_mass_to_element(default_masses_list)
             if "X" not in lammps_elements:
-                control_settings["dump_modify_elements"] = "element {}".format(" ".join(lammps_elements))
+                control_settings["dump_modify_elements"] = "element {}".format(
+                    " ".join(lammps_elements)
+                )
 
         # There are three different cases for input of the template:
         # Case 1: template as string
@@ -344,7 +352,6 @@ class WriteTleapScript(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 
@@ -386,7 +393,6 @@ class LabelFFDict(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 

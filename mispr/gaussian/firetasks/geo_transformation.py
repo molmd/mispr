@@ -8,14 +8,14 @@ import copy
 import logging
 import itertools
 
-from fireworks import Workflow
-from fireworks.core.firework import FWAction, FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
-
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.local_env import OpenBabelNN
 from pymatgen.analysis.fragmenter import open_ring
+
+from fireworks import Workflow
+from fireworks.core.firework import FWAction, FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
 
 from mispr.gaussian.utilities.mol import process_mol
 from mispr.gaussian.utilities.metadata import get_mol_formula
@@ -81,6 +81,7 @@ class ProcessMoleculeInput(FiretaskBase):
         working_dir (str): working directory to save the molecule file
             to or read input files from
     """
+
     required_params = ["mol"]
     optional_params = [
         "operation_type",
@@ -96,7 +97,7 @@ class ProcessMoleculeInput(FiretaskBase):
         "force_field",
         "steps",
         "str_type",
-        "working_dir"
+        "working_dir",
     ]
 
     @staticmethod
@@ -173,15 +174,16 @@ class ConvertToMoleculeObject(FiretaskBase):
         update_duplicates (bool): whether to update molecule document
             in db if it already exists
     """
+
     required_params = ["mol_file"]
     optional_params = ["db", "save_to_db", "update_duplicates"]
 
     def run_task(self, fw_spec):
         working_dir = os.getcwd()
         file_name = self["mol_file"]
-        mol = process_mol(operation_type="get_from_file",
-                          mol=file_name,
-                          working_dir=working_dir)
+        mol = process_mol(
+            operation_type="get_from_file", mol=file_name, working_dir=working_dir
+        )
         if self.get("save_to_db", True):
             mol_db = get_db(self.get("db"))
             mol_db.insert_molecule(
@@ -278,7 +280,9 @@ class AttachFunctionalGroup(FiretaskBase):
         func_grp_dict = db.retrieve_fg(self["func_grp"])
         func_grp = Molecule(func_grp_dict["species"], func_grp_dict["coords"])
         derived_mol = Molecule.copy(mol)
-        derived_mol.substitute(index=self["index"], func_grp=func_grp, bond_order=self.get("bond_order", 1))
+        derived_mol.substitute(
+            index=self["index"], func_grp=func_grp, bond_order=self.get("bond_order", 1)
+        )
         if self.get("save_to_db", True):
             db.insert_derived_mol(
                 derived_mol, update_duplicates=self.get("update_duplicates", False)
@@ -583,7 +587,6 @@ class BreakMolecule(FiretaskBase):
         update_duplicates,
         **kwargs,
     ):
-
         from mispr.gaussian.workflows.base.core import common_fw, WORKFLOW_KWARGS
 
         dir_structure = ["charge_{}".format(str(mol.charge))]

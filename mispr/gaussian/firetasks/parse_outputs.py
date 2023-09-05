@@ -20,15 +20,15 @@ import matplotlib.pyplot as plt
 
 from bson.objectid import ObjectId
 
-from fireworks.fw_config import CONFIG_FILE_DIR
-from fireworks.core.firework import FWAction, FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
-from fireworks.utilities.fw_serializers import DATETIME_HANDLER
-
 from pymatgen.io.gaussian import GaussianInput
 from pymatgen.core.structure import Molecule
 from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.local_env import OpenBabelNN
+
+from fireworks.fw_config import CONFIG_FILE_DIR
+from fireworks.core.firework import FWAction, FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
+from fireworks.utilities.fw_serializers import DATETIME_HANDLER
 
 from mispr import __version__ as mispr_version
 from mispr.gaussian.utilities.mol import process_mol
@@ -96,6 +96,7 @@ class ProcessRun(FiretaskBase):
             checkpoint file; if not provided, will attempt to find one
             in the configuration files
     """
+
     required_params = ["run"]
     optional_params = [
         "operation_type",
@@ -254,7 +255,6 @@ class RetrieveGaussianOutput(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         # if a Gaussian output dict is passed through fw_spec
         if fw_spec.get("gaussian_output"):
             run = pass_gout_dict(fw_spec, DEFAULT_KEY)
@@ -291,8 +291,7 @@ class RetrieveGaussianOutput(FiretaskBase):
         # create a gaussian input object from run
         if self.get("gaussian_input_params") is None:
             logger.info(
-                "No gaussian input parameters provided; will use "
-                "run parameters"
+                "No gaussian input parameters provided; will use " "run parameters"
             )
         inputs = {}
         for k, v in run["input"].items():
@@ -334,6 +333,7 @@ class ESPtoDB(FiretaskBase):
         solvent_properties (dict): implicit solvent properties to add
             to the final ESP dict, if any
     """
+
     required_params = ["keys"]
     optional_params = [
         "db",
@@ -454,6 +454,7 @@ class NMRtoDB(FiretaskBase):
         solvent_properties (dict): implicit solvent properties to add
             to the final NMR dict, if any
     """
+
     required_params = ["keys"]
     optional_params = [
         "db",
@@ -571,6 +572,7 @@ class BindingEnergytoDB(FiretaskBase):
         solvent_properties (dict): implicit solvent properties to add
             to the final binding energy dict, if any
     """
+
     required_params = ["index", "keys"]
     optional_params = [
         "db",
@@ -737,6 +739,7 @@ class IPEAtoDB(FiretaskBase):
         gibbs_elec (float): the electron gibbs free energy in Hartree
         gibbs_h (float): the hydrogen gibbs free energy in Hartree
     """
+
     required_params = [
         "num_electrons",
         "states",
@@ -1012,6 +1015,7 @@ class BDEtoDB(FiretaskBase):
             bonds in the molecule; e.g. (0.0, 0.0, 0.0) for black;
             if not provided, will use (197 / 255, 237 / 255, 223 / 255, 1)
     """
+
     required_params = []
     optional_params = [
         "principle_mol_key",

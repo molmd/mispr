@@ -7,6 +7,7 @@ import os
 import logging
 
 from copy import deepcopy
+
 from fireworks import Firework, Workflow
 
 from mispr.gaussian.utilities.mol import process_mol

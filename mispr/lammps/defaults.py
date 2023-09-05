@@ -34,7 +34,7 @@ CLUSTERS_SETTINGS = {
     "find_top": True,
     "perc": None,
     "cum_perc": 90,
-    "zip": True
+    "zip": True,
 }
 
 # default msd settings

@@ -46,5 +46,6 @@ def get_db(input_db=None):
 
 def find_calc_in_db(query_criteria, db):
     from mispr.gaussian.utilities.gout import process_run
+
     g_out = process_run(operation_type="get_from_run_query", run=query_criteria, db=db)
     pass
