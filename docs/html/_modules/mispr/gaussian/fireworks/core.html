@@ -9,6 +9,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
@@ -259,7 +260,7 @@
     <span class="n">oxidation_states</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Defines a list of common tasks for Gaussian fireworks, i.e.</span>
 <span class="sd">    writing an input file, running the calculation, and</span>
 <span class="sd">    parsing the output.</span>
@@ -323,7 +324,7 @@
 
 
 <div class="viewcode-block" id="CalcFromMolFW"><a class="viewcode-back" href="../../../../mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.CalcFromMolFW">[docs]</a><span class="k">class</span> <span class="nc">CalcFromMolFW</span><span class="p">(</span><span class="n">Firework</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs a Gaussian calculation from a molecule.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -342,7 +343,7 @@
         <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            mol (Molecule, GaussianOutput, str, dict): source of the</span>
 <span class="sd">                molecule to be processed. Should match the mol_operation_type</span>
@@ -432,7 +433,7 @@
 
 
 <div class="viewcode-block" id="CalcFromRunsDBFW"><a class="viewcode-back" href="../../../../mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.CalcFromRunsDBFW">[docs]</a><span class="k">class</span> <span class="nc">CalcFromRunsDBFW</span><span class="p">(</span><span class="n">Firework</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Runs a Gaussian calculation from a previous calculation or the</span>
 <span class="sd">    runs database.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -449,7 +450,7 @@
         <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            db (str or dict): database credentials; could be provided as</span>
 <span class="sd">                the path to the db.json file or in the form of a dictionary;</span>
@@ -560,8 +561,15 @@
     <script src="../../../../_static/clipboard.min.js"></script>
     <script src="../../../../_static/copybutton.js"></script>
     <script src="../../../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../../_static/togglebutton.js"></script>
     <script src="../../../../_static/design-tabs.js"></script>
     <script src="../../../../_static/js/rtd_search_config.js"></script>
     <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
     </body>
 </html>
