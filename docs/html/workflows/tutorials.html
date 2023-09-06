@@ -237,15 +237,29 @@
 <p>This page is under construction.</p>
 <section id="running-an-esp-workflow">
 <h2>Running an ESP workflow<a class="headerlink" href="#running-an-esp-workflow" title="Permalink to this heading">#</a></h2>
-<p>This workflow calculates the electrostatic partial charges that are fit to the electrostatic potential at points
-selected according to the Merz-Singh-Kollman scheme, but other schemes supported by Gaussian can be used.
-The ESP workflow performs the following steps:</p>
+<p>This workflow calculates the partial charges on atoms of a molecule. The charges are fit to the electrostatic potential at
+points selected according to the Merz-Singh-Kollman scheme, but other schemes supported by Gaussian can be used as well.</p>
+<p><strong>The ESP workflow performs the following steps:</strong></p>
 <div class="mermaid">
-            flowchart TD
-    A{Input Structure} --&gt;|Preprocessing| B(Geometry Optimization)
-    B --&gt; C(Frequency Calculations)
-    C --&gt; D[ESP Calculation]
-    D --&gt; E(Analysis)
+            graph TD
+    A[(Input Structure)] --&gt;|Preprocessing| DFT
+    DFT --&gt;| | B[Geometry Optimization]
+    B --&gt;| | C[Frequency Calculation]
+    C --&gt;| | D[ESP Calculation]
+    D --&gt;|Postprocessing| E[(Output)]
+
+    subgraph DFT
+    B[Geometry Optimization]
+    C[Frequency Calculation]
+    D[ESP Calculation]
+    end
+
+    style A fill:#EBEBEB, stroke:#BB2528, arrowColor:#A9A9A9
+    style DFT fill:#DDEEFF,stroke:#DDEEFF,font-weight:bold
+    style B fill:#fff,stroke-dasharray: 5, 5, stroke:#BB2528
+    style C fill:#fff,stroke-dasharray: 5, 5, stroke:#BB2528
+    style D fill:#fff,stroke:#BB2528
+    style E fill:#EBEBEB,stroke:#BB2528
         </div></section>
 <section id="running-an-md-workflow">
 <h2>Running an MD workflow<a class="headerlink" href="#running-an-md-workflow" title="Permalink to this heading">#</a></h2>
@@ -343,5 +357,7 @@ The ESP workflow performs the following steps:</p>
     <script src="../_static/design-tabs.js"></script>
     <script src="../_static/js/rtd_search_config.js"></script>
     <script src="../_static/js/rtd_sphinx_search.min.js"></script>
+    <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
     </body>
 </html>

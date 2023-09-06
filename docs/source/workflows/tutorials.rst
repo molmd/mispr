@@ -6,18 +6,36 @@ This page is under construction.
 
 Running an ESP workflow
 ------------------------------
-This workflow calculates the electrostatic partial charges that are fit to the electrostatic potential at points
-selected according to the Merz-Singh-Kollman scheme, but other schemes supported by Gaussian can be used.
-The ESP workflow performs the following steps:
+This workflow calculates the partial charges on atoms of a molecule. The charges are fit to the electrostatic potential at
+points selected according to the Merz-Singh-Kollman scheme, but other schemes supported by Gaussian can be used as well.
+
+**The ESP workflow performs the following steps:**
 
 
 .. mermaid::
 
-    flowchart TD
-        A{Input Structure} -->|Preprocessing| B(Geometry Optimization)
-        B --> C(Frequency Calculations)
-        C --> D[ESP Calculation]
-        D --> E(Analysis)
+    graph TD
+        A[(Input Structure)] -->|Preprocessing| DFT
+        DFT -->| | B[Geometry Optimization]
+        B -->| | C[Frequency Calculation]
+        C -->| | D[ESP Calculation]
+        D -->|Postprocessing| E[(Output)]
+
+        subgraph DFT
+        B[Geometry Optimization]
+        C[Frequency Calculation]
+        D[ESP Calculation]
+        end
+
+        style A fill:#EBEBEB, stroke:#BB2528, arrowColor:#A9A9A9
+        style DFT fill:#DDEEFF,stroke:#DDEEFF,font-weight:bold
+        style B fill:#fff,stroke-dasharray: 5, 5, stroke:#BB2528
+        style C fill:#fff,stroke-dasharray: 5, 5, stroke:#BB2528
+        style D fill:#fff,stroke:#BB2528
+        style E fill:#EBEBEB,stroke:#BB2528
+
+
+
 
 
 

@@ -30,6 +30,7 @@ release = "0.0.4"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    "sphinxcontrib.mermaid",
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
@@ -39,6 +40,18 @@ extensions = [
     "sphinx_search.extension",
     "sphinx_tabs.tabs",
 ]
+
+mermaid_theme = {
+    'theme': 'dark',
+    'themeVariables': {
+        'primaryColor': '#BB2528',
+        'primaryTextColor': '#fff',
+        'primaryBorderColor': '#7C0000',
+        'lineColor': '#F8B229',
+        'secondaryColor': '#006100',
+        'tertiaryColor': '#fff'
+    }
+}
 
 autodoc_mock_imports = ["custodian", "tleap"]
 # html_sidebars = {
@@ -88,5 +101,8 @@ html_theme_options = {
     },
 }
 
+source_suffix = '.rst'
+# htmlhelp_basename = 'sphinxcontrib-mermaiddoc'
+# mermaid_params = ['-p' 'puppeteer-config.json']
 
 master_doc = "index"
