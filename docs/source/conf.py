@@ -40,7 +40,8 @@ extensions = [
     "sphinx_search.extension",
     "sphinx_tabs.tabs",
     "sphinx_togglebutton",
-    "sphinx_favicon"
+    "sphinx_favicon",
+    "sphinx_last_updated_by_git"
 ]
 
 mermaid_theme = {

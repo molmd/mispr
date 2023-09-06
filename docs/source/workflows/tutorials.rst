@@ -70,25 +70,6 @@ The input structure is provided in the file `water.xyz`:
    - Line 19: Adds the workflow to the LaunchPad.
 
 
-.. code-block:: python
-
-    from ase.build import bulk
-    from quacc.recipes.emt.core import relax_job
-
-    # Make an Atoms object of a bulk Cu structure
-    atoms = bulk("Cu")
-
-    # Call the PythonApp
-    future = relax_job(atoms)  # (1)!
-
-    # Print result
-    print(future.result())  # (2)!
-
-
-1. The `relax_job` function was pre-defined in quacc with a `#!Python @job` decorator, which is why we did not need to include it here. We also did not need to use a `#!Python @flow` decorator because Parsl does not have an analogous decorator.
-
-2. The use of `.result()` serves to block any further calculations from running until it is resolved. Calling `.result()` also returns the function output as opposed to the `AppFuture` object.
-
 
 
 
