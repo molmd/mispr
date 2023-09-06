@@ -39,6 +39,8 @@ extensions = [
     "sphinx_copybutton",
     "sphinx_search.extension",
     "sphinx_tabs.tabs",
+    "sphinx_togglebutton",
+    "sphinx_favicon"
 ]
 
 mermaid_theme = {
@@ -52,6 +54,14 @@ mermaid_theme = {
         'tertiaryColor': '#fff'
     }
 }
+
+favicons = [
+   {
+      "rel": "apple-touch-icon",
+      "sizes": "180x180",
+      "href": "logo.png",  # use a local file in _static
+   },
+]
 
 autodoc_mock_imports = ["custodian", "tleap"]
 # html_sidebars = {

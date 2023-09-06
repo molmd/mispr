@@ -3,13 +3,14 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Creating Custom Workflows" href="custom.html" /><link rel="prev" title="Supported Workflows" href="supported.html" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../_static/logo.png" type="image/png"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Creating Custom Workflows" href="custom.html" /><link rel="prev" title="Supported Workflows" href="supported.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Workflow Tutorials - Materials informatics for structure-property relationships</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/rtd_sphinx_search.min.css" />
@@ -260,7 +261,55 @@ points selected according to the Merz-Singh-Kollman scheme, but other schemes su
     style C fill:#fff,stroke-dasharray: 5, 5, stroke:#BB2528
     style D fill:#fff,stroke:#BB2528
     style E fill:#EBEBEB,stroke:#BB2528
-        </div></section>
+        </div><p>In the following example, we will run the ESP workflow on a water molecule.
+The input structure is provided in the file <cite>water.xyz</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="kn">from</span> <span class="nn">fireworks</span> <span class="kn">import</span> <span class="n">LaunchPad</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="kn">from</span> <span class="nn">mispr.gaussian.workflows.base.esp</span> <span class="kn">import</span> <span class="n">get_esp_charges</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="n">lpad</span> <span class="o">=</span> <span class="n">LaunchPad</span><span class="o">.</span><span class="n">auto_load</span><span class="p">()</span>
+<span class="linenos"> 8</span><span class="n">wf</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_esp_charges</span><span class="p">(</span>
+<span class="linenos"> 9</span>    <span class="n">mol_operation_type</span><span class="o">=</span><span class="s2">&quot;get_from_pubchem&quot;</span><span class="p">,</span>
+<span class="linenos">10</span>    <span class="n">mol</span><span class="o">=</span><span class="s2">&quot;water&quot;</span><span class="p">,</span>
+<span class="linenos">11</span>    <span class="n">format_chk</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">12</span>    <span class="n">save_to_db</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">13</span>    <span class="n">save_to_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos">14</span>    <span class="n">additional_prop_doc_fields</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;solvent&quot;</span><span class="p">:</span> <span class="s2">&quot;water&quot;</span><span class="p">},</span>
+<span class="linenos">15</span>    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;mispr_tutorial&quot;</span><span class="p">,</span>
+<span class="linenos">16</span><span class="p">)</span>
+<span class="linenos">17</span><span class="n">lpad</span><span class="o">.</span><span class="n">add_wf</span><span class="p">(</span><span class="n">wf</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="toggle admonition">
+<p class="admonition-title">Note</p>
+<p>Here, we explain the specific lines of code:</p>
+<ul class="simple">
+<li><p>Line 3: Imports the necessary modules.</p></li>
+<li><p>Line 5: Loads the LaunchPad.</p></li>
+<li><p>Lines 7-18: Generates an ESP charges workflow for water.</p></li>
+<li><p>Line 19: Adds the workflow to the LaunchPad.</p></li>
+</ul>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ase.build</span> <span class="kn">import</span> <span class="n">bulk</span>
+<span class="kn">from</span> <span class="nn">quacc.recipes.emt.core</span> <span class="kn">import</span> <span class="n">relax_job</span>
+
+<span class="c1"># Make an Atoms object of a bulk Cu structure</span>
+<span class="n">atoms</span> <span class="o">=</span> <span class="n">bulk</span><span class="p">(</span><span class="s2">&quot;Cu&quot;</span><span class="p">)</span>
+
+<span class="c1"># Call the PythonApp</span>
+<span class="n">future</span> <span class="o">=</span> <span class="n">relax_job</span><span class="p">(</span><span class="n">atoms</span><span class="p">)</span>  <span class="c1"># (1)!</span>
+
+<span class="c1"># Print result</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>  <span class="c1"># (2)!</span>
+</pre></div>
+</div>
+<ol class="arabic simple">
+<li><p>The <cite>relax_job</cite> function was pre-defined in quacc with a <cite>#!Python &#64;job</cite> decorator, which is why we did not need to include it here. We also did not need to use a <cite>#!Python &#64;flow</cite> decorator because Parsl does not have an analogous decorator.</p></li>
+<li><p>The use of <cite>.result()</cite> serves to block any further calculations from running until it is resolved. Calling <cite>.result()</cite> also returns the function output as opposed to the <cite>AppFuture</cite> object.</p></li>
+</ol>
+</section>
 <section id="running-an-md-workflow">
 <h2>Running an MD workflow<a class="headerlink" href="#running-an-md-workflow" title="Permalink to this heading">#</a></h2>
 </section>
@@ -354,9 +403,14 @@ points selected according to the Merz-Singh-Kollman scheme, but other schemes su
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/design-tabs.js"></script>
     <script src="../_static/js/rtd_search_config.js"></script>
     <script src="../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
     <script>mermaid.initialize({startOnLoad:true});</script>
     </body>

@@ -9,6 +9,7 @@
       <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/css/rtd_sphinx_search.min.css" />
@@ -255,7 +256,7 @@
 
 
 <div class="viewcode-block" id="Node"><a class="viewcode-back" href="../../../../../mispr.gaussian.workflows.base.html#mispr.gaussian.workflows.base.ip_ea.Node">[docs]</a><span class="k">class</span> <span class="nc">Node</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generates the fireworks corresponding to different molecule states</span>
 <span class="sd">    in the IP/EA workflow. Each molecule state is corresponds to a</span>
 <span class="sd">    node in the tree. The node is a leaf if it is the last node in the</span>
@@ -277,7 +278,7 @@
         <span class="n">branch_cation_from_anion</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">h_index</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Args:</span>
 <span class="sd">            state (str): current state of the molecule: cation or anion</span>
 <span class="sd">            phase (str): current phase of the molecule: gas or solution</span>
@@ -383,7 +384,7 @@
         <span class="n">branch_cation_from_anion</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates the optimization and/or frequency fireworks corresponding</span>
 <span class="sd">        to the current node.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -459,7 +460,7 @@
         <span class="n">h_index</span><span class="p">,</span>
         <span class="n">vertical</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates the children nodes of the current node in the tree</span>
 <span class="sd">        representing the IP/EA workflow.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -535,7 +536,7 @@
     <span class="n">ref_skips</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Defines a workflow for calculating the ionization potential (IP) and</span>
 <span class="sd">    electron affinity (EA) in eV. Supports multiple methods for</span>
 <span class="sd">    calculating redox potentials in gas and/or solution:</span>
@@ -873,8 +874,15 @@
     <script src="../../../../../_static/clipboard.min.js"></script>
     <script src="../../../../../_static/copybutton.js"></script>
     <script src="../../../../../_static/tabs.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../../../_static/togglebutton.js"></script>
     <script src="../../../../../_static/design-tabs.js"></script>
     <script src="../../../../../_static/js/rtd_search_config.js"></script>
     <script src="../../../../../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+    <script>mermaid.initialize({startOnLoad:true});</script>
     </body>
 </html>

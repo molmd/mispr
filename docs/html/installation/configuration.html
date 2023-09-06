@@ -3,13 +3,14 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Running a Test Workflow" href="test.html" /><link rel="prev" title="Prerequisites" href="dependencies.html" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../_static/logo.png" type="image/png"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Running a Test Workflow" href="test.html" /><link rel="prev" title="Prerequisites" href="dependencies.html" />
 
     <meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Configuration Files - Materials informatics for structure-property relationships</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
     <link rel="stylesheet" type="text/css" href="../_static/css/rtd_sphinx_search.min.css" />
@@ -396,22 +397,22 @@ These commands are specific to your computing resources you are
 running on. The example provided here is meant to show how these
 commands should be defined, but you need to change them to match your
 system.</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">RunCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="nt">gcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">g16 &lt; &quot;$input_path$&quot; &gt; &quot;$output_path$&quot;</span><span class="w"></span>
-<span class="nt">formchkcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">formchk &quot;$input_path$&quot; &quot;$output_path$&quot;</span><span class="w"></span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">[</span><span class="nv">RunCalc</span><span class="p p-Indicator">]</span>
+<span class="nt">gcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">g16 &lt; &quot;$input_path$&quot; &gt; &quot;$output_path$&quot;</span>
+<span class="nt">formchkcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">formchk &quot;$input_path$&quot; &quot;$output_path$&quot;</span>
 
-<span class="p p-Indicator">[</span><span class="nv">LammpsRunCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="nt">lcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mpirun -np $SLURM_NTASKS lmp_mpi -in $control_path$</span><span class="w"></span>
-<span class="nt">lammps_gpu_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w"></span>
+<span class="p p-Indicator">[</span><span class="nv">LammpsRunCalc</span><span class="p p-Indicator">]</span>
+<span class="nt">lcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mpirun -np $SLURM_NTASKS lmp_mpi -in $control_path$</span>
+<span class="nt">lammps_gpu_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 
-<span class="p p-Indicator">[</span><span class="nv">AmbertoolsRunCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="nt">acmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antechamber -i $input_file$ -fi $input_type$ -o $output_file$ -fo $output_type$ -c $charge_method$ -s 2</span><span class="w"></span>
-<span class="nt">pcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">parmchk2 -i $input_file$ -f mol2 -o $output_file$</span><span class="w"></span>
-<span class="nt">tcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tleap -f $input_file$</span><span class="w"></span>
+<span class="p p-Indicator">[</span><span class="nv">AmbertoolsRunCalc</span><span class="p p-Indicator">]</span>
+<span class="nt">acmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">antechamber -i $input_file$ -fi $input_type$ -o $output_file$ -fo $output_type$ -c $charge_method$ -s 2</span>
+<span class="nt">pcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">parmchk2 -i $input_file$ -f mol2 -o $output_file$</span>
+<span class="nt">tcmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tleap -f $input_file$</span>
 
-<span class="p p-Indicator">[</span><span class="nv">MaestroCalc</span><span class="p p-Indicator">]</span><span class="w"></span>
-<span class="nt">mae_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SCHRODINGER/utilities/structconvert $input_file$ $output_file$</span><span class="w"></span>
-<span class="nt">ffld_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SCHRODINGER/utilities/ffld_server -imae $input_file$ -version 14 -print_parameters -out_file $output_file$</span><span class="w"></span>
+<span class="p p-Indicator">[</span><span class="nv">MaestroCalc</span><span class="p p-Indicator">]</span>
+<span class="nt">mae_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SCHRODINGER/utilities/structconvert $input_file$ $output_file$</span>
+<span class="nt">ffld_cmd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">$SCHRODINGER/utilities/ffld_server -imae $input_file$ -version 14 -print_parameters -out_file $output_file$</span>
 </pre></div>
 </div>
 <p>The following commands are defined in the file:</p>
@@ -470,7 +471,7 @@ should look like:</p>
 file in order to set an environment variable that tells FireWorks where
 to find the <code class="docutils literal notranslate"><span class="pre">FW_config.yaml</span></code> file, which will in turn tell FireWorks
 where the rest of the configuration files are:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">FW_CONFIG_FILE</span><span class="o">=</span><span class="p">|</span>CODES_DIR<span class="p">|</span>/config/FW_config.yaml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">FW_CONFIG_FILE</span><span class="o">=</span><span class="p">|</span>CODES_DIR<span class="p">|</span>/config/FW_config.yaml
 </pre></div>
 </div>
 </section>
@@ -560,8 +561,13 @@ where the rest of the configuration files are:</p>
     <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
     <script src="../_static/design-tabs.js"></script>
     <script src="../_static/js/rtd_search_config.js"></script>
     <script src="../_static/js/rtd_sphinx_search.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     </body>
 </html>

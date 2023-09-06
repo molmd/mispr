@@ -35,7 +35,59 @@ points selected according to the Merz-Singh-Kollman scheme, but other schemes su
         style E fill:#EBEBEB,stroke:#BB2528
 
 
+In the following example, we will run the ESP workflow on a water molecule.
+The input structure is provided in the file `water.xyz`:
 
+.. code-block:: python
+    :linenos:
+
+    import os
+
+    from fireworks import LaunchPad
+
+    from mispr.gaussian.workflows.base.esp import get_esp_charges
+
+    lpad = LaunchPad.auto_load()
+    wf, _ = get_esp_charges(
+        mol_operation_type="get_from_pubchem",
+        mol="water",
+        format_chk=True,
+        save_to_db=True,
+        save_to_file=True,
+        additional_prop_doc_fields={"solvent": "water"},
+        tag="mispr_tutorial",
+    )
+    lpad.add_wf(wf)
+
+.. admonition:: Note
+   :class: toggle
+
+   Here, we explain the specific lines of code:
+
+   - Line 3: Imports the necessary modules.
+   - Line 5: Loads the LaunchPad.
+   - Lines 7-18: Generates an ESP charges workflow for water.
+   - Line 19: Adds the workflow to the LaunchPad.
+
+
+.. code-block:: python
+
+    from ase.build import bulk
+    from quacc.recipes.emt.core import relax_job
+
+    # Make an Atoms object of a bulk Cu structure
+    atoms = bulk("Cu")
+
+    # Call the PythonApp
+    future = relax_job(atoms)  # (1)!
+
+    # Print result
+    print(future.result())  # (2)!
+
+
+1. The `relax_job` function was pre-defined in quacc with a `#!Python @job` decorator, which is why we did not need to include it here. We also did not need to use a `#!Python @flow` decorator because Parsl does not have an analogous decorator.
+
+2. The use of `.result()` serves to block any further calculations from running until it is resolved. Calling `.result()` also returns the function output as opposed to the `AppFuture` object.
 
 
 
