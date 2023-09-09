@@ -1,0 +1,24 @@
+Index: docs/source/workflows/tutorials.rst
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>==========\nWorkflow Tutorials\n==========\n\nThis page is under construction.\n\nRunning an ESP workflow\n------------------------------\n\n\nRunning an MD workflow\n------------------------------\n\n\nRunning a hybrid workflow\n------------------------------\n
+===================================================================
+diff --git a/docs/source/workflows/tutorials.rst b/docs/source/workflows/tutorials.rst
+--- a/docs/source/workflows/tutorials.rst	
++++ b/docs/source/workflows/tutorials.rst	
+@@ -7,6 +7,15 @@
+ Running an ESP workflow
+ ------------------------------
+ 
++The ESP workflow calculates the partial charges on a molecule using the ESP method.
++The workflow is composed of three steps: 1) geometry optimization, 2) single point calculation, and 3) ESP calculation. The workflow is defined in the file `esp.yaml`:
++
++
++```yaml
++
++```
++
++
+ 
+ Running an MD workflow
+ ------------------------------

@@ -1,6 +1,6 @@
-===========
+===============================
 Prerequisites
-===========
+===============================
 
 Virtual python environment
 ------------------------------
@@ -14,7 +14,7 @@ feel free to use your preferred environment manager
 (e.g. `conda <https://conda.io/docs/>`_).
 
 Creating the virtual environment
-============================
+=================================
 To create and activate a new virtual environment, go to your
 ``|CODES_DIR|`` (see :doc:`Definition <../keywords>`), and run the following commands::
 
@@ -39,7 +39,7 @@ To deactivate the enviornment, simply run::
     pip install -U setuptools pip
 
 Computational chemistry software
-------------------------------
+---------------------------------
 
 At the backend, MISPR uses:
 
@@ -58,7 +58,7 @@ resources, the user typically needs to load their corresponding modules
 before their use.
 
 Materials Project base libraries
-------------------------------
+---------------------------------
 * `pymatgen <https://pymatgen.org>`_: MISPR uses pymatgen for handling
   different molecule representations and i/o operations specific to
   Gaussian and LAMMPS. We have made changes to the pymatgen library to
@@ -75,6 +75,7 @@ Materials Project base libraries
   simply type::
 
     pip install FireWorks
+
   Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
 
   .. note::
@@ -97,7 +98,7 @@ Materials Project base libraries
 MongoDB
 -------------------------
 Following the design decisions of the Materials Project, MISPR uses
-`MongoDB <https://docs.mongodb.com/manual/>`_ as the backend database.
+`MongoDB <https://docs.mongodb.com/manual/>`__ as the backend database.
 MongoDB is a NoSQL database that is designed to store and retrieve
 data in a highly efficient and scalable manner. It stores data in the
 form of documents represented in the JSON (JavaScript Object Notation)
@@ -106,7 +107,7 @@ format, which is similar to a Python dictionary.
 MISPR uses MongoDB to:
 
 * Add, remove, and search the status of workflows - feature of
-  `FireWorks <https://materialsproject.github.io/fireworks/>`_  (required)
+  `FireWorks <https://materialsproject.github.io/fireworks/>`__  (required)
 * Create computational databases of DFT and MD predicted properties -
   Feature of MISPR (optional but strongly recommended)
 
@@ -115,7 +116,7 @@ Setting up MongoDB
 Options for getting MongoDB are:
 
 * Install it yourself locally by following the instructions at
-  `MongoDB <https://www.mongodb.com/docs/manual/installation/>`_.
+  `MongoDB <https://www.mongodb.com/docs/manual/installation/>`__.
   This is pretty simple and typically works well if you are starting out
   with MISPR and want to learn how to use a database. However, with this
   option, you are limited with the storage space on your local machine and
@@ -139,7 +140,7 @@ by FireWorks.
    the workflows.
 
 Testing your MongoDB connection
-============================
+================================
 **Establishing a Connection to MongoDB Using Pymongo:**
 
 You need to import MongoClient from pymongo and then create a new MongoClient instance.
@@ -161,6 +162,7 @@ We can check the connection by listing all the databases:
 .. code-block:: python
 
     print(client.list_database_names())
+
 If the connection is successful, this command will return a list of names of the databases that are present in the
 MongoDB instance.
 

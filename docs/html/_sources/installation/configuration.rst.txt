@@ -1,6 +1,6 @@
-===========
+===============================
 Configuration Files
-===========
+===============================
 After setting up the environment and installing the software, you will
 need to configure the software to work with your system. This is done by
 creating the following set of configuration files.
@@ -8,14 +8,14 @@ creating the following set of configuration files.
 .. note::
    This page is intended to help you get set-up for the first time using
    FireWorks and MISPR so you can learn how these software work. Please
-   refer to the `FireWorks <https://materialsproject.github.io/fireworks/>`_
+   refer to the `FireWorks <https://materialsproject.github.io/fireworks/>`__
    documentation for more information on these files and how FireWorks works.
    Here, we will only discuss the basic configuration options which are
    sufficient for using MISPR as in this tutorial.
 
 
 Writing the Configuration Files
-------------------------------
+------------------------------------
 
 .. tab-set::
 
@@ -42,7 +42,7 @@ Writing the Configuration Files
     .. tab-item:: my_fworker.yaml
 
         This file stores your FireWorker's credentials. In
-        `FireWorks <https://materialsproject.github.io/fireworks/index.html#centralized-server-and-worker-model>`_, a
+        the `FireWorks <https://materialsproject.github.io/fireworks/index.html#centralized-server-and-worker-model>`__, a
         FireWorker can be as simple as the workstation used to host the
         LaunchPad or complicated like a supercomputing center with a
         queueing system.
@@ -235,7 +235,7 @@ Configuring Bash Profile
 ------------------------------
 After creating the above six configuration files and replacing the
 placeholders with your specific settings, create a directory in
-your ``|CODES_DIR|`` (see :doc:`Definition <keywords>`) called ``config``
+your ``|CODES_DIR|`` (see :doc:`Definition <../keywords>`) called ``config``
 and move the above configuration files into it. The ``|CODES_DIR|/config``
 should look like:
 

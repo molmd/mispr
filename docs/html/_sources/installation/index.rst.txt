@@ -1,6 +1,6 @@
-===========
+=============
 Installation
-===========
+=============
 
 .. toctree::
    :hidden:
@@ -28,13 +28,13 @@ Before installing MISPR, you need to follow the steps below in order:
    are some recommended starting points.
 
 Installing MISPR and MDPropTools
-------------------------------
+--------------------------------
 MISPR and MDPropTools can be installed either from the python package
 index (good for most users) or directly from their GitHub
 repositories (good for developers).
 
 Installation Method 1: Using pip
-============================
+================================
 To install, simply type:
 
 .. code-block:: bash
@@ -43,7 +43,7 @@ To install, simply type:
     pip install mdproptools
 
 Installation Method 2: Development mode
-============================
+=======================================
 
 .. _codes-develop-mode:
 
