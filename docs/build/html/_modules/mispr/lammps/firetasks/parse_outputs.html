@@ -1,0 +1,1313 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.lammps.firetasks.parse_outputs - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_immaterial_theme.a60204c58f5e4ff66.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/style.css" />
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="../../../../_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.lammps.firetasks.parse_outputs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="../../../../_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Installation</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Development</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1>Source code for mispr.lammps.firetasks.parse_outputs</h1><div class="highlight"><pre>
+<span></span><code><span class="c1"># coding: utf-8</span>
+
+
+<span class="c1"># Defines firetasks for reading output of Ambertools programs and LAMMPS.</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">argrelmin</span><span class="p">,</span> <span class="n">find_peaks</span>
+
+<span class="kn">from</span> <span class="nn">fireworks.utilities.fw_serializers</span> <span class="kn">import</span> <span class="n">DATETIME_HANDLER</span>
+<span class="kn">from</span> <span class="nn">fireworks.core.firework</span> <span class="kn">import</span> <span class="n">FWAction</span><span class="p">,</span> <span class="n">FiretaskBase</span>
+<span class="kn">from</span> <span class="nn">fireworks.utilities.fw_utilities</span> <span class="kn">import</span> <span class="n">explicit_serialize</span>
+
+<span class="kn">from</span> <span class="nn">pymatgen.io.ambertools</span> <span class="kn">import</span> <span class="n">PrmtopParser</span>
+<span class="kn">from</span> <span class="nn">pymatgen.core.structure</span> <span class="kn">import</span> <span class="n">Molecule</span>
+
+<span class="kn">from</span> <span class="nn">mdproptools.structural.rdf_cn</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">calc_atomic_rdf</span><span class="p">,</span>
+    <span class="n">calc_molecular_rdf</span><span class="p">,</span>
+    <span class="n">calc_atomic_cn</span><span class="p">,</span>
+    <span class="n">calc_molecular_cn</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mdproptools.structural.cluster_analysis</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_clusters</span><span class="p">,</span>
+    <span class="n">get_unique_configurations</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mdproptools.dynamical.diffusion</span> <span class="kn">import</span> <span class="n">Diffusion</span>
+
+<span class="kn">from</span> <span class="nn">mispr.lammps.utilities.utilities</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_db</span><span class="p">,</span>
+    <span class="n">process_ff_doc</span><span class="p">,</span>
+    <span class="n">add_ff_labels_to_dict</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">mispr.lammps.defaults</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">MSD_SETTINGS</span><span class="p">,</span>
+    <span class="n">DIFF_SETTINGS</span><span class="p">,</span>
+    <span class="n">RDF_SETTINGS</span><span class="p">,</span>
+    <span class="n">CN_SETTINGS</span><span class="p">,</span>
+    <span class="n">CLUSTERS_SETTINGS</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.metadata</span> <span class="kn">import</span> <span class="n">get_mol_formula</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Bliss&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Bliss&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;matthew.bliss@stonybrook.edu&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Apr 2020&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.4&quot;</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">GAFF_DOI</span> <span class="o">=</span> <span class="s2">&quot;https://doi.org/10.1002/jcc.20035&quot;</span>
+
+
+<div class="viewcode-block" id="ProcessPrmtop"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">ProcessPrmtop</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Process Prmtop&quot;</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;molecule&quot;</span> <span class="s2">&quot;working_dir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prmtop_path&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prmtop_filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prmtop_dir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;unique_molecule_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;doi&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_ff_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_ff_to_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ff_filename&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="ProcessPrmtop.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">working_dir</span><span class="p">)</span>
+
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">ff_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ff_filename&quot;</span><span class="p">,</span> <span class="s2">&quot;ff.json&quot;</span><span class="p">)</span>
+        <span class="n">save_to_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_ff_to_db&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">save_to_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_ff_to_file&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prmtop_path&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">prmtop_file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prmtop_path&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prmtop_filename&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">prmtop_filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prmtop_filename&quot;</span><span class="p">)</span>
+            <span class="n">prmtop_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prmtop_dir&quot;</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">)</span>
+            <span class="n">prmtop_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">prmtop_dir</span><span class="p">,</span> <span class="n">prmtop_filename</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;Neither name nor path to a prmtop file was </span><span class="se">\</span>
+<span class="s1">                            provided; either provide prmtop file name as </span><span class="se">\</span>
+<span class="s1">                            &quot;prmtop_filename&quot; or path to prmtop as </span><span class="se">\</span>
+<span class="s1">                            &quot;prmtop_path&quot;.&#39;</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">prmtop_file_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;&quot;prmtop_file_path&quot; is not a valid path; check </span><span class="se">\</span>
+<span class="s1">                            that &quot;prmtop_path&quot; is correct or that </span><span class="se">\</span>
+<span class="s1">                            &quot;prmtop_filename&quot; exists in &quot;prmtop_dir&quot;&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">molecule</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">molecule</span><span class="p">,</span> <span class="n">Molecule</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;&quot;molecule&quot; is not a pymatgen Molecule object&#39;</span><span class="p">)</span>
+
+        <span class="c1"># TODO: decide what unique id for the ff labels. If staying as smiles \</span>
+        <span class="c1">#  string, decide how to get smiles.</span>
+        <span class="n">unique_mol_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;unique_molecule_name&quot;</span><span class="p">,</span> <span class="n">get_mol_formula</span><span class="p">(</span><span class="n">molecule</span><span class="p">))</span>
+        <span class="n">ff_param_dict_general</span> <span class="o">=</span> <span class="n">PrmtopParser</span><span class="p">(</span><span class="n">prmtop_file_path</span><span class="p">,</span> <span class="n">molecule</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">ff_param_dict_system</span> <span class="o">=</span> <span class="n">add_ff_labels_to_dict</span><span class="p">(</span>
+            <span class="n">ff_param_dict_general</span><span class="p">,</span> <span class="n">unique_mol_name</span>
+        <span class="p">)</span>
+
+        <span class="n">gaff_doi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;gaff_doi&quot;</span><span class="p">,</span> <span class="n">GAFF_DOI</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">save_to_db</span><span class="p">:</span>
+            <span class="n">ff_doc</span> <span class="o">=</span> <span class="n">ff_param_dict_general</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">ff_db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="n">input_db</span><span class="o">=</span><span class="n">db</span><span class="p">)</span>
+            <span class="n">ff_db</span><span class="o">.</span><span class="n">insert_force_field</span><span class="p">(</span><span class="n">ff_doc</span><span class="p">,</span> <span class="s2">&quot;gaff&quot;</span><span class="p">,</span> <span class="n">doi</span><span class="o">=</span><span class="n">gaff_doi</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">save_to_file</span><span class="p">:</span>
+            <span class="n">ff_doc</span> <span class="o">=</span> <span class="n">process_ff_doc</span><span class="p">(</span><span class="n">ff_param_dict_general</span><span class="p">,</span> <span class="s2">&quot;gaff&quot;</span><span class="p">,</span> <span class="n">doi</span><span class="o">=</span><span class="n">gaff_doi</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">ff_filename</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">ff_doc</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="n">sys_ff_dict</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="p">)</span>
+        <span class="n">sys_ff_dict</span><span class="p">[</span><span class="n">unique_mol_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ff_param_dict_system</span>
+
+        <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span>
+            <span class="n">stored_data</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;ff_param_dict_system&quot;</span><span class="p">:</span> <span class="n">ff_param_dict_system</span><span class="p">,</span>
+                <span class="s2">&quot;ff_param_dict_general&quot;</span><span class="p">:</span> <span class="n">ff_param_dict_general</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="n">update_spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;system_force_field_dict&quot;</span><span class="p">:</span> <span class="n">sys_ff_dict</span><span class="p">},</span>
+            <span class="n">propagate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CalcDiff"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.CalcDiff">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">CalcDiff</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Calculate Diffusion&quot;</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="s2">&quot;diff_settings&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="CalcDiff.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">diff_settings</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">MSD_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="o">**</span><span class="n">DIFF_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()}</span>
+        <span class="n">diff_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;diff_settings&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="n">msd_method</span> <span class="o">=</span> <span class="n">diff_settings</span><span class="p">[</span><span class="s2">&quot;msd_method&quot;</span><span class="p">]</span>
+        <span class="n">outputs_dir</span> <span class="o">=</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;outputs_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;nvt&quot;</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">msd_df</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">diff</span> <span class="o">=</span> <span class="n">Diffusion</span><span class="p">(</span>
+            <span class="n">timestep</span><span class="o">=</span><span class="n">diff_settings</span><span class="p">[</span><span class="s2">&quot;timestep&quot;</span><span class="p">],</span>
+            <span class="n">units</span><span class="o">=</span><span class="n">diff_settings</span><span class="p">[</span><span class="s2">&quot;units&quot;</span><span class="p">],</span>
+            <span class="n">outputs_dir</span><span class="o">=</span><span class="n">outputs_dir</span><span class="p">,</span>
+            <span class="n">diff_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">msd_method</span> <span class="o">==</span> <span class="s2">&quot;from_dump&quot;</span><span class="p">:</span>
+            <span class="n">num_mols</span> <span class="o">=</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;num_mols&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols_list&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+            <span class="n">num_atoms_per_mol</span> <span class="o">=</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+            <span class="n">num_mols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">num_mols</span><span class="p">]</span> <span class="k">if</span> <span class="n">num_mols</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">mass</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default_masses&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">file_pattern</span> <span class="o">=</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;file_pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;dump.nvt.*.dump&quot;</span><span class="p">)</span>
+
+            <span class="n">msd_df</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">get_msd_from_dump</span><span class="p">(</span>
+                <span class="n">file_pattern</span><span class="p">,</span>
+                <span class="n">num_mols</span><span class="o">=</span><span class="n">num_mols</span><span class="p">,</span>
+                <span class="n">num_atoms_per_mol</span><span class="o">=</span><span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                <span class="n">mass</span><span class="o">=</span><span class="n">mass</span><span class="p">,</span>
+                <span class="o">**</span><span class="p">{</span>
+                    <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">get_msd_from_dump</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">msd_method</span> <span class="o">==</span> <span class="s2">&quot;from_log&quot;</span><span class="p">:</span>
+            <span class="n">file_pattern</span> <span class="o">=</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;file_pattern&quot;</span><span class="p">,</span> <span class="s2">&quot;log.lammps*&quot;</span><span class="p">)</span>
+            <span class="n">msd_df</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">get_msd_from_log</span><span class="p">(</span><span class="n">file_pattern</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unsupported msd calculation method: </span><span class="si">{</span><span class="n">msd_method</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Supported methods are from_dump and from_log&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">diffusion</span> <span class="o">=</span> <span class="n">diff</span><span class="o">.</span><span class="n">calc_diff</span><span class="p">(</span>
+            <span class="n">msd_df</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="o">**</span><span class="p">{</span>
+                <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">calc_diff</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+            <span class="p">},</span>
+        <span class="p">)</span>
+
+        <span class="n">diff_list</span> <span class="o">=</span> <span class="n">diffusion</span><span class="p">[</span><span class="s2">&quot;diffusion (m2/s)&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">std_list</span> <span class="o">=</span> <span class="n">diffusion</span><span class="p">[</span><span class="s2">&quot;std&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+        <span class="n">r2_list</span> <span class="o">=</span> <span class="n">diffusion</span><span class="p">[</span><span class="s2">&quot;R2&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">msd_method</span> <span class="o">==</span> <span class="s2">&quot;from_dump&quot;</span>
+            <span class="ow">and</span> <span class="n">diff_settings</span><span class="p">[</span><span class="s2">&quot;avg_interval&quot;</span><span class="p">]</span>
+            <span class="ow">and</span> <span class="n">diff_settings</span><span class="p">[</span><span class="s2">&quot;diff_dist&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">diff</span><span class="o">.</span><span class="n">get_diff_dist</span><span class="p">(</span>
+                <span class="n">msd_df</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                <span class="o">**</span><span class="p">{</span>
+                    <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">diff_settings</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getfullargspec</span><span class="p">(</span><span class="n">diff</span><span class="o">.</span><span class="n">get_diff_dist</span><span class="p">)</span><span class="o">.</span><span class="n">args</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+        <span class="n">diff_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;diff_path&quot;</span><span class="p">:</span> <span class="n">working_dir</span><span class="p">,</span>
+                <span class="s2">&quot;diffusion&quot;</span><span class="p">:</span> <span class="n">diff_list</span><span class="p">,</span>
+                <span class="s2">&quot;std&quot;</span><span class="p">:</span> <span class="n">std_list</span><span class="p">,</span>
+                <span class="s2">&quot;r2&quot;</span><span class="p">:</span> <span class="n">r2_list</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span>
+            <span class="n">update_spec</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;smiles&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;smiles&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;nmols&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nmols&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                <span class="s2">&quot;num_mols_list&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols_list&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;default_masses&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default_masses&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;recalc_masses&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recalc_masses&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;diffusion&quot;</span><span class="p">:</span> <span class="n">diff_settings</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GetRDF"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.GetRDF">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">GetRDF</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Get RDF&quot;</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;rdf_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;working_dir&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="GetRDF.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.GetRDF.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="c1"># Get inputs to rdf function from defaults or from user, which then</span>
+        <span class="c1"># updates the defaults</span>
+        <span class="n">rdf_settings</span> <span class="o">=</span> <span class="n">RDF_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">rdf_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf_settings&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+
+        <span class="c1"># atomic or molecular (for CoM)</span>
+        <span class="n">rdf_type</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf_type&quot;</span><span class="p">,</span> <span class="s2">&quot;atomic&quot;</span><span class="p">)</span>
+
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">use_default_atom_ids</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_default_atom_ids&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">csv_filename</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path_or_buff&quot;</span><span class="p">,</span> <span class="s2">&quot;rdf.csv&quot;</span><span class="p">)</span>
+        <span class="n">csv_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+        <span class="n">rdf_settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;path_or_buff&quot;</span><span class="p">:</span> <span class="n">csv_file_path</span><span class="p">})</span>
+
+        <span class="n">r_cut</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r_cut&quot;</span><span class="p">)</span>
+
+        <span class="n">bin_size</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_size&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="n">bin_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">bin_size</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">pass</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mass&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default_masses&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mass</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Atomic masses not found&quot;</span><span class="p">)</span>
+        <span class="n">num_types</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span>
+        <span class="n">num_mols</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols_list&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">num_atoms_per_mol</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">partial_relations</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;partial_relations&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">)</span>
+        <span class="n">save_mode</span> <span class="o">=</span> <span class="n">rdf_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_mode&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rdf_type</span> <span class="o">==</span> <span class="s2">&quot;atomic&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">use_default_atom_ids</span><span class="p">:</span>
+                <span class="n">num_mols</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">num_atoms_per_mol</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">partial_relations</span><span class="p">:</span>
+                    <span class="n">partial_relations</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_types</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mass</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recalc_masses&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">num_mols</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num_atoms_per_mol</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Number of molecules of each type and number of atoms &quot;</span>
+                        <span class="s2">&quot;per molecule are not found&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">num_mols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">num_mols</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">partial_relations</span><span class="p">:</span>
+                    <span class="n">partial_relations</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">num_atoms_per_mol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">atomic_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">rdf_type</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">atomic_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bin_size</span><span class="p">):</span>
+                <span class="n">cur_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">atomic_working_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">csv_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+                <span class="n">calc_atomic_rdf</span><span class="p">(</span>
+                    <span class="n">r_cut</span><span class="p">,</span>
+                    <span class="n">size</span><span class="p">,</span>
+                    <span class="n">num_types</span><span class="p">,</span>
+                    <span class="n">mass</span><span class="p">,</span>
+                    <span class="n">partial_relations</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="p">,</span>
+                    <span class="n">num_mols</span><span class="o">=</span><span class="n">num_mols</span><span class="p">,</span>
+                    <span class="n">num_atoms_per_mol</span><span class="o">=</span><span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                    <span class="n">path_or_buff</span><span class="o">=</span><span class="n">csv_file_path</span><span class="p">,</span>
+                    <span class="n">save_mode</span><span class="o">=</span><span class="n">save_mode</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">rdf_type</span> <span class="o">==</span> <span class="s2">&quot;molecular&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">num_mols</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num_atoms_per_mol</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Number of molecules of each type and number of atoms &quot;</span>
+                    <span class="s2">&quot;per molecule are not found&quot;</span>
+                <span class="p">)</span>
+            <span class="n">num_mols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">num_mols</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">partial_relations</span><span class="p">:</span>
+                <span class="n">partial_relations</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_types</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_atoms_per_mol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">partial_relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="n">partial_relations</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">molecular_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">rdf_type</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">molecular_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bin_size</span><span class="p">):</span>
+                <span class="n">cur_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">molecular_working_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">csv_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+                <span class="n">calc_molecular_rdf</span><span class="p">(</span>
+                    <span class="n">r_cut</span><span class="p">,</span>
+                    <span class="n">size</span><span class="p">,</span>
+                    <span class="n">num_types</span><span class="p">,</span>
+                    <span class="n">mass</span><span class="p">,</span>
+                    <span class="n">partial_relations</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="p">,</span>
+                    <span class="n">num_mols</span><span class="o">=</span><span class="n">num_mols</span><span class="p">,</span>
+                    <span class="n">num_atoms_per_mol</span><span class="o">=</span><span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                    <span class="n">path_or_buff</span><span class="o">=</span><span class="n">csv_file_path</span><span class="p">,</span>
+                    <span class="n">save_mode</span><span class="o">=</span><span class="n">save_mode</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="n">rdf_settings_spec</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;r_cut&quot;</span><span class="p">:</span> <span class="n">r_cut</span><span class="p">,</span>
+            <span class="s2">&quot;bin_size&quot;</span><span class="p">:</span> <span class="n">bin_size</span><span class="p">,</span>
+            <span class="s2">&quot;num_types&quot;</span><span class="p">:</span> <span class="n">num_types</span><span class="p">,</span>
+            <span class="s2">&quot;mass&quot;</span><span class="p">:</span> <span class="n">mass</span><span class="p">,</span>
+            <span class="s2">&quot;partial_relations&quot;</span><span class="p">:</span> <span class="n">partial_relations</span><span class="p">,</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;num_mols&quot;</span><span class="p">:</span> <span class="n">num_mols</span><span class="p">,</span>
+            <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">:</span> <span class="n">num_atoms_per_mol</span><span class="p">,</span>
+            <span class="s2">&quot;path_or_buff&quot;</span><span class="p">:</span> <span class="n">csv_filename</span><span class="p">,</span>
+            <span class="s2">&quot;save_mode&quot;</span><span class="p">:</span> <span class="n">save_mode</span><span class="p">,</span>
+            <span class="s2">&quot;rdf_type&quot;</span><span class="p">:</span> <span class="n">rdf_type</span><span class="p">,</span>
+            <span class="s2">&quot;rdf_use_default_atom_ids&quot;</span><span class="p">:</span> <span class="n">use_default_atom_ids</span><span class="p">,</span>
+            <span class="s2">&quot;rdf_path&quot;</span><span class="p">:</span> <span class="n">csv_file_path</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span>
+            <span class="n">update_spec</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;smiles&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;smiles&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;nmols&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nmols&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                <span class="s2">&quot;num_mols_list&quot;</span><span class="p">:</span> <span class="n">num_mols</span><span class="p">,</span>
+                <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">:</span> <span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                <span class="s2">&quot;masses&quot;</span><span class="p">:</span> <span class="n">mass</span><span class="p">,</span>
+                <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="s2">&quot;rdf&quot;</span><span class="p">:</span> <span class="n">rdf_settings_spec</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="CalcCN"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.CalcCN">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">CalcCN</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Calculate CN&quot;</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cn_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;working_dir&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="CalcCN.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.CalcCN.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="c1"># Get inputs to cn function from defaults or from user, which then</span>
+        <span class="c1"># updates the defaults</span>
+        <span class="n">cn</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">cn_settings</span> <span class="o">=</span> <span class="n">CN_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cn_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cn_settings&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+
+        <span class="c1"># atomic or molecular (for CoM)</span>
+        <span class="n">cn_type</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cn_type&quot;</span><span class="p">,</span> <span class="s2">&quot;atomic&quot;</span><span class="p">)</span>
+
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">use_default_atom_ids</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_default_atom_ids&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">csv_filename</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;path_or_buff&quot;</span><span class="p">,</span> <span class="s2">&quot;cn.csv&quot;</span><span class="p">)</span>
+        <span class="n">csv_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+        <span class="n">cn_settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;path_or_buff&quot;</span><span class="p">:</span> <span class="n">csv_file_path</span><span class="p">})</span>
+
+        <span class="c1"># check if user provided the cutoff radius to use in calculating the CN</span>
+        <span class="n">r_cut</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r_cut&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># if the cutoff radius is not provided, attempt to automatically detect it from</span>
+        <span class="c1"># the rdf</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">r_cut</span><span class="p">:</span>
+            <span class="n">rdf_path</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf_path&quot;</span><span class="p">)</span>
+            <span class="n">rdf_type</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf_type&quot;</span><span class="p">)</span>
+            <span class="n">rdf_use_default_atom_ids</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rdf&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;rdf_use_default_atom_ids&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">rdf_path</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cutoff distance required for calculating the CN is &quot;</span>
+                    <span class="s2">&quot;not found and cannot be computed due to a missing &quot;</span>
+                    <span class="s2">&quot;RDF file&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">cn_type</span> <span class="o">!=</span> <span class="n">rdf_type</span>
+                    <span class="ow">or</span> <span class="n">use_default_atom_ids</span> <span class="o">!=</span> <span class="n">rdf_use_default_atom_ids</span>
+                <span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;CN settings do not match those of RDF&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">r_cut</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">rdf_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">rdf_path</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">rdf_df</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">col</span> <span class="o">!=</span> <span class="s2">&quot;r ($\AA$)&quot;</span> <span class="ow">and</span> <span class="n">col</span> <span class="o">!=</span> <span class="s2">&quot;g_full(r)&quot;</span><span class="p">:</span>
+                            <span class="n">new_df</span> <span class="o">=</span> <span class="n">rdf_df</span><span class="p">[[</span><span class="s2">&quot;r ($\AA$)&quot;</span><span class="p">,</span> <span class="n">col</span><span class="p">]]</span>
+                            <span class="n">new_df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">]</span>
+                            <span class="n">peaks</span> <span class="o">=</span> <span class="n">find_peaks</span><span class="p">(</span><span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">minima</span> <span class="o">=</span> <span class="n">argrelmin</span><span class="p">(</span><span class="n">new_df</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                            <span class="n">min_3</span> <span class="o">=</span> <span class="n">new_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">minima</span><span class="p">[</span><span class="n">minima</span> <span class="o">&gt;</span> <span class="n">peaks</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+                            <span class="n">r_cut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">min_3</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()))</span>
+
+        <span class="n">bin_size</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bin_size&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">)):</span>
+            <span class="n">bin_size</span> <span class="o">=</span> <span class="p">[</span><span class="n">bin_size</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bin_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">pass</span>
+        <span class="n">mass</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mass&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default_masses&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">mass</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Atomic masses not found&quot;</span><span class="p">)</span>
+        <span class="n">num_types</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mass</span><span class="p">)</span>
+        <span class="n">num_mols</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols_list&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">num_atoms_per_mol</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">partial_relations</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;partial_relations&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">)</span>
+        <span class="n">save_mode</span> <span class="o">=</span> <span class="n">cn_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_mode&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cn_type</span> <span class="o">==</span> <span class="s2">&quot;atomic&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">use_default_atom_ids</span><span class="p">:</span>
+                <span class="n">num_mols</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">num_atoms_per_mol</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">partial_relations</span><span class="p">:</span>
+                    <span class="n">partial_relations</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_types</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mass</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;recalc_masses&quot;</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">num_mols</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num_atoms_per_mol</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Number of molecules of each type and number of atoms &quot;</span>
+                        <span class="s2">&quot;per molecule are not found&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">num_mols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">num_mols</span><span class="p">]</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">partial_relations</span><span class="p">:</span>
+                    <span class="n">partial_relations</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">num_atoms_per_mol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                            <span class="n">partial_relations</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">atomic_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">cn_type</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">atomic_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bin_size</span><span class="p">):</span>
+                <span class="n">cur_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">atomic_working_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">csv_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+                <span class="n">cn</span> <span class="o">=</span> <span class="n">calc_atomic_cn</span><span class="p">(</span>
+                    <span class="n">r_cut</span><span class="p">,</span>
+                    <span class="n">size</span><span class="p">,</span>
+                    <span class="n">num_types</span><span class="p">,</span>
+                    <span class="n">mass</span><span class="p">,</span>
+                    <span class="n">partial_relations</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="p">,</span>
+                    <span class="n">num_mols</span><span class="o">=</span><span class="n">num_mols</span><span class="p">,</span>
+                    <span class="n">num_atoms_per_mol</span><span class="o">=</span><span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                    <span class="n">path_or_buff</span><span class="o">=</span><span class="n">csv_file_path</span><span class="p">,</span>
+                    <span class="n">save_mode</span><span class="o">=</span><span class="n">save_mode</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">cn_type</span> <span class="o">==</span> <span class="s2">&quot;molecular&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">num_mols</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">num_atoms_per_mol</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Number of molecules of each type and number of atoms &quot;</span>
+                    <span class="s2">&quot;per molecule are not found&quot;</span>
+                <span class="p">)</span>
+            <span class="n">num_mols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">num_mols</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">partial_relations</span><span class="p">:</span>
+                <span class="n">partial_relations</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_types</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_atoms_per_mol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">partial_relations</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                        <span class="n">partial_relations</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+            <span class="n">molecular_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">cn_type</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">molecular_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">size</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bin_size</span><span class="p">):</span>
+                <span class="n">cur_working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">molecular_working_dir</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">csv_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_working_dir</span><span class="p">,</span> <span class="n">csv_filename</span><span class="p">)</span>
+                <span class="n">cn</span> <span class="o">=</span> <span class="n">calc_molecular_cn</span><span class="p">(</span>
+                    <span class="n">r_cut</span><span class="p">,</span>
+                    <span class="n">size</span><span class="p">,</span>
+                    <span class="n">num_types</span><span class="p">,</span>
+                    <span class="n">mass</span><span class="p">,</span>
+                    <span class="n">partial_relations</span><span class="p">,</span>
+                    <span class="n">filename</span><span class="p">,</span>
+                    <span class="n">num_mols</span><span class="o">=</span><span class="n">num_mols</span><span class="p">,</span>
+                    <span class="n">num_atoms_per_mol</span><span class="o">=</span><span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                    <span class="n">path_or_buff</span><span class="o">=</span><span class="n">csv_file_path</span><span class="p">,</span>
+                    <span class="n">save_mode</span><span class="o">=</span><span class="n">save_mode</span><span class="p">,</span>
+                <span class="p">)</span>
+
+        <span class="n">cn_settings_spec</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;r_cut&quot;</span><span class="p">:</span> <span class="n">r_cut</span><span class="p">,</span>
+            <span class="s2">&quot;bin_size&quot;</span><span class="p">:</span> <span class="n">bin_size</span><span class="p">,</span>
+            <span class="s2">&quot;num_types&quot;</span><span class="p">:</span> <span class="n">num_types</span><span class="p">,</span>
+            <span class="s2">&quot;mass&quot;</span><span class="p">:</span> <span class="n">mass</span><span class="p">,</span>
+            <span class="s2">&quot;partial_relations&quot;</span><span class="p">:</span> <span class="n">partial_relations</span><span class="p">,</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;num_mols&quot;</span><span class="p">:</span> <span class="n">num_mols</span><span class="p">,</span>
+            <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">:</span> <span class="n">num_atoms_per_mol</span><span class="p">,</span>
+            <span class="s2">&quot;path_or_buff&quot;</span><span class="p">:</span> <span class="n">csv_filename</span><span class="p">,</span>
+            <span class="s2">&quot;save_mode&quot;</span><span class="p">:</span> <span class="n">save_mode</span><span class="p">,</span>
+            <span class="s2">&quot;cn_type&quot;</span><span class="p">:</span> <span class="n">cn_type</span><span class="p">,</span>
+            <span class="s2">&quot;cn_use_default_atom_ids&quot;</span><span class="p">:</span> <span class="n">use_default_atom_ids</span><span class="p">,</span>
+            <span class="s2">&quot;cn_path&quot;</span><span class="p">:</span> <span class="n">csv_file_path</span><span class="p">,</span>
+            <span class="s2">&quot;cn&quot;</span><span class="p">:</span> <span class="n">cn</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span>
+            <span class="n">update_spec</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;smiles&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;smiles&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="s2">&quot;nmols&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;nmols&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+                <span class="s2">&quot;num_mols_list&quot;</span><span class="p">:</span> <span class="n">num_mols</span><span class="p">,</span>
+                <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">:</span> <span class="n">num_atoms_per_mol</span><span class="p">,</span>
+                <span class="s2">&quot;masses&quot;</span><span class="p">:</span> <span class="n">mass</span><span class="p">,</span>
+                <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="s2">&quot;cn&quot;</span><span class="p">:</span> <span class="n">cn_settings_spec</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ExtractClusters"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.ExtractClusters">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">ExtractClusters</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Extract Atomic Clusters&quot;</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cluster_settings&quot;</span><span class="p">,</span> <span class="s2">&quot;working_dir&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ExtractClusters.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">cluster_settings</span> <span class="o">=</span> <span class="n">CLUSTERS_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cluster_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cluster_settings&quot;</span><span class="p">,</span> <span class="p">{}))</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">)</span>
+        <span class="n">atom_type</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;atom_type&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">atom_type</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No atom type specified to perform cluster analysis&quot;</span><span class="p">)</span>
+        <span class="n">num_mols</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols_list&quot;</span><span class="p">,</span> <span class="p">[]))</span>
+        <span class="n">num_mols</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">num_mols</span><span class="p">]</span>
+        <span class="n">num_atoms_per_mol</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="p">)</span>
+        <span class="c1"># TODO: get elements from fw_spec</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;elements&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">prev_rcut</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cn&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r_cut&quot;</span><span class="p">)</span>
+        <span class="n">cur_rcut</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">prev_rcut</span><span class="p">)</span> <span class="k">if</span> <span class="n">prev_rcut</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">r_cut</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;r_cut&quot;</span><span class="p">,</span> <span class="n">cur_rcut</span><span class="p">)</span>
+        <span class="n">full_trajectory</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;full_trajectory&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;frame&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">alter_atom_ids</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alter_atom_ids&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">max_force</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;max_force&quot;</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">)</span>
+        <span class="n">cluster_count</span> <span class="o">=</span> <span class="n">get_clusters</span><span class="p">(</span>
+            <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span>
+            <span class="n">atom_type</span><span class="o">=</span><span class="n">atom_type</span><span class="p">,</span>
+            <span class="n">r_cut</span><span class="o">=</span><span class="n">r_cut</span><span class="p">,</span>
+            <span class="n">full_trajectory</span><span class="o">=</span><span class="n">full_trajectory</span><span class="p">,</span>
+            <span class="n">frame</span><span class="o">=</span><span class="n">frame</span><span class="p">,</span>
+            <span class="n">num_mols</span><span class="o">=</span><span class="n">num_mols</span><span class="p">,</span>
+            <span class="n">num_atoms_per_mol</span><span class="o">=</span><span class="n">num_atoms_per_mol</span><span class="p">,</span>
+            <span class="n">elements</span><span class="o">=</span><span class="n">elements</span><span class="p">,</span>
+            <span class="n">alter_atom_ids</span><span class="o">=</span><span class="n">alter_atom_ids</span><span class="p">,</span>
+            <span class="n">max_force</span><span class="o">=</span><span class="n">max_force</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># TODO: if molecules are taken from fw_spec, need to make sure if mol_names</span>
+        <span class="c1">#  are provided they match the order in fw_spec (which is sorted by the</span>
+        <span class="c1">#  num_atoms/mol)</span>
+        <span class="n">type_coord_atoms</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type_coord_atoms&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">perc</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;perc&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">cum_perc</span> <span class="o">=</span> <span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cum_perc&quot;</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+        <span class="n">clusters</span><span class="p">,</span> <span class="n">configurations</span> <span class="o">=</span> <span class="n">get_unique_configurations</span><span class="p">(</span>
+            <span class="n">cluster_pattern</span><span class="o">=</span><span class="s2">&quot;Cluster_*&quot;</span><span class="p">,</span>
+            <span class="n">r_cut</span><span class="o">=</span><span class="n">r_cut</span><span class="p">,</span>
+            <span class="n">molecules</span><span class="o">=</span><span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecules&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecules&quot;</span><span class="p">)),</span>
+            <span class="n">type_coord_atoms</span><span class="o">=</span><span class="n">type_coord_atoms</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">find_top</span><span class="o">=</span><span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;find_top&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">perc</span><span class="o">=</span><span class="n">perc</span><span class="p">,</span>
+            <span class="n">cum_perc</span><span class="o">=</span><span class="n">cum_perc</span><span class="p">,</span>
+            <span class="n">mol_names</span><span class="o">=</span><span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mol_names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="nb">zip</span><span class="o">=</span><span class="n">cluster_settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">top_config_files</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">working_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">working_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;conf_&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.xyz&quot;</span><span class="p">)</span>
+        <span class="p">]</span>
+
+        <span class="n">cluster_analysis_spec</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;atom_type&quot;</span><span class="p">:</span> <span class="n">atom_type</span><span class="p">,</span>
+            <span class="s2">&quot;r_cut&quot;</span><span class="p">:</span> <span class="n">r_cut</span><span class="p">,</span>
+            <span class="s2">&quot;full_trajectory&quot;</span><span class="p">:</span> <span class="n">full_trajectory</span><span class="p">,</span>
+            <span class="s2">&quot;frame&quot;</span><span class="p">:</span> <span class="n">frame</span><span class="p">,</span>
+            <span class="s2">&quot;num_mols&quot;</span><span class="p">:</span> <span class="n">num_mols</span><span class="p">,</span>
+            <span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">:</span> <span class="n">num_atoms_per_mol</span><span class="p">,</span>
+            <span class="s2">&quot;elements&quot;</span><span class="p">:</span> <span class="n">elements</span><span class="p">,</span>
+            <span class="s2">&quot;alter_atom_ids&quot;</span><span class="p">:</span> <span class="n">alter_atom_ids</span><span class="p">,</span>
+            <span class="s2">&quot;max_force&quot;</span><span class="p">:</span> <span class="n">max_force</span><span class="p">,</span>
+            <span class="s2">&quot;num_clusters&quot;</span><span class="p">:</span> <span class="n">cluster_count</span><span class="p">,</span>
+            <span class="s2">&quot;num_configurations&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">configurations</span><span class="p">),</span>
+            <span class="s2">&quot;type_coord_atoms&quot;</span><span class="p">:</span> <span class="n">type_coord_atoms</span><span class="p">,</span>
+            <span class="s2">&quot;perc&quot;</span><span class="p">:</span> <span class="n">perc</span><span class="p">,</span>
+            <span class="s2">&quot;cum_perc&quot;</span><span class="p">:</span> <span class="n">cum_perc</span><span class="p">,</span>
+            <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">filename</span><span class="p">,</span>
+            <span class="s2">&quot;working_dir&quot;</span><span class="p">:</span> <span class="n">working_dir</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span>
+            <span class="n">update_spec</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;clusters&quot;</span><span class="p">:</span> <span class="n">cluster_analysis_spec</span><span class="p">,</span>
+                <span class="s2">&quot;top_config_files&quot;</span><span class="p">:</span> <span class="n">top_config_files</span><span class="p">,</span>
+            <span class="p">}</span>
+        <span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ProcessAnalysis"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">ProcessAnalysis</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+    <span class="n">_fw_name</span> <span class="o">=</span> <span class="s2">&quot;Process Analysis Calculations&quot;</span>
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;analysis_list&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_analysis_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_analysis_to_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;working_dir&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="ProcessAnalysis.run_task"><a class="viewcode-back" href="../../../../mispr.lammps.firetasks.html#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()))</span>
+        <span class="n">save_analysis_to_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_analysis_to_db&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">save_analysis_to_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_analysis_to_file&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">box</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;box&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">box</span><span class="p">:</span>
+            <span class="n">box</span> <span class="o">=</span> <span class="n">box</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+
+        <span class="n">systems_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;smiles&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;smiles&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="s2">&quot;nmols&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_mols_list&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="s2">&quot;natoms_per_mol&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;num_atoms_per_mol&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="s2">&quot;mass&quot;</span><span class="p">:</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;masses&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+            <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="n">box</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">analysis</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;analysis_list&quot;</span><span class="p">]:</span>
+            <span class="n">systems_dict</span><span class="p">[</span><span class="n">analysis</span><span class="p">]</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">analysis</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;run_id_list&quot;</span><span class="p">):</span>
+            <span class="n">systems_dict</span><span class="p">[</span><span class="s2">&quot;run_ids&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;run_id_list&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">save_analysis_to_db</span><span class="p">:</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="n">input_db</span><span class="o">=</span><span class="n">db</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">insert_system</span><span class="p">(</span><span class="n">systems_dict</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lammps_run_loc_list&quot;</span><span class="p">):</span>
+            <span class="n">systems_dict</span><span class="p">[</span><span class="s2">&quot;lammps_run_locs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;lammps_run_loc_list&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">save_analysis_to_file</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;lammps_run_ids&quot;</span> <span class="ow">in</span> <span class="n">systems_dict</span><span class="p">:</span>
+                <span class="k">del</span> <span class="n">systems_dict</span><span class="p">[</span><span class="s2">&quot;lammps_run_ids&quot;</span><span class="p">]</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;system.json&quot;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">systems_dict</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">DATETIME_HANDLER</span><span class="p">))</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Analysis calculations complete&quot;</span><span class="p">)</span></div></div>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.annotate", "navigation.expand"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="../../../../_static/sphinx_immaterial_theme.1b5b7a2d5891aec19.min.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script src="../../../../_static/tabs.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../../../_static/togglebutton.js"></script>
+        <script src="../../../../_static/design-tabs.js"></script>
+        <script src="../../../../_static/js/rtd_search_config.js"></script>
+        <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    
+  </body>
+</html>

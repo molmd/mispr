@@ -1,0 +1,1819 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.gaussian.firetasks package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.a60204c58f5e4ff66.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.gaussian.firetasks package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Installation</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Development</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-gaussian-firetasks-package">mispr.gaussian.firetasks package<a class="headerlink" href="#mispr-gaussian-firetasks-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.gaussian.firetasks.geo_transformation"><span id="mispr-gaussian-firetasks-geo-transformation-module"></span>mispr.gaussian.firetasks.geo_transformation module<a class="headerlink" href="#module-mispr.gaussian.firetasks.geo_transformation" title="Permalink to this heading">¶</a></h2>
+<p>Defines firetasks for performing various molecule transformations.</p>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.geo_transformation.</span></span><span class="sig-name descname"><span class="pre">AttachFunctionalGroup</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#AttachFunctionalGroup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Attach a functional group to a molecule and adds it to fw_spec.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">func_grp</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Name of the functional group (e.g. carboxyl).</p>
+</dd>
+<dt><span class="sig-name descname">index</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span></dt><dd><p>Site index in the molecule at which to attach the functional group.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Database credentials.</p>
+</dd>
+<dt><span class="sig-name descname">molecule</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>Molecule to attach the functional group to;
+either provided directly or taken from a previous calculation through
+fw_spec; priority is given to the latter.</p>
+</dd>
+<dt><span class="sig-name descname">bond_order</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Bond order to calculate the bond length between
+the two sites; defaults to 1.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the derived molecule to db.</p>
+</dd>
+<dt><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to update molecule document in
+db if it already exists.</p>
+</dd>
+<dt><span class="sig-name descname">save_mol_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the derived molecule to file
+(xyz, pdb, etc.).</p>
+</dd>
+<dt><span class="sig-name descname">fmt</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Format of the molecule file to create if save_mol_file is
+True; uses xyz if not specified.</p>
+</dd>
+<dt><span class="sig-name descname">filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of the molecule file to create if save_mol_file is
+True; will use molecular formula if not specified.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task.fw_spec" title="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#AttachFunctionalGroup.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.geo_transformation.BreakMolecule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.geo_transformation.</span></span><span class="sig-name descname"><span class="pre">BreakMolecule</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#BreakMolecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Break a molecule into unique fragments (uniqueness is in terms of structure and
+assigned charge) and creates optimization and frequency Fireworks for each fragment
+(optional).</p>
+<p>credits: Samuel Blau</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.BreakMolecule-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>Molecule to break into fragments; can be provided
+directly or taken from a previous calculation; priority is given to the latter.</p>
+</dd>
+<dt><span class="sig-name descname">bonds</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span></dt><dd><p>List of tuples of the bonds to break; e.g.
+[(0, 1), (1, 2)] will break the bonds between atoms 0 and 1 and between
+atoms 1 and 2; if none is specified, will attempt to break all bonds;
+defaults to None.</p>
+</dd>
+<dt><span class="sig-name descname">ref_charge</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Charge on the principle molecule; if not provided,
+charge on Molecule will be used.</p>
+</dd>
+<dt><span class="sig-name descname">fragment_charges</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span></dt><dd><p><p>List of charges to assign to the fragments
+in addition to the ones already assigned, i.e.:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Neutral molecule: each fragment will have charges of 0, 1, and -1</p></li>
+<li><dl class="simple">
+<dt>Molecule with charge -N: each fragment will have charges of</dt><dd><p>0, -N, -N+1, -N+2</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Molecule with charge +N: each fragment will have charges of</dt><dd><p>0, N, N-1, N-2</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+<p>If charges different from the above are provided via fragment_charges,
+additional fragments with these charges will be created.</p>
+</p>
+</dd>
+<dt><span class="sig-name descname">open_rings</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to open rings; if set to True, will
+perform local optimization to get a good initial guess for the structure;
+defaults to False.</p>
+</dd>
+<dt><span class="sig-name descname">opt_steps</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Number of optimization steps to perform when opening
+the rings; uses 10000 if not specified.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Working directory to use for saving any files or
+running the calculations.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Database credentials</p>
+</dd>
+<dt><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary of parameters to use for
+optimizing the fragments if calc_frags is True.</p>
+</dd>
+<dt><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary of parameters to use for
+performing a frequency analysis if calc_frags is True.</p>
+</dd>
+<dt><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to use cartesian coordinates in writing
+Gaussian input files if calc_frags is True.</p>
+</dd>
+<dt><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary of oxidation states that can be
+used in setting the charge and spin multiplicity of the molecule;
+e.g.: {“Li”:1, “O”:-2}.</p>
+</dd>
+<dt><span class="sig-name descname">calc_frags</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to create optimization and frequency
+Fireworks for the generated fragments and add them as children via FWAction.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the generated fragments to db.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the generated fragments to file.</p>
+</dd>
+<dt><span class="sig-name descname">fmt</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Format of the molecule file to create if save_to_file is True
+(e.g. xyz, pdb, etc.).</p>
+</dd>
+<dt><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to update fragment document in
+the db if it already exists; works only if save_to_db is True.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task.fw_spec" title="mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#BreakMolecule.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.geo_transformation.</span></span><span class="sig-name descname"><span class="pre">ConvertToMoleculeObject</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#ConvertToMoleculeObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Read a molecule from a file, converts it to a Molecule object, and saves it as
+dict to mongodb.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">mol_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Molecule file; supported file formats include
+xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,
+gaussian input (gjf|g03|g09|com|inp),
+Gaussian output (.out), and pymatgen’s JSON serialized molecules.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Database credentials.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the processed molecule to db.</p>
+</dd>
+<dt><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to update molecule document
+in db if it already exists.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task.fw_spec" title="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#ConvertToMoleculeObject.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.geo_transformation.LinkMolecules">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.geo_transformation.</span></span><span class="sig-name descname"><span class="pre">LinkMolecules</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#LinkMolecules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Link two molecules using one site from the first and another site from the second
+molecule and adds the resulting molecule to fw_spec.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.LinkMolecules-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">index1</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span></dt><dd><p>site index in the first molecule at which to link the two molecules.</p>
+</dd>
+<dt><span class="sig-name descname">index2</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span></dt><dd><p>site index in the second molecule at which to link the two molecules.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Database credentials.</p>
+</dd>
+<dt><span class="sig-name descname">mol1</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>First molecule; can be provided directly or taken
+from a previous calculation; priority is given to the latter.</p>
+</dd>
+<dt><span class="sig-name descname">mol2</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>Second molecule; can be provided directly or taken
+from a previous calculation; priority is given to the latter.</p>
+</dd>
+<dt><span class="sig-name descname">bond_order</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Bond order to calculate the bond length between the
+two sites; defaults to 1.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the derived molecule to db.</p>
+</dd>
+<dt><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to update molecule document in db
+if it already exists.</p>
+</dd>
+<dt><span class="sig-name descname">save_mol_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the derived molecule to file
+(xyz, pdb, etc.).</p>
+</dd>
+<dt><span class="sig-name descname">fmt</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Format of the molecule file to create if save_mol_file is
+True; uses xyz if not specified.</p>
+</dd>
+<dt><span class="sig-name descname">filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of the molecule file to create if save_mol_file is
+True; will use molecular formula if not specified.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task.fw_spec" title="mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#LinkMolecules.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.geo_transformation.</span></span><span class="sig-name descname"><span class="pre">ProcessMoleculeInput</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#ProcessMoleculeInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Process a molecule and generates a Molecule object. Used for handling different
+molecule formats provided to Gaussian workflows.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, str, GaussianOutput, dict</span></span></dt><dd><p>Source of the
+structure; should correspond to that of the “operation_type”;
+see mispr.gaussian.utilities.mol.process_mol for more
+details; besides the formats supported by
+mispr.gaussian.utilities.mol.process_mol, if the molecule
+is to be obtained via fw_spec, mol should be a string
+corresponding to the key in fw_spec.</p>
+</dd>
+<dt><span class="sig-name descname">operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Type of operation to perform. See
+mispr.gaussian.utilities.mol.process_mol for details of
+supported types.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Database credentials; could be provided as
+the path to the db.json file or in the form of a dictionary;
+if none is provided, attempts to get it from the
+configuration files.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the processed molecule to
+the molecules collection in the db.</p>
+</dd>
+<dt><span class="sig-name descname">charge</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Charge of the molecule.</p>
+</dd>
+<dt><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to update molecule document
+in the db if it already exists.</p>
+</dd>
+<dt><span class="sig-name descname">save_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the processed molecule to
+a file.</p>
+</dd>
+<dt><span class="sig-name descname">fmt</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Molecule file format if save_to_file is True;
+defaults to xyz.</p>
+</dd>
+<dt><span class="sig-name descname">filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of the file to save the molecule to if
+save_to_file is True; defaults to molecular formula.</p>
+</dd>
+<dt><span class="sig-name descname">from_fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to get the molecule from the
+fw_spec; mol in this case is the key to the dict in fw_spec.</p>
+</dd>
+<dt><span class="sig-name descname">local_opt</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>whether to perform local optimization on the
+molecule.</p>
+</dd>
+<dt><span class="sig-name descname">force_field</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Force field to use for local optimization;
+see mispr.gaussian.utilities.mol.process_mol for supported
+force field types.</p>
+</dd>
+<dt><span class="sig-name descname">steps</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Number of steps to perform local optimization</p>
+</dd>
+<dt><span class="sig-name descname">str_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>format of string if operation_type is
+“get_from_str”; e.g. “smi” or any other format supported
+by OpenBabel).</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Working directory to save the molecule file
+to or read input files from.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task.fw_spec" title="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#ProcessMoleculeInput.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.geo_transformation.</span></span><span class="sig-name descname"><span class="pre">RetrieveMoleculeObject</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#RetrieveMoleculeObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Retrieve a molecule object from the database using InChI as an identifier and add
+it to the fw_spec.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>InChI string.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Database credentials.</p>
+</dd>
+<dt><span class="sig-name descname">save_mol_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the retrieved molecule to file.</p>
+</dd>
+<dt><span class="sig-name descname">fmt</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Format of the molecule file to create if save_mol_file is
+True; defaults to xyz.</p>
+</dd>
+<dt><span class="sig-name descname">filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Name of the molecule file to create if save_mol_file is True;
+will use molecular formula if not specified.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task.fw_spec" title="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/geo_transformation.html#RetrieveMoleculeObject.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.firetasks.parse_outputs"><span id="mispr-gaussian-firetasks-parse-outputs-module"></span>mispr.gaussian.firetasks.parse_outputs module<a class="headerlink" href="#module-mispr.gaussian.firetasks.parse_outputs" title="Permalink to this heading">¶</a></h2>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.BDEtoDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">BDEtoDB</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#BDEtoDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BDEtoDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Enter a bond dissociation energy calculation into the database. The
+calculation can correspond to one or more bonds in the same
+molecule.</p>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>principle_mol_key (str): key of the Gaussian run corresponding</dt><dd><p>to the principle molecule in the fw_spec</p>
+</dd>
+<dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
+of a dictionary</p>
+</dd>
+<dt>save_to_db (bool): whether to insert the BDE dict to the BDE</dt><dd><p>collection in the db</p>
+</dd>
+<dt>save_to_file (bool): whether to save the BDE dict to a json</dt><dd><p>file; if True, will save to a file named “bde.json”</p>
+</dd>
+<dt>solvent_gaussian_inputs (str): gaussian inputs for the implicit</dt><dd><p>solvent model to add to the BDE dict, if any</p>
+</dd>
+<dt>solvent_properties (dict): implicit solvent properties to add</dt><dd><p>to the final BDE dict, if any</p>
+</dd>
+<dt>additional_prop_doc_fields (dict): additional fields to add to</dt><dd><p>the final BDE dict</p>
+</dd>
+<dt>visualize (bool): whether to create a bar plot of the BDE</dt><dd><p>results along with the 2D structure of the principle
+molecule with highlighted broken bonds</p>
+</dd>
+<dt>color (tuple): rgb color to use for highlighting the broken</dt><dd><p>bonds in the molecule; e.g. (0.0, 0.0, 0.0) for black;
+if not provided, will use (197 / 255, 237 / 255, 223 / 255, 1)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#BDEtoDB.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">BindingEnergytoDB</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#BindingEnergytoDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Enter a binding energy run into the database. The binding energy
+value is in eV.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">index</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of indices of the two sites in the molecules
+at which they are expected to bind</p>
+</dd>
+<dt><span class="sig-name descname">keys</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of keys of Gaussian runs in fw_spec to use in
+building the binding energy document; e.g. these keys could
+correspond to set of optimization and frequency jobs leading
+to the final result</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
+of a dictionary</p>
+</dd>
+<dt>save_to_db (bool): whether to insert the binding energy dict to</dt><dd><p>the binding energy collection in the db</p>
+</dd>
+<dt>save_to_file (bool): whether to save the binding energy dict to</dt><dd><p>a json file; if True, will save to a file named
+“binding_energy.json”</p>
+</dd>
+<dt>additional_prop_doc_fields (dict): additional fields to add to</dt><dd><p>the final binding energy dict</p>
+</dd>
+<dt>solvent_gaussian_inputs (str): gaussian inputs for the implicit</dt><dd><p>solvent model to add to the final binding energy dict, if any</p>
+</dd>
+<dt>solvent_properties (dict): implicit solvent properties to add</dt><dd><p>to the final binding energy dict, if any</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#BindingEnergytoDB.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.ESPtoDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">ESPtoDB</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#ESPtoDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Enter an ESP run into the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.ESPtoDB-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">keys</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of keys of Gaussian runs in fw_spec to use in
+building the ESP document; e.g. these keys could correspond to
+optimization, frequency, and ESP jobs leading to the final
+result</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
+of a dictionary</p>
+</dd>
+<dt>save_to_db (bool): whether to insert the ESP dict to the ESP</dt><dd><p>collection in the db</p>
+</dd>
+<dt>save_to_file (bool): whether to save the ESP dict to a json</dt><dd><p>file; if True, will save to a file named “esp.json”</p>
+</dd>
+<dt>additional_prop_doc_fields (dict): additional fields to add to</dt><dd><p>the final ESP dict</p>
+</dd>
+<dt>solvent_gaussian_inputs (str): gaussian inputs for the implicit</dt><dd><p>solvent model to add to the final ESP dict, if any</p>
+</dd>
+<dt>solvent_properties (dict): implicit solvent properties to add</dt><dd><p>to the final ESP dict, if any</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#ESPtoDB.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">IPEAtoDB</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#IPEAtoDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Inserts a redox potential run into the database. Saves both gibbs
+free energies and redox potentials. If a calculation is performed in
+multiple steps, saves all intermediate energies.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">num_electrons</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span></dt><dd><p>number of electrons transferred;</p>
+</dd>
+<dt><span class="sig-name descname">states</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of states used in the calculation; e.g.
+[“cation”] for oxidation, [“anion”] for reduction, or
+[“cation”, “anion”] for oxidation and reduction calculations</p>
+</dd>
+<dt><span class="sig-name descname">phases</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of phases to involved in the calculations;
+e.g. [“solution”] for liquid phase, [“gas”] for gas phase, or
+[“gas”, “solution”] for the full thermodynamic cycle</p>
+</dd>
+<dt><span class="sig-name descname">steps</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>whether the redox potential calculation is
+performed in a single or multi step electron transfer
+process</p>
+</dd>
+<dt><span class="sig-name descname">root_node_key</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>key of the Gaussian run corresponding to
+the root node in fw_spec</p>
+</dd>
+<dt><span class="sig-name descname">keys</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of keys of Gaussian runs in fw_spec to use in
+building the redox potential document; e.g. these keys could
+correspond to set of optimization and frequency jobs leading
+to the final result</p>
+</dd>
+<dt><span class="sig-name descname">pcet</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool</span></span></dt><dd><p>whether a PCET calculation is performed</p>
+</dd>
+<dt><span class="sig-name descname">vertical</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool</span></span></dt><dd><p>whether a vertical IP/EA calculation is
+performed</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl>
+<dt>Optional Args:</dt><dd><dl>
+<dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
+of a dictionary</p>
+</dd>
+<dt>save_to_db (bool): whether to insert the redox potential dict</dt><dd><p>to the redox potential collection in the db</p>
+</dd>
+<dt>save_to_file (bool): whether to save the redox potential dict</dt><dd><p>to a json file; if True, will save to a file named
+“ip_ea.json”</p>
+</dd>
+<dt>solvent_gaussian_inputs (str): gaussian inputs for the implicit</dt><dd><p>solvent model to add to the redox potential dict, if any</p>
+</dd>
+<dt>solvent_properties (dict): implicit solvent properties to add</dt><dd><p>to the final redox potential dict, if any</p>
+</dd>
+<dt>electrode_potentials (dict): dictionary of additional electrode</dt><dd><p>potentials to be used in converting the absolute oxidation
+and reduction potentials to commonly used potential scales;
+note that the hydrogen, lithium, and magnesium scales are
+already included; the dictionary should be in the form:
+{</p>
+<blockquote>
+<div><dl>
+<dt>“&lt;metal&gt;”: {</dt><dd><blockquote>
+<div><p>“potential”: &lt;float&gt;,
+“ref”: bibtex_parser(“&lt;ref_bib_file&gt;”, dir),</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>}
+Note that bibtex_parser need to be imported from
+mispr.gaussian.utilities.files</p>
+</dd>
+<dt>additional_prop_doc_fields (dict): additional fields to add to</dt><dd><p>the final redox potential dict</p>
+</dd>
+</dl>
+<p>gibbs_elec (float): the electron gibbs free energy in Hartree
+gibbs_h (float): the hydrogen gibbs free energy in Hartree</p>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#IPEAtoDB.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.NMRtoDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">NMRtoDB</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#NMRtoDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Enter an NMR run into the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.NMRtoDB-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">keys</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>list of keys of Gaussian runs in fw_spec to use in
+building the NMR document; e.g. these keys could correspond to
+optimization, frequency, and NMR jobs leading to the final
+result</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
+of a dictionary</p>
+</dd>
+<dt>save_to_db (bool): whether to insert the NMR dict to the NMR</dt><dd><p>collection in the db</p>
+</dd>
+<dt>save_to_file (bool): whether to save the NMR dict to a json</dt><dd><p>file; if True, will save to a file named “nmr.json”</p>
+</dd>
+<dt>additional_prop_doc_fields (dict): additional fields to add to</dt><dd><p>the final NMR dict</p>
+</dd>
+<dt>solvent_gaussian_inputs (str): gaussian inputs for the implicit</dt><dd><p>solvent model to add to the final NMR dict, if any</p>
+</dd>
+<dt>solvent_properties (dict): implicit solvent properties to add</dt><dd><p>to the final NMR dict, if any</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#NMRtoDB.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.ProcessRun">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">ProcessRun</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#ProcessRun"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Processes Gaussian output files from a single run. Enters the
+run to db and/or creates a summary json file.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.ProcessRun-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">run</span><span class="p"> : </span><span class="desctype"><span class="desctype">GaussianOutput, str, dict</span></span></dt><dd><p>the actual Gaussian run; type
+depends on the operation_type</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl>
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>operation_type (str): Type of operation to be performed; refer</dt><dd><p>to mispr.gaussian.utilities.gout.process_run for supported
+ones</p>
+</dd>
+<dt>db (str or dict): database credentials to store the run; could</dt><dd><p>be provided as the path to the db.json file or in the form
+of a dictionary</p>
+</dd>
+</dl>
+<p>save_to_db (bool): whether to save the run to db
+save_to_file (bool): whether to save the run to a json file
+filename (str): name of the json file to save the run to; uses</p>
+<blockquote>
+<div><p>“run.json” if not provided</p>
+</div></blockquote>
+<dl class="simple">
+<dt>input_file (str): the input file for the run; used for adding</dt><dd><p>Gaussian input parameters to the final Gaussian dictionary;
+if not specified, will get these parameters from the run
+itself, but in this case, “input_parameters” usually
+specified at the end of the Gaussian input file will not be
+saved since they are not easily retrieved from the Gaussian
+output file</p>
+</dd>
+<dt>gout_key (str): the key to use for the run in the mod_spec dict</dt><dd><p>passed to FWAction; used when contents of the run are needed
+in other tasks</p>
+</dd>
+<dt>format_chk (bool): whether to create a formatted check file</dt><dd><p>from the Gaussian checkpoint file</p>
+</dd>
+<dt>formchk_cmd (str): the full command to use for formatting the</dt><dd><p>checkpoint file; if not provided, will attempt to find one
+in the configuration files</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#ProcessRun.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">RetrieveGaussianOutput</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#RetrieveGaussianOutput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Gets a Gaussian output dict from fw_spec or the database,
+converts it to a GaussianInput object, and add it to fw_spec.</p>
+<dl>
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>db (str or dict): database credentials; could be provided as</dt><dd><p>the path to the db.json file or in the form of a dictionary</p>
+</dd>
+<dt>gaussian_input_params (dict): parameters to use in creating the</dt><dd><p>GaussianInput object; if not provided, will use the ones
+in the passed or retrieved Gaussian output dict</p>
+</dd>
+<dt>run_id (str): id of the run to retrieve from the database;</dt><dd><p>e.g. “5e3737d9da0b1cbbd5d556f7”</p>
+</dd>
+<dt>inchi (str): InChI of the molecule; used as a query criteria</dt><dd><p>to retrieve the run from the db</p>
+</dd>
+<dt>functional (str): density functional of the run in the db;</dt><dd><p>used as a query criteria</p>
+</dd>
+<dt>basis (str): basis set of the run in the db; used as a query</dt><dd><p>criteria</p>
+</dd>
+<dt>type (str): type of the Gaussian job run in the db; e.g. “opt”</dt><dd><p>or “freq”; used as a query criteria</p>
+</dd>
+<dt>phase (str): phase of the run in the db; e.g. “gas” or</dt><dd><p>“solution”; used as a query criteria</p>
+</dd>
+</dl>
+<p>tag (str): tag of the run in the db; used as a query criteria</p>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task.fw_spec" title="mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/parse_outputs.html#RetrieveGaussianOutput.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.firetasks.run_calc"><span id="mispr-gaussian-firetasks-run-calc-module"></span>mispr.gaussian.firetasks.run_calc module<a class="headerlink" href="#module-mispr.gaussian.firetasks.run_calc" title="Permalink to this heading">¶</a></h2>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.run_calc.RunGaussianCustodian">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.run_calc.</span></span><span class="sig-name descname"><span class="pre">RunGaussianCustodian</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/run_calc.html#RunGaussianCustodian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run Gaussian using custodian.</p>
+<dl>
+<dt>Optional Args:</dt><dd><p>input_file (str): name of the Gaussian input file
+output_file (str): name of the Gaussian output file
+gaussian_cmd (str): the name of the full executable to run; if</p>
+<blockquote>
+<div><p>not provided, will attempt to find the command in the
+config file</p>
+</div></blockquote>
+<p>stderr_file (str): name of the file to direct standard error to
+job_type (str): type of job to run; supported options are (1)</p>
+<blockquote>
+<div><p>normal and (2) better_guess; defaults to “normal”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>backup (bool): whether to backup the initial input file; if True,</dt><dd><p>the input will be copied with a “.orig” appended;
+defaults to True</p>
+</dd>
+<dt>scf_max_cycles (int): maximum number of SCF cycles to run;</dt><dd><p>defaults to 100</p>
+</dd>
+<dt>opt_max_cycles (int): maximum number of optimization cycles to</dt><dd><p>run; defaults to 100</p>
+</dd>
+<dt>cart_coords (bool): whether to use cartesian coordinates;</dt><dd><p>defaults to True</p>
+</dd>
+<dt>max_errors (int): maximum number of errors to handle before</dt><dd><p>giving up; defaults to the number specified in
+mispr.gaussian.defaults.py</p>
+</dd>
+<dt>lower_functional (str): lower level of theory to use if the</dt><dd><p>optimization fails and job_type is set to “better_guess;
+this will attempt to generate a better initial guess of the
+geometry before running the job again at the higher level
+of theory</p>
+</dd>
+<dt>lower_basis_set (str): less expensive basis set to use if the</dt><dd><p>optimization fails and job_type is set to “better_guess;
+this will attempt to generate a better initial guess of the
+geometry before running the job again at the higher level
+of theory</p>
+</dd>
+<dt>prefix (str): prefix to the files; defaults to error, which means a</dt><dd><p>series of error.1.tar.gz, error.2.tar.gz, … will be generated.</p>
+</dd>
+<dt>suffix (str): a suffix to be appended to the final output;</dt><dd><p>e.g., to rename all Gaussian output from mol.out to
+mol.out.1, provide “.1” as the suffix</p>
+</dd>
+<dt>check_convergence (bool): whether to check convergence in an</dt><dd><p>optimization job; this will also generate a plot with the
+convergence criteria as a function of the number of
+iterations; defaults to True</p>
+</dd>
+<dt>wall_time (int): wall time set to the job in seconds; if provided,</dt><dd><p>will add the WalTimeErrorHandler, which will restart the job
+if it hits the wall time limit</p>
+</dd>
+<dt>buffer_time (int): buffer time set to the job in seconds; if</dt><dd><p>provided; if the remaining time for the job = buffer_time,
+the WalTimeErrorHandler will cancel the job and restart it;
+this is done because if the job hits wall time on its own
+and is cancelled, it will no longer be possible to restart
+it; defaults to 300 seconds</p>
+</dd>
+<dt>max_wall_time_corrections (int): maximum number of wall time</dt><dd><p>corrections to make; defaults to 3</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task.fw_spec" title="mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/run_calc.html#RunGaussianCustodian.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.run_calc.RunGaussianDirect">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.run_calc.</span></span><span class="sig-name descname"><span class="pre">RunGaussianDirect</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/run_calc.html#RunGaussianDirect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianDirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Execute a command directly for running Gaussian (no custodian).</p>
+<dl>
+<dt>Optional Args:</dt><dd><p>input_file (str): name of the Gaussian input file
+output_file (str): name of the Gaussian output file
+gaussian_cmd (str): the name of the full executable to run; if</p>
+<blockquote>
+<div><p>not provided, will attempt to find the command in the
+config file</p>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task.fw_spec" title="mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/run_calc.html#RunGaussianDirect.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.run_calc.RunGaussianFake">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.run_calc.</span></span><span class="sig-name descname"><span class="pre">RunGaussianFake</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/run_calc.html#RunGaussianFake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run a fake Gaussian calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.run_calc.RunGaussianFake-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">ref_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>path to reference Gaussian run directory with
+input and output files in the folder</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>working_dir (str): directory where the fake calculation will be</dt><dd><p>run</p>
+</dd>
+<dt>input_file (str): name of the input file (both reference input</dt><dd><p>and new input); defaults to mol.com</p>
+</dd>
+<dt>tolerance (float): tolerance for the comparison of the reference</dt><dd><p>and user input file; defaults to 0.0001</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task.fw_spec" title="mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/run_calc.html#RunGaussianFake.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.firetasks.write_inputs"><span id="mispr-gaussian-firetasks-write-inputs-module"></span>mispr.gaussian.firetasks.write_inputs module<a class="headerlink" href="#module-mispr.gaussian.firetasks.write_inputs" title="Permalink to this heading">¶</a></h2>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.firetasks.write_inputs.WriteInput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.firetasks.write_inputs.</span></span><span class="sig-name descname"><span class="pre">WriteInput</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/write_inputs.html#WriteInput"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.write_inputs.WriteInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Write Gaussian input file for a molecule/cluster in the current
+working directory.</p>
+<dl class="simple">
+<dt>Optional Args:</dt><dd><dl class="simple">
+<dt>gaussian_input (GaussianInput): a GaussianInput object to be</dt><dd><p>written to a file; can either be provided directly or
+passed through fw_spec; if both are provided, will take
+the one provided directly</p>
+</dd>
+<dt>molecule (Molecule): a Molecule object to be used in creating</dt><dd><p>Gaussian input file; can be provided as an optional parameter
+or passed through fw_spec; if both are provided, will check
+if their graphs are isomorphic; if they are isomorphic,
+will use the molecule passed through fw_spec, otherwise
+will take the user input; note that molecule is ignored if
+a gaussian_input is available</p>
+</dd>
+<dt>gaussian_input_params (dict): a dictionary of parameters to be</dt><dd><p>used in creating the Gaussian input file; ignored if a
+gaussian_input is provided</p>
+</dd>
+<dt>input_file (str): name of the input file to be written; default</dt><dd><p>is mol.com</p>
+</dd>
+<dt>cart_coords (bool): whether to write cartesian coordinates or</dt><dd><p>not; default is True</p>
+</dd>
+<dt>oxidation_states (dict): a dictionary of element symbols and</dt><dd><p>their oxidation states used in setting the charge on the
+molecule</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.firetasks.write_inputs.WriteInput.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.firetasks.write_inputs.WriteInput.run_task.fw_spec" title="mispr.gaussian.firetasks.write_inputs.WriteInput.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/firetasks/write_inputs.html#WriteInput.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.firetasks.write_inputs.WriteInput.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.firetasks.write_inputs.WriteInput.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.write_inputs.WriteInput.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.firetasks.write_inputs.WriteInput.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.firetasks.write_inputs.WriteInput.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.firetasks.write_inputs.WriteInput.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.firetasks.write_inputs.WriteInput.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.firetasks"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.gaussian.firetasks" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.1b5b7a2d5891aec19.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>
