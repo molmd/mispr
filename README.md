@@ -1,4 +1,4 @@
-# <img alt="mispr" src="docs/logo.png" width="500">
+# <img alt="mispr" src="docs/source/_static/full_logo.png" width="500">
 
 [![Downloads](https://static.pepy.tech/badge/mispr)](https://pepy.tech/project/mispr)
 [![Downloads](https://static.pepy.tech/badge/mispr/month)](https://pepy.tech/project/mispr)
