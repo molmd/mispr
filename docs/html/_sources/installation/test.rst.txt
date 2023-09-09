@@ -1,6 +1,6 @@
-===========
+===============================
 Running a Test Workflow
-===========
+===============================
 After installing MISPR and its dependencies and setting up the configuration
 files, it is important to make sure everything is working correctly.
 Therefore, we will now run a very simple test workflow that optimizes the
@@ -127,7 +127,7 @@ you only have one firework in your launchpad at this point)::
     lpad rerun_fws -i <fw_id>
 
 Query the database for the results
-------------------------------
+--------------------------------------
 Once this workflow is completed, you will see the generated Gaussian
 input and output files as well as a ``run.json`` file that contains a
 summary of the job in the same working directory.

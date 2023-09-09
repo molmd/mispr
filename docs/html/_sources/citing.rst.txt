@@ -1,6 +1,6 @@
-==========
+===============================
 Citing MISPR
-==========
+===============================
 If you find MISPR useful in your research, please consider citing the following papers:
 
 **Paper 1 (MISPR):**
@@ -12,6 +12,7 @@ If you find MISPR useful in your research, please consider citing the following 
      author       = {Atwi, Rasha and Bliss, Matthew and Makeev, Maxim and Rajput, Nav Nidhi},
      year         = {2022}
    }
+
 Download as :download:`BibTeX <_static/mispr_citation.bib>`
 
 **Paper 2 (Hybrid NMR Workflow):**
@@ -28,4 +29,5 @@ Download as :download:`BibTeX <_static/mispr_citation.bib>`
      year         = {2022},
      publisher    = {Nature Publishing Group}
    }
+
 Download as :download:`BibTeX <_static/nmr_citation.bib>`

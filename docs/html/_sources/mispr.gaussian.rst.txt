@@ -9,6 +9,7 @@ Subpackages
 
    mispr.gaussian.firetasks
    mispr.gaussian.fireworks
+   mispr.gaussian.utilities
    mispr.gaussian.workflows
 
 Submodules

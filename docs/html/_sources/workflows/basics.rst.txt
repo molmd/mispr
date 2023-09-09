@@ -1,6 +1,6 @@
-==========
+====================
 Workflow Basics
-==========
+====================
 A scientific workflow in MISPR provides a complete description of the
 procedure leading to the final data used to predict the desired property
 of a given molecule or system. It consists of multiple steps ranging
