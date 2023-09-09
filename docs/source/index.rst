@@ -12,7 +12,7 @@
    keywords
 
 .. toctree::
-   :caption: WORKFLOWS
+   :caption: Workflows
    :hidden:
 
    workflows/basics
@@ -21,7 +21,7 @@
    workflows/custom
 
 .. toctree::
-   :caption: RESOURCES
+   :caption: Resources
    :hidden:
 
    resources/faq
@@ -29,7 +29,7 @@
 
 
 .. toctree::
-   :caption: DEVELOPMENT
+   :caption: Development
    :hidden:
 
    changelog
@@ -45,14 +45,13 @@ preset workflows for running complex hierarchical density functional
 theory (DFT) and classical molecular dynamics (MD) simulations to compute
 properties of materials.
 
-|
 .. figure:: _static/summary.jpeg
    :scale: 70%
-|
 
-************
+
+*************
 Installation
-************
+*************
 
 .. grid:: 1 1 2 2
 
@@ -64,14 +63,15 @@ Installation
 
             pip install mispr
 
-Before you can start using MISPR, there are additional steps you need to follow.
-Please refer to the :doc:`installation guide <installation/index>` for complete setup instructions,
-including any dependencies or configuration files required.
+.. important::
+   Before you can start using MISPR, there are additional steps you need to follow.
+   Please refer to the :doc:`installation guide <installation/index>` for complete setup instructions,
+   including any dependencies or configuration files required.
 
 
-************
+*******************
 Learning Resources
-************
+*******************
 
 .. grid:: 1 1 2 2
 
@@ -112,9 +112,9 @@ Learning Resources
         - :ref:`modindex`
         - :ref:`search`
 
-==========
+====================================
 Contributing / Reporting / Support
-==========
+====================================
 Contirbuting to MISPR can be in the form of:
 
 * Requesting or adding new workflows and features

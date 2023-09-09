@@ -30,9 +30,10 @@ release = "0.0.4"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinxcontrib.mermaid",
-    "sphinx.ext.napoleon",
+"sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
+    "sphinxcontrib.mermaid",
+    "sphinx.ext.coverage",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosectionlabel",
     "sphinx_design",
@@ -41,6 +42,8 @@ extensions = [
     "sphinx_tabs.tabs",
     "sphinx_togglebutton",
     "sphinx_favicon",
+    "sphinx_immaterial",
+    "recommonmark"
 ]
 
 mermaid_theme = {
@@ -55,25 +58,7 @@ mermaid_theme = {
     }
 }
 
-favicons = [
-   {
-      "rel": "apple-touch-icon",
-      "sizes": "180x180",
-      "href": "logo.png",  # use a local file in _static
-   },
-]
-
 autodoc_mock_imports = ["custodian", "tleap"]
-# html_sidebars = {
-#     "**": [
-#         "sidebar/scroll-start.html",
-#         "sidebar/brand.html",
-#         "sidebar/search.html",
-#         "sidebar/navigation.html",
-#         "sidebar/ethical-ads.html",
-#         "sidebar/scroll-end.html",
-#     ]
-# }
 
 autosectionlabel_prefix_document = True
 templates_path = ["_templates"]
@@ -81,38 +66,67 @@ exclude_patterns = []
 sphinx_tabs_valid_builders = ["linkcheck"]
 sphinx_tabs_disable_tab_closing = True
 
-# -- Options for HTML output -------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = "furo"
+html_theme = "sphinx_immaterial"
 html_static_path = ["_static"]
+html_css_files = ['style.css']
+
 html_logo = "_static/logo.png"
 html_title = "Materials informatics for structure-property relationships"
 
 html_theme_options = {
-    "footer_icons": [
+    "features": [
+        "content.code.annotate",
+          "navigation.expand"  # (1)
+    ],
+        "palette": [
         {
-            "name": "GitHub",
-            "url": "https://github.com/molmd/mispr",
-            "html": """
-                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-            """,
-            "class": "",
-            "prefers-color-scheme": "light",
+            "media": "(prefers-color-scheme: light)",
+            "scheme": "default",
+            "primary": "red", "accent": "light blue",
+            "toggle": {
+                "icon": "material/toggle-switch-off-outline",
+                "name": "Switch to dark mode",
+            }
+        },
+        {
+            "media": "(prefers-color-scheme: dark)",
+            "scheme": "slate",
+            "primary": "red", "accent": "light blue",
+            "toggle": {
+                "icon": "material/toggle-switch",
+                "name": "Switch to light mode",
+            }
+        }],
+            "font": {
+        "text": "Roboto",  # used for all the pages' text
+        "code": "Roboto Mono"  # used for literal code blocks
+    },
+        "social": [
+        {
+            "icon": "fontawesome/brands/github",
+            "link": "https://github.com/molmd/mispr",
+            "name": "Source on github.com",
+        },
+        {
+            "icon": "fontawesome/brands/twitter",
+            "link": "https://twitter.com/molmd_group",
         },
     ],
-    "source_repository": "https://github.com/molmd/mispr/docs",
-    "source_branch": "master",
-    "light_css_variables": {
-        "color-brand-primary": "#991B1E",
-        "color-brand-content": "#991B1E",
-    },
+
 }
 
 source_suffix = '.rst'
-# htmlhelp_basename = 'sphinxcontrib-mermaiddoc'
-# mermaid_params = ['-p' 'puppeteer-config.json']
 
 master_doc = "index"
+
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+
+def skip_params(app, what, name, obj, would_skip, options):
+    if name in ("required_params", "optional_params"):
+        return True
+    return would_skip
+
+def setup(app):
+    app.connect("autodoc-skip-member", skip_params)
