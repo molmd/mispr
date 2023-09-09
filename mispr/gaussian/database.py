@@ -102,8 +102,7 @@ class GaussianCalcDb:
         Builds indexes for the database.
 
         Args:
-            background: if ``True``, this index should be created in the
-            background.
+            background (bool): if ``True``, this index should be created.
         """
         self.molecules.create_index("inchi", unique=False, background=background)
         self.molecules.create_index("smiles", unique=True, background=background)
@@ -270,7 +269,7 @@ class GaussianCalcDb:
             smiles (str): the smiles representation of the molecule
             functional (str): the name of the density functional
             basis (str): the name of the basis set
-            **kwargs: other kwargs that can be used to query the collection
+            kwargs: other kwargs that can be used to query the collection
 
         Returns:
             list: a list of documents that match the query
@@ -298,7 +297,7 @@ class GaussianCalcDb:
             smiles (str): the smiles representation of the molecule
             functional (str): the name of the density functional
             basis (str): the name of the basis set
-            **kwargs: other kwargs that can be used to query the collection
+            kwargs: other kwargs that can be used to query the collection
 
         Returns:
             list: a list of documents that match the query
@@ -331,7 +330,7 @@ class GaussianCalcDb:
             smiles (str): the smiles representation of the molecule
             functional (str): the name of the density functional
             basis (str): the name of the basis set
-            **kwargs : other kwargs that can be used to query the collection
+            kwargs : other kwargs that can be used to query the collection
         """
         runs = self.retrieve_run(inchi, smiles, functional, basis, **kwargs)
         self.db[new_collection].insert_many(runs)
@@ -360,7 +359,7 @@ class GaussianCalcDb:
             functional (str): the name of the density functional
             basis (str): the name of the basis set
             phase (str): the phase of the job, e.g. "gas", "solution"
-            **kwargs: other kwargs that can be used to query the collection
+            kwargs: other kwargs that can be used to query the collection
         """
         query = {}
         if inchi:
@@ -508,7 +507,7 @@ class GaussianCalcDb:
                 the property into; e.g. bde, binding_energy, etc.
             property_dict (dict): the property dictionary to insert
             index (str, list[tuple]): the indexes to use for fast lookup;
-            **kwargs: additional kwargs to pass to
+            kwargs: additional kwargs to pass to
                 pymongo.collection.create_index
 
         Returns:
