@@ -1,8 +1,5 @@
-# coding: utf-8
-
-
-# Implements a core class PubChemRunner for retrieving molecules from
-# the PubChem database using a molecule name as a query criteria.
+"""Implement a core class PubChemRunner for retrieving molecules from the PubChem
+database using a molecule name as a query criteria."""
 
 import os
 
@@ -26,9 +23,9 @@ class PubChemRunner:
     def __init__(self, abbreviation, working_dir=None):
         """
         Args:
-            abbreviation (str): abbreviation to be used when saving molecule file.
-            working_dir (str): working directory for saving the molecule file in;
-                will use the current working directory if not specified
+            abbreviation (str): Abbreviation to be used when saving molecule file.
+            working_dir (str, optional): Working directory for saving the molecule file
+                in; will use the current working directory if not specified.
         """
         self.abbreviation = abbreviation
         self.working_dir = working_dir or os.getcwd()
@@ -36,18 +33,20 @@ class PubChemRunner:
 
     def get_mol(self, name, save_to_file=True, fmt="pdb", cleanup=True):
         """
-        Wrapper function that searches for a molecule in the PubChem database,
-        downloads it in the form of an SDF file, and converts the file
-        to a pymatgen Molecule object.
+        Wrapper function that searches for a molecule in the PubChem database, downloads
+        it in the form of an SDF file, and converts the file to a pymatgen ``Molecule``
+        object.
 
         Args:
-            name (str): name of the molecule to use for searching PubChem
-            save_to_file (bool): whether to save the Molecule object to a file
-            fmt (str): molecule file format if save_to_file is True
-            cleanup (bool): whether to remove the intermediate sdf file
+            name (str): Name of the molecule to use for searching PubChem.
+            save_to_file (bool, optional): Whether to save the ``Molecule`` object to a
+                file. Defaults to ``True``.
+            fmt (str, optional): Molecule file format if ``save_to_file`` is ``True``;
+                defaults to "pdb".
+            cleanup (bool, optional): Whether to remove the intermediate sdf file.
 
         Returns:
-            Molecule: pymatgen Molecule object
+            Molecule: pymatgen ``Molecule`` object.
         """
         self.download_sdf(name)
         molecule = self.convert_sdf_to_mol(save_to_file, fmt)
@@ -57,11 +56,11 @@ class PubChemRunner:
 
     def download_sdf(self, name):
         """
-        Downloads an SDF file from PubChem using a common name for the
-        molecule as an identifier
+        Download an SDF file from PubChem using a common name for the molecule as an
+        identifier.
 
         Args:
-            name (str): name of the molecule to use for searching PubChem
+            name (str): Name of the molecule to use for searching PubChem.
         """
         cids = pcp.get_cids(name, record_type="3d")
         if cids:
@@ -78,14 +77,14 @@ class PubChemRunner:
 
     def convert_sdf_to_mol(self, save_to_file, fmt):
         """
-        Converts an SDF file to a pymatgen Molecule object
+        Convert an SDF file to a pymatgen ``Molecule`` object.
 
         Args:
-            save_to_file (bool): whether to save the Molecule object to a file
-            fmt (str): molecule file format if save_to_file is True
+            save_to_file (bool): Whether to save the ``Molecule`` object to a file.
+            fmt (str): Molecule file format if ``save_to_file`` is ``True``.
 
         Returns:
-            Molecule: pymatgen Molecule object
+            Molecule: pymatgen ``Molecule`` object.
         """
         mol = Molecule.from_file(
             f"{self.working_dir}/{self.abbreviation}_{self.cid}.sdf"
@@ -96,6 +95,6 @@ class PubChemRunner:
 
     def cleanup(self):
         """
-        Deletes the sdf file downloaded from PubChem
+        Delete the sdf file downloaded from PubChem.
         """
         os.remove(f"{self.working_dir}/{self.abbreviation}_{self.cid}.sdf")
