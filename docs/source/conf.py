@@ -48,7 +48,7 @@ extensions = [
 ]
 
 python_apigen_modules = {
-      "my_module": "api",
+    "my_module": "api",
 }
 
 mermaid_theme = {
@@ -80,7 +80,11 @@ html_logo = "_static/logo.png"
 html_title = "Materials informatics for structure-property relationships"
 
 html_theme_options = {
-    "features": ["content.code.annotate", "navigation.expand", "navigation.sections"],  # (1)
+    "features": [
+        "content.code.annotate",
+        "navigation.expand",
+        "navigation.sections",
+    ],  # (1)
     "palette": [
         {
             "media": "(prefers-color-scheme: light)",
@@ -126,7 +130,7 @@ master_doc = "index"
 
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
-autoclass_content = 'both'
+autoclass_content = "both"
 
 
 def skip_params(app, what, name, obj, would_skip, options):
