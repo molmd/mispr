@@ -1,4 +1,4 @@
-"""Defines firetasks for performing various molecule transformations."""
+"""Define firetasks for performing various molecule transformations."""
 
 import os
 import copy
@@ -37,44 +37,37 @@ class ProcessMoleculeInput(FiretaskBase):
     molecule formats provided to Gaussian workflows.
 
     Args:
-        mol (Molecule, str, GaussianOutput, dict): Source of the
-            structure; should correspond to that of the "operation_type";
-            see mispr.gaussian.utilities.mol.process_mol for more
-            details; besides the formats supported by
-            mispr.gaussian.utilities.mol.process_mol, if the molecule
-            is to be obtained via fw_spec, mol should be a string
-            corresponding to the key in fw_spec.
+        mol (Molecule, str, GaussianOutput, dict): Source of the structure; should
+            correspond to that of the ``operation_type``; see
+            ``mispr.gaussian.utilities.mol.process_mol`` for more details; besides the
+            formats supported by ``mispr.gaussian.utilities.mol.process_mol``, if the
+            molecule is to be obtained via ``fw_spec``, mol should be a string
+            corresponding to the key in ``fw_spec``.
         operation_type (str, optional): Type of operation to perform. See
-            mispr.gaussian.utilities.mol.process_mol for details of
-            supported types.
+            ``mispr.gaussian.utilities.mol.process_mol`` for details of supported types.
         db (str or dict, optional): Database credentials; could be provided as
-            the path to the db.json file or in the form of a dictionary;
-            if none is provided, attempts to get it from the
-            configuration files.
-        save_to_db (bool, optional): Whether to save the processed molecule to
-            the molecules collection in the db.
+            the path to the db.json file or in the form of a dictionary; if none is
+            provided, attempts to get it from the configuration files.
+        save_to_db (bool, optional): Whether to save the processed molecule to the
+            molecules collection in the db.
         charge (int, optional): Charge of the molecule.
-        update_duplicates (bool, optional): Whether to update molecule document
-            in the db if it already exists.
-        save_to_file (bool, optional): Whether to save the processed molecule to
-            a file.
-        fmt (str, optional): Molecule file format if save_to_file is True;
-            defaults to xyz.
+        update_duplicates (bool, optional): Whether to update molecule document in the
+            db if it already exists.
+        save_to_file (bool, optional): Whether to save the processed molecule to a file.
+        fmt (str, optional): Molecule file format if save_to_file is True. Defaults to xyz.
         filename (str, optional): Name of the file to save the molecule to if
-            save_to_file is True; defaults to molecular formula.
-        from_fw_spec (bool, optional): Whether to get the molecule from the
-            fw_spec; mol in this case is the key to the dict in fw_spec.
-        local_opt (bool, optional): whether to perform local optimization on the
+            ``save_to_file`` is True. Defaults to molecular formula.
+        from_fw_spec (bool, optional): Whether to get the molecule from the ``fw_spec``;
+            mol in this case is the key to the dict in ``fw_spec``.
+        local_opt (bool, optional): Whether to perform local optimization on the
             molecule.
-        force_field (str, optional): Force field to use for local optimization;
-            see mispr.gaussian.utilities.mol.process_mol for supported
-            force field types.
-        steps (int, optional): Number of steps to perform local optimization
-        str_type (str, optional): format of string if operation_type is
-            "get_from_str"; e.g. "smi" or any other format supported
-            by OpenBabel).
-        working_dir (str, optional): Working directory to save the molecule file
-            to or read input files from.
+        force_field (str, optional): Force field to use for local optimization; see
+            ``mispr.gaussian.utilities.mol.process_mol`` for supported force field types.
+        steps (int, optional): Number of steps to perform local optimization.
+        str_type (str, optional): format of string if operation_type is ``get_from_str``;
+            e.g. ``smi`` or any other format supported by OpenBabel).
+        working_dir (str, optional): Working directory to save the molecule file to or
+            read input files from.
     """
 
     required_params = ["mol"]
@@ -163,8 +156,8 @@ class ConvertToMoleculeObject(FiretaskBase):
             Gaussian output (.out), and pymatgen's JSON serialized molecules.
         db (str or dict, optional): Database credentials.
         save_to_db (bool, optional): Whether to save the processed molecule to db.
-        update_duplicates (bool, optional): Whether to update molecule document
-            in db if it already exists.
+        update_duplicates (bool, optional): Whether to update molecule document in db
+            if it already exists.
     """
 
     required_params = ["mol_file"]
@@ -190,15 +183,15 @@ class ConvertToMoleculeObject(FiretaskBase):
 class RetrieveMoleculeObject(FiretaskBase):
     """
     Retrieve a molecule object from the database using InChI as an identifier and add
-    it to the fw_spec.
+    it to the ``fw_spec``.
 
     Args:
         inchi (str): InChI string.
         db (str or dict, optional): Database credentials.
         save_mol_file (bool, optional): Whether to save the retrieved molecule to file.
         fmt (str, optional): Format of the molecule file to create if save_mol_file is
-            True; defaults to xyz.
-        filename (str): Name of the molecule file to create if save_mol_file is True;
+            True. Defaults to xyz.
+        filename (str): Name of the molecule file to create if ``save_mol_file`` is True;
             will use molecular formula if not specified.
     """
 
@@ -230,18 +223,18 @@ class AttachFunctionalGroup(FiretaskBase):
         db (str or dict, optional): Database credentials.
         molecule (Molecule, optional): Molecule to attach the functional group to;
             either provided directly or taken from a previous calculation through
-            fw_spec; priority is given to the latter.
+            ``fw_spec``; priority is given to the latter.
         bond_order (int, optional): Bond order to calculate the bond length between
-            the two sites; defaults to 1.
+            the two sites. Defaults to 1.
         save_to_db (bool, optional): Whether to save the derived molecule to db.
         update_duplicates (bool, optional): Whether to update molecule document in
             db if it already exists.
         save_mol_file (bool, optional): Whether to save the derived molecule to file
             (xyz, pdb, etc.).
-        fmt (str, optional): Format of the molecule file to create if save_mol_file is
+        fmt (str, optional): Format of the molecule file to create if ``save_mol_file`` is
             True; uses xyz if not specified.
-        filename (str, optional): Name of the molecule file to create if save_mol_file is
-            True; will use molecular formula if not specified.
+        filename (str, optional): Name of the molecule file to create if ``save_mol_file``
+            is True; will use molecular formula if not specified.
     """
 
     required_params = ["func_grp", "index"]
@@ -285,7 +278,7 @@ class AttachFunctionalGroup(FiretaskBase):
 class LinkMolecules(FiretaskBase):
     """
     Link two molecules using one site from the first and another site from the second
-    molecule and adds the resulting molecule to fw_spec.
+    molecule and adds the resulting molecule to ``fw_spec``.
 
     Args:
         index1 (int): site index in the first molecule at which to link the two molecules.
@@ -296,16 +289,16 @@ class LinkMolecules(FiretaskBase):
         mol2 (Molecule, optional): Second molecule; can be provided directly or taken
             from a previous calculation; priority is given to the latter.
         bond_order (int, optional): Bond order to calculate the bond length between the
-            two sites; defaults to 1.
+            two sites. Defaults to 1.
         save_to_db (bool, optional): Whether to save the derived molecule to db.
         update_duplicates (bool, optional): Whether to update molecule document in db
             if it already exists.
         save_mol_file (bool, optional): Whether to save the derived molecule to file
             (xyz, pdb, etc.).
-        fmt (str, optional): Format of the molecule file to create if save_mol_file is
-            True; uses xyz if not specified.
-        filename (str, optional): Name of the molecule file to create if save_mol_file is
-            True; will use molecular formula if not specified.
+        fmt (str, optional): Format of the molecule file to create if ``save_mol_file``
+            is True; uses xyz if not specified.
+        filename (str, optional): Name of the molecule file to create if ``save_mol_file``
+            is True; will use molecular formula if not specified.
     """
 
     required_params = ["index1", "index2"]
@@ -362,16 +355,18 @@ class BreakMolecule(FiretaskBase):
         ref_charge (int, optional): Charge on the principle molecule; if not provided,
             charge on Molecule will be used.
         fragment_charges (list, optional): List of charges to assign to the fragments
-            in addition to the ones already assigned, i.e.:
+            in addition to the ones already assigned.
 
-                1. Neutral molecule: each fragment will have charges of 0, 1, and -1
-                2. Molecule with charge -N: each fragment will have charges of
-                    0, -N, -N+1, -N+2
-                3. Molecule with charge +N: each fragment will have charges of
-                    0, N, N-1, N-2
+            .. note::
+                The following charges will be used:
+                    1. **Neutral molecule**: each fragment will have charges of 0, 1, and -1
+                    2. **Molecule with charge -N**: each fragment will have charges of
+                        0, -N, -N+1, -N+2
+                    3. **Molecule with charge +N**: each fragment will have charges of
+                        0, N, N-1, N-2
+                If charges different from the above are provided via ``fragment_charges``,
+                additional fragments with these charges will be created.
 
-            If charges different from the above are provided via fragment_charges,
-            additional fragments with these charges will be created.
         open_rings (bool, optional): Whether to open rings; if set to True, will
             perform local optimization to get a good initial guess for the structure;
             defaults to False.
@@ -381,11 +376,11 @@ class BreakMolecule(FiretaskBase):
             running the calculations.
         db (str or dict, optional): Database credentials
         opt_gaussian_inputs (dict, optional): Dictionary of parameters to use for
-            optimizing the fragments if calc_frags is True.
+            optimizing the fragments if ``calc_frags`` is True.
         freq_gaussian_inputs (dict, optional): Dictionary of parameters to use for
-            performing a frequency analysis if calc_frags is True.
+            performing a frequency analysis if ``calc_frags`` is True.
         cart_coords (bool, optional): Whether to use cartesian coordinates in writing
-            Gaussian input files if calc_frags is True.
+            Gaussian input files if ``calc_frags`` is True.
         oxidation_states (dict, optional): Dictionary of oxidation states that can be
             used in setting the charge and spin multiplicity of the molecule;
             e.g.: {"Li":1, "O":-2}.
@@ -393,10 +388,10 @@ class BreakMolecule(FiretaskBase):
             Fireworks for the generated fragments and add them as children via FWAction.
         save_to_db (bool, optional): Whether to save the generated fragments to db.
         save_to_file (bool, optional): Whether to save the generated fragments to file.
-        fmt (str, optional): Format of the molecule file to create if save_to_file is True
-            (e.g. xyz, pdb, etc.).
+        fmt (str, optional): Format of the molecule file to create if ``save_to_file`` is
+            True (e.g. xyz, pdb, etc.).
         update_duplicates (bool, optional): Whether to update fragment document in
-            the db if it already exists; works only if save_to_db is True.
+            the db if it already exists; works only if ``save_to_db`` is True.
     """
 
     required_params = []
