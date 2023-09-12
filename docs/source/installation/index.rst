@@ -1,14 +1,6 @@
 =============
 Installation
 =============
-
-.. toctree::
-   :hidden:
-
-   dependencies
-   configuration
-   test
-
 Before installing MISPR, you need to follow the steps below in order:
 
 1. (Optional) Create a :ref:`installation/dependencies:Virtual python environment`
