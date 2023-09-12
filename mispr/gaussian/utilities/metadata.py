@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains functions for creating db schema.
+"""Define functions for creating db schema."""
 
 import logging
 
@@ -22,8 +19,8 @@ logger = logging.getLogger(__name__)
 
 def get_chem_schema(mol):
     """
-    Returns a dictionary of chemical schema for a given molecule to use
-    in building db documents or json file.
+    Return a dictionary of chemical schema for a given molecule to use in building db
+    documents or json file.
 
     Args:
         mol (Molecule): Molecule object.
@@ -56,7 +53,7 @@ def get_chem_schema(mol):
 
 def get_mol_formula(mol):
     """
-    Gets the alphabetical molecular formula for a molecule.
+    Get the alphabetical molecular formula for a molecule.
 
     Args:
         mol (Molecule): Molecule object
@@ -70,17 +67,16 @@ def get_mol_formula(mol):
 
 def get_job_name(mol, name):
     """
-    Appends a molecule label to the name of a workflow for easy
-    monitoring and identification.
+    Append a molecule label to the name of a workflow for easy monitoring and
+    identification.
 
     Args:
-        mol (Molecule or str): If a Molecule is provides, the appended
-            label will be the molecular formula; otherwise the label
-            will be the provided string
-        name (str): original name of the workflow
+        mol (Molecule or str): If a Molecule is provided, the appended label will be
+            the molecular formula; otherwise the label will be the provided string.
+        name (str): Original name of the workflow.
 
     Returns:
-        str: Job name with molecule label
+        str: Job name with molecule label.
     """
     if not isinstance(mol, Molecule):
         job_name = "{}_{}".format(mol, name)
