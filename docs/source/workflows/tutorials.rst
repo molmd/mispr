@@ -50,8 +50,7 @@ points selected according to the Merz-Singh-Kollman scheme, but other schemes su
         style E fill:#EBEBEB,stroke:#BB2528
 
 
-In the following example, we will run the ESP workflow on a water molecule.
-The input structure is provided in the file `water.xyz`:
+In the following example, we will run the ESP workflow on a monoglyme molecule.
 
 .. code-block:: python
     :linenos:
@@ -78,14 +77,13 @@ The input structure is provided in the file `water.xyz`:
     1.
         :code:`mol_operation_type` refers to the operation to be performed on the input to process the molecule.
 
-        In this example, we are requesting to directly retrieve the molecule from PubChem by prviding a
+        In this example, we are requesting to directly retrieve the molecule from PubChem by providing a
         common name for the molecule to be used as query criteria for searching the PubChem database via
-        the :code:`mol` input argument. For a for list of supported :code:`mol_operation_type` and the corresponding
-        :code:`mol`, refer to :doc:`installation guide <../installation/index>`.
+        the :code:`mol` input argument. For a list of supported :code:`mol_operation_type` and the corresponding
+        :code:`mol`, refer to :doc:`installation guide <../mispr.gaussian.utilities.mol.process_mol>`.
 
 
-
-
+Download :download:`esp_tutorial.py <../_downloads/esp_tutorial.py>`.
 
 
 Running an MD workflow
