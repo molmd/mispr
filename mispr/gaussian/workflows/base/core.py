@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines a list of common fireworks used in Gaussian workflows.
+"""Define a list of common fireworks used in Gaussian workflows."""
 
 import os
 import logging
@@ -49,15 +46,15 @@ class GoutTypeError(Exception):
 
 def _recursive_key_check(grun, grun_key):
     """
-    Checks if the key is in the dictionary. If not, it checks
-    recursively if the key is in the dictionary of the dictionary.
+    Check if the key is in the dictionary. If not, it checks recursively if the key is
+    in the dictionary of the dictionary.
 
     Args:
-        grun (GaussianOutput): GaussianOutput object
-        grun_key (str): key to be checked
+        grun (GaussianOutput): GaussianOutput object.
+        grun_key (str): Key to be checked.
 
     Returns:
-        bool
+        bool.
     """
     key_exists = grun_key in grun
     if not key_exists:
@@ -79,31 +76,31 @@ def _process_mol_check(
     charge=None,
 ):
     """
-    Processes molecule input to generate a label used in naming the
-    workflow for easy monitoring when the corresponding job is running.
+    Process molecule input to generate a label used in naming the workflow for easy
+    monitoring when the corresponding job is running.
 
     Args:
-        working_dir (str): path to the working directory of the job
-        process_mol_func (bool): whether to process the molecule; if
-            True, will use the molecular formula as the label
-        mol_operation_type (str): the type of molecule operation.
-            See process_mol defined in mispr/gaussian/utilities/mol.py
-            for supported operations; required when process_mol is True
-        mol (Molecule, GaussianOutput, str, dict): source of the
-            molecule to be processed; required when process_mol is True
-            and should match the mol_operation_type
-        dir_head (str): the name of the head of the directory where the
-            workflow corresponding to the molecule will be run
-        mol_name (str): the name of the molecule; defaults to None
-        db (str or dict): database credentials; could be provided as
-            the path to the db.json file or in the form of a dictionary;
-            if none is provided, attempts to get it from the
-            configuration files; used when process_mol_func is True
-        dir_structure (list): list of strings corresponding to the name
-            of the subfolders that will be created inside the dir_head
-            where the workflow will be running
-        charge (int): charge of the molecule; only used when
-            process_mol_func is True
+        working_dir (str): Path to the working directory of the job.
+        process_mol_func (bool, optional): Whether to process the molecule; if ``True``,
+            will use the molecular formula as the label.
+        mol_operation_type (str, optional): The type of molecule operation. See
+            ``process_mol`` defined in ``mispr/gaussian/utilities/mol.py`` for supported
+            operations; required when ``process_mol`` is ``True``.
+        mol (Molecule, GaussianOutput, str, dict, optional): Source of the molecule to
+            be processed; required when ``process_mol`` is ``True`` and should match
+            the ``mol_operation_type``.
+        dir_head (str, optional): The name of the head of the directory where the
+            workflow corresponding to the molecule will be run.
+        mol_name (str, optional): The name of the molecule. Defaults to None.
+        db (str or dict, optional): Database credentials; could be provided as the path
+            to the "db.json" file or in the form of a dictionary; if none is provided,
+            attempts to get it from the configuration files; used when
+            ``process_mol_func``is ``True``.
+        dir_structure (list, optional): List of strings corresponding to the name
+            of the subfolders that will be created inside the ``dir_head`` where the
+            workflow will be running.
+        charge (int, optional): Charge of the molecule; only used when
+            ``process_mol_func`` is ``True``.
     """
     if process_mol_func:
         mol = process_mol(
@@ -152,56 +149,53 @@ def common_fw(
     **kwargs,
 ):
     """
-    Defines a list of Fireworks commonly used in Gaussian workflows.
+    Define a list of Fireworks commonly used in Gaussian workflows.
 
-        Firework 1: Optimize the molecule.
-        Firework 2: Run a frequency analysis.
+    * **Firework 1**: Optimize the molecule.
+    * **Firework 2**: Run a frequency analysis.
 
     Args:
-        mol_operation_type (str): the type of molecule operation.
-            See process_mol defined in mispr/gaussian/utilities/mol.py
-            for supported operations.
-        mol (Molecule, GaussianOutput, str, dict): source of the
-            molecule to be processed. Should match the mol_operation_type.
-        working_dir (str): path of the working directory where any
-            required input files can be found and output will be created
-        opt_gaussian_inputs: (dict): dictionary of Gaussian input
-            parameters for the optimization step
-        freq_gaussian_inputs (dict): dictionary of Gaussian input
-            parameters for the frequency step
-        cart_coords (bool): whether to use cartesian coordinates in
-            writing Gaussian input files
-        oxidation_states (dict): dictionary of oxidation states that
-            can be used in setting the charge and spin multiplicity of
-            the molecule; e.g.: {"Li":1, "O":-2}
-        gout_key (str): unique key for the Gaussian output dict; used
-            to differentiate Gaussian output dictionaries generated in
-            the same workflow; if None is provided, the key will be set "mol"
-        db (str or dict): database credentials; could be provided as
-            the path to the db.json file or in the form of a dictionary;
-            if None is provided, attempts to get it from the
-            configuration files
-        process_mol_func (bool): whether to process the molecule; if
-            True, will use the molecular formula as the label; defaults
-            to True
-        mol_name (str): the name of the molecule; ignored if
-            process_mol_func is set to True
-        dir_head (str): the name of the head of the directory where the
-            workflow corresponding to the molecule will be run
-        skips (list): list of jobs to skip; e.g.: ["opt", "freq"];
-            defaults to None
-        check_result (list): list of properties to check for in
-            the output file when skipping jobs; ensures that properties
-            required by the workflow are available via the molecule
-            format provided as an input (e.g. Gaussian output dictionary)
-        **kwargs (keyword arguments): additional kwargs to be passed
-            to the Fireworks and Firetasks
+        mol_operation_type (str): The type of molecule operation. See ``process_mol``
+            defined in ``mispr/gaussian/utilities/mol.py`` for supported operations.
+        mol (Molecule, GaussianOutput, str, dict): Source of the molecule to be
+            processed. Should match the ``mol_operation_type``.
+        working_dir (str): Path of the working directory where any required input files
+            can be found and output will be created.
+        opt_gaussian_inputs (dict): Dictionary of Gaussian input parameters for the
+            optimization step.
+        freq_gaussian_inputs (dict): Dictionary of Gaussian input parameters for the
+            frequency step.
+        cart_coords (bool): Whether to use cartesian coordinates in writing Gaussian
+            input files.
+        oxidation_states (dict): Dictionary of oxidation states that can be used in
+            setting the charge and spin multiplicity of the molecule; e.g.:
+            {"Li":1, "O":-2}.
+        gout_key (str, optional): Unique key for the Gaussian output dict; used to
+            differentiate Gaussian output dictionaries generated in the same workflow;
+            if None is provided, the key will be set "mol".
+        db (str or dict, optional): Database credentials; could be provided as the path
+            to the "db.json" file or in the form of a dictionary; if None is provided,
+            attempts to get it from the configuration files.
+        process_mol_func (bool, optional): Whether to process the molecule; if ``True``,
+            will use the molecular formula as the label. Defaults to ``True``.
+        mol_name (str, optional): The name of the molecule; ignored if
+            ``process_mol_func`` is set to ``True``.
+        dir_head (str, optional): The name of the head of the directory where the
+            workflow corresponding to the molecule will be run.
+        skips (list, optional): List of jobs to skip; e.g.: ["opt", "freq"]; defaults
+            to None.
+        check_result (list, optional): List of properties to check for in the output
+            file when skipping jobs; ensures that properties required by the workflow are
+            available via the molecule format provided as an input (e.g. Gaussian
+            output dictionary).
+        kwargs (keyword arguments): Additional kwargs to be passed to the Fireworks and
+            Firetasks.
 
     Returns:
-        Molecule, GaussianOutput, str, dict: type varies based on the
-            input mol and the operations performed inside the function
-        str: molecule label
-        list: list of Fireworks
+        Molecule, GaussianOutput, str, dict: Type varies based on the input mol and the
+            operations performed inside the function.
+        str: Molecule label.
+        list: List of Fireworks.
     """
     fws = []
     if not gout_key:
