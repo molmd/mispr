@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines the DFT-MD hybrid workflow.
+"""Define the DFT-MD hybrid workflow."""
 
 import os
 
