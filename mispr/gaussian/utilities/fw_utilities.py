@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains utility functions for modifying workflow settings. Based on atomate powerups.
+"""Define utility functions for modifying workflow settings. Based on atomate powerups."""
 
 import logging
 
@@ -26,18 +23,18 @@ def get_list_fireworks_and_tasks(
     workflow, firework_substring=None, task_substring=None
 ):
     """
-    Returns a list of (firework_index, task_index) tuples for all
-    fireworks and tasks in a workflow.
+    Return a list of (firework_index, task_index) tuples for all fireworks and tasks in
+    a workflow.
 
     Args:
-        workflow (Workflow): The workflow to search
-        firework_substring (str): A substring to search for in the
-            Firework names to exclude certain fireworks
-        task_substring (str): A substring to search for in the Firetask
-            names to exclude certain Firetasks
+        workflow (Workflow): The workflow to search.
+        firework_substring (str, optional): A substring to search for in the Firework
+            names to exclude certain fireworks.
+        task_substring (str, optional): A substring to search for in the Firetask
+            names to exclude certain Firetasks.
 
     Returns:
-        list: A list of (firework_index, task_index) tuples
+        list: A list of (firework_index, task_index) tuples.
     """
     list_fireworks_and_tasks = []
     for i_firework, firework in enumerate(workflow.fws):
@@ -54,26 +51,24 @@ def control_worker(
     workflow, firework_substring=None, task_substring=None, fworker=None, category=None
 ):
     """
-    Modifies the Firework's fworker name and category in a workflow.
-    Can be used when running workflows on multiple workers at the same
-    time to specify which worker/machine to use.
+    Modify the Firework's fworker name and category in a workflow. Can be used when
+    running workflows on multiple workers at the same time to specify which
+    worker/machine to use.
 
     Args:
-        workflow (Workflow): The workflow to control
-        firework_substring (str): A substring to search for in the
-            Firework names to exclude certain fireworks
-        task_substring (str): A substring to search for in the Firetask
-            names to exclude certain Firetasks
-        fworker (str): The name of the fworker to use for the Firework;
+        workflow (Workflow): The workflow to control.
+        firework_substring (str, optional): A substring to search for in the Firework
+            names to exclude certain fireworks.
+        task_substring (str, optional): A substring to search for in the Firetask
+            names to exclude certain Firetasks.
+        fworker (str, optional): The name of the fworker to use for the Firework;
             should be consistent with the one specified in the FireWorker
-            (my_fworker.yaml file)
-        category (str): The category to be assigned for the Firework;
-            should be consistent with the one specified in the FireWorker
-            (my_fworker.yaml file)
+            (my_fworker.yaml file).
+        category (str, optional): The category to be assigned for the Firework; should
+            be consistent with the one specified in the FireWorker (my_fworker.yaml file).
 
     Returns:
-        Workflow: The modified workflow with the specified fworker
-            and/or category
+        Workflow: The modified workflow with the specified fworker and/or category.
     """
     list_fireworks_and_tasks = get_list_fireworks_and_tasks(
         workflow, firework_substring=firework_substring, task_substring=task_substring
@@ -97,27 +92,25 @@ def modify_queue_parameters(
     task_substring=None,
 ):
     """
-    Modifies the default Firework's queue parameters in a workflow.
-    Default ones are specified in the my_qadapter.yaml file. Helpful
-    when different workflows requires different computational
-    resources (e.g. number of CPUs, memory, etc.).
+    Modify the default Firework's queue parameters in a workflow. Default ones are
+    specified in the my_qadapter.yaml file. Helpful when different workflows requires
+    different computational resources (e.g. number of CPUs, memory, etc.).
 
     Args:
-        workflow (Workflow): The workflow to modify
-        ntasks_per_node (int): The number of tasks to run on each node
-        walltime (str): The walltime for the job
-        queue (str): The queue/partition to run the job on
-        pre_rocket (str): The pre-rocket command to run before the job
-        other_parameters (dict): Other parameters to be added to the
-            queueadapter
-        firework_substring (str): A substring to search for in the
-            Firework names to exclude certain fireworks
-        task_substring (str): A substring to search for in the Firetask
-            names to exclude certain Firetasks
+        workflow (Workflow): The workflow to modify.
+        ntasks_per_node (int, optional): The number of tasks to run on each node.
+        walltime (str, optional): The walltime for the job.
+        queue (str, optional): The queue/partition to run the job on.
+        pre_rocket (str, optional): The pre-rocket command to run before the job.
+        other_parameters (dict, optional): Other parameters to be added to the
+            queueadapter.
+        firework_substring (str, optional): A substring to search for in the Firework
+            names to exclude certain fireworks.
+        task_substring (str, optional): A substring to search for in the Firetask
+            names to exclude certain Firetasks.
 
     Returns:
-        Workflow: The modified workflow with the specified queue
-            parameters
+        Workflow: The modified workflow with the specified queue parameters.
     """
     queue_parameters = {}
     if ntasks_per_node:
@@ -146,22 +139,21 @@ def replace_runtask(
     additional_params=None,
 ):
     """
-    Replaces all tasks with "RunGaussian" (e.g. RunGaussianDirect)
-    with RunGaussianCustodian or vice versa.
+    Replace all tasks with ``RunGaussian`` (e.g. RunGaussianDirect) with
+    RunGaussianCustodian or vice versa.
 
     Args:
-        workflow (Workflow): The workflow to modify
-        firework_substring (str): A substring to search for in the
-            Firework names to exclude certain fireworks
-        operation (str): The operation to perform on the Firetask;
-            supported ones are "remove_custodian" and "use_custodian"
-        additional_params (dict): Additional parameters to be added to
-            the new Firetask that are not included in the original
-            Firetask; refer to the corresponding Firetask documentation
-            for supported parameters
+        workflow (Workflow): The workflow to modify.
+        firework_substring (str, optional): A substring to search for in the Firework
+            names to exclude certain fireworks.
+        operation (str, optional): The operation to perform on the Firetask; supported
+            ones are ``remove_custodian`` and ``use_custodian``.
+        additional_params (dict, optional): Additional parameters to be added to the
+            new Firetask that are not included in the original Firetask; refer to the
+            corresponding Firetask documentation for supported parameters.
 
     Returns:
-        Workflow: The workflow with the replaced run Firetasks
+        Workflow: The workflow with the replaced run Firetasks.
     """
     if additional_params is None:
         additional_params = {}
@@ -190,24 +182,21 @@ def replace_runtask(
 
 def run_fake_gaussian(workflow, ref_dirs, input_files=None, tolerance=None):
     """
-    Replaces all tasks with "RunGaussian" (i.e. RunGaussianDirect,
-    RunGaussianCustodian) with RunGaussianFake that runs a fake
-    Gaussian job. We do not actually run Gaussian but copy existing
-    inputs and outputs. Useful for testing purposes.
+    Replace all tasks with ``RunGaussian`` (i.e. RunGaussianDirect, RunGaussianCustodian)
+    with RunGaussianFake that runs a fake Gaussian job. We do not actually run Gaussian
+    but copy existing inputs and outputs. Useful for testing purposes.
 
     Args:
-        workflow (Workflow): The workflow to modify
-        ref_dirs (list): A list of directories containing the reference
-            calculations for the fake Gaussian job
-            (e.g. ['home/opt', 'home/freq'])
-        input_files (list): A list of input files for the fake Gaussian
-            job; order should match that in ref_dirs;
-            e.g. ["opt.com", "freq.com"]
-        tolerance (float): The tolerance for the comparison of the
-            provided input file with the existing one
+        workflow (Workflow): The workflow to modify.
+        ref_dirs (list): A list of directories containing the reference calculations
+            for the fake Gaussian job (e.g. ['home/opt', 'home/freq']).
+        input_files (list, optional): A list of input files for the fake Gaussian job;
+            order should match that in ref_dirs; e.g. ["opt.com", "freq.com"].
+        tolerance (float, optional): The tolerance for the comparison of the provided
+            input file with the existing one.
 
     Returns:
-        Workflow: The workflow with the replaced run Firetasks
+        Workflow: The workflow with the replaced run Firetasks.
     """
     list_fireworks_and_tasks = get_list_fireworks_and_tasks(
         workflow, task_substring=["RunGaussian"]
@@ -229,16 +218,15 @@ def add_common_mods(workflow, fw_mods=None):
     Wrapper function to add common modifications to a workflow.
 
     Args:
-        workflow (Workflow): The workflow to modify
-        fw_mods (dict): A dictionary of modifications to be applied to
-            the workflow; supported ones are "CONTROL_WORKER",
-            "MODIFY_QUEUE_PARAMETERS", "REPLACE_RUNTASK", and
-            "RUN_FAKE_GAUSSIAN" (see the docstring of each
-            function for more details); values of the dictionary are
-            the inputs to the corresponding function
+        workflow (Workflow): The workflow to modify.
+        fw_mods (dict, optional): A dictionary of modifications to be applied to the
+            workflow; supported ones are ``CONTROL_WORKER``, ``MODIFY_QUEUE_PARAMETERS``,
+            ``REPLACE_RUNTASK``, and ``RUN_FAKE_GAUSSIAN`` (see the docstring of each
+            function for more details); values of the dictionary are the inputs to the
+            corresponding function.
 
     Returns:
-        Workflow: The modified workflow
+        Workflow: The modified workflow.
     """
     fw_mods = fw_mods or {}
 
