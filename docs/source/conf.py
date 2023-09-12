@@ -30,7 +30,7 @@ release = "0.0.4"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-"sphinx.ext.napoleon",
+    "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinxcontrib.mermaid",
     "sphinx.ext.coverage",
@@ -43,19 +43,24 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_favicon",
     "sphinx_immaterial",
-    "recommonmark"
+    "recommonmark",
+    "sphinx_immaterial.apidoc.python.apigen",
 ]
 
+python_apigen_modules = {
+      "my_module": "api",
+}
+
 mermaid_theme = {
-    'theme': 'dark',
-    'themeVariables': {
-        'primaryColor': '#BB2528',
-        'primaryTextColor': '#fff',
-        'primaryBorderColor': '#7C0000',
-        'lineColor': '#F8B229',
-        'secondaryColor': '#006100',
-        'tertiaryColor': '#fff'
-    }
+    "theme": "dark",
+    "themeVariables": {
+        "primaryColor": "#BB2528",
+        "primaryTextColor": "#fff",
+        "primaryBorderColor": "#7C0000",
+        "lineColor": "#F8B229",
+        "secondaryColor": "#006100",
+        "tertiaryColor": "#fff",
+    },
 }
 
 autodoc_mock_imports = ["custodian", "tleap"]
@@ -69,40 +74,40 @@ sphinx_tabs_disable_tab_closing = True
 
 html_theme = "sphinx_immaterial"
 html_static_path = ["_static"]
-html_css_files = ['style.css']
+html_css_files = ["style.css"]
 
 html_logo = "_static/logo.png"
 html_title = "Materials informatics for structure-property relationships"
 
 html_theme_options = {
-    "features": [
-        "content.code.annotate",
-          "navigation.expand"  # (1)
-    ],
-        "palette": [
+    "features": ["content.code.annotate", "navigation.expand", "navigation.sections"],  # (1)
+    "palette": [
         {
             "media": "(prefers-color-scheme: light)",
             "scheme": "default",
-            "primary": "red", "accent": "light blue",
+            "primary": "red",
+            "accent": "light blue",
             "toggle": {
                 "icon": "material/toggle-switch-off-outline",
                 "name": "Switch to dark mode",
-            }
+            },
         },
         {
             "media": "(prefers-color-scheme: dark)",
             "scheme": "slate",
-            "primary": "red", "accent": "light blue",
+            "primary": "red",
+            "accent": "light blue",
             "toggle": {
                 "icon": "material/toggle-switch",
                 "name": "Switch to light mode",
-            }
-        }],
-            "font": {
+            },
+        },
+    ],
+    "font": {
         "text": "Roboto",  # used for all the pages' text
-        "code": "Roboto Mono"  # used for literal code blocks
+        "code": "Roboto Mono",  # used for literal code blocks
     },
-        "social": [
+    "social": [
         {
             "icon": "fontawesome/brands/github",
             "link": "https://github.com/molmd/mispr",
@@ -113,20 +118,22 @@ html_theme_options = {
             "link": "https://twitter.com/molmd_group",
         },
     ],
-
 }
 
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 master_doc = "index"
 
 napoleon_google_docstring = True
 napoleon_numpy_docstring = True
+autoclass_content = 'both'
+
 
 def skip_params(app, what, name, obj, would_skip, options):
     if name in ("required_params", "optional_params"):
         return True
     return would_skip
+
 
 def setup(app):
     app.connect("autodoc-skip-member", skip_params)
