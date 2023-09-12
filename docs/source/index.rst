@@ -8,11 +8,20 @@
    :hidden:
 
    overview
-   installation/index
    keywords
 
 .. toctree::
-   :caption: Workflows
+   :caption: Installation 🔧
+   :hidden:
+   :titlesonly:
+
+   Overview <installation/index>
+   Prerequisites <installation/dependencies>
+   Configuration Files <installation/configuration>
+   Running a Test Workflow <installation/test>
+
+.. toctree::
+   :caption: Workflows 🔀
    :hidden:
 
    workflows/basics
@@ -21,15 +30,21 @@
    workflows/custom
 
 .. toctree::
-   :caption: Resources
+   :caption: Resources 🖇️
    :hidden:
 
    resources/faq
    resources/resources
 
+.. toctree::
+   :caption: Code Documentation 📚
+   :hidden:
+   :titlesonly:
+
+   mispr <mispr>
 
 .. toctree::
-   :caption: Development
+   :caption: Development 💻
    :hidden:
 
    changelog
@@ -108,13 +123,11 @@ Learning Resources
 
         Code documentation
         ^^^
-        - :ref:`genindex`
-        - :ref:`modindex`
-        - :ref:`search`
+        - :doc:`Subpackages  <mispr>`
 
-====================================
+************************************
 Contributing / Reporting / Support
-====================================
+************************************
 Contirbuting to MISPR can be in the form of:
 
 * Requesting or adding new workflows and features
