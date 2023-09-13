@@ -1,0 +1,9 @@
+sphinx==5.1.1
+sphinx_design==0.4.1
+sphinx-copybutton==0.5.2
+sphinx-tabs==3.4.1
+sphinxcontrib-mermaid==0.9.2
+sphinx-togglebutton==0.3.2
+sphinx-favicon==1.0.1
+sphinx-immaterial==0.11.7
+Pygments==2.16.1
