@@ -1,5 +1,6 @@
 *.xml
 *.iml
+*.pyc
 /mispr/gaussian/config/*
 /build/*
 /dist/*
