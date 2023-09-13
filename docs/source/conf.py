@@ -46,9 +46,9 @@ extensions = [
     "sphinx_immaterial.apidoc.python.apigen",
 ]
 
-python_apigen_modules = {
-    "my_module": "api",
-}
+# python_apigen_modules = {
+#     "my_module": "api",
+# }
 
 mermaid_theme = {
     "theme": "dark",
