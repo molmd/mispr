@@ -24,7 +24,7 @@ jobs:
 
     - name: Generate Python API documentation
       run: |
-        sphinx-apidoc -o docs/source mispr/mispr
+        sphinx-apidoc -o docs/source .
 
     - name: Build HTML
       run: |
