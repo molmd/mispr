@@ -6,12 +6,11 @@ This page is under construction.
 
 Running an ESP workflow
 ------------------------------
-This workflow calculates the partial charges on atoms of a molecule. The charges are fit
-to the electrostatic potential at points selected according to the Merz-Singh-Kollman
+The ESP workflow calculates the partial charges on atoms of a molecule. The charges are
+fit to the electrostatic potential at points selected according to the Merz-Singh-Kollman
 scheme, but other schemes supported by Gaussian can be used as well.
 
 **The ESP workflow performs the following steps:**
-
 
 .. mermaid::
 
@@ -160,6 +159,9 @@ This will output the partial charges on the atoms of the molecule:
     "15": ["H", 0.071656],
     "16": ["H", 0.034974],
     }
+
+Running a BDE workflow
+------------------------------
 
 
 Running an MD workflow
