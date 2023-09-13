@@ -43,3 +43,7 @@ jobs:
         git commit -m "Deploy website"
         git branch -M gh-pages
         git push -f origin gh-pages
+
+    - name: Cleanup .pyc files
+      run: |
+          find . -name "*.pyc" -exec rm -f {} \;
