@@ -43,7 +43,6 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_favicon",
     "sphinx_immaterial",
-    "recommonmark",
     "sphinx_immaterial.apidoc.python.apigen",
 ]
 
