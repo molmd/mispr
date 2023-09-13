@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2  # This action checks out your repository code
+      uses: actions/checkout@v2
 
     - name: Set up Python
       uses: actions/setup-python@v2
