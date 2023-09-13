@@ -22,6 +22,10 @@ jobs:
       run: |
         pip install -r docs/requirements.txt
 
+    - name: Generate Python API documentation
+      run: |
+        sphinx-apidoc -o docs/source mispr
+
     - name: Build HTML
       run: |
         cd docs
