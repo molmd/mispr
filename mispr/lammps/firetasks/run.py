@@ -22,7 +22,8 @@ from mispr.gaussian.utilities.mol import process_mol
 from mispr.gaussian.utilities.misc import recursive_compare_dicts
 from mispr.gaussian.utilities.metadata import get_mol_formula
 from mispr.lammps.utilities.opls import MaestroRunner
-from mispr.lammps.utilities.utilities import get_db, process_ff_doc, add_ff_labels_to_dict
+from mispr.lammps.utilities.utilities import get_db, process_ff_doc, \
+    add_ff_labels_to_dict
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
@@ -35,7 +36,8 @@ logger = logging.getLogger(__name__)
 
 CONFIG_PATH = os.path.normpath(
     os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..", "config", "config.ini"
+        os.path.dirname(os.path.abspath(__file__)), 
+        "..", "config", "config.ini"
     )
 )
 
@@ -46,7 +48,12 @@ OPLS_DOI = "10.1002/jcc.20292"
 class RunLammpsDirect(FiretaskBase):
     _fw_name = "Run Lammps"
     required_params = []
-    optional_params = ["working_dir", "control_filename", "lammps_cmd", "net_ntasks"]
+    optional_params = [
+        "working_dir", 
+        "control_filename", 
+        "lammps_cmd", 
+        "net_ntasks"
+    ]
 
     def run_task(self, fw_spec):
 
@@ -72,7 +79,9 @@ class RunLammpsDirect(FiretaskBase):
 
         logger.info("Running command: {}".format(command))
         return_code = subprocess.call(command, shell=True)
-        logger.info("Finished running with return code: {}".format(return_code))
+        logger.info(
+            "Finished running with return code: {}".format(return_code)
+        )
 
 
 @explicit_serialize
@@ -109,11 +118,13 @@ class RunLammpsFake(FiretaskBase):
             if not re.match(r"#(\s+)?", k)
             if re.match(r"\S+?", k)
         }
-        diff = recursive_compare_dicts(ref_dict, user_dict, "ref_dict", "user_dict")
+        diff = recursive_compare_dicts(ref_dict, user_dict, 
+                                       "ref_dict", "user_dict")
 
         if diff:
             raise ValueError(
-                f"Control settings are inconsistent with reference control!\n{diff}!"
+                f"Control settings are inconsistent with reference \
+                    control!\n{diff}!"
             )
         logger.info("RunLammpsFake: verified control successfully")
 
@@ -181,7 +192,9 @@ class RunAntechamber(FiretaskBase):
 
         logger.info("Running command: {}".format(command))
         return_code = subprocess.call(command, shell=True)
-        logger.info("Finished running with return code: {}".format(return_code))
+        logger.info(
+            "Finished running with return code: {}".format(return_code)
+        )
 
 
 # TODO: Antechamber Custodian Firetask
@@ -221,7 +234,9 @@ class RunParmchk(FiretaskBase):
 
         logger.info("Running command: {}".format(command))
         return_code = subprocess.call(command, shell=True)
-        logger.info("Finished running with return code: {}".format(return_code))
+        logger.info(
+            "Finished running with return code: {}".format(return_code)
+        )
 
 
 # TODO: Edit RunParmchk for general input file type
@@ -257,7 +272,9 @@ class RunTleap(FiretaskBase):
 
         logger.info("Running command: {}".format(command))
         return_code = subprocess.call(command, shell=True)
-        logger.info("Finished running with return code: {}".format(return_code))
+        logger.info(
+            "Finished running with return code: {}".format(return_code)
+        )
 
 
 @explicit_serialize
