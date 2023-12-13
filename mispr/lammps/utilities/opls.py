@@ -509,7 +509,7 @@ class MaestroRunner:
             "Angles": angle_data,
             "Dihedrals": dihedral_data,
             "Impropers": improper_data,
-            "Improper Topologies": improper_top_data,
+            "Improper Topologies": [[i - 1 for i in j] for j in improper_top_data if j],
             "Charges": charges,
         }
         return ff_params
