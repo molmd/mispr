@@ -46,9 +46,9 @@ At the backend, MISPR uses:
 * `Gaussian <https://gaussian.com>`_ software to perform DFT calculations
 * `AmberTools <https://ambermd.org/AmberTools.php>`_  to generate GAFF parameters
 * `LAMMPS <https://www.lammps.org/#gsc.tab=0>`_ to run MD simulations
-* `Packmol <http://leandro.iqm.unicamp.br/m3g/packmol/home.shtml>`_ to
+* `Packmol <https://m3g.github.io/packmol/download.shtml>`_ to
   create initial configurations for MD simulations. To install packmol,
-  follow their `user guide <http://leandro.iqm.unicamp.br/m3g/packmol/userguide.shtml>`_
+  follow their `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
 
 Ensure that you have access to the executables of these software
 before using MISPR. Gaussian is a commercial software
