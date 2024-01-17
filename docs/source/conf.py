@@ -69,6 +69,7 @@ templates_path = ["_templates"]
 exclude_patterns = []
 sphinx_tabs_valid_builders = ["linkcheck"]
 sphinx_tabs_disable_tab_closing = True
+sphinx_immaterial_override_generic_admonitions = True
 
 
 html_theme = "sphinx_immaterial"
