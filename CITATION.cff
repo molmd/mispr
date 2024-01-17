@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: |
+  If you use MISPR in your research, please consider citing the following:
+
+authors:
+- family-names: Atwi
+  given-names: Rasha
+  orcid: https://orcid.org/0000-0001-8122-7335
+- family-names: Bliss
+  given-names: Matthew
+  orcid: https://orcid.org/0000-0003-1354-7649
+- family-names: Makeev
+  given-names: Maxim
+  orcid: https://orcid.org/0000-0001-7116-1299
+- family-names: Rajput
+  given-names: Nav Nidhi
+  orcid: https://orcid.org/0000-0003-4740-8217
+title: 'MISPR: an open-source package for high-throughput multiscale molecular simulations'
+version: 0.0.4 # replace with the version you use
+doi: 10.1038/s41598-022-20009-w
+date-released: 2022-09-21
+url: https://github.com/molmd/mispr
+issn: 2045-2322
+journal: Scientific Reports
+volume: 12
+year: 2022
