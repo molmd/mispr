@@ -13,6 +13,11 @@ the `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ tool, but
 feel free to use your preferred environment manager
 (e.g. `conda <https://conda.io/docs/>`_).
 
+.. tip::
+   :title: Recommendation.
+   We recommend that you use Python version 3.7 since this is the version that we have
+   tested MISPR with.
+
 Creating the virtual environment
 =================================
 To create and activate a new virtual environment, go to your
