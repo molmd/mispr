@@ -8,4 +8,4 @@ sphinx-favicon==1.0.1
 sphinx-immaterial==0.11.11
 readthedocs-sphinx-search==0.3.1
 Pygments==2.16.1
-pydantic>=2.0.0,<2.1.0
+pydantic>=2.4
