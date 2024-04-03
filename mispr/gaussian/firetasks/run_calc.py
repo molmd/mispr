@@ -21,7 +21,7 @@ from fireworks.utilities.fw_utilities import explicit_serialize
 
 from custodian import Custodian
 from custodian.gaussian.jobs import GaussianJob
-from custodian.gaussian.handlers import WalTimeErrorHandler, GaussianErrorHandler
+from custodian.gaussian.handlers import WallTimeErrorHandler, GaussianErrorHandler
 
 from mispr.gaussian.defaults import CUSTODIAN_MAX_ERRORS
 from mispr.gaussian.utilities.misc import recursive_compare_dicts
@@ -117,11 +117,11 @@ class RunGaussianCustodian(FiretaskBase):
             optimization job; this will also generate a plot with the convergence
             criteria as a function of the number of iterations. Defaults to True.
         wall_time (int, optional): Wall time set to the job in seconds; if provided,
-            will add the ``WalTimeErrorHandler``, which will restart the job if it hits
+            will add the ``WallTimeErrorHandler``, which will restart the job if it hits
             the wall time limit.
         buffer_time (int, optional): Buffer time set to the job in seconds; if
             provided; if the remaining time for the job = buffer_time, the
-            ``WalTimeErrorHandler`` will cancel the job and restart it; this is done
+            ``WallTimeErrorHandler`` will cancel the job and restart it; this is done
             because if the job hits wall time on its own and is cancelled, it will no
             longer be possible to restart it. Defaults to 300 seconds.
         max_wall_time_corrections (int, optional): Maximum number of wall time
@@ -205,13 +205,14 @@ class RunGaussianCustodian(FiretaskBase):
                     f"and/or basis set to use for the SCF "
                     f"calculation are not provided! Exiting..."
                 )
-            jobs = GaussianJob.better_guess(
+            jobs = GaussianJob.generate_better_guess(
                 gaussian_cmd=cmd,
                 input_file=input_file,
                 output_file=output_file,
                 stderr_file=stderr_file,
                 backup=backup,
                 cart_coords=cart_coords,
+                directory=os.getcwd(),
             )
         else:
             raise ValueError(f"Unsupported job type: {job_type}")
@@ -233,7 +234,7 @@ class RunGaussianCustodian(FiretaskBase):
         ]
         if wall_time:
             handlers.append(
-                WalTimeErrorHandler(
+                WallTimeErrorHandler(
                     wall_time=wall_time,
                     buffer_time=buffer_time,
                     input_file=input_file,
