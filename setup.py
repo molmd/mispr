@@ -14,8 +14,7 @@ setuptools.setup(
     url="https://github.com/molmd/mispr",
     install_requires=[
         "numpy >= 1.21.1",
-        "pymongo >= 3.11.0",
-        "pymongo <= 3.12.0",
+        "pymongo>=3.3.0,<=3.12.0",
         "matplotlib >= 3.3.1",
         "networkx >= 2.5",
         "fireworks >= 1.9.6",
