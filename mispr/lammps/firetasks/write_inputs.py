@@ -47,47 +47,54 @@ class WriteDataFile(FiretaskBase):
     Write LAMMPS data file for a bulk system in the current working 
     directory. User can provide a LammpsData object, a LammpsDataWrapper
     object, or the inputs for instantiating a LammpsDataWrapper object.
+    See the ``LammpsData`` and ``LammpsDataWrapper`` classes in the
+    ``pymatgen.io.lammps.data`` module for more information.
 
-    Optional Args:
-        working_dir (str): Path to working directory; default is current
-            working directory
-        data_filename (str): Name of data file to be written; default is
-            "complex.data"
-        lammps_data (LammpsData): pymatgen object to be written as data 
-            file; Can be passed through fw_spec or as an optional 
-            parameter; If both are provided, will take the one provided
-            directly
-        lammps_data_wrapper (LammpsDataWrapper): pymatgen object to be
-            written as data file; Can be passed through fw_spec or as an
-            optional parameter; If both are provided, will take the one
-            provided directly; Will be ignored if lammps_data is
-            available
-        system_force_field_dict (dict): Dictionary of force field
-            parameters for the system; Used as input for a
-            LammpsDataWrapper object; Intended to be created by the
-            GetForceField task; Can be passed through fw_spec or as an
-            optional parameter; If both are provided, will take the one
-            provided in the spec
-        system_mixture_data (dict): Dictionary of system mixture data;
-            Used as input for a LammpsDataWrapper object; Can be passed 
-            through fw_spec or as an optional parameter; If both are 
-            provided, will take the one provided in the spec
-        system_box_data (float, int, list, np.ndarray): Box data for
-            the system; Used as input for a LammpsDataWrapper object; 
-            Can be passed through fw_spec or as an optional parameter; 
-            If both are provided, will take the one provided in the spec
-        system_box_data_type (str): Type of box data provided; Used as
-            input for a LammpsDataWrapper object; defaults to "cubic"
-        position_seed (int): Seed for randomizing positions of atoms;
-            Indirectly used as input for packmol through 
-            LammpsDataWrapper; Defaults to 150
-        system_mixture_data_type (str): Type of system mixture data;
-            Determines what information is required in the 
-            system_mixture_data dictionary; Used as input for a
-            LammpsDataWrapper object; Defaults to "concentration"
-        scale_charges (bool): Whether to scale charges in the system;
-            Only used if building a system from LammpsDataWrapper 
-            inputs;
+    Args:
+        working_dir (str, optional): Path to the working directory. 
+            Defaults to the current working directory.
+        data_filename (str, optional): Name of data file to be written. 
+            Defaults to "complex.data".
+        lammps_data (LammpsData, optional): The ``LammpsData`` object to 
+            be written as the data file. Can be passed through the 
+            ``fw_spec`` or input by the user. If both are provided, the
+            one provided directly will be used.
+        lammps_data_wrapper (LammpsDataWrapper, optional): The 
+            wrapper for the ``LammpsData`` object to be written as data 
+            file. Can be passed through ``fw_spec`` or input by the 
+            user. If both are provided, the one provided directly will 
+            be used. Will be ignored if ``lammps_data`` is provided.
+        system_force_field_dict (dict, optional): The force field
+            parameters for the system. Used as input for
+            ``LammpsDataWrapper``. Intended to be created by the
+            ``GetForceField`` task. Can be passed through ``fw_spec`` or
+            input by the user. If both are provided, will take the one
+            provided in the ``fw_spec``.
+        system_mixture_data (dict, optional): The information that will 
+            be used to calculate the number of molecules of each type in
+            the system. Used as input for a ``LammpsDataWrapper`` 
+            object. Can be read from ``fw_spec`` or input by the 
+            user; If both are provided, will use the one provided in the
+            ``fw_spec``.
+        system_box_data (float, int, list, ndarray, optional): 
+            Information about the system box; the value of this arg is 
+            determined by the ``system_box_data_type``. Used as input 
+            for a ``LammpsDataWrapper`` object. Can be passed through 
+            ``fw_spec`` or input by the user. If both are provided, 
+            will take the one provided in the ``fw_spec``.
+        system_box_data_type (str, optional): Determines the type for 
+            ``system_box_data``. Used as input for a 
+            ``LammpsDataWrapper`` object. Defaults to "cubic".
+        position_seed (int, optional): Seed for randomizing the 
+            positions of atoms. Indirectly used as input for packmol 
+            through ``LammpsDataWrapper``. Defaults to 150.
+        system_mixture_data_type (str, optional): Determines the content
+            of ``system_mixture_data``. Used as input for a
+            ``LammpsDataWrapper`` object; Defaults to "concentration".
+        scale_charges (bool, optional): Whether to scale the partial 
+            charges of all molecules that have a non-zero net charge in 
+            the system. Only used if building a system from 
+            ``LammpsDataWrapper`` inputs.
         charge_scaling_factor (float): Factor by which to scale charges
             in the system; Only used if building a system from
             LammpsDataWrapper inputs and if scale_charges is True;
