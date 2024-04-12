@@ -183,7 +183,7 @@ class WriteDataFile(FiretaskBase):
                                        self.get("system_force_field_dict"))
             mixture = fw_spec.get("system_mixture_data",
                                   self.get("system_mixture_data"))
-            box_data = fw_spec.get("system_box_data", 
+            box_data = fw_spec.get("system_box_data",
                                    self.get("system_box_data"))
 
         # Case where no proper inputs exist: raise error
@@ -320,7 +320,7 @@ class WriteControlFile(FiretaskBase):
     def run_task(self, fw_spec):
 
         # Set directory for writing control file
-        working_dir = fw_spec.get("working_dir", self.get("working_dir", 
+        working_dir = fw_spec.get("working_dir", self.get("working_dir",
                                                           os.getcwd()))
         template_dir = None
         os.makedirs(working_dir, exist_ok=True)
