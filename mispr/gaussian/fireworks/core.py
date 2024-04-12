@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines common fireworks used in Gaussian workflows.
+"""Define common fireworks used in Gaussian workflows."""
 
 import os
 import logging
@@ -18,7 +15,7 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
@@ -35,30 +32,28 @@ def common_tasks(
     **kwargs
 ):
     """
-    Defines a list of common tasks for Gaussian fireworks, i.e.
-    writing an input file, running the calculation, and
-    parsing the output.
+    Define a list of common tasks for Gaussian fireworks, i.e. writing an input file,
+    running the calculation, and parsing the output.
 
     Args:
-        db (str or dict): database credentials to store the run; could
-            be provided as the path to the db.json file or in the form
-            of a dictionary
-        input_file (str): name of the input file to be written
+        db (str or dict): Database credentials to store the run; could be provided as
+            the path to the db.json file or in the form of a dictionary.
+        input_file (str): Name of the input file to be written.
         output_file (str): name of the Gaussian output file
-        gaussian_input_params (dict): a dictionary of parameters to be
-            used in creating the Gaussian input file
-        cart_coords (bool): whether to write cartesian coordinates or
-            not; default is True
-        oxidation_states (dict): a dictionary of element symbols and
-            their oxidation states used in setting the charge on the
-            molecule
-        **kwargs: other kwargs that are passed to:
-            1. mispr.gaussian.firetasks.write_inputs.WriteInput
-            2. mispr.gaussian.firetasks.run_calc.RunGaussianCustodian
-            3. mispr.gaussian.firetasks.parse_outputs.ProcessRun
+        gaussian_input_params (dict): A dictionary of parameters to be used in creating
+            the Gaussian input file.
+        cart_coords (bool): Whether to write cartesian coordinates or not; default
+            is True.
+        oxidation_states (dict): A dictionary of element symbols and their oxidation
+            states used in setting the charge on the molecule.
+        kwargs: other kwargs that are passed to:
+
+            1. ``mispr.gaussian.firetasks.write_inputs.WriteInput``
+            2. ``mispr.gaussian.firetasks.run_calc.RunGaussianCustodian``
+            3. ``mispr.gaussian.firetasks.parse_outputs.ProcessRun``
 
     Returns:
-        list of Firetasks
+        List of Firetasks.
     """
     return [
         WriteInput(
@@ -99,8 +94,9 @@ def common_tasks(
 
 class CalcFromMolFW(Firework):
     """
-    Runs a Gaussian calculation from a molecule.
+    Run a Gaussian calculation from a molecule.
     """
+
     def __init__(
         self,
         mol,
@@ -119,37 +115,36 @@ class CalcFromMolFW(Firework):
     ):
         """
         Args:
-            mol (Molecule, GaussianOutput, str, dict): source of the
-                molecule to be processed. Should match the mol_operation_type
-            mol_operation_type (str): the type of molecule operation.
-                See process_mol defined in mispr/gaussian/utilities/mol.py
-                for supported operations; defaults to "get_from_mol"
-            db (str or dict): database credentials; could be provided as
-                the path to the db.json file or in the form of a dictionary;
-                if none is provided, attempts to get it from the
-                configuration files
-            name (str): name of the Firework; defaults to "calc_from_mol"
-            parents (Firework or [Firework]): list of parent FWs this FW
-                depends on
-            working_dir (str): working directory for the calculation;
-                defaults to the current directory
-            input_file (str): name of the Gaussian input file to be created;
-                defaults to "mol.com"
-            output_file (str): name of the Gaussian output file to be output;
-                defaults to "mol.out"
-            gaussian_input_params (dict): dictionary of parameters to be
-                used in the Gaussian input file
-            cart_coords (bool): whether the coordinates are cartesian or
-                z-matrix; defaults to True
-            oxidation_states (list): list of oxidation states for each
-                atom; defaults to None
-            tag (str): tag for the calculation; the provided tag will be
-                stored in the db documents for easy retrieval; defaults
-                to "unknown"
-            **kwargs: other kwargs that are passed to:
+            mol (Molecule, GaussianOutput, str, dict): Source of the molecule to be
+                processed. Should match the ``mol_operation_type``.
+            mol_operation_type (str, optional): The type of molecule operation. See
+                process_mol defined in ``mispr/gaussian/utilities/mol.py`` for supported
+                operations. Defaults to  ``get_from_mol``.
+            db (str or dict, optional): Database credentials; could be provided as the
+                path to the db.json file or in the form of a dictionary; if none is
+                provided, attempts to get it from the configuration files.
+            name (str, optional): Name of the Firework. Defaults to  ``calc_from_mol``.
+            parents (Firework or [Firework], optional): List of parent FWs this FW
+                depends on.
+            working_dir (str, optional): Working directory for the calculation; defaults
+                to the current directory.
+            input_file (str, optional): Name of the Gaussian input file to be created;
+                defaults to "mol.com".
+            output_file (str, optional): Name of the Gaussian output file to be output;
+                defaults to "mol.out".
+            gaussian_input_params (dict, optional): Dictionary of parameters to be
+                used in the Gaussian input file.
+            cart_coords (bool, optional): Whether the coordinates are cartesian or
+                z-matrix. Defaults to  True.
+            oxidation_states (list, optional): List of oxidation states for each atom;
+                defaults to None.
+            tag (str, optional): Tag for the calculation; the provided tag will be
+                stored in the db documents for easy retrieval. Defaults to  "unknown".
+            kwargs: other kwargs that are passed to:
+
                 1. Firework.__init__.
-                2. mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput
-                3. mispr.gaussian.fireworks.common_tasks
+                2. ``mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput``
+                3. ``mispr.gaussian.fireworks.common_tasks``
         """
 
         t = []
@@ -208,9 +203,9 @@ class CalcFromMolFW(Firework):
 
 class CalcFromRunsDBFW(Firework):
     """
-    Runs a Gaussian calculation from a previous calculation or the
-    runs database.
+    Run a Gaussian calculation from a previous calculation or the runs database.
     """
+
     def __init__(
         self,
         db=None,
@@ -226,30 +221,29 @@ class CalcFromRunsDBFW(Firework):
     ):
         """
         Args:
-            db (str or dict): database credentials; could be provided as
-                the path to the db.json file or in the form of a dictionary;
-                if none is provided, attempts to get it from the
-                configuration files
-            name (str): name of the Firework; defaults to "calc_from_runs_db"
-            parents (Firework or [Firework]): list of parent FWs this FW
-                depends on
-            gaussian_input_params (dict): dictionary of parameters to be
-                used in the Gaussian input file
-            working_dir (str): working directory for the calculation;
-                defaults to the current directory
-            input_file (str): name of the Gaussian input file to be created;
-                defaults to "mol.com"
-            output_file (str): name of the Gaussian output file to be output;
-                defaults to "mol.out"
-            cart_coords (bool): whether the coordinates are cartesian or
-                z-matrix; defaults to True
-            tag (str): tag for the calculation; the provided tag will be
-                stored in the db documents for easy retrieval; defaults
-                to "unknown"
-            **kwargs: other kwargs that are passed to:
+            db (str or dict, optional): Database credentials; could be provided as the
+                path to the db.json file or in the form of a dictionary; if none is
+                provided, attempts to get it from the configuration files.
+            name (str, optional): Name of the Firework. Defaults to  ``calc_from_runs_db``.
+            parents (Firework or [Firework], optional): List of parent FWs this FW
+                depends on.
+            gaussian_input_params (dict, optional): Dictionary of parameters to be used
+                in the Gaussian input file.
+            working_dir (str, optional): Working directory for the calculation;
+                defaults to the current directory.
+            input_file (str, optional): Name of the Gaussian input file to be created;
+                defaults to "mol.com".
+            output_file (str, optional): Name of the Gaussian output file to be output;
+                defaults to "mol.out".
+            cart_coords (bool, optional): Whether the coordinates are cartesian or
+                z-matrix. Defaults to  True.
+            tag (str, optional): Tag for the calculation; the provided tag will be
+                stored in the db documents for easy retrieval. Defaults to  "unknown".
+            kwargs: other kwargs that are passed to:
+
                 1. Firework.__init__.
-                2. mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput
-                3. mispr.gaussian.fireworks.common_tasks
+                2. ``mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput``
+                3. ``mispr.gaussian.fireworks.common_tasks``
         """
         t = []
         working_dir = working_dir or os.getcwd()

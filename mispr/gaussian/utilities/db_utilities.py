@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains db utility functions.
+"""Define db utility functions."""
 
 import os
 import logging
@@ -15,22 +12,20 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
 
 def get_db(input_db=None):
     """
-    Helper function to create a GaussianCalcDb instance from a file or
-    a dict.
+    Helper function to create a GaussianCalcDb instance from a file or a dict.
 
     Args:
-        input_db (str or dict): path to db file or a dict containing db
-            info.
+        input_db (str or dict, optional): Path to db file or a dict containing db info.
 
     Returns:
-        GaussianCalcDb
+        GaussianCalcDb.
     """
     if not input_db:
         input_db = f"{CONFIG_FILE_DIR}/db.json"
@@ -42,9 +37,3 @@ def get_db(input_db=None):
         db = GaussianCalcDb.from_db_file(input_db)
 
     return db
-
-
-def find_calc_in_db(query_criteria, db):
-    from mispr.gaussian.utilities.gout import process_run
-    g_out = process_run(operation_type="get_from_run_query", run=query_criteria, db=db)
-    pass

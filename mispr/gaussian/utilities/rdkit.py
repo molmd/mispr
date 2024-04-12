@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains functions for processing rdkit molecules.
+"""Define functions for processing rdkit molecules."""
 
 import os
 import random
@@ -14,26 +11,27 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
 
 def get_rdkit_mol(mol, sanitize=True, remove_h=False):
     """
-    Converts a pymatgen mol object to RDKit rdmol object. Uses RDKit to perform
-    the conversion <http://rdkit.org>. Accounts for aromaticity.
+    Convert a pymatgen mol object to RDKit rdmol object. Uses RDKit to perform the
+    conversion <http://rdkit.org>. Accounts for aromaticity.
 
     Args:
-        mol (Molecule): pymatgen Molecule object
-        sanitize (bool): whether to sanitize the molecule
-        remove_h (bool): whether to remove hydrogens
+        mol (Molecule): pymatgen Molecule object.
+        sanitize (bool, optional): Whether to sanitize the molecule.
+        remove_h (bool, optional): whether to remove hydrogens.
 
     Returns:
-        Mol: RDKit Mol object
+        Mol: RDKit Mol object.
     """
     try:
         import rdkit
+
         from rdkit import Chem
         from rdkit.Geometry import Point3D
     except ModuleNotFoundError:
@@ -80,15 +78,14 @@ def get_rdkit_mol(mol, sanitize=True, remove_h=False):
 
 def calc_energy(rdkit_mol, maxIters=200):
     """
-    Performs local optimization on an rdkit Mol object and calculates
-    its energy using UFF.
+    Perform local optimization on rdkit Mol object and calculates its energy using UFF.
 
     Args:
-        rdkit_mol (Mol): RDKit Mol object
-        maxIters (int): maximum number of iterations to perform
+        rdkit_mol (Mol): RDKit Mol object.
+        maxIters (int, optional): Maximum number of iterations to perform.
 
     Returns:
-        float: energy of the molecule
+        float: Energy of the molecule.
     """
     from rdkit.Chem import AllChem
 
@@ -101,12 +98,14 @@ def calc_energy(rdkit_mol, maxIters=200):
 
 def draw_rdkit_mol(rdkit_mol, filename="mol.png", working_dir=None):
     """
-    Draws the 2D structure of a molecule and saves it to a file.
+    Draw the 2D structure of a molecule and saves it to a file.
 
     Args:
-        rdkit_mol (Mol): RDKit Mol object
-        filename (str): name of the file to save the image to
-        working_dir (str): directory to save the image to
+        rdkit_mol (Mol): RDKit Mol object.
+        filename (str, optional): Name of the file to save the image to; defaults to
+            "mol.png".
+        working_dir (str, optional): Directory to save the image to; defaults to
+            current working directory.
     """
     from rdkit.Chem import Draw, AllChem
 
@@ -119,21 +118,21 @@ def draw_rdkit_mol_with_highlighted_bonds(
     rdkit_mol, bonds, filename="mol.png", colors=None, working_dir=None
 ):
     """
-    Draws the 2D structure of a molecule and highlights the bonds
-    specified by the user.
+    Draw the 2D structure of a molecule and highlights the bonds specified by the user.
 
     Args:
-        rdkit_mol (Mol): RDKit Mol object
-        bonds (list): list of tuples of indexes of atoms forming a
-            bond to highlight; e.g. [(3, 11), (5, 13)] to highlight the
-            bonds between sites 3 and 11 and sites 5 and 13
-        filename (str): name of the file to save the image to
-        colors (list): list of colors to use for highlighting the bonds;
-            colors should be provided in rgb format,
-            e.g. (0.0, 0.0, 0.0) for black; if not provided or number
-            of colors provided is less than number of bonds to
-            highlight, will randomly generate colors
-        working_dir (str): directory to save the image to
+        rdkit_mol (Mol): RDKit Mol object.
+        bonds (list): List of tuples of indexes of atoms forming a bond to highlight;
+            e.g. [(3, 11), (5, 13)] to highlight the bonds between sites 3 and 11 and
+            sites 5 and 13.
+        filename (str, optional): Name of the file to save the image to; defaults to
+            "mol.png".
+        colors (list, optional): List of colors to use for highlighting the bonds;
+            colors should be provided in rgb format, e.g. (0.0, 0.0, 0.0) for black;
+            if not provided or number of colors provided is less than number of bonds to
+            highlight, will randomly generate colors.
+        working_dir (str, optional): Directory to save the image to; defaults to
+            current working directory.
     """
 
     def _generate_color():
@@ -143,9 +142,9 @@ def draw_rdkit_mol_with_highlighted_bonds(
             bond_color = _generate_color()
         return bond_color
 
-    from rdkit.Chem.Draw import rdMolDraw2D
     from rdkit import Chem
     from rdkit.Chem import rdDepictor
+    from rdkit.Chem.Draw import rdMolDraw2D
 
     working_dir = working_dir or os.getcwd()
     rdDepictor.SetPreferCoordGen(True)

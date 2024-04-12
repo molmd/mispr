@@ -10,16 +10,15 @@ from fireworks import Firework
 
 from mdproptools.structural.rdf_cn import calc_atomic_rdf, calc_molecular_rdf
 
-from mispr.gaussian.workflows.base.core import _process_mol_check
-from mispr.gaussian.firetasks.geo_transformation import ProcessMoleculeInput
 from mispr.lammps.firetasks.run import (
     RunTleap,
-    RunLammpsDirect,
+    RunMaestro,
     RunParmchk,
     RunAntechamber,
-    RunMaestro,
+    RunLammpsDirect,
 )
 from mispr.gaussian.utilities.metadata import get_chem_schema
+from mispr.gaussian.workflows.base.core import _process_mol_check
 from mispr.lammps.firetasks.write_inputs import (
     LabelFFDict,
     WriteControlFile,
@@ -27,13 +26,14 @@ from mispr.lammps.firetasks.write_inputs import (
     LabelFFDictFromDB,
 )
 from mispr.lammps.firetasks.parse_outputs import GetRDF, CalcDiff, ProcessPrmtop
+from mispr.gaussian.firetasks.geo_transformation import ProcessMoleculeInput
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 

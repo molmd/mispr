@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains miscellaneous functions useful in many of the mispr levels.
+"""Define miscellaneous functions useful in many of the mispr levels."""
 
 import logging
 
@@ -10,25 +7,24 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
 
 def pass_gout_dict(fw_spec, key):
     """
-    Helper function used in the Gaussian Fireworks to pass Gaussian
-    output dictionaries from one task to the other, while checking that
-    the criteria for starting the following task are met (e.g. normal
-    termination of the previous job, lack of imaginary frequencies, etc.)
+    Helper function used in the Gaussian Fireworks to pass Gaussian output dictionaries
+    from one task to the other, while checking that the criteria for starting the
+    following task are met (e.g. normal termination of the previous job, lack of
+    imaginary frequencies, etc.).
 
     Args:
-        fw_spec (dict): Firework spec dictionary
-        key (str): Unique key for the Gaussian output dictionary in
-            fw_spec
+        fw_spec (dict): Firework spec dictionary.
+        key (str): Unique key for the Gaussian output dictionary in fw_spec.
 
     Returns:
-        dict: Gaussian output dictionary
+        dict: Gaussian output dictionary.
     """
     gout_dict = fw_spec.get("gaussian_output", {}).get(key)
     proceed_keys = fw_spec.get("proceed", {})
@@ -40,15 +36,14 @@ def pass_gout_dict(fw_spec, key):
 
 def recursive_signature_remove(d):
     """
-    Recursively removes the signature "@" from a dictionary (e.g.
-    those in the name of a module). Used when processing Gaussian
-    runs before saving them to the db.
+    Remove Recursively the signature "@" from a dictionary (e.g. those in the name of
+    a module). Used when processing Gaussian runs before saving them to the db.
 
     Args:
-        d (dict): Dictionary to remove the signature from
+        d (dict): Dictionary to remove the signature from.
 
     Returns:
-        dict: Dictionary with the signature removed
+        dict: Dictionary with the signature removed.
     """
     # TODO: check if this is no longer an issue with MongoDB 5.0
     if isinstance(d, dict):
@@ -63,20 +58,18 @@ def recursive_signature_remove(d):
 
 def recursive_compare_dicts(dict1, dict2, dict1_name, dict2_name, path=""):
     """
-    Recursively compares two dictionaries and returns the differences.
+    Compare recursively two dictionaries and returns the differences.
 
     Args:
-        dict1 (dict): First dictionary to compare
-        dict2 (dict): Second dictionary to compare
-        dict1_name (str): Name of the first dictionary (for messages
-            on the differences)
-        dict2_name (str): Name of the second dictionary (for messages
-            on the differences)
-        path (str): used internally to keep track of the keys in nested
-            dicts, meant to be "" for the top level
+        dict1 (dict): First dictionary to compare.
+        dict2 (dict): Second dictionary to compare.
+        dict1_name (str): Name of the first dictionary (for messages on the differences).
+        dict2_name (str): Name of the second dictionary (for messages on the differences).
+        path (str, optional): Used internally to keep track of the keys in nested dicts,
+            meant to be "" for the top level
 
     Returns:
-        str: differences between the two dictionaries (if any)
+        str: Differences between the two dictionaries (if any).
     """
     error = ""
     old_path = path

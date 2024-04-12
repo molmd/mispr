@@ -6,7 +6,7 @@ module_dir = os.path.dirname(os.path.abspath(__file__))
 
 setuptools.setup(
     name="mispr",
-    version="0.0.2",
+    version="0.0.4",
     author="Rasha Atwi, Matthew Bliss",
     author_email="rasha.atwi@stonybrook.edu, matthew.bliss@stonybrook.edu",
     description="mispr contains FireWorks workflows for Materials Science",
@@ -14,8 +14,7 @@ setuptools.setup(
     url="https://github.com/molmd/mispr",
     install_requires=[
         "numpy >= 1.21.1",
-        "pymongo >= 3.11.0",
-        "pymongo <= 3.12.0",
+        "pymongo>=3.3.0,<=3.12.0",
         "matplotlib >= 3.3.1",
         "networkx >= 2.5",
         "fireworks >= 1.9.6",
@@ -24,7 +23,8 @@ setuptools.setup(
         "pandas >= 1.1.2",
         "pubchempy",
         "parmed",
-        "mdproptools"
+        "mdproptools",
+        "dnspython"
     ],
     packages=setuptools.find_packages(),
     classifiers=[

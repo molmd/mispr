@@ -1,5 +1,6 @@
 *.xml
 *.iml
+*.pyc
 /mispr/gaussian/config/*
 /build/*
 /dist/*
@@ -7,3 +8,4 @@
 /tests/*
 **/__pycache__
 **/.DS_Store
+docs/build/

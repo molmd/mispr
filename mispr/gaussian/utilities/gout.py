@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains functions for processing different gaussian output formats.
+"""Define functions for processing different gaussian output formats."""
 
 import os
 import json
@@ -20,47 +17,46 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
 
 def process_run(operation_type, run, input_file=None, **kwargs):
     """
-    Processes a Gaussian run and returns a dictionary of the results.
-    Used for creating db documents and/or json files.
+    Process a Gaussian run and returns a dictionary of the results. Used for creating
+    db documents and/or json files.
 
     Args:
-        operation_type (str): Type of operation to be performed;
-            supported ones are:
-                 1. "get_from_gout": get data from a GaussianOutput
-                    object as defined in pymatgen.io.gaussian
-                 2. "get_from_gout_file": get data from a Gaussian
-                    output file
-                 3. "get_from_run_dict": get data from a Gaussian
-                    output dictionary
-                 4. "get_from_run_id": retrieve data from dtabase
-                    using a run id, e.g. "5e3737d9da0b1cbbd5d556f7"
-                 5. "get_from_run_query": retrieve data from dtabase
-                    using query criteria, e.g. {"smiles": "COCCOC",
-                                                "type": "freq",
-                                                "functional": "B3LYP",
-                                                "basis": "6-31+G*",
-                                                "phase": "gas", ...}
-        run (GaussianOutput, str, dict): the actual Gaussian run; type
-            depends on the operation_type
-        input_file (str): the input file for the run; used for adding
-            Gaussian input parameters to the final Gaussian dictionary;
-            if not specified, will get these parameters from the run
-            itself, but in this case, "input_parameters" usually
-            specified at the end of the Gaussian input file will not be
-            saved since they are not easily retrieved from the Gaussian
-            output file
-        **kwargs (keyword arguments): additional keyword arguments for
-            the operation: namely, working_dir and db
+        operation_type (str): Type of operation to be performed; supported ones are:
+
+             1. ``get_from_gout``: Get data from a GaussianOutput object as defined in
+                ``pymatgen.io.gaussian``.
+             2. ``get_from_gout_file``: Get data from a Gaussian output file.
+             3. ``get_from_run_dict``: Get data from a Gaussian output dictionary.
+             4. ``get_from_run_id``: Retrieve data from dtabase using a run id,
+                e.g. "5e3737d9da0b1cbbd5d556f7".
+             5. ``get_from_run_query``: Retrieve data from dtabase using query criteria,
+                e.g.
+
+                .. code-block:: python
+
+                    {"smiles": "COCCOC", "type": "freq", "functional": "B3LYP",
+                    "basis": "6-31+G*", "phase": "gas", ...}
+
+        run (GaussianOutput, str, dict): The actual Gaussian run; type depends on the
+            ``operation_type``.
+        input_file (str, optional): The input file for the run; used for adding Gaussian
+            input parameters to the final Gaussian dictionary; if not specified, will
+            get these parameters from the run itself, but in this case,
+            ``input_parameters`` usually specified at the end of the Gaussian input file
+            will not be saved since they are not easily retrieved from the Gaussian
+            output file.
+        kwargs (keyword arguments): Additional keyword arguments for the operation:
+            namely, ``working_dir`` and ``db``.
 
     Returns:
-        dict: cleaned up Gaussian output dictionary
+        dict: Cleaned up Gaussian output dictionary.
     """
     working_dir = kwargs.get("working_dir", os.getcwd())
 

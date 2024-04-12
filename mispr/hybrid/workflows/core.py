@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines the DFT-MD hybrid workflow.
+"""Define the DFT-MD hybrid workflow."""
 
 import os
 
@@ -20,7 +17,7 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Oct 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 
 def run_hybrid_calcs(

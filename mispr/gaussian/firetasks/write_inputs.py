@@ -1,56 +1,49 @@
-# coding: utf-8
-
-
-# Defines firetasks for writing Gaussian input files.
+"""Define firetasks for writing Gaussian input files."""
 
 import os
 
 from copy import deepcopy
-
-from fireworks.core.firework import FiretaskBase
-from fireworks.utilities.fw_utilities import explicit_serialize
 
 from pymatgen.io.gaussian import GaussianInput
 from pymatgen.core.structure import IMolecule
 from pymatgen.analysis.graphs import MoleculeGraph
 from pymatgen.analysis.local_env import OpenBabelNN
 
+from fireworks.core.firework import FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
+
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 
 @explicit_serialize
 class WriteInput(FiretaskBase):
     """
-    Write Gaussian input file for a molecule/cluster in the current
-    working directory.
+    Write Gaussian input file for a molecule/cluster in the current working directory.
 
-    Optional Args:
-        gaussian_input (GaussianInput): a GaussianInput object to be
-            written to a file; can either be provided directly or
-            passed through fw_spec; if both are provided, will take
-            the one provided directly
-        molecule (Molecule): a Molecule object to be used in creating
-            Gaussian input file; can be provided as an optional parameter
-            or passed through fw_spec; if both are provided, will check
-            if their graphs are isomorphic; if they are isomorphic,
-            will use the molecule passed through fw_spec, otherwise
-            will take the user input; note that molecule is ignored if
-            a gaussian_input is available
-        gaussian_input_params (dict): a dictionary of parameters to be
-            used in creating the Gaussian input file; ignored if a
-            gaussian_input is provided
-        input_file (str): name of the input file to be written; default
-            is mol.com
-        cart_coords (bool): whether to write cartesian coordinates or
-            not; default is True
-        oxidation_states (dict): a dictionary of element symbols and
-            their oxidation states used in setting the charge on the
-            molecule
+    Args:
+        gaussian_input (GaussianInput, optional): A ``GaussianInput`` object to be
+            written to a file; can either be provided directly or passed through
+            ``fw_spec``; if both are provided, will take the one provided directly.
+        molecule (Molecule, optional): A ``Molecule`` object to be used in creating
+            Gaussian input file; can be provided as an optional parameter or passed
+            through ``fw_spec``; if both are provided, will check if their graphs are
+            isomorphic; if they are isomorphic, will use the molecule passed through
+            ``fw_spec``, otherwise will take the user input; note that molecule is
+            ignored if a ``gaussian_input`` is available.
+        gaussian_input_params (dict, optional): A dictionary of parameters to be used
+            in creating the Gaussian input file; ignored if a ``gaussian_input`` is
+            provided.
+        input_file (str, optional): Name of the input file to be written; default is
+            "mol.com".
+        cart_coords (bool, optional): Whether to write cartesian coordinates or not;
+            default is True.
+        oxidation_states (dict, optional): A dictionary of element symbols and their
+            oxidation states used in setting the charge on the molecule.
     """
 
     _fw_name = "Write Gaussian Input File"

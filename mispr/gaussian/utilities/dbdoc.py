@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Contains functions for cleaning up JSON documents.
+"""Define functions for cleaning up JSON documents."""
 
 import os
 import logging
@@ -17,21 +14,21 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
 
 def _job_types(gin):
     """
-    Determines the type of the Gaussian job (e.g. opt, freq, etc.)
-    from a Gaussian input dictionary
+    Determine the type of the Gaussian job (e.g. opt, freq, etc.) from a Gaussian input
+    dictionary.
 
     Args:
-        gin (dict): Gaussian input dictionary
+        gin (dict): Gaussian input dictionary.
 
     Returns:
-        list: list of Gaussian job types
+        list: List of Gaussian job types.
     """
     return sorted(
         list(
@@ -46,15 +43,14 @@ def _job_types(gin):
 
 def _modify_gout(gout):
     """
-    Modifies the Gaussian output dictionary by removing unnecessary
-    keys and restructuring its format to match the schema of the db
+    Modify the Gaussian output dictionary by removing unnecessary keys and restructuring
+    its format to match the schema of the db.
 
     Args:
-        gout (dict): Gaussian output dictionary
+        gout (dict): Gaussian output dictionary.
 
     Returns:
-        dict: modified Gaussian output dictionary
-
+        dict: Modified Gaussian output dictionary.
     """
     gout["input"]["charge"] = gout["charge"]
     gout["input"]["spin_multiplicity"] = gout["spin_multiplicity"]
@@ -74,18 +70,17 @@ def _modify_gout(gout):
 
 def _create_gin(gout, working_dir, input_file):
     """
-    Creates a Gaussian input dictionary to be used for creating
-    Gaussian documents in the db; if an input_file is provided,
-    content of the dictionary is mostly taken from it; otherwise,
-    uses the gout to create the dictionary
+    Create a Gaussian input dictionary to be used for creating Gaussian documents in
+    the db; if an input_file is provided, content of the dictionary is mostly taken from
+    it; otherwise, uses the gout to create the dictionary.
 
     Args:
-        gout (dict): Gaussian output dictionary
-        working_dir (str): working directory of the Gaussian input_file
-        input_file (str): relative or absolute path to the input_file
+        gout (dict): Gaussian output dictionary.
+        working_dir (str): Working directory of the Gaussian input_file.
+        input_file (str): Relative or absolute path to the input_file.
 
     Returns:
-        dict: Gaussian input dictionary
+        dict: Gaussian input dictionary.
     """
     if input_file:
         if not os.path.isabs(input_file):
@@ -111,15 +106,15 @@ def _create_gin(gout, working_dir, input_file):
 
 def _cleanup_gout(gout, working_dir, input_file):
     """
-    Cleans up the Gaussian dictionary to be saved in the database
+    Clean up the Gaussian dictionary to be saved in the database.
 
     Args:
-        gout (dict): Gaussian output dictionary
-        working_dir (str): working directory of the Gaussian input_file
-        input_file (str): relative or absolute path to the input_file
+        gout (dict): Gaussian output dictionary.
+        working_dir (str): Working directory of the Gaussian input_file.
+        input_file (str): Relative or absolute path to the input_file.
 
     Returns:
-        dict: cleaned up Gaussian dictionary
+        dict: Cleaned up Gaussian dictionary.
     """
     gout = _modify_gout(gout)
     gin = _create_gin(gout, working_dir, input_file)
@@ -148,18 +143,18 @@ def _cleanup_gout(gout, working_dir, input_file):
 
 def add_solvent_to_prop_dict(prop_dict, solvent_gaussian_inputs, solvent_properties):
     """
-    Adds solvent properties to a property dictionary (e.g. BDE, BE, etc.)
+    Add solvent properties to a property dictionary (e.g. BDE, BE, etc.).
 
     Args:
-        prop_dict (dict): property dictionary
-        solvent_gaussian_inputs (str): Gaussian input parameters
-            corresponding to the implicit solvent model used in
-            the Gaussian calculations, e.g. "(Solvent=TetraHydroFuran)"
-        solvent_properties (dict): additional solvent input parameters
-            used in the Gaussian calculations; e.g., {"EPS":12}
+        prop_dict (dict): Property dictionary.
+        solvent_gaussian_inputs (str): Gaussian input parameters corresponding to the
+            implicit solvent model used in the Gaussian calculations, e.g.
+            "(Solvent=TetraHydroFuran)".
+        solvent_properties (dict): Additional solvent input parameters used in the
+            Gaussian calculations; e.g., {"EPS":12}.
 
     Returns:
-        dict: property dictionary with solvent properties added
+        dict: Property dictionary with solvent properties added.
     """
     if not solvent_gaussian_inputs:
         solvent = "water"

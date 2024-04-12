@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines firetasks for running Gaussian calculations.
+"""Define firetasks for running Gaussian calculations."""
 
 import os
 import shutil
@@ -16,26 +13,25 @@ import numpy as np
 from monty.os.path import zpath
 from monty.serialization import loadfn
 
+from pymatgen.io.gaussian import GaussianInput
+
 from fireworks.fw_config import CONFIG_FILE_DIR
 from fireworks.core.firework import Firework, FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
 
-from pymatgen.io.gaussian import GaussianInput
-
-from mispr.gaussian.utilities.misc import recursive_compare_dicts
-
 from custodian import Custodian
 from custodian.gaussian.jobs import GaussianJob
-from custodian.gaussian.handlers import WalTimeErrorHandler, GaussianErrorHandler
+from custodian.gaussian.handlers import WallTimeErrorHandler, GaussianErrorHandler
 
 from mispr.gaussian.defaults import CUSTODIAN_MAX_ERRORS
+from mispr.gaussian.utilities.misc import recursive_compare_dicts
 
 __author__ = "Rasha Atwi"
 __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
@@ -45,13 +41,13 @@ class RunGaussianDirect(FiretaskBase):
     """
     Execute a command directly for running Gaussian (no custodian).
 
-    Optional Args:
-        input_file (str): name of the Gaussian input file
-        output_file (str): name of the Gaussian output file
-        gaussian_cmd (str): the name of the full executable to run; if
-            not provided, will attempt to find the command in the
-            config file
+    Args:
+        input_file (str, optional): Name of the Gaussian input file.
+        output_file (str, optional): Name of the Gaussian output file.
+        gaussian_cmd (str, optional): Name of the full executable to run; if not
+            provided, will attempt to find the command in the config file.
     """
+
     required_params = []
     optional_params = ["input_file", "output_file", "gaussian_cmd"]
 
@@ -86,58 +82,52 @@ class RunGaussianCustodian(FiretaskBase):
     """
     Run Gaussian using custodian.
 
-    Optional Args:
-        input_file (str): name of the Gaussian input file
-        output_file (str): name of the Gaussian output file
-        gaussian_cmd (str): the name of the full executable to run; if
-            not provided, will attempt to find the command in the
-            config file
-        stderr_file (str): name of the file to direct standard error to
-        job_type (str): type of job to run; supported options are (1)
-            normal and (2) better_guess; defaults to "normal"
-        backup (bool): whether to backup the initial input file; if True,
-            the input will be copied with a ".orig" appended;
-            defaults to True
-        scf_max_cycles (int): maximum number of SCF cycles to run;
-            defaults to 100
-        opt_max_cycles (int): maximum number of optimization cycles to
-            run; defaults to 100
-        cart_coords (bool): whether to use cartesian coordinates;
-            defaults to True
-        max_errors (int): maximum number of errors to handle before
-            giving up; defaults to the number specified in
-            mispr.gaussian.defaults.py
-        lower_functional (str): lower level of theory to use if the
-            optimization fails and job_type is set to "better_guess;
-            this will attempt to generate a better initial guess of the
-            geometry before running the job again at the higher level
-            of theory
-        lower_basis_set (str): less expensive basis set to use if the
-            optimization fails and job_type is set to "better_guess;
-            this will attempt to generate a better initial guess of the
-            geometry before running the job again at the higher level
-            of theory
-        prefix (str): prefix to the files; defaults to error, which means a
+    Args:
+        input_file (str, optional): Name of the Gaussian input file.
+        output_file (str, optional): Name of the Gaussian output file.
+        gaussian_cmd (str, optional): Name of the full executable to run; if not
+            provided, will attempt to find the command in the config file.
+        stderr_file (str, optional): Name of the file to direct standard error to.
+        job_type (str, optional): Type of job to run; supported options are (1) normal
+            and (2) better_guess. Defaults to "normal".
+        backup (bool, optional): Whether to backup the initial input file; if True,
+            the input will be copied with a ".orig" appended. Defaults to True.
+        scf_max_cycles (int, optional): Maximum number of SCF cycles to run;
+            defaults to 100.
+        opt_max_cycles (int, optional): Maximum number of optimization cycles to run;
+            defaults to 100.
+        cart_coords (bool, optional): Whether to use cartesian coordinates;
+            defaults to True.
+        max_errors (int, optional): Maximum number of errors to handle before giving
+            up. Defaults to the number specified in ``mispr.gaussian.defaults.py``.
+        lower_functional (str, optional): Lower level of theory to use if the
+            optimization fails and job_type is set to "better_guess; this will attempt
+            to generate a better initial guess of the geometry before running the
+            job again at the higher level of theory.
+        lower_basis_set (str, optional): Less expensive basis set to use if the
+            optimization fails and job_type is set to "better_guess; this will attempt
+            to generate a better initial guess of the geometry before running the job
+            again at the higher level of theory.
+        prefix (str, optional): Prefix to the files. Defaults to error, which means a
             series of error.1.tar.gz, error.2.tar.gz, ... will be generated.
-        suffix (str): a suffix to be appended to the final output;
-            e.g., to rename all Gaussian output from mol.out to
-            mol.out.1, provide ".1" as the suffix
-        check_convergence (bool): whether to check convergence in an
-            optimization job; this will also generate a plot with the
-            convergence criteria as a function of the number of
-            iterations; defaults to True
-        wall_time (int): wall time set to the job in seconds; if provided,
-            will add the WalTimeErrorHandler, which will restart the job
-            if it hits the wall time limit
-        buffer_time (int): buffer time set to the job in seconds; if
-            provided; if the remaining time for the job = buffer_time,
-            the WalTimeErrorHandler will cancel the job and restart it;
-            this is done because if the job hits wall time on its own
-            and is cancelled, it will no longer be possible to restart
-            it; defaults to 300 seconds
-        max_wall_time_corrections (int): maximum number of wall time
-            corrections to make; defaults to 3
+        suffix (str, optional): A suffix to be appended to the final output;
+            e.g., to rename all Gaussian output from mol.out to mol.out.1, provide ".1"
+            as the suffix.
+        check_convergence (bool, optional): Whether to check convergence in an
+            optimization job; this will also generate a plot with the convergence
+            criteria as a function of the number of iterations. Defaults to True.
+        wall_time (int, optional): Wall time set to the job in seconds; if provided,
+            will add the ``WallTimeErrorHandler``, which will restart the job if it hits
+            the wall time limit.
+        buffer_time (int, optional): Buffer time set to the job in seconds; if
+            provided; if the remaining time for the job = buffer_time, the
+            ``WallTimeErrorHandler`` will cancel the job and restart it; this is done
+            because if the job hits wall time on its own and is cancelled, it will no
+            longer be possible to restart it. Defaults to 300 seconds.
+        max_wall_time_corrections (int, optional): Maximum number of wall time
+            corrections to make. Defaults to 3.
     """
+
     required_params = []
     optional_params = [
         "input_file",
@@ -215,13 +205,14 @@ class RunGaussianCustodian(FiretaskBase):
                     f"and/or basis set to use for the SCF "
                     f"calculation are not provided! Exiting..."
                 )
-            jobs = GaussianJob.better_guess(
+            jobs = GaussianJob.generate_better_guess(
                 gaussian_cmd=cmd,
                 input_file=input_file,
                 output_file=output_file,
                 stderr_file=stderr_file,
                 backup=backup,
                 cart_coords=cart_coords,
+                directory=os.getcwd(),
             )
         else:
             raise ValueError(f"Unsupported job type: {job_type}")
@@ -243,7 +234,7 @@ class RunGaussianCustodian(FiretaskBase):
         ]
         if wall_time:
             handlers.append(
-                WalTimeErrorHandler(
+                WallTimeErrorHandler(
                     wall_time=wall_time,
                     buffer_time=buffer_time,
                     input_file=input_file,
@@ -303,17 +294,15 @@ class RunGaussianFake(FiretaskBase):
     Run a fake Gaussian calculation.
 
     Args:
-        ref_dir (str): path to reference Gaussian run directory with
-            input and output files in the folder
-
-    Optional Args:
-        working_dir (str): directory where the fake calculation will be
-            run
-        input_file (str): name of the input file (both reference input
-            and new input); defaults to mol.com
-        tolerance (float): tolerance for the comparison of the reference
-            and user input file; defaults to 0.0001
+        ref_dir (str): Path to reference Gaussian run directory with input and output
+            files in the folder.
+        working_dir (str, optional): Directory where the fake calculation will be run.
+        input_file (str, optional): Name of the input file (both reference input and new
+            input). Defaults to mol.com.
+        tolerance (float, optional): Tolerance for the comparison of the reference and
+            user input file. Defaults to 0.0001.
     """
+
     required_params = ["ref_dir"]
     optional_params = ["working_dir", "input_file", "tolerance"]
 

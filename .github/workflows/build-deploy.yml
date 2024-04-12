@@ -1,0 +1,54 @@
+name: Build and Deploy Website
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        pip install -r docs/requirements.txt
+        pip install -r requirements.txt
+
+    - name: Generate Python API documentation
+      run: |
+        sphinx-apidoc -o docs/source .
+
+    - name: Build HTML
+      run: |
+        cd docs
+        make html
+
+    - name: Copy index.html to gh-pages
+      run: |
+        cp docs/index.html index.html
+
+    - name: Cleanup .pyc files
+      run: |
+        find . -name "*.pyc" -exec rm -f {} \;
+
+    - name: Deploy to gh-pages
+      run: |
+        git config --global user.email "atwi.r@husky.neu.edu"
+        git config --global user.name "rashatwi"
+        git checkout --orphan gh-pages
+        git reset --hard
+        mv docs/build/* .
+        touch .nojekyll
+        git add .
+        git commit -m "Deploy website"
+        git branch -M gh-pages
+        git push -f origin gh-pages

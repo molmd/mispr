@@ -12,25 +12,28 @@ import subprocess
 
 from configparser import ConfigParser
 
-from fireworks.fw_config import CONFIG_FILE_DIR
-from fireworks.core.firework import FiretaskBase, FWAction
-from fireworks.utilities.fw_utilities import explicit_serialize
-
 from pymatgen.io.lammps.inputs import LammpsInput
 
+from fireworks.fw_config import CONFIG_FILE_DIR
+from fireworks.core.firework import FWAction, FiretaskBase
+from fireworks.utilities.fw_utilities import explicit_serialize
+
+from mispr.lammps.utilities.opls import MaestroRunner
 from mispr.gaussian.utilities.mol import process_mol
 from mispr.gaussian.utilities.misc import recursive_compare_dicts
+from mispr.lammps.utilities.utilities import (
+    get_db,
+    process_ff_doc,
+    add_ff_labels_to_dict,
+)
 from mispr.gaussian.utilities.metadata import get_mol_formula
-from mispr.lammps.utilities.opls import MaestroRunner
-from mispr.lammps.utilities.utilities import get_db, process_ff_doc, \
-    add_ff_labels_to_dict
 
 __author__ = "Matthew Bliss"
 __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +74,6 @@ class RunLammpsDirect(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 
@@ -212,7 +214,6 @@ class RunAntechamber(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 
@@ -277,7 +278,6 @@ class RunParmchk(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 
@@ -335,7 +335,6 @@ class RunTleap(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-
         working_dir = self.get("working_dir", os.getcwd())
         os.chdir(working_dir)
 
@@ -413,7 +412,7 @@ class RunMaestro(FiretaskBase):
         "save_ff_to_db",
         "save_ff_to_file",
         "ff_filename",
-        "system_force_field_dict"
+        "system_force_field_dict",
     ]
 
     def run_task(self, fw_spec):

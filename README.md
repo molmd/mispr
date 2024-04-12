@@ -1,6 +1,7 @@
-# <img alt="mispr" src="docs/logo.png" width="500">
+# <img alt="mispr" src="docs/source/_static/full_logo.png" width="500">
 
-[![Downloads](https://pepy.tech/badge/mispr)](https://pepy.tech/project/mispr)
+[![Downloads](https://static.pepy.tech/badge/mispr)](https://pepy.tech/project/mispr)
+[![Downloads](https://static.pepy.tech/badge/mispr/month)](https://pepy.tech/project/mispr)
 [![GitHub tag](https://img.shields.io/github/tag/molmd/mispr)](https://GitHub.com/molmd/mispr/tags/)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8c047110974a42af9baed409664d2547)](https://www.codacy.com/gh/molmd/mispr/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=molmd/mispr&amp;utm_campaign=Badge_Grade)

@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use MISPR in your research, please consider citing the following:"
+authors:
+  - family-names: Atwi
+    given-names: Rasha
+    orcid: https://orcid.org/0000-0001-8122-7335
+  - family-names: Bliss
+    given-names: Matthew
+    orcid: https://orcid.org/0000-0003-1354-7649
+  - family-names: Makeev
+    given-names: Maxim
+    orcid: https://orcid.org/0000-0001-7116-1299
+  - family-names: Rajput
+    given-names: Nav Nidhi
+    orcid: https://orcid.org/0000-0003-4740-8217
+title: "MDPropTools"
+version: 0.0.4
+date-released: 2022-09-21
+url: https://github.com/molmd/mispr
+preferred-citation:
+  type: article
+  authors:
+    - family-names: Atwi
+      given-names: Rasha
+      orcid: https://orcid.org/0000-0001-8122-7335
+    - family-names: Bliss
+      given-names: Matthew
+      orcid: https://orcid.org/0000-0003-1354-7649
+    - family-names: Makeev
+      given-names: Maxim
+      orcid: https://orcid.org/0000-0001-7116-1299
+    - family-names: Rajput
+      given-names: Nav Nidhi
+      orcid: https://orcid.org/0000-0003-4740-8217
+  doi: 10.1038/s41598-022-20009-w
+  journal: Scientific Reports
+  month: 9
+  title: "MISPR: an open-source package for high-throughput multiscale molecular simulations"
+  issn: 2045-2322
+  volume: 12
+  issue: 1
+  start: 15760
+  year: 2022
+  publisher: Nature Publishing Group UK London

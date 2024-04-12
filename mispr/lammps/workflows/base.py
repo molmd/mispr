@@ -7,8 +7,6 @@ import os
 
 from fireworks.core.firework import Firework, Workflow
 
-from mispr.gaussian.workflows.base.core import _process_mol_check
-from mispr.gaussian.utilities.files import recursive_relative_to_absolute_path
 from mispr.lammps.defaults import (
     NPT_SETTINGS,
     NVT_SETTINGS,
@@ -19,10 +17,12 @@ from mispr.lammps.defaults import (
     QADAPTER_RUN_LAMMPS_SPEC,
 )
 from mispr.lammps.fireworks.core import GetFFDictFW, RunLammpsFW
+from mispr.gaussian.utilities.files import recursive_relative_to_absolute_path
+from mispr.gaussian.workflows.base.core import _process_mol_check
 from mispr.lammps.firetasks.write_inputs import WriteDataFile
 from mispr.lammps.firetasks.parse_outputs import (
-    GetRDF,
     CalcCN,
+    GetRDF,
     CalcDiff,
     ExtractClusters,
     ProcessAnalysis,
@@ -33,7 +33,7 @@ __maintainer__ = "Matthew Bliss"
 __email__ = "matthew.bliss@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Apr 2020"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 
 def lammps_data_fws(
@@ -115,7 +115,9 @@ def lammps_data_fws(
     for label, ff_data in system_species_data.items():
         # Generate ff files in separate directories
         mol = recursive_relative_to_absolute_path(ff_data["molecule"], working_dir)
-        ff_data["ff_param_data"] = recursive_relative_to_absolute_path(ff_data["ff_param_data"], working_dir)
+        ff_data["ff_param_data"] = recursive_relative_to_absolute_path(
+            ff_data["ff_param_data"], working_dir
+        )
         mol_charge = ff_data.get("charge", None)
         mol_operation_type, mol, label, _, _, _ = _process_mol_check(
             working_dir=working_dir,

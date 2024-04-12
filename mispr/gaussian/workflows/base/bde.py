@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines the bond dissociation energy workflow.
+"""Define the bond dissociation energy workflow."""
 
 import os
 
@@ -19,7 +16,7 @@ __maintainer__ = "Rasha Atwi"
 __email__ = "rasha.atwi@stonybrook.edu"
 __status__ = "Development"
 __date__ = "Jan 2021"
-__version__ = "0.0.1"
+__version__ = "0.0.4"
 
 
 def get_bde(
@@ -43,102 +40,103 @@ def get_bde(
     **kwargs
 ):
     """
-    Defines a dynamic workflow for calculating the bond dissociation
-    energy.
+    Define a dynamic workflow for calculating the bond dissociation energy.
 
-        Firework 1: Optimize the principle molecule.
-        Firework 2: Run a frequency analysis.
-        Firework 3: Break the bonds in the molecule, find all unique
-            fragments, and generate new optimization and frequency
-            fireworks for each fragment.
-        Firework N: Run a BDE calculation for each fragment and create
-            a summary BDE document/json file.
+    * **Firework 1**: Optimize the principle molecule.
+    * **Firework 2**: Run a frequency analysis.
+    * **Firework 3**: Break the bonds in the molecule, find all unique fragments, and
+      generate new optimization and frequency fireworks for each fragment.
+    * **Firework N**: Run a BDE calculation for each fragment and create a summary BDE
+      document/json file.
 
-    Note 1: Fireworks 1 and 2 are only present if user does not
-    request to skip them.
+    .. note::
+        Fireworks 1 and 2 are only present if user does not request to skip them.
 
-    Note 2: Charges on the fragments in this workflow are assigned as
-        (following the method in the BDE analysis module in pymatgen):
-        Neutral molecule: [(0, 0), (1, -1), (-1, 1)]
-        Molecule with charge -N: [(-N, 0), (-N+1, -N+2), (-N+2, -N+1), (0, -N)]
-        Molecule with charge +N: [(N, 0), (N-1, N-2), (N-2, N-1), (0, N)]
+    .. note::
 
-    Note 3: If multiple bonds are being broken but one fragment results
-        in an error, the workflow will proceed normally and the final
-        document will include all bonds except for the one involving the
-        failed fragment.
+        Charges on the fragments in this workflow are assigned as (following the method
+        in the BDE analysis module in pymatgen):
+
+        1. **Neutral molecule**: [(0, 0), (1, -1), (-1, 1)]
+        2. **Molecule with charge -N**: [(-N, 0), (-N+1, -N+2), (-N+2, -N+1), (0, -N)]
+        3. **Molecule with charge +N**: [(N, 0), (N-1, N-2), (N-2, N-1), (0, N)]
+
+    .. note::
+        If multiple bonds are being broken but one fragment results in an error,
+        the workflow will proceed normally and the final document will include all bonds
+        except for the one involving the failed fragment.
 
     Args:
-        mol_operation_type (str): the type of molecule operation.
-            See process_mol defined in mispr/gaussian/utilities/mol.py
-            for supported operations.
-        mol (Molecule, GaussianOutput, str, dict): source of the
-            molecule to be processed. Should match the mol_operation_type.
-        ref_charge (int): charge on the principle molecule
-        fragment_charges (list): list of additional charges to consider
-            on the fragments besides the default ones. If ref_charge is
-            -2, by default all fragments will be calculated with a charge
-            of 0, -1, and -2. If the user provides fragment_charges=[-3],
-            -3 and 1 will be additionally calculated. If the user
-            provides fragment_charges=[-2], this will not cause any
-            change since they are already calculated by the workflow;
-            defaults to None
-        bonds (list): list of tuples of the bonds to break; e.g.
+        mol_operation_type (str): The type of molecule operation. See ``process_mol``
+            defined in ``mispr/gaussian/utilities/mol.py`` for supported operations.
+        mol (Molecule, GaussianOutput, str, dict): Source of the molecule to be
+            processed. Should match the ``mol_operation_type``.
+        ref_charge (int, optional): Charge on the principle molecule. Defaults to 0.
+        fragment_charges (list, optional): List of additional charges to consider on
+            the fragments besides the default ones. If ``ref_charge`` is -2, by default
+            all fragments will be calculated with a charge of 0, -1, and -2. If the
+            user provides ``fragment_charges`` is [-3], -3 and 1 will be additionally
+            calculated. If the user provides ``fragment_charges`` is [-2], this will not
+            cause any change since they are already calculated by the workflow;
+            defaults to None.
+        bonds (list, optional): List of tuples of the bonds to break; e.g.
             [(0, 1), (1, 2)] will break the bonds between atoms 0 and 1
-            and between atoms 1 and 2; if none is specified, will
-            attempt to break all bonds; defaults to None
-        open_rings (bool): if True, will open rings encountered during
-            fragmentation using OpenBabel's local opt.; defaults to False
-        db (str or dict): database credentials; could be provided as
-            the path to the db.json file or in the form of a dictionary;
-            if none is provided, attempts to get it from the
-            configuration files
-        name (str): name of the workflow; defaults to "bde_calculation"
-        working_dir (str): path of the working directory where any
-            required input files can be found and output will be created;
-            defaults to the current working directory
-        opt_gaussian_inputs (dict): dictionary of Gaussian input
-            parameters for the optimization step; e.g.:
-            {
-                "functional": "B3LYP",
-                "basis_set": "6-31G(d)",
-                "route_parameters": {"Opt": None},
-                "link0_parameters": {
-                    "%chk": "checkpoint.chk",
-                    "%mem": "45GB",
-                    "%NProcShared": "24"}
-            }
-            the above default parameters will be used if not specified
-        freq_gaussian_inputs (dict): dictionary of Gaussian input
-            parameters for the frequency step; default parameters will
-            be used if not specified
-        solvent_gaussian_inputs (str): Gaussian input parameters
-            corresponding to the implicit solvent model to be used in
-            the ESP calculations, if any; e.g.:
-            "(Solvent=TetraHydroFuran)"; these parameters should only
-            be specified here and not included in the main
-            gaussian_inputs dictionary for each job
-            (i.e. opt_gaussian_inputs, freq_gaussian_inputs);
-            defaults to None
-        solvent_properties (dict): additional input parameters to be
-            used in the ESP calculations and relevant to the solvent
-            model, if any; e.g., {"EPS":12}; defaults to None
-        cart_coords (bool): uses cartesian coordinates in writing
-            Gaussian input files if set to True,otherwise uses z-matrix;
-            defaults to True
-        oxidation_states (dict): dictionary of oxidation states that
-            can be used in setting the charge and spin multiplicity of
-            the molecule; e.g.: {"Li":1, "O":-2}; defaults to None
-        skips (list): list of jobs to skip; e.g.: ["opt", "freq"]; only
-            applicable to the principle molecule; defaults to None
-        visualize (bool): if True, will generate a summary plot of the
-            2D structure of the principle molecule with broken bonds
-            highlighted in color, along with a bar plot of the
-            corresponding BDEs; requires RDKit to be installed for bond
-            highlighting; if RDKit is not found, will throw a
-            warning and proceed normally
-        **kwargs (keyword arguments): additional kwargs to be passed
-            to the workflow
+            and between atoms 1 and 2; if none is specified, will attempt to break all
+            bonds. Defaults to None.
+        open_rings (bool, optional): If ``True``, will open rings encountered during
+            fragmentation using OpenBabel's local opt.. Defaults to ``False``.
+        db (str or dict, optional): Database credentials; could be provided as the path
+            to the "db.json" file or in the form of a dictionary; if none is provided,
+            attempts to get it from the configuration files.
+        name (str, optional): Name of the workflow. Defaults to "bde_calculation".
+        working_dir (str, optional): Path of the working directory where any required
+            input files can be found and output will be created. Defaults to the current
+            working directory.
+        opt_gaussian_inputs (dict, optional): Dictionary of Gaussian input parameters
+            for the optimization step; e.g.:
+
+            .. code-block:: python
+
+                {
+                    "functional": "B3LYP",
+                    "basis_set": "6-31G(d)",
+                    "route_parameters": {"Opt": None},
+                    "link0_parameters": {
+                        "%chk": "checkpoint.chk",
+                        "%mem": "45GB",
+                        "%NProcShared": "24"}
+                }
+
+            The above default parameters will be used if not specified.
+        freq_gaussian_inputs (dict, optional): Dictionary of Gaussian input parameters
+            for the frequency step; default parameters will be used if not specified.
+        solvent_gaussian_inputs (str, optional): Gaussian input parameters corresponding
+            to the implicit solvent model to be used in the ESP calculations, if any;
+            e.g.:
+
+            .. code-block:: python
+
+                "(Solvent=TetraHydroFuran)"
+
+            These parameters should only be specified here and not included in the main
+            gaussian_inputs dictionary for each job (i.e. ``opt_gaussian_inputs``,
+            ``freq_gaussian_inputs``). Defaults to None.
+        solvent_properties (dict, optional): Additional input parameters to be used in
+            the ESP calculations and relevant to the solvent model, if any; e.g.,
+            {"EPS":12}. Defaults to None.
+        cart_coords (bool, optional): Uses cartesian coordinates in writing Gaussian
+            input files if set to ``True``,otherwise uses z-matrix. Defaults to ``True``.
+        oxidation_states (dict, optional): Dictionary of oxidation states that can be
+            used in setting the charge and spin multiplicity of the molecule; e.g.:
+            {"Li":1, "O":-2}. Defaults to None.
+        skips (list, optional): List of jobs to skip; e.g.: ["opt", "freq"]; only
+            applicable to the principle molecule. Defaults to None.
+        visualize (bool, optional): If ``True``, will generate a summary plot of the
+            2D structure of the principle molecule with broken bonds highlighted in
+            color, along with a bar plot of the corresponding BDEs; requires RDKit to
+            be installed for bond highlighting; if RDKit is not found, will throw a
+            warning and proceed normally.
+        kwargs (keyword arguments): Additional kwargs to be passed to the workflow.
 
     Returns:
         Workflow
