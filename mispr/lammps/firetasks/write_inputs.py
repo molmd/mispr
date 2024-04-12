@@ -157,6 +157,7 @@ class WriteDataFile(FiretaskBase):
         # Case where LammpsDataWrapper object is passed through fw_spec
         elif isinstance(fw_spec.get("lammps_data_wrapper"), LammpsDataWrapper):
             lammps_data_wrapper = fw_spec.get("lammps_data_wrapper")
+            lammps_data_wrapper = fw_spec.get("lammps_data_wrapper")
 
         # Case where only required arguments for LammpsDataWrapper
         #   are provided
@@ -183,7 +184,7 @@ class WriteDataFile(FiretaskBase):
                                        self.get("system_force_field_dict"))
             mixture = fw_spec.get("system_mixture_data",
                                   self.get("system_mixture_data"))
-            box_data = fw_spec.get("system_box_data",
+            box_data = fw_spec.get("system_box_data", 
                                    self.get("system_box_data"))
 
         # Case where no proper inputs exist: raise error
@@ -218,6 +219,8 @@ class WriteDataFile(FiretaskBase):
         # Convert LammpsDataWrapper to LammpsData
         if lammps_data_wrapper:
             lammps_data = lammps_data_wrapper.build_lammps_data()
+        if lammps_data_wrapper:
+            lammps_data = lammps_data_wrapper.build_lammps_data()
 
             n_mols_dict = lammps_data_wrapper.nmol_dict
             molecules_list = [
@@ -237,6 +240,9 @@ class WriteDataFile(FiretaskBase):
                 len(lammps_data_wrapper.ff_list[name]["Molecule"].sites)
                 for name in lammps_data_wrapper.sorted_mol_names
             ]
+                len(lammps_data_wrapper.ff_list[name]["Molecule"].sites)
+                for name in lammps_data_wrapper.sorted_mol_names
+            ]
             default_masses_list = []
             recalc_masses_list = []
             for name in lammps_data_wrapper.sorted_mol_names:
@@ -244,7 +250,13 @@ class WriteDataFile(FiretaskBase):
                     lammps_data_wrapper.ff_list[name]["Masses"].values()
                 )
                 for label in lammps_data_wrapper.ff_list[name]["Labels"]:
+            for name in lammps_data_wrapper.sorted_mol_names:
+                default_masses_list += list(
+                    lammps_data_wrapper.ff_list[name]["Masses"].values()
+                )
+                for label in lammps_data_wrapper.ff_list[name]["Labels"]:
                     recalc_masses_list.append(
+                        lammps_data_wrapper.ff_list[name]["Masses"][label]
                         lammps_data_wrapper.ff_list[name]["Masses"][label]
                     )
 
@@ -320,7 +332,7 @@ class WriteControlFile(FiretaskBase):
     def run_task(self, fw_spec):
 
         # Set directory for writing control file
-        working_dir = fw_spec.get("working_dir", self.get("working_dir",
+        working_dir = fw_spec.get("working_dir", self.get("working_dir", 
                                                           os.getcwd()))
         template_dir = None
         os.makedirs(working_dir, exist_ok=True)
