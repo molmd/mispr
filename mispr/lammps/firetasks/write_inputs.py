@@ -127,7 +127,7 @@ class WriteDataFile(FiretaskBase):
         #       object
 
         # Set the path for writing the data file
-        working_dir = fw_spec.get("working_dir", 
+        working_dir = fw_spec.get("working_dir",
                                   self.get("working_dir", os.getcwd()))
         os.chdir(working_dir)
 
@@ -158,32 +158,32 @@ class WriteDataFile(FiretaskBase):
         elif isinstance(fw_spec.get("lammps_data_wrapper"), LammpsDataWrapper):
             lammps_data_wrapper = fw_spec.get("lammps_data_wrapper")
 
-        # Case where only required arguments for LammpsDataWrapper 
+        # Case where only required arguments for LammpsDataWrapper
         #   are provided
         elif all(
             (
                 isinstance(
-                    fw_spec.get("system_force_field_dict", 
+                    fw_spec.get("system_force_field_dict",
                                 self.get("system_force_field_dict")),
                     dict,
                 ),
                 isinstance(
-                    fw_spec.get("system_mixture_data", 
+                    fw_spec.get("system_mixture_data",
                                 self.get("system_mixture_data")),
                     dict,
                 ),
                 isinstance(
-                    fw_spec.get("system_box_data", 
+                    fw_spec.get("system_box_data",
                                 self.get("system_box_data")),
                     (float, int, list, np.ndarray),
                 ),
             )
         ):
-            force_fields = fw_spec.get("system_force_field_dict", 
+            force_fields = fw_spec.get("system_force_field_dict",
                                        self.get("system_force_field_dict"))
-            mixture = fw_spec.get("system_mixture_data", 
+            mixture = fw_spec.get("system_mixture_data",
                                   self.get("system_mixture_data"))
-            box_data = fw_spec.get("system_box_data", 
+            box_data = fw_spec.get("system_box_data",
                                    self.get("system_box_data"))
 
         # Case where no proper inputs exist: raise error
@@ -199,10 +199,10 @@ class WriteDataFile(FiretaskBase):
             if self.get("scale_charges") and scaling_factor:
                 for k, v in force_fields.items():
                     if round(sum(force_fields[k]["Charges"])) != 0:
-                        force_fields[k]["Charges"] = [i * scaling_factor 
+                        force_fields[k]["Charges"] = [i * scaling_factor
                             for i in force_fields[k]["Charges"]]
             box_data_type = self.get("system_box_data_type", "cubic")
-            mixture_type = self.get("system_mixture_data_type", 
+            mixture_type = self.get("system_mixture_data_type",
                                     "concentration")
             seed = self.get("position_seed", 150)
             lammps_data_wrapper = LammpsDataWrapper(
@@ -229,7 +229,7 @@ class WriteDataFile(FiretaskBase):
                 for mol_label in lammps_data_wrapper.sorted_mol_names
             ]
             num_mols_list = [
-                n_mols_dict[name] 
+                n_mols_dict[name]
                 for name in lammps_data_wrapper.sorted_mol_names
             ]
             lmp_box = lammps_data.box
@@ -250,8 +250,8 @@ class WriteDataFile(FiretaskBase):
 
         # Write data file
         if lammps_data:
-            lammps_data.write_file(filename=data_file_path, 
-                                   distance=10, 
+            lammps_data.write_file(filename=data_file_path,
+                                   distance=10,
                                    charge=20)
             return FWAction(
                 update_spec={
@@ -320,7 +320,7 @@ class WriteControlFile(FiretaskBase):
     def run_task(self, fw_spec):
 
         # Set directory for writing control file
-        working_dir = fw_spec.get("working_dir", self.get("working_dir", 
+        working_dir = fw_spec.get("working_dir", self.get("working_dir",
                                                           os.getcwd()))
         template_dir = None
         os.makedirs(working_dir, exist_ok=True)
@@ -348,7 +348,7 @@ class WriteControlFile(FiretaskBase):
         if isinstance(self.get("template_str"), str):
             template_string = self.get("template_str")
             template_filename = None
-        # Cases 2 and 3: template from file, with filename set by 
+        # Cases 2 and 3: template from file, with filename set by
         # template_type variable
         elif isinstance(self.get("template_filename"), str):
             template_filename = self.get("template_filename")
@@ -389,10 +389,10 @@ class WriteControlFile(FiretaskBase):
         recalc_masses_list = fw_spec.get("recalc_masses", [])
 
         run_doc = process_run(
-            smiles_list, 
-            n_mols_dict, 
-            lmp_box, 
-            template_filename, 
+            smiles_list,
+            n_mols_dict,
+            lmp_box,
+            template_filename,
             control_settings
         )
         run_doc.update({"working_dir": working_dir})

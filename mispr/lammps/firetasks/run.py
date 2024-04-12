@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 
 CONFIG_PATH = os.path.normpath(
     os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), 
+        os.path.dirname(os.path.abspath(__file__)),
         "..", "config", "config.ini"
     )
 )
@@ -144,7 +144,7 @@ class RunLammpsFake(FiretaskBase):
             if not re.match(r"#(\s+)?", k)
             if re.match(r"\S+?", k)
         }
-        diff = recursive_compare_dicts(ref_dict, user_dict, 
+        diff = recursive_compare_dicts(ref_dict, user_dict,
                                        "ref_dict", "user_dict")
 
         if diff:
