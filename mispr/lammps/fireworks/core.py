@@ -142,21 +142,23 @@ class GetFFDictFW(Firework):
 
                     .. code-block:: python
 
-                        {"Molecule": pymatgen_molecule,
-                         "Labels": atom_labels,
-                         "Masses": atomtype_masses,
-                         "Nonbond": nonbond_params,
-                         "Bonds": bond_params,
-                         "Angles": angle_params,
-                         "Dihedrals": dihedral_params,
-                         "Impropers": improper_params,
-                         "Improper Topologies": improper_topologies,
-                         "Charges": charges}
+                        {
+                            "Molecule": pymatgen_molecule,
+                             "Labels": atom_labels,
+                             "Masses": atomtype_masses,
+                             "Nonbond": nonbond_params,
+                             "Bonds": bond_params,
+                             "Angles": angle_params,
+                             "Dihedrals": dihedral_params,
+                             "Impropers": improper_params,
+                             "Improper Topologies": improper_topologies,
+                             "Charges": charges
+                         }
 
                 5. 'get_from_file': If the input is a json file of the force field
-                    parameters.
+                   parameters.
                 6. 'get_from_db': If the input is a filter for the database to search
-                    for the force field parameters.
+                   for the force field parameters.
                 
             label (str, optional): Label for the molecule. This should be unique for
                 each different molecular species in the system. Defaults to an empty
