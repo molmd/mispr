@@ -215,31 +215,24 @@ class CalcDiff(FiretaskBase):
 
             * timestep (float): The timestep used in the simulation.
             * units (str): The unit type used in the LAMMPS simulations.
-            * msd_method (str): The method used to calculate the MSD.
-                Supported methods are "from_dump" and "from_log".
-            * num_mols (list, optional): A list containing the number
-                of molecules of each type in the system. Required if 
-                the msd_method is "from_dump".
-            * num_atoms_per_mol (list, optional): A list containing
-                the number of atoms in each molecule. Required if the 
-                msd_method is "from_dump".
-            * mass (list, optional): A list containing the masses of
-                each LAMMPS atom type in the system. Required if the 
-                msd_method is "from_dump".
-            * file_pattern (str, optional): The pattern used to match
-                the dump files. Defaults to "dump.nvt.*.dump" if 
-                calculating from dump and "log.lammps*" if calculating 
-                from log.
-            * avg_interval (bool, optional): Whether to calculated the
-                MSD for individual particles or not. If False, the MSD 
-                will be averaged for each particle type. Defaults to 
-                False. Only used if the msd_method is "from_dump".
-            * diff_dist (bool, optional): Whether to calculate the
-                diffusion distribution. Defaults to False. Only used if
-                the msd_method is "from_dump".
-            * outputs_dir (str, optional): Path to the directory
-                containing the dump files. Defaults to 
-                "working_dir/../../nvt".
+            * msd_method (str): The method used to calculate the MSD. Supported methods
+              are "from_dump" and "from_log".
+            * num_mols (list, optional): A list containing the number of molecules of
+              each type in the system. Required if the ``msd_method`` is "from_dump".
+            * num_atoms_per_mol (list, optional): A list containing the number of atoms
+              in each molecule. Required if the ``msd_method`` is "from_dump".
+            * mass (list, optional): A list containing the masses of each LAMMPS atom
+              type in the system. Required if the ``msd_method`` is "from_dump".
+            * file_pattern (str, optional): The pattern used to match the dump files.
+              Defaults to "dump.nvt.*.dump" if calculating from dump and "log.lammps*"
+              if calculating from log.
+            * avg_interval (bool, optional): Whether to calculate the MSD for individual
+              particles or not. If False, the MSD will be averaged for each particle
+              type. Defaults to ``False``. Only used if the ``msd_method`` is "from_dump".
+            * diff_dist (bool, optional): Whether to calculate the diffusion distribution.
+              Defaults to ``False``. Only used if the ``msd_method`` is "from_dump".
+            * outputs_dir (str, optional): Path to the directory containing the dump
+              files. Defaults to "working_dir/../../nvt".
     """
     _fw_name = "Calculate Diffusion"
     required_params = []
