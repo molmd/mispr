@@ -209,34 +209,35 @@ class CalcDiff(FiretaskBase):
         diff_settings (dict, optional): A dictionary containing the 
             settings for the diffusion calculation based on the 
             ``Diffusion`` object. Refer to the 
-            mdproptools.dynamical.diffusion module for more 
+            ``mdproptools.dynamical.diffusion`` module for more
             information. The dictionary might contain the following 
             keys:
-            - timestep (float): The timestep used in the simulation.
-            - units (str): The unit type used in the LAMMPS simulations.
-            - msd_method (str): The method used to calculate the MSD. 
+
+            * timestep (float): The timestep used in the simulation.
+            * units (str): The unit type used in the LAMMPS simulations.
+            * msd_method (str): The method used to calculate the MSD.
                 Supported methods are "from_dump" and "from_log".
-            - num_mols (list, optional): A list containing the number 
+            * num_mols (list, optional): A list containing the number
                 of molecules of each type in the system. Required if 
                 the msd_method is "from_dump".
-            - num_atoms_per_mol (list, optional): A list containing 
+            * num_atoms_per_mol (list, optional): A list containing
                 the number of atoms in each molecule. Required if the 
                 msd_method is "from_dump".
-            - mass (list, optional): A list containing the masses of 
+            * mass (list, optional): A list containing the masses of
                 each LAMMPS atom type in the system. Required if the 
                 msd_method is "from_dump".
-            - file_pattern (str, optional): The pattern used to match 
+            * file_pattern (str, optional): The pattern used to match
                 the dump files. Defaults to "dump.nvt.*.dump" if 
                 calculating from dump and "log.lammps*" if calculating 
                 from log.
-            - avg_interval (bool, optional): Whether to calculated the 
+            * avg_interval (bool, optional): Whether to calculated the
                 MSD for individual particles or not. If False, the MSD 
                 will be averaged for each particle type. Defaults to 
                 False. Only used if the msd_method is "from_dump".
-            - diff_dist (bool, optional): Whether to calculate the 
+            * diff_dist (bool, optional): Whether to calculate the
                 diffusion distribution. Defaults to False. Only used if
                 the msd_method is "from_dump".
-            - outputs_dir (str, optional): Path to the directory 
+            * outputs_dir (str, optional): Path to the directory
                 containing the dump files. Defaults to 
                 "working_dir/../../nvt".
     """
@@ -513,7 +514,7 @@ class CalcCN(FiretaskBase):
         cn_settings (dict, optional): A dictionary containing the
             settings for the CN calculation based on the
             ``calc_atomic_cn`` and ``calc_molecular_cn`` functions.
-            Refer to the mdproptools.structural.rdf_cn module for more
+            Refer to the ``mdproptools.structural.rdf_cn`` module for more
             information.
     """
     _fw_name = "Calculate CN"
