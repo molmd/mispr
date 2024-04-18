@@ -140,19 +140,19 @@ class GetFFDictFW(Firework):
                 4. ``get_from_dict``: If the input is a dictionary of force field
                    parameters. e.g.,
 
-                    .. code-block:: python
+                   .. code-block:: python
 
                         {
                             "Molecule": pymatgen_molecule,
-                             "Labels": atom_labels,
-                             "Masses": atomtype_masses,
-                             "Nonbond": nonbond_params,
-                             "Bonds": bond_params,
-                             "Angles": angle_params,
-                             "Dihedrals": dihedral_params,
-                             "Impropers": improper_params,
-                             "Improper Topologies": improper_topologies,
-                             "Charges": charges
+                            "Labels": atom_labels,
+                            "Masses": atomtype_masses,
+                            "Nonbond": nonbond_params,
+                            "Bonds": bond_params,
+                            "Angles": angle_params,
+                            "Dihedrals": dihedral_params,
+                            "Impropers": improper_params,
+                            "Improper Topologies": improper_topologies,
+                            "Charges": charges
                          }
 
                 5. 'get_from_file': If the input is a json file of the force field
