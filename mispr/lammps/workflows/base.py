@@ -228,7 +228,7 @@ def lammps_run_fws(
         kwargs (keyword arguments): Additional keyword arguments.
 
     Returns:
-        fireworks( list): List of FireWorks for running LAMMPS simulations.
+        fireworks (list): List of FireWorks for running LAMMPS simulations.
     """
 
     if not working_dir:
@@ -307,8 +307,9 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
         kwargs (keyword arguments): Additional keyword arguments.
 
     Returns:
-        fireworks (list): List of FireWorks for running LAMMPS analysis.
-        links_dict (dict): Dictionary containing the links between the FireWorks.
+        tuple:
+            fireworks (list): List of FireWorks objects for running LAMMPS analysis.
+            links_dict (dict): Dictionary containing the links between the FireWorks.
     """
     fireworks = []
     links_dict = {}
