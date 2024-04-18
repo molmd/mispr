@@ -497,17 +497,16 @@ class GetRDF(FiretaskBase):
 @explicit_serialize
 class CalcCN(FiretaskBase):
     """
-    Calculates the coordination number (CN) of a system. The CN is
-    calculated for each atom type in the system and saved to a file.
-    The CN can be calculated for atomic or molecular systems.
+    Calculates the coordination number (CN) of a system. The CN is calculated for each
+    atom type in the system and saved to a file. The CN can be calculated for atomic or
+    molecular systems.
 
     Args:
-        working_dir (str, optional): Path to the working directory.
-            Defaults to the current working directory.
-        cn_settings (dict, optional): A dictionary containing the
-            settings for the CN calculation based on the
-            ``calc_atomic_cn`` and ``calc_molecular_cn`` functions.
-            Refer to the ``mdproptools.structural.rdf_cn`` module for more
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        cn_settings (dict, optional): A dictionary containing the settings for the CN
+            calculation based on the ``calc_atomic_cn`` and ``calc_molecular_cn``
+            functions. Refer to the ``mdproptools.structural.rdf_cn`` module for more
             information.
     """
     _fw_name = "Calculate CN"
