@@ -29,15 +29,16 @@ def add_ff_labels_to_BADI_lists(ff_list, label):
     used through the ``add_ff_labels_to_dict``.
 
     Args:
-    ff_list (List): The value from ``ff_dict`` using one of the following keys:
-        'Bonds', 'Angles', 'Dihedrals', or 'Impropers'. The form of this list should be
-        as follows:
+        ff_list (List): The value from ``ff_dict`` using one of the following keys:
+            'Bonds', 'Angles', 'Dihedrals', or 'Impropers'. The form of this list
+            should be as follows:
 
-        .. code-block:: python
-            [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
+            .. code-block:: python
 
-    label (str): A label for the molecular species that is unique for the system being
-        created.
+                [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
+
+        label (str): A label for the molecular species that is unique for the system
+            being created.
     """
     output_badi_list = []
     for dict_ in ff_list:
@@ -158,7 +159,7 @@ def lammps_mass_to_element(lammps_masses):
     Create a dict for mapping atom mass to element.
 
     Args:
-        lammps_masses (list): list of masses in lammps units
+        lammps_masses (list): List of masses in lammps units.
 
     Returns:
         dict
