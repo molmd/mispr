@@ -50,21 +50,27 @@ def add_ff_labels_to_BADI_lists(ff_list, label):
 
 def add_ff_labels_to_dict(ff_dict, label):
     """
-    :param ff_dict:
-        {'Molecule':
-            pmg.Molecule,
-            'Labels': List,
-            'Masses': OrderedDict,
-            'Nonbond': List,
-            'Bonds': [{'coeffs': [a, b], 'types': [('x1', 'x2'), ...]}, ...],
-            'Angles': [{'coeffs': [a, b], 'types': [('x1', 'x2', 'x3'), ...]}, ...],
-            'Dihedrals': [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
-            'Impropers': [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
-            'Improper Topologies': List,
-            'Charges': np.Array,
-            ...}
-    :param label:
-    :return:
+    Args:
+        ff_dict: A dictionary containing the force field information for a molecule.
+            The dictionary should have the following form:
+
+            .. code-block:: python
+
+                {
+                    "Molecule": pmg.Molecule,
+                    "Labels": List,
+                    "Masses": OrderedDict,
+                    "Nonbond": List,
+                    "Bonds": [{'coeffs': [a, b], 'types': [('x1', 'x2'), ...]}, ...],
+                    "Angles": [{'coeffs': [a, b], 'types': [('x1', 'x2', 'x3'), ...]}, ...],
+                    "Dihedrals": [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
+                    "Impropers": [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
+                    "Improper Topologies": List,
+                    "Charges": np.Array,
+                    ...
+                }
+
+        label (str):
     """
     output_labels = [old_label + label for old_label in ff_dict["Labels"]]
 
