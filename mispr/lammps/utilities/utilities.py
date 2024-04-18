@@ -24,17 +24,20 @@ __version__ = "0.0.4"
 
 def add_ff_labels_to_BADI_lists(ff_list, label):
     """
-    Adds extra string to the end of all atom type labels in lists containing
-    information about Bonds, Angles, Dihedrals, or Impropers (BADI). This
-    function is intended to be used through the add_ff_labels_to_dict()
-    function.
-    :param ff_list: [List] The value from ff_dict using one of the following keys:
-                 'Bonds', 'Angles', 'Dihedrals', or 'Impropers'.
-                 The form of this list should be as follows:
-                 [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
-    :param label: [Str] A label for the molecular species that is unique for
-                  the system being created.
-    :return:
+    Add extra string to the end of all atom type labels in lists containing information
+    about Bonds, Angles, Dihedrals, or Impropers (BADI). This function is intended to be
+    used through the ``add_ff_labels_to_dict``.
+
+    Args:
+    ff_list (List): The value from ``ff_dict`` using one of the following keys:
+        'Bonds', 'Angles', 'Dihedrals', or 'Impropers'. The form of this list should be
+        as follows:
+
+        .. code-block:: python
+            [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
+
+    label (str): A label for the molecular species that is unique for the system being
+        created.
     """
     output_badi_list = []
     for dict_ in ff_list:
