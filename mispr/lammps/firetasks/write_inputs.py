@@ -47,60 +47,51 @@ DEFAULT_KEY = "lammpsin_key"
 @explicit_serialize
 class WriteDataFile(FiretaskBase):
     """
-    Write LAMMPS data file for a bulk system in the current working 
-    directory. User can provide a LammpsData object, a LammpsDataWrapper
-    object, or the inputs for instantiating a LammpsDataWrapper object.
-    See the ``LammpsData`` and ``LammpsDataWrapper`` classes in the
-    ``pymatgen.io.lammps.data`` module for more information.
+    Write LAMMPS data file for a bulk system in the current working directory. User can
+    provide a ``LammpsData object``, a ``LammpsDataWrapper`` object, or the inputs for
+    instantiating a ``LammpsDataWrapper`` object. See the ``LammpsData`` and
+    ``LammpsDataWrapper`` classes in the ``pymatgen.io.lammps.data`` module for more
+    information.
 
     Args:
-        working_dir (str, optional): Path to the working directory. 
-            Defaults to the current working directory.
-        data_filename (str, optional): Name of data file to be written. 
-            Defaults to "complex.data".
-        lammps_data (LammpsData, optional): The ``LammpsData`` object to 
-            be written as the data file. Can be passed through the 
-            ``fw_spec`` or input by the user. If both are provided, the
-            one provided directly will be used.
-        lammps_data_wrapper (LammpsDataWrapper, optional): The 
-            wrapper for the ``LammpsData`` object to be written as data 
-            file. Can be passed through ``fw_spec`` or input by the 
-            user. If both are provided, the one provided directly will 
-            be used. Will be ignored if ``lammps_data`` is provided.
-        system_force_field_dict (dict, optional): The force field
-            parameters for the system. Used as input for
-            ``LammpsDataWrapper``. Intended to be created by the
-            ``GetForceField`` task. Can be passed through ``fw_spec`` or
-            input by the user. If both are provided, will take the one
-            provided in the ``fw_spec``.
-        system_mixture_data (dict, optional): The information that will 
-            be used to calculate the number of molecules of each type in
-            the system. Used as input for a ``LammpsDataWrapper`` 
-            object. Can be read from ``fw_spec`` or input by the 
-            user; If both are provided, will use the one provided in the
-            ``fw_spec``.
-        system_box_data (float, int, list, ndarray, optional): 
-            Information about the system box; the value of this arg is 
-            determined by the ``system_box_data_type``. Used as input 
-            for a ``LammpsDataWrapper`` object. Can be passed through 
-            ``fw_spec`` or input by the user. If both are provided, 
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        data_filename (str, optional): Name of data file to be written. Defaults to
+            "complex.data".
+        lammps_data (LammpsData, optional): The ``LammpsData`` object to be written as
+            the data file. Can be passed through the ``fw_spec`` or input by the user.
+            If both are provided, the one provided directly will be used.
+        lammps_data_wrapper (LammpsDataWrapper, optional): The wrapper for the
+            ``LammpsData`` object to be written as data file. Can be passed through
+            ``fw_spec`` or input by the user. If both are provided, the one provided
+            directly will be used. Will be ignored if ``lammps_data`` is provided.
+        system_force_field_dict (dict, optional): The force field parameters for the
+            system. Used as input for ``LammpsDataWrapper``. Intended to be created by
+            the ``GetForceField`` task. Can be passed through ``fw_spec`` or input by
+            the user. If both are provided, will take the one provided in the ``fw_spec``.
+        system_mixture_data (dict, optional): The information that will be used to
+            calculate the number of molecules of each type in the system. Used as input
+            for a ``LammpsDataWrapper`` object. Can be read from ``fw_spec`` or input
+            by the user; If both are provided, will use the one provided in the ``fw_spec``.
+        system_box_data (float, int, list, ndarray, optional): Information about the
+            system box; the value of this arg is determined by the
+            ``system_box_data_type``. Used as input for a ``LammpsDataWrapper`` object.
+            Can be passed through ``fw_spec`` or input by the user. If both are provided,
             will take the one provided in the ``fw_spec``.
-        system_box_data_type (str, optional): Determines the type for 
-            ``system_box_data``. Used as input for a 
-            ``LammpsDataWrapper`` object. Defaults to "cubic".
-        position_seed (int, optional): Seed for randomizing the 
-            positions of atoms. Indirectly used as input for packmol 
-            through ``LammpsDataWrapper``. Defaults to 150.
-        system_mixture_data_type (str, optional): Determines the content
-            of ``system_mixture_data``. Used as input for a
-            ``LammpsDataWrapper`` object; Defaults to "concentration".
-        scale_charges (bool, optional): Whether to scale the partial 
-            charges of all molecules that have a non-zero net charge in 
-            the system. Only used if building a system from 
-            ``LammpsDataWrapper`` inputs.
-        charge_scaling_factor (float): Factor by which to scale charges
-            in the system; Only used if building a system from
-            LammpsDataWrapper inputs and if scale_charges is True;
+        system_box_data_type (str, optional): Determines the type for ``system_box_data``.
+            Used as input for a ``LammpsDataWrapper`` object. Defaults to "cubic".
+        position_seed (int, optional): Seed for randomizing the positions of atoms.
+            Indirectly used as input for packmol through ``LammpsDataWrapper``. Defaults
+            to 150.
+        system_mixture_data_type (str, optional): Determines the content of
+            ``system_mixture_data``. Used as input for a ``LammpsDataWrapper`` object.
+            Defaults to "concentration".
+        scale_charges (bool, optional): Whether to scale the partial charges of all
+            molecules that have a non-zero net charge in the system. Only used if
+            building a system from ``LammpsDataWrapper`` inputs.
+        charge_scaling_factor (float): Factor by which to scale charges in the system.
+            Only used if building a system from ``LammpsDataWrapper`` inputs and if
+            ``scale_charges`` is ``True``.
     """
     _fw_name = "Write Data File"
     required_params = []
@@ -276,35 +267,32 @@ class WriteDataFile(FiretaskBase):
 @explicit_serialize
 class WriteControlFile(FiretaskBase):
     """
-    Writes a LAMMPS control file based on a template file or string.
+    Write a LAMMPS control file based on a template file or string.
 
-    Optional params:
-        working_dir (str): path to working directory; default is current
-            working directory
-        db (str or dict): connection information for the calc database;
-            If save_runs_to_db is True, then a document will be stored
-            in the database; default is None
-        control_filename (str): name of control file to be written; 
-            default is "complex.lammpsin"
-        template_filename (str): name of template control file to be 
-            used; is not used if template_str is provided; can refer to 
-            a custom template or a template name from the
-            mispr/lammps/templates directory
-        template_dir (str): path to directory containing template file;
-            if the template is from mispr/lammps/templates, then this
-            is not needed
-        template_str (str): string containing template for control file
-        control_settings (dict): dictionary of settings to be used in
-            the control file; if a mispr template is used, this 
-            dictionary will update the corresponding control_settings 
-            dictionary in the mispr/lammps/defaults.py file; default is
-            None
-        save_runs_to_db (bool): whether or not to save the run info to 
-            the calc database; default is False
-        save_runs_to_file (bool): whether or not to save the run info to
-            a file in the working directory; default is True
-        lammpsin_key (str): key in the fw_spec that corresponds with the
-            run_doc information; default is "lammpsin"
+    Args:
+        working_dir (str, optional): Path to working directory. Default is current
+            working directory.
+        db (str or dict, optional): Connection information for the calc database; If
+            ``save_runs_to_db`` is ``True``, then a document will be stored in the
+            database. Default is ``None``.
+        control_filename (str, optional): Name of control file to be written. Default is
+            "complex.lammpsin".
+        template_filename (str, optional): Name of template control file to be used.
+            Is not used if ``template_str`` is provided. Can refer to a custom template
+            or a template name from the ``mispr/lammps/templates`` directory.
+        template_dir (str, optional): Path to directory containing template file. If the
+            template is from ``mispr/lammps/templates``, then this is not needed.
+        template_str (str, optional): String containing template for control file.
+        control_settings (dict, optional): Dictionary of settings to be used in the
+            control file. If a mispr template is used, this dictionary will update the
+            corresponding control_settings dictionary in the ``mispr/lammps/defaults.py``
+            file. Default is None.
+        save_runs_to_db (bool, optional): Whether to save the run info to the calc
+            database. Default is ``False``.
+        save_runs_to_file (bool, optional): Whether to save the run info to a file in
+            the working directory. Default is ``True``.
+        lammpsin_key (str, optional): Key in the ``fw_spec`` that corresponds with the
+            ``run_doc`` information. Default is "lammpsin".
     """
     _fw_name = "Write Control File"
     required_params = []
@@ -443,26 +431,21 @@ class WriteControlFile(FiretaskBase):
 @explicit_serialize
 class WriteTleapScript(FiretaskBase):
     """
-    Writes a tleap script for generating a prmtop and inpcrd file for a
-    molecule. Intended to be used to obtain the parameters from the GAFF
-    force field.
+    Write a tleap script for generating a prmtop and inpcrd file for a molecule.
+    Intended to be used to obtain the parameters from the GAFF force field.
 
-    Optional params:
-        working_dir (str): Path to the working directory; defaults to 
-            current working directory
-        script_string (str): String containing the tleap script; if not
-            provided, the template_filename and template_dir must be
-            provided
-        template_filename (str): Name of the template file; defaults to
-            gaff_tleap
-        template_dir (str): Path to the directory containing the 
-            template file; defaults to the mispr/lammps/templates/
-            directory
-        tleap_settings (dict): Dictionary containing the settings for
-            the tleap script; used to update the TLEAP_SETTINGS dict in
-            mispr/lammps/defaults.py file; defaults to empty dict
-        script_filename (str): Name of the tleap script file; defaults
-            to tleap.in
+    Args:
+        working_dir (str): Path to the working directory. Defaults to current working
+            directory.
+        script_string (str): String containing the tleap script. If not provided, the
+            ``template_filename`` and ``template_dir`` must be provided.
+        template_filename (str): Name of the template file. Defaults to "gaff_tleap".
+        template_dir (str): Path to the directory containing the template file. Defaults
+            to the mispr/lammps/templates/ directory.
+        tleap_settings (dict): Dictionary containing the settings for the tleap script.
+            Used to update the ``TLEAP_SETTINGS`` dict in
+            mispr/lammps/defaults.py file. Defaults to empty dict.
+        script_filename (str): Name of the tleap script file. Defaults to "tleap.in".
     """
     _fw_name = "Write Tleap Script"
     required_params = []
@@ -506,27 +489,24 @@ class WriteTleapScript(FiretaskBase):
 @explicit_serialize
 class LabelFFDict(FiretaskBase):
     """
-    Appends molecule label to all atom labels in the force field 
-    dictionary. Ensures that no two molecules can share the same atom
-    labels provided that each molecule has a unique label for the 
-    system.
+    Append molecule label to all atom labels in the force field dictionary. Ensures
+    that no two molecules can share the same atom labels provided that each molecule
+    has a unique label for the system.
 
-    Optional params:
-        mol (Molecule): PyMatGen Molecule object; if not provided, the
-            prev_calc_molecule key from the fw_spec will be used
-        unlabeled_dict (dict): Dictionary containing the force field
-            parameters for the molecule; ignored if the ff_file is
-            provided
-        ff_file (str): Path to the json file containing the force field
-            parameters for the molecule
-        working_dir (str): Path to the working directory; defaults to
-            current working directory
-        label (str): Label for the molecule; defaults to the molecular
-            formula
-        system_force_field_dict (dict): Dictionary containing the force
-            field parameters for the system that is used as the input
-            for LammpsDataWrapper object; intended to be obtained from
-            the spec; if present in the spec, this will be ignored
+    Args:
+        mol (Molecule, optional): pymatgen Molecule object; if not provided, the
+        ``prev_calc_molecule`` key from the ``fw_spec`` will be used.
+        unlabeled_dict (dict, optional): Dictionary containing the force field parameters
+            for the molecule; ignored if the ``ff_file`` is provided.
+        ff_file (str, optional): Path to the json file containing the force field
+            parameters for the molecule.
+        working_dir (str, optional): Path to the working directory. Defaults to current
+            working directory.
+        label (str, optional): Label for the molecule. Defaults to the molecular formula.
+        system_force_field_dict (dict, optional): Dictionary containing the force field
+            parameters for the system that is used as the input for ``LammpsDataWrapper``
+            object; intended to be obtained from the spec; if present in the spec,
+            this will be ignored.
     """
     _fw_name = "Label FF Dict"
     required_params = []
@@ -574,28 +554,22 @@ class LabelFFDict(FiretaskBase):
 @explicit_serialize
 class LabelFFDictFromDB(FiretaskBase):
     """
-    Append molecule label to all atom labels in a force field dictionary
-    obtained from the database. Ensures that no two molecules can share
-    the same atom labels provided that each molecule has a unique label
-    for the system.
+    Append molecule label to all atom labels in a force field dictionary obtained from
+    the database. Ensures that no two molecules can share the same atom labels provided
+    that each molecule has a unique label for the system.
 
-    Required params:
-        filter (dict): Dictionary containing the filter used to query 
-            the database
-
-    Optional params:
-        working_dir (str): Path to the working directory; defaults to
-            current working directory
-        db (dict or str): Information for connecting to the database as 
-            either a dictionary of credentials or a path to a json file 
-            containing the credentials; if not provided, the database 
-            specified in the env will be used
-        label (str): Label for the molecule; defaults to the molecular
-            formula
-        system_force_field_dict (dict): Dictionary containing the force
-            field parameters for the system that is used as the input
-            for LammpsDataWrapper object; intended to be obtained from
-            the spec; if present in the spec, this will be ignored
+    Args:
+        filter (dict): Dictionary containing the filter used to query the database.
+        working_dir (str, optional): Path to the working directory. Defaults to
+            current working directory.
+        db (dict or str, optional): Information for connecting to the database as
+            either a dictionary of credentials or a path to a json file containing the
+            credentials; if not provided, the database specified in the env will be used.
+        label (str, optional): Label for the molecule. Defaults to the molecular formula.
+        system_force_field_dict (dict, optional): Dictionary containing the force field
+            parameters for the system that is used as the input for ``LammpsDataWrapper``
+            object; intended to be obtained from the spec; if present in the spec, this
+            will be ignored.
     """
     _fw_name = "Label FF Dict From DB"
     required_params = ["filter"]

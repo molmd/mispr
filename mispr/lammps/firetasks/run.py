@@ -53,16 +53,15 @@ class RunLammpsDirect(FiretaskBase):
     Run a LAMMPS simulation from a single control file.
     
     Args:
-        working_dir (str, optional): The directory to run the simulation
-            in. Defaults to the current working directory. file. 
-            Defaults to "complex.lammpsin".
-        lammps_cmd (str, optional): The command to run LAMMPS. If not 
-            provided, the command will attempt to read from from the 
-            config.ini file.
-        net_ntasks (int, optional): The number of processors to run the 
-            simulation on. If not provided, the number of processors 
-            will be read from the fw_spec based on the number of nodes 
-            used and the number of tasks per node.
+        working_dir (str, optional): The directory to run the simulation in. Defaults
+            to the current working directory. file.
+        control_filename (str, optional): Name of the LAMMPS control file. Defaults to
+            "complex.lammpsin".
+        lammps_cmd (str, optional): The command to run LAMMPS. If not provided, the
+            command will attempt to read from the "config.ini" file.
+        net_ntasks (int, optional): The number of processors to run the simulation on.
+            If not provided, the number of processors will be read from the ``fw_spec``
+            based on the number of nodes used and the number of tasks per node.
     """
     _fw_name = "Run Lammps"
     required_params = []
@@ -107,12 +106,11 @@ class RunLammpsFake(FiretaskBase):
     Run a fake LAMMPS simulation.
 
     Args:
-        ref_dir (str): The directory containing the reference LAMMPS 
-            files.
-        working_dir (str, optional): The directory to run the fake 
-            simulation in. Defaults to the current working directory.
-        control_filename (str, optional): The name of the LAMMPS control
-            file. Defaults to "complex.lammpsin".
+        ref_dir (str): The directory containing the reference LAMMPS files.
+        working_dir (str, optional): The directory to run the fake simulation in.
+            Defaults to the current working directory.
+        control_filename (str, optional): The name of the LAMMPS control file. Defaults
+        to "complex.lammpsin".
     """
     required_params = ["ref_dir"]
     optional_params = ["working_dir", "control_filename"]
@@ -179,27 +177,24 @@ class RunLammpsFake(FiretaskBase):
 @explicit_serialize
 class RunAntechamber(FiretaskBase):
     """
-    Runs the Antechamber program. Intented to be used to generate the 
-    partial charges for the molecule in a mol2 file from a Gaussian ESP 
-    file. Refer to the AmberTools documentation for more information on 
-    this program: https://ambermd.org/AmberTools.php
+    Run the Antechamber program. Intented to be used to generate the partial charges
+    for the molecule in a mol2 file from a Gaussian ESP file. Refer to the AmberTools
+    documentation for more information on this program:
+    https://ambermd.org/AmberTools.php.
 
     Args:
-        working_dir (str, optional): The directory to run Antechamber 
-            in. Defaults to the current working directory.
-        input_filename_a (str, optional): The name of the input file. 
-            Defaults to "mol.esp".
-        input_file_type (str, optional): The type of the input file. 
-            Defaults to "gesp".
-        output_filename_a (str, optional): The name of the output file. 
-            Defaults to "mol.mol2".
-        output_file_type (str, optional): The type of the output file. 
-            Defaults to "mol2".
-        charge_method (str, optional): The method to calculate the 
-            partial charges. Defaults to "resp".
-        antechamber_cmd (str, optional): The command to run Antechamber.
-            If not provided, the command will be read from the 
-            config.ini file.
+        working_dir (str, optional): The directory to run Antechamber in. Defaults to
+            the current working directory.
+        input_filename_a (str, optional): The name of the input file. Defaults to
+            "mol.esp".
+        input_file_type (str, optional): The type of the input file. Defaults to "gesp".
+        output_filename_a (str, optional): The name of the output file. Defaults to
+            "mol.mol2".
+        output_file_type (str, optional): The type of the output file. Defaults to "mol2".
+        charge_method (str, optional): The method to calculate the partial charges.
+            Defaults to "resp".
+        antechamber_cmd (str, optional): The command to run Antechamber. If not provided,
+            the command will be read from the "config.ini" file.
     """
     _fw_name = "Run Antechamber"
     required_params = []
@@ -253,20 +248,19 @@ class RunAntechamber(FiretaskBase):
 @explicit_serialize
 class RunParmchk(FiretaskBase):
     """
-    Runs the Parmchk program. Intended to be used to generate a frcmod 
-    file from a mol2 file. Refer to the AmberTools documentation for 
-    more information on the Parmchk program: 
-    https://ambermd.org/AmberTools.php
+    Run the Parmchk program. Intended to be used to generate a frcmod file from a mol2
+    file. Refer to the AmberTools documentation for more information on the Parmchk
+    program: https://ambermd.org/AmberTools.php.
 
     Args:
-        working_dir (str, optional): The directory to run Parmchk in. 
-            Defaults to the current working directory.
-        input_filename_p (str, optional): The name of the input file. 
-            Defaults to "mol.mol2".
-        output_filename_p (str, optional): The name of the output file. 
-            Defaults to "mol.frcmod".
-        parmchk_cmd (str, optional): The command to run Parmchk. If not 
-            provided, the command will be read from the config.ini file.
+        working_dir (str, optional): The directory to run Parmchk in. Defaults to the
+            current working directory.
+        input_filename_p (str, optional): The name of the input file. Defaults to
+            "mol.mol2".
+        output_filename_p (str, optional): The name of the output file. Defaults to
+            "mol.frcmod".
+        parmchk_cmd (str, optional): The command to run Parmchk. If not provided, the
+            command will be read from the "config.ini" file.
     """
     _fw_name = "Run Parmchk"
     required_params = []
@@ -311,19 +305,18 @@ class RunParmchk(FiretaskBase):
 @explicit_serialize
 class RunTleap(FiretaskBase):
     """
-    Runs the Tleap program. Intended to be used to generate the GAFF 
-    parameters for a single molecular species into a prmtop file from a 
-    mol2 file and a frcmod file. Refer to the AmberTools documentation
-    for more information on this program: 
-    https://ambermd.org/AmberTools.php
+    Run the Tleap program. Intended to be used to generate the GAFF parameters for a
+    single molecular species into a prmtop file from a mol2 file and a frcmod file.
+    Refer to the AmberTools documentation for more information on this program:
+    https://ambermd.org/AmberTools.php.
 
     Args:
-        working_dir (str, optional): The directory to run Tleap in. 
-            Defaults to the current working directory.
-        script_filename (str, optional): The name of the script file. 
-            Defaults to "tleap.in".
-        tleap_cmd (str, optional): The command to run Tleap. If not 
-            provided, the command will be read from the config.ini file.
+        working_dir (str, optional): The directory to run Tleap in. Defaults to the
+            current working directory.
+        script_filename (str, optional): The name of the script file. Defaults to
+            "tleap.in".
+        tleap_cmd (str, optional): The command to run Tleap. If not provided, the
+            command will be read from the "config.ini" file.
     """
     _fw_name = "Run Tleap"
     required_params = []
@@ -361,43 +354,38 @@ class RunTleap(FiretaskBase):
 @explicit_serialize
 class RunMaestro(FiretaskBase):
     """
-    Run the Maestro program using the MaestroRunner class in the 
-    mispr.lammps.utilities.opls module to generate OPLS force field 
-    parameters for a molecule. After generating the parameters, add 
-    these parameters to the spec. Refer to the Maestro documentation for 
-    more information on this program: 
-    https://www.schrodinger.com/maestro
+    Run the Maestro program using the MaestroRunner class in the
+    ``mispr.lammps.utilities.opls`` module to generate OPLS force field parameters for
+    a molecule. After generating the parameters, add these parameters to the spec.
+    Refer to the Maestro documentation for more information on this program:
+    https://www.schrodinger.com/maestro.
 
     Args:
         input_file (str): The path to the input file.
-        label (str, optional): The label for the molecule. Defaults to 
-            the molecule's formula.
-        molecule (Molecule, optional): The molecule to generate force 
-            field parameters for. If not provided, the molecule will be 
-            read from the input file.
-        mae_cmd (str, optional): The command to run the structconvert 
-            utility program. If not provided, the command will be read 
-            from the config.ini file.
-        ffld_cmd (str, optional): The command to run the ffld_server 
-            utility program. If not provided, the command will be read 
-            from the config.ini file.
-        working_dir (str, optional): The directory to run Maestro in. 
-            Defaults to the current working directory.
-        maestro_cleanup (bool, optional): Whether to clean up the 
-            Maestro files after running. Defaults to False.
-        db (str, optional): The connection information of the database 
-            to save the force field parameters to. If not provided, the 
-            connection information will be read from the db.json file.
-        save_ff_to_db (bool, optional): Whether to save the force field 
-            parameters to a database. Defaults to False.
-        save_ff_to_file (bool, optional): Whether to save the force 
-            field parameters to a file. Defaults to True.
-        ff_filename (str, optional): The name of the file to save the 
-            force field parameters to. Defaults to "ff.json".
-        system_force_field_dict (dict, optional): A dictionary to store 
-            the force field parameters for multiple molecules. This is 
-            only needed if this dictionary is not already in the 
-            ``fw_spec``. If this dict is not in the ``fw_spec`` or 
+        label (str, optional): The label for the molecule. Defaults to the molecule's
+            formula.
+        molecule (Molecule, optional): The molecule to generate force field parameters
+            for. If not provided, the molecule will be read from the input file.
+        mae_cmd (str, optional): The command to run the structconvert utility program.
+            If not provided, the command will be read from the "config.ini" file.
+        ffld_cmd (str, optional): The command to run the ``ffld_server`` utility program.
+            If not provided, the command will be read from the "config.ini" file.
+        working_dir (str, optional): The directory to run Maestro in. Defaults to the
+            current working directory.
+        maestro_cleanup (bool, optional): Whether to clean up the Maestro files after
+            running. Defaults to ``False``.
+        db (str, optional): The connection information of the database to save the force
+            field parameters to. If not provided, the connection information will be
+            read from the "db.json" file.
+        save_ff_to_db (bool, optional): Whether to save the force field parameters to a
+            database. Defaults to ``False``.
+        save_ff_to_file (bool, optional): Whether to save the force field parameters to
+            a file. Defaults to ``True``.
+        ff_filename (str, optional): The name of the file to save the force field
+            parameters to. Defaults to "ff.json".
+        system_force_field_dict (dict, optional): A dictionary to store the force field
+            parameters for multiple molecules. This is only needed if this dictionary
+            is not already in the ``fw_spec``. If this dict is not in the ``fw_spec`` or
             provided by the user, an empty dict will be created.
     """
     required_params = ["input_file"]

@@ -61,49 +61,41 @@ GAFF_DOI = "https://doi.org/10.1002/jcc.20035"
 @explicit_serialize
 class ProcessPrmtop(FiretaskBase):
     """
-    Parses the prmtop file to extract force field parameters and saves 
-    them to a file and/or database in the format required by the 
-    ``LammpsDataWrapper`` class in the ``pymatgen.io.lammps.data`` 
-    module.
+    Parse the prmtop file to extract force field parameters and saves them to a file
+    and/or database in the format required by the ``LammpsDataWrapper`` class in the
+    ``pymatgen.io.lammps.data`` module.
 
     Args:
-        molecule (Molecule, optional): A pymatgen ``Molecule`` object 
-            of the molecule. The order of the atoms in the ``Molecule`` 
-            object should match the order of the atoms used when 
-            generating the prmtop file. If not provided, the molecule
-            will be read from the previous calculation in the 
-            ``fw_spec``.
-        working_dir (str, optional): Path to the working directory. 
-            Defaults to the current working directory.
-        db (str, optional): The connection information of the database 
-            to save the force field parameters to. If not provided, the 
-            connection information will be read from the db.json file.
-        prmtop_path (str, optional): Path to the prmtop file. If not 
-            provided, will try to get the path based on the 
-            prmtop_filename and prmtop_dir.
-        prmtop_filename (str, optional): Name of the prmtop file. 
-            Only read if the prmtop_path is not provided.
-        prmtop_dir (str, optional): Path to the directory containing 
-            the prmtop file. Only read if the prmtop_path is not 
-            provided. Defaults to working_dir.
-        unique_molecule_name (str, optional): A unique name for the 
-            molecule. If not provided, the formula of the molecule will
-            be used.
-        system_force_field_dict (dict, optional): A dictionary 
-            containing the force field parameters for the system. Will 
-            be used as input for ``LammpsDataWrapper``. Only read if 
-            this dict is not already in the ``fw_spec``. Will be saved 
-            to the ``fw_spec`` after processing the prmtop file. 
-            Defaults to an empty dict.
-        doi (str, optional): Digital Object Identifier for the force 
-            field used. Defaults to the GAFF DOI.
-        save_ff_to_db (bool, optional): Whether to save the force field
-            parameters to the database. Defaults to False.
-        save_ff_to_file (bool, optional): Whether to save the force 
-            field parameters to a file in the working_dir. Defaults to
-            True.
-        ff_filename (str, optional): Name of the file to save the force
-            field parameters to. Defaults to "ff.json".
+        molecule (Molecule, optional): A pymatgen ``Molecule`` object of the molecule.
+            The order of the atoms in the ``Molecule`` object should match the order
+            of the atoms used when generating the prmtop file. If not provided, the
+            molecule will be read from the previous calculation in the ``fw_spec``.
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        db (str, optional): The connection information of the database to save the
+            force field parameters to. If not provided, the connection information will
+            be read from the db.json file.
+        prmtop_path (str, optional): Path to the prmtop file. If not provided, will try
+            to get the path based on the ``prmtop_filename`` and ``prmtop_dir``.
+        prmtop_filename (str, optional): Name of the prmtop file. Only read if the
+            ``prmtop_path`` is not provided.
+        prmtop_dir (str, optional): Path to the directory containing the prmtop file.
+            Only read if the ``prmtop_path`` is not provided. Defaults to ``working_dir``.
+        unique_molecule_name (str, optional): A unique name for the molecule. If not
+            provided, the formula of the molecule will be used.
+        system_force_field_dict (dict, optional): A dictionary containing the force
+            field parameters for the system. Will be used as input for
+            ``LammpsDataWrapper``. Only read if this dict is not already in the
+            ``fw_spec``. Will be saved to the ``fw_spec`` after processing the prmtop
+            file. Defaults to an empty dict.
+        doi (str, optional): Digital Object Identifier for the force field used.
+            Defaults to the GAFF DOI.
+        save_ff_to_db (bool, optional): Whether to save the force field parameters to
+            the database. Defaults to ``False``.
+        save_ff_to_file (bool, optional): Whether to save the force field parameters to
+            a file in the working_dir. Defaults to ``True``.
+        ff_filename (str, optional): Name of the file to save the force field parameters
+            to. Defaults to "ff.json".
     """
     _fw_name = "Process Prmtop"
     required_params = []
@@ -197,21 +189,18 @@ class ProcessPrmtop(FiretaskBase):
 @explicit_serialize
 class CalcDiff(FiretaskBase):
     """
-    Calculates the diffusion coefficient of a system using the mean 
-    squared displacement (MSD) method. The MSD is either calculated 
-    from the trajectory dump files or read from the log file. The 
-    diffusion coefficient is then calculated from the MSD using the
-    Einstein relation.
+    Calculate the diffusion coefficient of a system using the mean squared displacement
+    (MSD) method. The MSD is either calculated from the trajectory dump files or read
+    from the log file. The diffusion coefficient is then calculated from the MSD using
+    the Einstein relation.
 
     Args:
-        working_dir (str, optional): Path to the working directory. 
-            Defaults to the current working directory.
-        diff_settings (dict, optional): A dictionary containing the 
-            settings for the diffusion calculation based on the 
-            ``Diffusion`` object. Refer to the 
-            ``mdproptools.dynamical.diffusion`` module for more
-            information. The dictionary might contain the following 
-            keys:
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        diff_settings (dict, optional): A dictionary containing the settings for the
+            diffusion calculation based on the ``Diffusion`` object. Refer to the
+            ``mdproptools.dynamical.diffusion`` module for more information. The
+            dictionary might contain the following keys:
 
             * timestep (float): The timestep used in the simulation.
             * units (str): The unit type used in the LAMMPS simulations.
@@ -336,17 +325,16 @@ class CalcDiff(FiretaskBase):
 @explicit_serialize
 class GetRDF(FiretaskBase):
     """
-    Calculates the radial distribution function (RDF) of a system. The
-    RDF is calculated for each atom type in the system and saved to a
-    file. The RDF can be calculated for atomic or molecular systems.
+    Calculate the radial distribution function (RDF) of a system. The RDF is calculated
+    for each atom type in the system and saved to a file. The RDF can be calculated for
+    atomic or molecular systems.
 
     Args:
-        working_dir (str, optional): Path to the working directory.
-            Defaults to the current working directory.
-        rdf_settings (dict, optional): A dictionary containing the
-            settings for the RDF calculation based on the
-            ``calc_atomic_rdf`` and ``calc_molecular_rdf`` functions.
-            Refer to the mdproptools.structural.rdf_cn module for more
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        rdf_settings (dict, optional): A dictionary containing the settings for the
+            RDF calculation based on the ``calc_atomic_rdf`` and ``calc_molecular_rdf``
+            functions. Refer to the ``mdproptools.structural.rdf_cn`` module for more
             information.
     """
     _fw_name = "Get RDF"
@@ -497,7 +485,7 @@ class GetRDF(FiretaskBase):
 @explicit_serialize
 class CalcCN(FiretaskBase):
     """
-    Calculates the coordination number (CN) of a system. The CN is calculated for each
+    Calculate the coordination number (CN) of a system. The CN is calculated for each
     atom type in the system and saved to a file. The CN can be calculated for atomic or
     molecular systems.
 
@@ -691,19 +679,17 @@ class CalcCN(FiretaskBase):
 @explicit_serialize
 class ExtractClusters(FiretaskBase):
     """
-    Extracts atomic clusters from a trajectory file. The clusters are
-    extracted based on the cutoff radius and saved to separate files. 
-    The clusters can be extracted from the full trajectory or a single
-    frame.
+    Extract atomic clusters from a trajectory file. The clusters are extracted based
+    on the cutoff radius and saved to separate files. The clusters can be extracted
+    from the full trajectory or a single frame.
 
     Args:
-        working_dir (str, optional): Path to the working directory.
-            Defaults to the current working directory.
-        cluster_settings (dict, optional): A dictionary containing the
-            settings for the cluster extraction based on the
-            ``get_clusters`` and ``get_unique_configurations`` functions.
-            Refer to the mdproptools.structural.cluster_analysis module
-            for more information.
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        cluster_settings (dict, optional): A dictionary containing the settings for the
+            cluster extraction based on the ``get_clusters`` and
+            ``get_unique_configurations`` functions. Refer to the
+            ``mdproptools.structural.cluster_analysis`` module for more information.
     """
     _fw_name = "Extract Atomic Clusters"
     required_params = []
@@ -800,23 +786,20 @@ class ExtractClusters(FiretaskBase):
 @explicit_serialize
 class ProcessAnalysis(FiretaskBase):
     """
-    Processes the analysis calculations and saves the results to the
-    database and/or a file.
+    Process the analysis calculations and saves the results to the database and/or a file.
 
     Args:
-        analysis_list (list): A list of the analysis calculations to
-            process. Supported analysis calculations are "diffusion",
-            "rdf", "cn", and "clusters".
-        db (str, optional): The connection information of the database
-            to save the analysis results to. If not provided, the
-            connection information will be read from the db.json file.
-        save_analysis_to_db (bool, optional): Whether to save the
-            analysis results to the database. Defaults to False.
-        save_analysis_to_file (bool, optional): Whether to save the
-            analysis results to a file in the working_dir. Defaults to
-            True.
-        working_dir (str, optional): Path to the working directory.
-            Defaults to the current working directory.
+        analysis_list (list): A list of the analysis calculations to process. Supported
+            analysis calculations are "diffusion", "rdf", "cn", and "clusters".
+        db (str, optional): The connection information of the database to save the
+            analysis results to. If not provided, the connection information will be
+            read from the db.json file.
+        save_analysis_to_db (bool, optional): Whether to save the analysis results to
+            the database. Defaults to ``False``.
+        save_analysis_to_file (bool, optional): Whether to save the analysis results to
+            a file in the working_dir. Defaults to ``True``.
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
     """
     _fw_name = "Process Analysis Calculations"
     required_params = ["analysis_list"]
