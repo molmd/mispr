@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines lammps utility functions.
+"""Define lammps utility functions."""
 
 import os
 import json

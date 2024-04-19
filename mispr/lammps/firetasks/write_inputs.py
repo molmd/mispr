@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines firetasks for writing LAMMPS input files.
+"""Define firetasks for writing LAMMPS input files."""
 
 import os
 import json

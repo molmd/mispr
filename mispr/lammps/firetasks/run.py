@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines firetasks for running LAMMPS simulations and AmberTools.
+"""Define firetasks for running LAMMPS simulations and AmberTools."""
 
 import os
 import re

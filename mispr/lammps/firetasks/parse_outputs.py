@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines firetasks for reading output of Ambertools programs and LAMMPS.
+"""Define firetasks for reading output of Ambertools programs and LAMMPS."""
 
 import os
 import json

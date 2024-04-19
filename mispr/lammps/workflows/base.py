@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines standard lammps workflows.
+"""Define standard lammps workflows."""
 
 import os
 

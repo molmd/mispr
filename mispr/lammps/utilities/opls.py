@@ -1,8 +1,5 @@
-# coding: utf-8
-
-
-# Implements a core class MaestroRunner for assigning force field
-# parameters on a molecule using Maestro software.
+"""Implements a core class MaestroRunner for assigning force field parameters on a
+molecule using Maestro software."""
 
 import os
 import re
