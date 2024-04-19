@@ -307,9 +307,9 @@ def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs)
         kwargs (keyword arguments): Additional keyword arguments.
 
     Returns:
-        tuple: A tuple containing the following elements:
-            fireworks (list): List of FireWorks objects for running LAMMPS analysis.
-            links_dict (dict): Dictionary containing the links between the FireWorks.
+        tuple:
+            - fireworks (list): List of FireWorks objects for running LAMMPS analysis.
+            - links_dict (dict): Dictionary containing the links between the FireWorks.
     """
     fireworks = []
     links_dict = {}
