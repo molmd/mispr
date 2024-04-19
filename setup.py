@@ -38,6 +38,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Topic :: Scientific/Engineering",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.9",
     package_data={"": ["gaussian/data/*.bib", "lammps/data/*.json"]},
 )
