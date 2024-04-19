@@ -77,14 +77,14 @@ def get_bde(
             all fragments will be calculated with a charge of 0, -1, and -2. If the
             user provides ``fragment_charges`` is [-3], -3 and 1 will be additionally
             calculated. If the user provides ``fragment_charges`` is [-2], this will not
-            cause any change since they are already calculated by the workflow;
-            defaults to None.
+            cause any change since they are already calculated by the workflow.
+            Defaults to None.
         bonds (list, optional): List of tuples of the bonds to break; e.g.
             [(0, 1), (1, 2)] will break the bonds between atoms 0 and 1
             and between atoms 1 and 2; if none is specified, will attempt to break all
             bonds. Defaults to None.
         open_rings (bool, optional): If ``True``, will open rings encountered during
-            fragmentation using OpenBabel's local opt.. Defaults to ``False``.
+            fragmentation using OpenBabel's local opt. Defaults to ``False``.
         db (str or dict, optional): Database credentials; could be provided as the path
             to the "db.json" file or in the form of a dictionary; if none is provided,
             attempts to get it from the configuration files.
