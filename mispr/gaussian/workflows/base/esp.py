@@ -102,8 +102,9 @@ def get_esp_charges(
         kwargs (keyword arguments): Additional kwargs to be passed to the workflow.
 
     Returns:
-        Workflow
-        str: Label of the molecule (e.g. "H2O", "water", etc.).
+        tuple:
+            - Workflow
+            - str: Label of the molecule (e.g. "H2O", "water", etc.).
     """
     fws = []
     working_dir = working_dir or os.getcwd()
