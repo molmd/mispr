@@ -713,18 +713,18 @@ class ExtractClusters(FiretaskBase):
         r_cut = cluster_settings.get("r_cut", cur_rcut)
         full_trajectory = cluster_settings.get("full_trajectory", True)
         frame = cluster_settings.get("frame", None)
-        alter_atom_ids = cluster_settings.get("alter_atom_ids", False)
+        alter_atom_types = cluster_settings.get("alter_atom_types", False)
         max_force = cluster_settings.get("max_force", 0.75)
         cluster_count = get_clusters(
             filename=filename,
             atom_type=atom_type,
             r_cut=r_cut,
-            full_trajectory=full_trajectory,
-            frame=frame,
             num_mols=num_mols,
             num_atoms_per_mol=num_atoms_per_mol,
+            full_trajectory=full_trajectory,
+            frame=frame,
             elements=elements,
-            alter_atom_ids=alter_atom_ids,
+            alter_atom_types=alter_atom_types,
             max_force=max_force,
             working_dir=working_dir,
         )
@@ -739,6 +739,7 @@ class ExtractClusters(FiretaskBase):
             cluster_pattern="Cluster_*",
             r_cut=r_cut,
             molecules=cluster_settings.get("molecules", fw_spec.get("molecules")),
+            mol_num=cluster_settings.get("mol_num", fw_spec.get("mol_num")),
             type_coord_atoms=type_coord_atoms,
             working_dir=working_dir,
             find_top=cluster_settings.get("find_top", True),
@@ -761,7 +762,7 @@ class ExtractClusters(FiretaskBase):
             "num_mols": num_mols,
             "num_atoms_per_mol": num_atoms_per_mol,
             "elements": elements,
-            "alter_atom_ids": alter_atom_ids,
+            "alter_atom_types": alter_atom_types,
             "max_force": max_force,
             "num_clusters": cluster_count,
             "num_configurations": len(configurations),
