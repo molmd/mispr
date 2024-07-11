@@ -1,0 +1,68 @@
+log					$log_filename
+# Initialization
+units            $units_type
+boundary         $x_pbc $y_pbc $z_pbc
+atom_style       $atom_style
+dimension        $n_dimension
+
+
+# Force Fields
+neighbor         $neigh_args
+neigh_modify     $neigh_modify_args
+bond_style       $bond_style $bond_style_values
+angle_style      $angle_style
+dihedral_style   $dihedral_style
+improper_style   $improper_style
+pair_style       $pair_style $pair_style_values
+pair_modify      $pair_modify_args
+kspace_style     $kspace_style $kspace_style_values
+$kspace_modify_line
+
+
+# System Creation
+read_data        $data_filename
+$atom_definitions
+
+
+# Settings
+group            fluid $group_fluid_args
+group            solid $group_solid_args
+$group_definitions_additional
+run_style        $run_style_args
+
+
+# Output
+thermo           $thermo
+thermo_style     custom step etotal pe ebond eangle edihed eimp evdwl ecoul elong press fmax fnorm $thermo_style_additional
+thermo_modify    $thermo_modify_args
+
+
+# Intermediate System Dumps
+$dump_logic dump 			 1 all custom $dump_period $dump_filename $dump_attributes
+$dump_modify_logic dump_modify      1 $dump_modify_args $dump_modify_elements
+$dump_additional
+
+
+# Fixes
+$setforce_logic fix 0 solid setforce $setforce_args
+$fix_definitions_additional
+$rattle_logic fix rattle1 $rattle_group rattle $rattle_tol $rattle_iter $rattle_N $rattle_topologies
+$shake_logic  fix shake1 $shake_group shake $shake_tol $shake_iter $shake_N $shake_topologies
+
+
+min_style			$min_style_1
+minimize			$minimize_args_1
+$min_logic_2 min_style			$min_style_2
+$min_logic_2 minimize			$minimize_args_2
+
+
+# Post System Dumps
+$setforce_logic unfix 0
+$unfix_additional
+$rattle_logic unfix rattle1
+$shake_logic unfix shake1
+write_restart    $restart_final_filename
+write_data       $data_final_filename $data_final_args
+
+
+# DONE

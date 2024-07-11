@@ -1,0 +1,78 @@
+log					$log_filename
+# Initialization
+units            $units_type
+boundary         $x_pbc $y_pbc $z_pbc
+atom_style       $atom_style
+dimension        $n_dimension
+
+
+# Force Fields
+neighbor         $neigh_args
+neigh_modify     $neigh_modify_args
+bond_style       $bond_style $bond_style_values
+angle_style      $angle_style
+dihedral_style   $dihedral_style
+improper_style   $improper_style
+pair_style       $pair_style $pair_style_values
+pair_modify      $pair_modify_args
+kspace_style     $kspace_style $kspace_style_values
+$kspace_modify_line
+
+
+# System Creation
+$read_data_logic read_data        $data_filename
+$read_restart_logic read_restart     $restart_filename
+$atom_definitions
+
+
+# Settings
+group            fluid $group_fluid_args
+group            solid $group_solid_args
+$group_definitions_additional
+timestep         $timestep
+run_style        $run_style_args
+
+
+# Output
+compute          Tfluid fluid temp
+$compute_definitions_additional
+thermo           $thermo
+thermo_style     custom step c_Tfluid press pe evdwl ecoul elong pxx pyy pzz pxy pxz pyz $thermo_style_additional
+thermo_modify    $thermo_modify_args
+
+
+# Intermediate System Dumps
+dump 			 1 all custom $dump_period $dump_filename $dump_attributes
+$dump_modify_logic dump_modify      1 $dump_modify_args $dump_modify_elements
+$dump_additional
+restart          $restart_period $restart_intermediate_filename
+
+
+# Fixes
+velocity         fluid create $temperature_initial $velocity_seed $velocity_args
+$velocity_definitions_additional
+$setforce_logic fix 0 solid setforce $setforce_args
+fix              1 fluid nve
+fix              2 fluid temp/rescale $rescale_steps $temperature_initial $temperature_final $rescale_window $rescale_fraction
+fix_modify       2 temp $fix_rescale_modify_args
+$fix_definitions_additional
+$rattle_logic fix rattle1 $rattle_group rattle $rattle_tol $rattle_iter $rattle_N $rattle_topologies
+$shake_logic  fix shake1 $shake_group shake $shake_tol $shake_iter $shake_N $shake_topologies
+
+
+$reset_timestep_logic reset_timestep $reset_timestep_args
+run              $run
+
+
+# Post System Dumps
+$setforce_logic unfix 0
+unfix            1
+unfix            2
+$unfix_additional
+$rattle_logic unfix rattle1
+$shake_logic unfix shake1
+write_restart    $restart_final_filename
+write_data       $data_final_filename $data_final_args
+
+
+# DONE
