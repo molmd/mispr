@@ -91,6 +91,9 @@ class WriteDataFile(FiretaskBase):
         charge_scaling_factor (float): Factor by which to scale charges in the system.
             Only used if building a system from ``LammpsDataWrapper`` inputs and if
             ``scale_charges`` is ``True``.
+        length_increase (float, optional): Factor by which to increase the length of the
+            system box. This is to ensure that the atoms in the system are not too close
+            to the box boundaries. Only used if building a system from ``LammpsDataWrapper``
     """
     _fw_name = "Write Data File"
     required_params = []
@@ -110,6 +113,7 @@ class WriteDataFile(FiretaskBase):
         "system_molecule",
         "system_molecule_type",
         "sorted_mol_names",
+        "length_increase",
     ]
 
     def run_task(self, fw_spec):
@@ -212,7 +216,7 @@ class WriteDataFile(FiretaskBase):
                 "copy_to_current_on_exit": False,
                 "site_property": None,
             })
-            length_increase = self.get("length_increase", 0.5)
+            length_increase = self.get("length_increase", 0.0)
             check_ff_duplicates = self.get("check_ff_duplicates", False)
             box_data_type = self.get("system_box_data_type", "cubic")
             system_molecule = fw_spec.get("interface_xyz",
@@ -220,6 +224,7 @@ class WriteDataFile(FiretaskBase):
             system_molecule_type = fw_spec.get("system_molecule_type",
                                                self.get("system_molecule_type", None))
             sorted_mol_names = self.get("sorted_mol_names", None)
+            print(length_increase)
             print(system_molecule)
 
             # if system_molecule is not None:
