@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines standard lammps workflows.
+"""Define standard lammps workflows."""
 
 import os
 
@@ -48,36 +45,49 @@ def lammps_data_fws(
     **kwargs,
 ):
     """
-    :param system_species_data: [dict]
-              {
-              species1_label: {"molecule": any format supported by mispr,
-                               "molecule_operation_type": any format supported by mispr,
-                               "ff_param_method": str can be one of the
-                                    following ("get_from_esp",
-                                               "get_from_prmtop",
-                                               "get_from_dict")
-                                    defaults to "get_from_esp",
-                               "ff_param_data": str (path_to_file)
-                                                or dict (unlabeled_ff_dict),
-                               "mol_mixture_type": "Solutes" or "Solvents",
-                               "mixture_data": int or dict depends on
-                                    system_mixture_type},
-              ...,
-              speciesN_label: {...}
-              }
-    :param system_mixture_type: [str] "concentration" or "number of molecules"
-    :param box_data: [float, int, list (3,2), array (3,2), or LammpsBox]
-        Definitions for box size. See box_data_type for info how to
-        define this parameter.
-    :param box_data_type: [string] Can be one of the following: 'cubic',
-        'rectangular', or 'LammpsBox'. If 'cubic', box_data must be a
-        float or int; if 'rectangular', box_data must be an array-like
-        with size (3,2); if 'LammpsBox', box_data must be a
-        pymatgen.io.lammps.data.LammpsBox object. Defaults to 'cubic'
-    :param data_file_name:
-    :param working_dir:
-    :param db:
-    :return:
+    Generate FireWorks for writing LAMMPS data files.
+
+    Args:
+        system_species_data (dict): Dictionary containing species data. The keys are the
+            species labels and the values are dictionaries containing the following keys:
+
+            * molecule (Molecule, GaussianOutput, str, dict): Source of the molecule to
+              be processed. See ``process_mol`` in ``mispr/gaussian/utilities/mol.py``
+              for supported operations.
+            * molecule_operation_type (str): Type of molecule operation. Must match with
+              ``molecule`` value.
+            * ff_param_method (str): Method for obtaining force field parameters. Must
+              match with ``ff_param_data`` value. See available methods for ``GetFFDictFw``
+              in ``mispr/lammps/fireworks/core.py``.
+            * ff_param_data (str or dict): Data regarding necessary information to obtain
+              ff parameters. Must match with ``ff_param_method`` value.
+            * mol_mixture_type (str): Type of mixture data. Must be "Solutes" or "Solvents".
+            * mixture_data (int or dict): Information regarding the number of molecules
+              of this type in the system. Depends on the ``system_mixture_type`` parameter.
+
+        system_mixture_type (str): Type of mixture data. Must be "concentration" or
+            "number of molecules". See ``LammpsDataWrapper`` in
+            ``pymatgen/io/lammps/data.py`` for more information.
+        box_data (float, int, list (3,2), array (3,2), or LammpsBox): Definitions for
+            box size. See ``box_data_type`` for info how to define this parameter.
+        box_data_type (str, optional): Determines the value of the ``box_data`` parameter.
+            Can be one of the following: 'cubic', 'rectangular', or 'LammpsBox'. If
+            'cubic', ``box_data`` must be a float or int; if 'rectangular', ``box_data``
+            must be an array-like with size (3,2); if 'LammpsBox', ``box_data`` must be
+            a ``LammpsBox`` object. Defaults to 'cubic'.
+        data_file_name (str, optional): Name of the data file to be written. Defaults to
+            "complex.data".
+        working_dir (str, optional): Directory where the data files will be written.
+            Defaults to the current working directory.
+        db (str or dict, optional): Database credentials. Could be a string with the path
+            to the database file or a dictionary with the database credentials. If none
+            is provided, attempts to read the configuration files. Only used when
+            ``save_ff_to_db`` is ``True``.
+        tag (str, optional): Tag for the Fireworks. Defaults to "unknown".
+        kwargs (keyword arguments): Additional keyword arguments.
+
+    Returns:
+        fireworks (list): List of FireWorks for writing LAMMPS data files.
     """
     if not working_dir:
         working_dir = os.getcwd()
@@ -189,6 +199,35 @@ def lammps_run_fws(
     save_runs_to_file=False,
     **kwargs,
 ):
+    """
+    Generate FireWorks for running LAMMPS simulations.
+
+    Args:
+        recipe (list, optional): List of lists containing the name of the step and the
+            template filename or string for the LAMMPS input file. Defaults to
+            LAMMPS_RECIPE.
+        recipe_settings (list, optional): List of dictionaries containing the settings
+            for each step in the recipe. Defaults to RECIPE_SETTINGS.
+        recipe_qadapter (list, optional): List of dictionaries containing the settings
+            for the queue adapter for each step in the recipe. Defaults to
+            QADAPTER_RUN_LAMMPS_SPEC.
+        init_spec (dict, optional): Initial spec for the FireWorks. Defaults to ``None``.
+        db (str or dict, optional): Database credentials. Could be a string with the path
+            to the database file or a dictionary with the database credentials. If none
+            is provided, attempts to read the configuration files. Only used when
+            ``save_runs_to_db`` is ``True``.
+        working_dir (str, optional): Directory where the data files will be written.
+            Defaults to the current working directory.
+        save_runs_to_db (bool, optional): Whether to save the runs to the database.
+            Defaults to ``True``.
+        save_runs_to_file (bool, optional): Whether to save the runs to a file. Defaults
+            to ``False``.
+        kwargs (keyword arguments): Additional keyword arguments.
+
+    Returns:
+        fireworks (list): List of FireWorks for running LAMMPS simulations.
+    """
+
     if not working_dir:
         working_dir = os.getcwd()
 
@@ -253,6 +292,22 @@ def lammps_run_fws(
 
 
 def lammps_analysis_fws(analysis_list, analysis_settings, working_dir, **kwargs):
+    """
+    Generate FireWorks for running LAMMPS analysis.
+
+    Args:
+        analysis_list (list): List of analysis types to perform. Supported types are:
+            'diffusion', 'rdf', 'cn', and 'clusters'.
+        analysis_settings (list): List of dictionaries containing the settings for each
+            analysis type.
+        working_dir (str): Directory where the data files will be written.
+        kwargs (keyword arguments): Additional keyword arguments.
+
+    Returns:
+        tuple:
+            - fireworks (list): List of FireWorks objects for running LAMMPS analysis.
+            - links_dict (dict): Dictionary containing the links between the FireWorks.
+    """
     fireworks = []
     links_dict = {}
     analysis_fw_ids = {}
@@ -403,6 +458,55 @@ def lammps_workflow(
     name="lammps_workflow",
     **kwargs,
 ):
+    """
+    Create a LAMMPS workflow.
+
+    Args:
+        system_species_data (dict, optional): Dictionary containing species data. Refer
+            to the ``lammps_data_fws`` function for more information. Defaults to
+            ``None``. If not provided, the workflow will not create any FireWorks for
+            writing LAMMPS data files.
+        system_mixture_type (str): Type of mixture data. Must be "concentration" or
+            "number of molecules". See ``LammpsDataWrapper`` in
+            ``pymatgen/io/lammps/data.py`` for more information. Defaults to ``None``.
+            If not provided, the workflow will not create any FireWorks for writing
+            LAMMPS data files.
+        box_data (float, int, list (3,2), array (3,2), or LammpsBox): Definitions for
+            box size. See ``lammps_data_fws`` for info on how to define this parameter.
+            Defaults to ``None``. If not provided, the workflow will not create any
+            FireWorks for writing LAMMPS data files.
+        box_data_type (str, optional): Determines the value of the ``box_data``
+            parameter. Defaults to 'cubic'.
+        data_file_name (str, optional): Name of the data file to be written. Defaults
+            to 'data.mixture'.
+        recipe (list, optional): List of lists containing the name of the step and the
+            template filename or string for the LAMMPS input file. Defaults to
+            LAMMPS_RECIPE.
+        recipe_settings (list, optional): List of dictionaries containing the settings
+            for each step in the recipe. Defaults to RECIPE_SETTINGS.
+        recipe_qadapter (list, optional): List of dictionaries containing the settings
+            for the queue adapter for each step in the recipe. Defaults to
+            QADAPTER_RUN_LAMMPS_SPEC.
+        db (str or dict, optional): Database credentials. Could be a string with the
+            path to the database file or a dictionary with the database credentials.
+            If none is provided, attempts to read the configuration files. Only used when
+            ``save_runs_to_db`` is ``True``. Defaults to ``None``.
+        working_dir (str, optional): Directory where the data files will be written.
+            Defaults to the current working directory.
+        analysis_list (list, optional): List of analysis types to perform. Supported
+            types are: 'diffusion', 'rdf', 'cn', and 'clusters'. Defaults to ``None``.
+            If not provided, the workflow will not create any FireWorks for running
+            LAMMPS analysis.
+        analysis_settings (list, optional): List of dictionaries containing the settings
+            for each analysis type. Defaults to ``None``. If not provided, the workflow
+            will not create any FireWorks for running LAMMPS analysis.
+        name (str, optional): Name of the workflow. Defaults to 'lammps_workflow'.
+        kwargs (keyword arguments): Additional keyword arguments.
+
+    Returns:
+        Workflow
+    """
+
     if not working_dir:
         working_dir = os.getcwd()
 

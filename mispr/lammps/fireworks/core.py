@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines core fireworks for ambertools and lammps.
+"""Define core fireworks for ambertools and lammps."""
 
 import os
 import logging
@@ -41,6 +38,22 @@ FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
 
 def ambertools_tasks(**kwargs):
+    """
+    Define a list of common tasks for generating GAFF parameters for a molecule. This is
+    a helper function for the GetFFDictFW Firework.
+
+    Args:
+        kwargs: other kwargs that are passed to:
+
+            1. ``mispr.lammps.firetasks.run.RunAntechamber``
+            2. ``mispr.lammps.firetasks.run.RunParmchk``
+            3. ``mispr.lammps.firetasks.write_inputs.WriteTleapScript``
+            4. ``mispr.lammps.firetasks.run.RunTleap``
+            5. ``mispr.lammps.firetasks.parse_outputs.ProcessPrmtop``
+    
+    Returns:
+        List of Firetasks.
+    """
     common_t = [
         RunAntechamber(
             **{
@@ -83,6 +96,10 @@ def ambertools_tasks(**kwargs):
 
 
 class GetFFDictFW(Firework):
+    """
+    Generate the ff parameters for a molecule.
+    """
+
     def __init__(
         self,
         mol,
@@ -100,6 +117,80 @@ class GetFFDictFW(Firework):
         tag="unknown",
         **kwargs
     ):
+        """
+        Args:
+            mol (Molecule, GaussianOutput, str, dict): Source of the molecule to be
+                processed. Should match the ``mol_operation_type``.
+            mol_operation_type (str): The type of molecule operation. See ``process_mol``
+                defined in ``mispr/gaussian/utilities/mol.py`` for supported operations.
+            data (str, dict): Data to be processed, e.g., path to the esp file if
+                ``operation_type`` is ``get_from_esp``, path to the prmtop file if
+                ``operation_type`` is ``get_from_prmtop``, etc.
+            operation_type (str, optional): The operation to perform on the data to read
+                or generate the force field parameters. Defaults to ``get_from_esp``.
+                Supported commands:
+
+                1. ``get_from_esp``: If the input is an ESP file.
+                2. ``get_from_prmtop``: If the input is a prmtop file.
+                3. ``get_from_opls``: If the input is a molecule file to be used to
+                   generate opls ff parameters.
+                4. ``get_from_dict``: If the input is a dictionary of force field
+                   parameters. e.g.,
+
+                   .. code-block:: python
+
+                        {
+                            "Molecule": pymatgen_molecule,
+                            "Labels": atom_labels,
+                            "Masses": atomtype_masses,
+                            "Nonbond": nonbond_params,
+                            "Bonds": bond_params,
+                            "Angles": angle_params,
+                            "Dihedrals": dihedral_params,
+                            "Impropers": improper_params,
+                            "Improper Topologies": improper_topologies,
+                            "Charges": charges
+                         }
+
+                5. 'get_from_file': If the input is a json file of the force field
+                   parameters.
+                6. 'get_from_db': If the input is a filter for the database to search
+                   for the force field parameters.
+                
+            label (str, optional): Label for the molecule. This should be unique for
+                each different molecular species in the system. Defaults to an empty
+                string. In this case, the label will be obtained based on the molecular
+                formula.
+            name (str, optional): Name of the Firework. Defaults to ``get_ff_dict``.
+            parents (Firework or [Firework], optional): List of parent Fireworks that
+                this Firework depends on. Defaults to ``None``.
+            working_dir (str, optional): Directory to run the Firework in. Defaults to
+                the current working directory.
+            db (str or dict, optional): Database credentials. Could be provided as the
+                path to the "db.json" file or in the form of a dict. If none is provided,
+                attempts to read it from the configuration files to save the Firework to.
+            save_ff_to_db (bool, optional): Whether to save the force field to the
+                database. Defaults to ``False``.
+            save_ff_to_file (bool, optional): Whether to save the force field to a file.
+                Defaults to ``True``.
+            ff_filename (str, optional): Filename to save the force field to. Defaults
+                to "ff.json".
+            tag (str): Tag for the Firework. The provided tag will be stored in the db
+                documents for easy retrieval. Defaults to "unknown".
+            kwargs: Other kwargs that are passed to:
+
+                1. Firework.__init__
+                2. ``mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput``
+                3. ``mispr.lammps.firetasks.run.RunAntechamber``
+                4. ``mispr.lammps.firetasks.run.RunParmchk``
+                5. ``mispr.lammps.firetasks.write_inputs.WriteTleapScript``
+                6. ``mispr.lammps.firetasks.run.RunTleap``
+                7. ``mispr.lammps.firetasks.parse_outputs.ProcessPrmtop``
+                8. ``mispr.lammps.firetasks.run.RunMaestro``
+                9. ``mispr.lammps.firetasks.write_inputs.LabelFFDict``
+                10. ``mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB``
+
+        """
         tasks = []
         working_dir = working_dir or os.getcwd()
 
@@ -271,6 +362,9 @@ class GetFFDictFW(Firework):
 
 
 class RunLammpsFW(Firework):
+    """
+    Run a lammps simulation.
+    """
     def __init__(
         self,
         control_file=None,
@@ -283,6 +377,35 @@ class RunLammpsFW(Firework):
         tag="unknown",
         **kwargs
     ):
+        """
+        Args:
+            control_file (str, optional): Path to the control file. If 
+                not provided, the control file will be generated. 
+                Defaults to None.
+            db (str or dict, optional): Database credentials. Could be 
+                provided as the path to the db.json file or in the form 
+                of a dict. If none is provided, attempts to read it 
+                from the configuration files to save the Firework to.
+            name (str, optional): Name of the Firework. Defaults to 
+                "run_lammps".
+            parents (Firework or [Firework], optional): List of parent 
+                Fireworks that this Firework depends on. Defaults to 
+                ``None``.
+            working_dir (str, optional): Directory to run the Firework 
+                in. Defaults to the current working directory.
+            save_run_to_db (bool, optional): Whether to save the run to 
+                the database. Defaults to True.
+            save_run_to_file (bool, optional): Whether to save the run 
+                to a file. Defaults to False.
+            tag (str): Tag for the Firework. The provided tag will be 
+                stored in the db documents for easy retrieval. Defaults 
+                to "unknown".
+            kwargs: Other kwargs that are passed to:
+
+                1. Firework.__init__
+                2. ``mispr.lammps.firetasks.write_inputs.WriteControlFile``
+                3. ``mispr.lammps.firetasks.run.RunLammpsDirect``
+        """
         tasks = []
         working_dir = working_dir or os.getcwd()
 
@@ -328,6 +451,9 @@ class RunLammpsFW(Firework):
 
 
 class RunAnalysisFW(Firework):
+    """
+    Run an analysis on a LAMMPS trajectory.
+    """
     def __init__(
         self,
         md_property,
@@ -337,6 +463,26 @@ class RunAnalysisFW(Firework):
         tag="unknown",
         **kwargs
     ):
+        """
+        Args:
+            md_property (str): The property to calculate. Supported properties:
+                
+                1. 'diffusion': Calculate the diffusion coefficient.
+                2. 'rdf': Calculate the radial distribution function.
+            name (str, optional): Name of the Firework. Defaults to "run_analysis".
+            parents (Firework or [Firework], optional): List of parent Fireworks that
+                this Firework depends on. Defaults to ``None``.
+            working_dir (str, optional): Directory to run the Firework in. Defaults to
+                the current working directory.
+            tag (str): Tag for the Firework. The provided tag will be stored in the db
+                documents for easy retrieval. Defaults to "unknown".
+            kwargs: Other kwargs that are passed to:
+
+                1. Firework.__init__
+                2. ``mispr.lammps.firetasks.parse_outputs.CalcDiff``
+                3. ``mispr.lammps.firetasks.parse_outputs.GetRDF``
+                4. ``mispr.lammps.firetasks.parse_outputs.CalcDiff``
+        """
         tasks = []
         working_dir = working_dir or os.getcwd()
 

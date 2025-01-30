@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines firetasks for writing LAMMPS input files.
+"""Define firetasks for writing LAMMPS input files."""
 
 import os
 import json
@@ -38,13 +35,61 @@ __version__ = "0.0.4"
 logger = logging.getLogger(__name__)
 
 TEMPLATE_DIR = os.path.normpath(
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "templates")
+    os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                 "..", "templates")
 )
 DEFAULT_KEY = "lammpsin_key"
 
 
 @explicit_serialize
 class WriteDataFile(FiretaskBase):
+    """
+    Write LAMMPS data file for a bulk system in the current working directory. User can
+    provide a ``LammpsData object``, a ``LammpsDataWrapper`` object, or the inputs for
+    instantiating a ``LammpsDataWrapper`` object. See the ``LammpsData`` and
+    ``LammpsDataWrapper`` classes in the ``pymatgen.io.lammps.data`` module for more
+    information.
+
+    Args:
+        working_dir (str, optional): Path to the working directory. Defaults to the
+            current working directory.
+        data_filename (str, optional): Name of data file to be written. Defaults to
+            "complex.data".
+        lammps_data (LammpsData, optional): The ``LammpsData`` object to be written as
+            the data file. Can be passed through the ``fw_spec`` or input by the user.
+            If both are provided, the one provided directly will be used.
+        lammps_data_wrapper (LammpsDataWrapper, optional): The wrapper for the
+            ``LammpsData`` object to be written as data file. Can be passed through
+            ``fw_spec`` or input by the user. If both are provided, the one provided
+            directly will be used. Will be ignored if ``lammps_data`` is provided.
+        system_force_field_dict (dict, optional): The force field parameters for the
+            system. Used as input for ``LammpsDataWrapper``. Intended to be created by
+            the ``GetForceField`` task. Can be passed through ``fw_spec`` or input by
+            the user. If both are provided, will take the one provided in the ``fw_spec``.
+        system_mixture_data (dict, optional): The information that will be used to
+            calculate the number of molecules of each type in the system. Used as input
+            for a ``LammpsDataWrapper`` object. Can be read from ``fw_spec`` or input
+            by the user; If both are provided, will use the one provided in the ``fw_spec``.
+        system_box_data (float, int, list, ndarray, optional): Information about the
+            system box; the value of this arg is determined by the
+            ``system_box_data_type``. Used as input for a ``LammpsDataWrapper`` object.
+            Can be passed through ``fw_spec`` or input by the user. If both are provided,
+            will take the one provided in the ``fw_spec``.
+        system_box_data_type (str, optional): Determines the type for ``system_box_data``.
+            Used as input for a ``LammpsDataWrapper`` object. Defaults to "cubic".
+        position_seed (int, optional): Seed for randomizing the positions of atoms.
+            Indirectly used as input for packmol through ``LammpsDataWrapper``. Defaults
+            to 150.
+        system_mixture_data_type (str, optional): Determines the content of
+            ``system_mixture_data``. Used as input for a ``LammpsDataWrapper`` object.
+            Defaults to "concentration".
+        scale_charges (bool, optional): Whether to scale the partial charges of all
+            molecules that have a non-zero net charge in the system. Only used if
+            building a system from ``LammpsDataWrapper`` inputs.
+        charge_scaling_factor (float): Factor by which to scale charges in the system.
+            Only used if building a system from ``LammpsDataWrapper`` inputs and if
+            ``scale_charges`` is ``True``.
+    """
     _fw_name = "Write Data File"
     required_params = []
     optional_params = [
@@ -64,13 +109,16 @@ class WriteDataFile(FiretaskBase):
 
     def run_task(self, fw_spec):
         # There are three main ways of creating a data file:
-        # 1: provide a LammpsData object as "lammps_data" optional parameter
-        # 2: provide a LammpsDataWrapper object as "lammps_data_wrapper" \
+        # 1: provide a LammpsData object as "lammps_data"
         #       optional parameter
-        # 3: provide the inputs for instantiating a LammpsDataWrapper object
+        # 2: provide a LammpsDataWrapper object as
+        #       "lammps_data_wrapper" optional parameter
+        # 3: provide the inputs for instantiating a LammpsDataWrapper
+        #       object
 
         # Set the path for writing the data file
-        working_dir = fw_spec.get("working_dir", self.get("working_dir", os.getcwd()))
+        working_dir = fw_spec.get("working_dir",
+                                  self.get("working_dir", os.getcwd()))
         os.chdir(working_dir)
 
         data_file_name = self.get("data_filename", "complex.data")
@@ -82,8 +130,8 @@ class WriteDataFile(FiretaskBase):
         lammps_data_wrapper = None
         lammps_data = None
 
-        # Now to find/instantiate the LammpsData object. There are several different
-        # input cases
+        # Now to find/instantiate the LammpsData object. There are
+        #   several different input cases:
         # Case where LammpsData object is an optional parameter
         if isinstance(self.get("lammps_data"), LammpsData):
             lammps_data = self.get("lammps_data")
@@ -100,32 +148,33 @@ class WriteDataFile(FiretaskBase):
         elif isinstance(fw_spec.get("lammps_data_wrapper"), LammpsDataWrapper):
             lammps_data_wrapper = fw_spec.get("lammps_data_wrapper")
 
-        # Case where only required arguments for LammpsDataWrapper are provided
+        # Case where only required arguments for LammpsDataWrapper
+        #   are provided
         elif all(
             (
                 isinstance(
-                    fw_spec.get(
-                        "system_force_field_dict", self.get("system_force_field_dict")
-                    ),
+                    fw_spec.get("system_force_field_dict",
+                                self.get("system_force_field_dict")),
                     dict,
                 ),
                 isinstance(
-                    fw_spec.get("system_mixture_data", self.get("system_mixture_data")),
+                    fw_spec.get("system_mixture_data",
+                                self.get("system_mixture_data")),
                     dict,
                 ),
                 isinstance(
-                    fw_spec.get("system_box_data", self.get("system_box_data")),
+                    fw_spec.get("system_box_data",
+                                self.get("system_box_data")),
                     (float, int, list, np.ndarray),
                 ),
             )
         ):
-            force_fields = fw_spec.get(
-                "system_force_field_dict", self.get("system_force_field_dict")
-            )
-            mixture = fw_spec.get(
-                "system_mixture_data", self.get("system_mixture_data")
-            )
-            box_data = fw_spec.get("system_box_data", self.get("system_box_data"))
+            force_fields = fw_spec.get("system_force_field_dict",
+                                       self.get("system_force_field_dict"))
+            mixture = fw_spec.get("system_mixture_data",
+                                  self.get("system_mixture_data"))
+            box_data = fw_spec.get("system_box_data",
+                                   self.get("system_box_data"))
 
         # Case where no proper inputs exist: raise error
         else:
@@ -144,7 +193,8 @@ class WriteDataFile(FiretaskBase):
                             i * scaling_factor for i in force_fields[k]["Charges"]
                         ]
             box_data_type = self.get("system_box_data_type", "cubic")
-            mixture_type = self.get("system_mixture_data_type", "concentration")
+            mixture_type = self.get("system_mixture_data_type",
+                                    "concentration")
             seed = self.get("position_seed", 150)
             lammps_data_wrapper = LammpsDataWrapper(
                 system_force_fields=force_fields,
@@ -170,7 +220,8 @@ class WriteDataFile(FiretaskBase):
                 for mol_label in lammps_data_wrapper.sorted_mol_names
             ]
             num_mols_list = [
-                n_mols_dict[name] for name in lammps_data_wrapper.sorted_mol_names
+                n_mols_dict[name]
+                for name in lammps_data_wrapper.sorted_mol_names
             ]
             lmp_box = lammps_data.box
             num_atoms_per_mol_list = [
@@ -190,7 +241,9 @@ class WriteDataFile(FiretaskBase):
 
         # Write data file
         if lammps_data:
-            lammps_data.write_file(filename=data_file_path, distance=10, charge=20)
+            lammps_data.write_file(filename=data_file_path,
+                                   distance=10,
+                                   charge=20)
             return FWAction(
                 update_spec={
                     "smiles": smiles_list,
@@ -210,6 +263,34 @@ class WriteDataFile(FiretaskBase):
 
 @explicit_serialize
 class WriteControlFile(FiretaskBase):
+    """
+    Write a LAMMPS control file based on a template file or string.
+
+    Args:
+        working_dir (str, optional): Path to working directory. Default is current
+            working directory.
+        db (str or dict, optional): Connection information for the calc database; If
+            ``save_runs_to_db`` is ``True``, then a document will be stored in the
+            database. Default is ``None``.
+        control_filename (str, optional): Name of control file to be written. Default is
+            "complex.lammpsin".
+        template_filename (str, optional): Name of template control file to be used.
+            Is not used if ``template_str`` is provided. Can refer to a custom template
+            or a template name from the ``mispr/lammps/templates`` directory.
+        template_dir (str, optional): Path to directory containing template file. If the
+            template is from ``mispr/lammps/templates``, then this is not needed.
+        template_str (str, optional): String containing template for control file.
+        control_settings (dict, optional): Dictionary of settings to be used in the
+            control file. If a mispr template is used, this dictionary will update the
+            corresponding control_settings dictionary in the ``mispr/lammps/defaults.py``
+            file. Default is None.
+        save_runs_to_db (bool, optional): Whether to save the run info to the calc
+            database. Default is ``False``.
+        save_runs_to_file (bool, optional): Whether to save the run info to a file in
+            the working directory. Default is ``True``.
+        lammpsin_key (str, optional): Key in the ``fw_spec`` that corresponds with the
+            ``run_doc`` information. Default is "lammpsin".
+    """
     _fw_name = "Write Control File"
     required_params = []
     optional_params = [
@@ -227,7 +308,8 @@ class WriteControlFile(FiretaskBase):
 
     def run_task(self, fw_spec):
         # Set directory for writing control file
-        working_dir = fw_spec.get("working_dir", self.get("working_dir", os.getcwd()))
+        working_dir = fw_spec.get("working_dir", self.get("working_dir",
+                                                          os.getcwd()))
         template_dir = None
         os.makedirs(working_dir, exist_ok=True)
         os.chdir(working_dir)
@@ -255,7 +337,8 @@ class WriteControlFile(FiretaskBase):
         if isinstance(self.get("template_str"), str):
             template_string = self.get("template_str")
             template_filename = None
-        # Cases 2 and 3: template from file, with filename set by template_type variable
+        # Cases 2 and 3: template from file, with filename set by
+        # template_type variable
         elif isinstance(self.get("template_filename"), str):
             template_filename = self.get("template_filename")
             # Case 2: template from file in /../templates/ directory
@@ -295,7 +378,11 @@ class WriteControlFile(FiretaskBase):
         recalc_masses_list = fw_spec.get("recalc_masses", [])
 
         run_doc = process_run(
-            smiles_list, n_mols_dict, lmp_box, template_filename, control_settings
+            smiles_list,
+            n_mols_dict,
+            lmp_box,
+            template_filename,
+            control_settings
         )
         run_doc.update({"working_dir": working_dir})
 
@@ -340,6 +427,23 @@ class WriteControlFile(FiretaskBase):
 
 @explicit_serialize
 class WriteTleapScript(FiretaskBase):
+    """
+    Write a tleap script for generating a prmtop and inpcrd file for a molecule.
+    Intended to be used to obtain the parameters from the GAFF force field.
+
+    Args:
+        working_dir (str): Path to the working directory. Defaults to current working
+            directory.
+        script_string (str): String containing the tleap script. If not provided, the
+            ``template_filename`` and ``template_dir`` must be provided.
+        template_filename (str): Name of the template file. Defaults to "gaff_tleap".
+        template_dir (str): Path to the directory containing the template file. Defaults
+            to the mispr/lammps/templates/ directory.
+        tleap_settings (dict): Dictionary containing the settings for the tleap script.
+            Used to update the ``TLEAP_SETTINGS`` dict in
+            mispr/lammps/defaults.py file. Defaults to empty dict.
+        script_filename (str): Name of the tleap script file. Defaults to "tleap.in".
+    """
     _fw_name = "Write Tleap Script"
     required_params = []
     optional_params = [
@@ -381,6 +485,26 @@ class WriteTleapScript(FiretaskBase):
 
 @explicit_serialize
 class LabelFFDict(FiretaskBase):
+    """
+    Append molecule label to all atom labels in the force field dictionary. Ensures
+    that no two molecules can share the same atom labels provided that each molecule
+    has a unique label for the system.
+
+    Args:
+        mol (Molecule, optional): pymatgen Molecule object; if not provided, the
+        ``prev_calc_molecule`` key from the ``fw_spec`` will be used.
+        unlabeled_dict (dict, optional): Dictionary containing the force field parameters
+            for the molecule; ignored if the ``ff_file`` is provided.
+        ff_file (str, optional): Path to the json file containing the force field
+            parameters for the molecule.
+        working_dir (str, optional): Path to the working directory. Defaults to current
+            working directory.
+        label (str, optional): Label for the molecule. Defaults to the molecular formula.
+        system_force_field_dict (dict, optional): Dictionary containing the force field
+            parameters for the system that is used as the input for ``LammpsDataWrapper``
+            object; intended to be obtained from the spec; if present in the spec,
+            this will be ignored.
+    """
     _fw_name = "Label FF Dict"
     required_params = []
     optional_params = [
@@ -405,7 +529,9 @@ class LabelFFDict(FiretaskBase):
                 # mol = unlabeled_dict["Molecule"]
         else:
             if not isinstance(mol, Molecule):
-                raise TypeError('"mol" input must be a PyMatGen Molecule object')
+                raise TypeError(
+                    '"mol" input must be a PyMatGen Molecule object'
+                )
 
             if not isinstance(self.get("unlabeled_dict"), dict):
                 raise TypeError('"unlabeled_dict" input must be a dict')
@@ -424,6 +550,24 @@ class LabelFFDict(FiretaskBase):
 
 @explicit_serialize
 class LabelFFDictFromDB(FiretaskBase):
+    """
+    Append molecule label to all atom labels in a force field dictionary obtained from
+    the database. Ensures that no two molecules can share the same atom labels provided
+    that each molecule has a unique label for the system.
+
+    Args:
+        filter (dict): Dictionary containing the filter used to query the database.
+        working_dir (str, optional): Path to the working directory. Defaults to
+            current working directory.
+        db (dict or str, optional): Information for connecting to the database as
+            either a dictionary of credentials or a path to a json file containing the
+            credentials; if not provided, the database specified in the env will be used.
+        label (str, optional): Label for the molecule. Defaults to the molecular formula.
+        system_force_field_dict (dict, optional): Dictionary containing the force field
+            parameters for the system that is used as the input for ``LammpsDataWrapper``
+            object; intended to be obtained from the spec; if present in the spec, this
+            will be ignored.
+    """
     _fw_name = "Label FF Dict From DB"
     required_params = ["filter"]
     optional_params = ["working_dir", "db", "label", "system_force_field_dict"]

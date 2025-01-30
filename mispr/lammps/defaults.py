@@ -26,7 +26,7 @@ CN_SETTINGS = {
 # default cluster analysis settings
 CLUSTERS_SETTINGS = {
     "full_trajectory": True,
-    "alter_atom_ids": False,
+    "alter_atom_types": False,
     "max_force": 0.75,
     "filename": os.path.abspath(
         os.path.join("../../../lammps", "nvt", "dump.nvt.*.dump")

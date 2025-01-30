@@ -1,6 +1,4 @@
-# coding: utf-8
-
-# Defines classes for handling mongodb interactions.
+"""Define classes for handling mongodb interactions."""
 
 import sys
 import logging

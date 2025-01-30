@@ -1,7 +1,4 @@
-# coding: utf-8
-
-
-# Defines lammps utility functions.
+"""Define lammps utility functions."""
 
 import os
 import json
@@ -24,17 +21,21 @@ __version__ = "0.0.4"
 
 def add_ff_labels_to_BADI_lists(ff_list, label):
     """
-    Adds extra string to the end of all atom type labels in lists containing
-    information about Bonds, Angles, Dihedrals, or Impropers (BADI). This
-    function is intended to be used through the add_ff_labels_to_dict()
-    function.
-    :param ff_list: [List] The value from ff_dict using one of the following keys:
-                 'Bonds', 'Angles', 'Dihedrals', or 'Impropers'.
-                 The form of this list should be as follows:
-                 [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
-    :param label: [Str] A label for the molecular species that is unique for
-                  the system being created.
-    :return:
+    Add extra string to the end of all atom type labels in lists containing information
+    about Bonds, Angles, Dihedrals, or Impropers (BADI). This function is intended to be
+    used through the ``add_ff_labels_to_dict``.
+
+    Args:
+        ff_list (List): The value from ``ff_dict`` using one of the following keys:
+            'Bonds', 'Angles', 'Dihedrals', or 'Impropers'. The form of this list
+            should be as follows:
+
+            .. code-block:: python
+
+                [{'coeffs': [Float, ...], 'types': [(Str, ...), ...]}, ...]
+
+        label (str): A label for the molecular species that is unique for the system
+            being created.
     """
     output_badi_list = []
     for dict_ in ff_list:
@@ -47,21 +48,27 @@ def add_ff_labels_to_BADI_lists(ff_list, label):
 
 def add_ff_labels_to_dict(ff_dict, label):
     """
-    :param ff_dict:
-        {'Molecule':
-            pmg.Molecule,
-            'Labels': List,
-            'Masses': OrderedDict,
-            'Nonbond': List,
-            'Bonds': [{'coeffs': [a, b], 'types': [('x1', 'x2'), ...]}, ...],
-            'Angles': [{'coeffs': [a, b], 'types': [('x1', 'x2', 'x3'), ...]}, ...],
-            'Dihedrals': [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
-            'Impropers': [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
-            'Improper Topologies': List,
-            'Charges': np.Array,
-            ...}
-    :param label:
-    :return:
+    Args:
+        ff_dict: A dictionary containing the force field information for a molecule.
+            The dictionary should have the following form:
+
+            .. code-block:: python
+
+                {
+                    "Molecule": pmg.Molecule,
+                    "Labels": List,
+                    "Masses": OrderedDict,
+                    "Nonbond": List,
+                    "Bonds": [{'coeffs': [a, b], 'types': [('x1', 'x2'), ...]}, ...],
+                    "Angles": [{'coeffs': [a, b], 'types': [('x1', 'x2', 'x3'), ...]}, ...],
+                    "Dihedrals": [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
+                    "Impropers": [{'coeffs': [a, b, c], 'types': [('x1', 'x2', 'x3', 'x4), ...]}, ...],
+                    "Improper Topologies": List,
+                    "Charges": np.Array,
+                    ...
+                }
+
+        label (str):
     """
     output_labels = [old_label + label for old_label in ff_dict["Labels"]]
 
@@ -149,7 +156,7 @@ def lammps_mass_to_element(lammps_masses):
     Create a dict for mapping atom mass to element.
 
     Args:
-        lammps_masses (list): list of masses in lammps units
+        lammps_masses (list): List of masses in lammps units.
 
     Returns:
         dict
