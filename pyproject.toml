@@ -19,7 +19,6 @@ license = { text = "MIT" }
 keywords = ["dft", "md", "lammps", "gaussian", "high-throughput", "workflow", "materials science"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -29,7 +28,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering",
 ]
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.10, <3.13"
 dependencies = [
     "numpy >= 1.21.1",
     "pymongo>=3.3.0,<=3.12.0",
