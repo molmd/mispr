@@ -45,6 +45,8 @@ dependencies = [
     "ruamel.yaml>=0.15.35,<=0.17.40", # should be removed in the future, but is needed since FireWorks has not updated their function calls to match newer versions of ruamel.yaml
 ]
 
+strict = ["custodian==2024.10.16"]
+
 [project.optional-dependencies]
 dev = ["black>=23.3.0", "isort>=5.10.0"]
 
