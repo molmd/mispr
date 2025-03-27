@@ -39,7 +39,7 @@ dependencies = [
     "pandas >= 1.1.2",
     "pubchempy",
     "parmed",
-    "mdproptools",
+    "mdproptools>=0.0.5",
     "dnspython",
     "custodian==2024.10.16",
     "ruamel.yaml>=0.15.35,<=0.17.40", # should be removed in the future, but is needed since FireWorks has not updated their function calls to match newer versions of ruamel.yaml
