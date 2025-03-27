@@ -249,7 +249,7 @@ class CalcDiff(FiretaskBase):
             mass = fw_spec.get("default_masses", None)
             file_pattern = diff_settings.pop("file_pattern", "dump.nvt.*.dump")
 
-            msd_df = diff.get_msd_from_dump(
+            msd_df, _ = diff.get_msd_from_dump(
                 file_pattern,
                 num_mols=num_mols,
                 num_atoms_per_mol=num_atoms_per_mol,
