@@ -9,9 +9,17 @@
 
 ## Overview
 
-MISPR is a software that executes, manages, and stores computational materials science
-simulations. It contains pre-defined density functional theory (DFT) and molecular dynamics (MD) workflows to calculate and analyze different
-properties of materials. MISPR uses [MDPropTools][mdproptools] to perform MD analysis.
+MISPR is a free, open-source software for executing, managing, and storing computational materials science simulations. Features of MISPR include:
+
+- Predicts various materials properties through pre-defined workflows
+- Integrates density functional theory (DFT) and molecular dynamics (MD) simulations seamlessly
+- Processes, analyzes, and visualizes simulation results with built-in utilities
+- Handles errors automatically using recipe-like fixes
+- Builds and manages computational databases in MongoDB backend for easy querying, analysis, and sharing
+- Supports multiple queuing systems via FireWorks including SLURM, PBS, SGE, etc.
+- Scales architecture to handle computations from individual materials to thousands of compounds
+- Modifies and chains workflows together flexibly
+- Leverages open-source libraries including [pymatgen][pymatgen], [custodian][custodian], and [FireWorks][fireworks]
 
 ## Workflows
 
@@ -34,7 +42,12 @@ A standard workflow for performing classical MD simulations of liquid solutions 
 3. Build initial system configuration
 4. Create LAMMPS data file containing initial atomic coordinations, molecular topology, and force field parameters
 5. Run two step energy minimization, NPT equilibration run, melting and quenching, and an NVT production run
-6. Perform analysis using the generated log and trajectory files (radial distribution function, coordination number, cluster analysis, mean squared displacement and diffusion)
+6. Perform analysis using the generated log and trajectory files (radial distribution function, coordination number, cluster analysis, mean squared displacement and diffusion) using [MDPropTools][mdproptools]
+
+### Hybrid Workflows
+
+- **General**: A workflow that combines the ESP DFT workflow with the MD workflow described above
+- **NMR**: A workflow that first runs the general hybrid workflow, then analyzes solvation shells from MD trajectories, and finally runs the NMR DFT workflow on representative solvation structures to predict chemical shifts
 
 All these workflows are easily customizable and can be modified to suit specific research needs.
 
@@ -74,6 +87,9 @@ MISPR is a free, open-source software package (distributed under the [MIT licens
 [commit-badge]: https://img.shields.io/github/commit-activity/m/molmd/mispr
 [commit-link]: https://github.com/molmd/mispr/commits/master
 [mdproptools]: https://github.com/molmd/mdproptools
+[fireworks]: https://materialsproject.github.io/fireworks/
+[pymatgen]: https://pymatgen.org
+[custodian]: https://materialsproject.github.io/custodian/
 [install-docs]: https://molmd.github.io/mispr/html/installation/index.html
 [mispr-website]: https://molmd.github.io/mispr/
 [api-docs]: https://molmd.github.io/mispr/html/py-modindex.html
