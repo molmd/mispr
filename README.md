@@ -9,17 +9,17 @@
 
 ## Overview
 
-MISPR is a free, open-source software for executing, managing, and storing computational materials science simulations. Features of MISPR include:
+MISPR is a free, open-source software for executing, managing, and storing computational materials science simulations. It can:
 
-- Predicts various materials properties through pre-defined workflows
-- Integrates density functional theory (DFT) and molecular dynamics (MD) simulations seamlessly
-- Processes, analyzes, and visualizes simulation results with built-in utilities
-- Handles errors automatically using recipe-like fixes
-- Builds and manages computational databases in MongoDB backend for easy querying, analysis, and sharing
-- Supports multiple queuing systems via FireWorks including SLURM, PBS, SGE, etc.
-- Scales architecture to handle computations from individual materials to thousands of compounds
-- Modifies and chains workflows together flexibly
-- Leverages open-source libraries including [pymatgen][pymatgen], [custodian][custodian], and [FireWorks][fireworks]
+- Predict various materials properties through pre-defined workflows
+- Integrate density functional theory (DFT) and molecular dynamics (MD) simulations seamlessly
+- Process, analyze, and visualize simulation results with built-in utilities
+- Handle errors automatically using recipe-like fixes
+- Build and manage computational databases in MongoDB backend for easy querying, analysis, and sharing
+- Support multiple queuing systems via FireWorks including SLURM, PBS, SGE, etc.
+- Scale architecture to handle computations from individual materials to thousands of compounds
+- Modify and chain workflows together flexibly
+- Leverage open-source libraries including [pymatgen][pymatgen], [custodian][custodian], and [FireWorks][fireworks]
 
 ## Workflows
 
