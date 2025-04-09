@@ -23,9 +23,9 @@ MISPR is a free, open-source software for executing, managing, and storing compu
 
 ## Workflows
 
-MISPR provides several pre-defined workflows for both Gaussian (DFT) and LAMMPS (MD) calculations:
+MISPR provides several pre-defined workflows:
 
-### DFT (Gaussian) Workflows
+### DFT ([Gaussian][gaussian]) Workflows
 
 - **ESP**: Electrostatic partial charges calculations for charge fitting
 - **NMR**: Nuclear magnetic resonance chemical shift predictions
@@ -33,7 +33,7 @@ MISPR provides several pre-defined workflows for both Gaussian (DFT) and LAMMPS 
 - **BE**: Binding energy calculations
 - **IP_EA**: Redox potential calculations; methods supported include HOMO/LUMO, vertical IP/EA, adiabatic IP/EA, and sequential PCET; electron transfer calculations can be performed via single-step or multi-step pathways
 
-### MD (LAMMPS) Workflows
+### MD ([LAMMPS][lammps]) Workflows
 
 A standard workflow for performing classical MD simulations of liquid solutions and subsequently deriving various structural and dynamical properties. The default operations run as follows:
 
@@ -111,6 +111,8 @@ MISPR is a free, open-source software package (distributed under the [MIT licens
 [fireworks]: https://materialsproject.github.io/fireworks/
 [pymatgen]: https://pymatgen.org
 [custodian]: https://materialsproject.github.io/custodian/
+[gaussian]: https://gaussian.com
+[lammps]: https://www.lammps.org/#gsc.tab=0
 [install-docs]: https://molmd.github.io/mispr/html/installation/index.html
 [mispr-website]: https://molmd.github.io/mispr/
 [api-docs]: https://molmd.github.io/mispr/html/py-modindex.html
