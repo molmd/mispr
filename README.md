@@ -64,12 +64,33 @@ Please see the [Installation][install-docs] page for detailed instructions.
 
 ## How to cite
 
-Please include the following two citations if MISPR and/or MDPropTools were used for an academic study:
+Please include the following two citations ([paper1][paper1] and [paper2][paper2]) if MISPR and/or MDPropTools were used for an academic study:
 
-- Atwi, R., Bliss, M., Makeev, M., & Rajput, N. N. (2022). [MISPR: An automated infrastructure for high-throughput DFT and MD simulations][paper1]. Scientific Reports, 12(1), 1-16.
-- Atwi, R., Chen, Y., Han, K. S., Mueller, K. T., Murugesan, V., & Rajput, N. N. (2022).
-  [An automated framework for high-throughput predictions of NMR chemical shifts within liquid solutions][paper2].
-  Nature Computational Science, 2(2), 112-122.
+```bib
+@article{atwi2022mispr,
+  title={MISPR: an open-source package for high-throughput multiscale molecular simulations},
+  author={Atwi, Rasha and Bliss, Matthew and Makeev, Maxim and Rajput, Nav Nidhi},
+  journal={Scientific Reports},
+  volume={12},
+  number={1},
+  pages={15760},
+  year={2022},
+  publisher={Nature Publishing Group UK London}
+}
+```
+
+```
+@article{atwi2022automated,
+  title={An automated framework for high-throughput predictions of NMR chemical shifts within liquid solutions},
+  author={Atwi, Rasha and Chen, Ying and Han, Kee Sung and Mueller, Karl T and Murugesan, Vijayakumar and Rajput, Nav Nidhi},
+  journal={Nature Computational Science},
+  volume={2},
+  number={2},
+  pages={112--122},
+  year={2022},
+  publisher={Nature Publishing Group US New York}
+}
+```
 
 ## License Information
 
