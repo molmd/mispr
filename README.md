@@ -79,7 +79,7 @@ Please include the following two citations ([paper1][paper1] and [paper2][paper2
 }
 ```
 
-```
+```bib
 @article{atwi2022automated,
   title={An automated framework for high-throughput predictions of NMR chemical shifts within liquid solutions},
   author={Atwi, Rasha and Chen, Ying and Han, Kee Sung and Mueller, Karl T and Murugesan, Vijayakumar and Rajput, Nav Nidhi},
