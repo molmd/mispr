@@ -13,6 +13,31 @@ MISPR is a software that executes, manages, and stores computational materials s
 simulations. It contains pre-defined density functional theory (DFT) and molecular dynamics (MD) workflows to calculate and analyze different
 properties of materials. MISPR uses [MDPropTools][mdproptools] to perform MD analysis.
 
+## Workflows
+
+MISPR provides several pre-defined workflows for both Gaussian (DFT) and LAMMPS (MD) calculations:
+
+### DFT (Gaussian) Workflows
+
+- **ESP**: Electrostatic partial charges calculations for charge fitting
+- **NMR**: Nuclear magnetic resonance chemical shift predictions
+- **BDE**: Bond dissociation energy calculations
+- **BE**: Binding energy calculations
+- **IP_EA**: Redox potential calculations; methods supported include HOMO/LUMO, vertical IP/EA, adiabatic IP/EA, and sequential PCET; electron transfer calculations can be performed via single-step or multi-step pathways
+
+### MD (LAMMPS) Workflows
+
+A standard workflow for performing classical MD simulations of liquid solutions and subsequently deriving various structural and dynamical properties. The default operations run as follows:
+
+1. Run ESP workflow on all species
+2. Fit RESP charges and extract GAFF parameters (OPLS2005 and user-defined parameters are supported)
+3. Build initial system configuration
+4. Create LAMMPS data file containing initial atomic coordinations, molecular topology, and force field parameters
+5. Run two step energy minimization, NPT equilibration run, melting and quenching, and an NVT production run
+6. Perform analysis using the generated log and trajectory files (radial distribution function, coordination number, cluster analysis, mean squared displacement and diffusion)
+
+All these workflows are easily customizable and can be modified to suit specific research needs.
+
 ## Installation
 
 You can either download the source from GitHub and compile yourself, or install directly using pip.
