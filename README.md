@@ -53,7 +53,7 @@ All these workflows are easily customizable and can be modified to suit specific
 
 ## Installation
 
-You can either download the source from GitHub and compile yourself, or install directly using pip.
+MISPR requires Python 3.10 or higher. You can install it using pip or download the source from GitHub.
 Please see the [Installation][install-docs] page for detailed instructions.
 
 ## Useful Links
