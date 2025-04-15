@@ -43,7 +43,7 @@ def bibtex_parser(bib_file, working_dir):
 
 def recursive_relative_to_absolute_path(operand, working_dir):
     """
-    Convert recursively relative paths to absolute paths.
+    Convert recursively relative file paths to absolute file paths.
 
     Args:
         operand (str, list, dict): File, list of files, or a dictionary where the values
@@ -53,7 +53,7 @@ def recursive_relative_to_absolute_path(operand, working_dir):
 
     Returns:
         str or list or dict: File, list of files, or dict where the values are the
-            absolute paths.
+            absolute file paths.
     """
     if isinstance(operand, str):
         if os.path.isabs(operand):
