@@ -58,11 +58,11 @@ def recursive_relative_to_absolute_path(operand, working_dir):
     if isinstance(operand, str):
         if os.path.isabs(operand):
             return operand
-        elif os.path.exists(operand):
+        elif os.path.isfile(operand):
             return os.path.join(os.getcwd(), operand)
         else:
             full_path = os.path.join(working_dir, operand)
-            if os.path.exists(full_path):
+            if os.path.isfile(full_path):
                 return full_path
             else:
                 return operand
