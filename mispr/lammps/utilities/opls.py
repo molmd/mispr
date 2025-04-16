@@ -277,7 +277,7 @@ class MaestroRunner:
             df = bonds_df[["quality", "level_2", "level_3"]]
             df.columns = ["comment", "level_2", "level_3"]
             del bonds_df["quality"]
-            bonds_df = bonds_df.append(df)
+            bonds_df = pd.concat([bonds_df, df], ignore_index=True)
             bonds_df.columns = ["Bond", "K", "r"]
             bonds_df = bonds_df.join(
                 bonds_df["Bond"]
@@ -328,7 +328,7 @@ class MaestroRunner:
             df = angles_df[["quality", "level_3", "Bending"]]
             df.columns = ["comment", "level_3", "Bending"]
             del angles_df["quality"]
-            angles_df = angles_df.append(df)
+            angles_df = pd.concat([angles_df, df], ignore_index=True)
             angles_df.columns = ["Angle", "K", "Theta"]
             angles_df = angles_df.join(
                 angles_df["Angle"]
@@ -388,7 +388,7 @@ class MaestroRunner:
             df = dihedrals_df[["quality", "proper", "Torsion", "V1", "V2"]]
             df.columns = ["comment", "proper", "Torsion", "V1", "V2"]
             del dihedrals_df["quality"]
-            dihedrals_df = dihedrals_df.append(df)
+            dihedrals_df = pd.concat([dihedrals_df, df], ignore_index=True)
             dihedrals_df.columns = ["Dihedral", "V1", "V2", "V3", "V4"]
             dihedrals_df = dihedrals_df.join(
                 dihedrals_df["Dihedral"]
