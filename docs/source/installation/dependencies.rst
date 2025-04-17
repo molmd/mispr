@@ -7,26 +7,25 @@ Virtual python environment
 MISPR depends on a number of third party Python packages, and usually on
 specific versions of those packages. In order not to interfere with third
 party packages needed by other software on your machine or cluster, we
-strongly recommend isolating MISPR in a virtual python environment. In the
-following, we describe how to create a virtual python environment using
-the `virtualenv <https://virtualenv.pypa.io/en/latest/>`_ tool, but
-feel free to use your preferred environment manager
-(e.g. `conda <https://conda.io/docs/>`_).
+strongly recommend isolating MISPR in a conda environment. In the
+following, we describe how to create a conda environment using
+the `conda <https://docs.conda.io/projects/conda/en/latest/>`_ tool.
 
-.. tip::
-   :title: Recommendation
+.. important::
 
-   We recommend that you use Python version 3.7 since this is the version that we have
-   tested MISPR with.
+   MISPR requires Python version 3.10 or higher. We have extensively tested MISPR with Python 3.10.
 
-Creating the virtual environment
+Creating a conda environment
 =================================
+Before creating a conda environment, ensure that Anaconda or Miniconda is installed on your system. 
+Most HPC clusters provide Anaconda as a loadable module. If you need to install it yourself, you can 
+install Miniconda by following the `official installation guide <https://docs.conda.io/projects/miniconda/en/latest/>`_.
+
 To create and activate a new virtual environment, go to your
 ``|CODES_DIR|`` (see :doc:`Definition <../keywords>`), and run the following commands::
 
-    pip install --user --upgrade virtualenv     # install virtualenv tool
-    python -m virtualenv mispr_env              # create "mispr_env" environment
-    source mispr_env/bin/activate               # activate "mispr_env" environment
+    conda create -n mispr_env python=3.10        # create "mispr_env" environment
+    conda activate mispr_env                    # activate "mispr_env" environment
 
 This will create a directory in your ``|CODES_DIR|`` named ``mispr_env``,
 where all the packages will be installed. After activation, your prompt
@@ -36,13 +35,13 @@ that python programs have access only to packages installed inside the
 virtualenv.
 To deactivate the enviornment, simply run::
 
-    deactivate
+    conda deactivate
 
 .. note::
-   You may need to install ``pip`` and ``setuptools`` in your virtual
-   enviornment in case the system or user version of these tools is old::
+   You may need to install ``pip`` and ``setuptools`` in your conda
+   environment in case the system or user version of these tools is old::
 
-    pip install -U setuptools pip
+    conda install pip setuptools
 
 Computational chemistry software
 ---------------------------------
@@ -51,16 +50,23 @@ At the backend, MISPR uses:
 
 * `Gaussian <https://gaussian.com>`_ software to perform DFT calculations
 * `AmberTools <https://ambermd.org/AmberTools.php>`_  to generate GAFF parameters
+* `Schrodinger <https://www.schrodinger.com/>`_ (optional) to automatically generate 
+  OPLS2005 parameters 
 * `LAMMPS <https://www.lammps.org/#gsc.tab=0>`_ to run MD simulations
 * `Packmol <https://m3g.github.io/packmol/download.shtml>`_ to
   create initial configurations for MD simulations. To install packmol,
   follow their `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
+* `OpenBabel <https://openbabel.org/wiki/Main_Page>`_ to handle molecule operations 
+  via pymatgen as an interface. You can install OpenBabel using conda::
+
+    conda install -c conda-forge openbabel=3.1.1
 
 Ensure that you have access to the executables of these software
 before using MISPR. Gaussian is a commercial software
-that requires a license while AmberTools, LAMMPS, and Packmol are open source.
-If Gaussian, AmberTools, and LAMMPS are already installed on supercomputing
-resources, the user typically needs to load their corresponding modules
+that requires a license while AmberTools, LAMMPS, and Packmol are open source. 
+Schrodinger also requires a license, though academic licenses are available for university researchers.
+If Gaussian, AmberTools, Schrodinger and LAMMPS are already installed on HPC
+machines, the user typically needs to load their corresponding modules
 before their use.
 
 Materials Project base libraries
@@ -73,14 +79,10 @@ Materials Project base libraries
   to use MISPR, you need to install the MolMD version of pymatgen by
   running the following commands in your ``|CODES_DIR|``::
 
-    git clone https://github.com/molmd/pymatgen.git
-    cd pymatgen
-    python setup.py install
-* `FireWorks <https://materialsproject.github.io/fireworks/>`_: MISPR
-  uses FireWorks to design, manage, and execute workflows. To install,
-  simply type::
+    pip3 install pymatgen@git+https://github.com/molmd/pymatgen@molmd_fix_3-9#egg=pymatgen
 
-    pip install FireWorks
+* `FireWorks <https://materialsproject.github.io/fireworks/>`_: MISPR
+  uses FireWorks to design, manage, and execute workflows.
 
   Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
 
@@ -92,19 +94,16 @@ Materials Project base libraries
 * `custodian <https://materialsproject.github.io/custodian/>`_: MISPR uses
   custodian for handling errors that occur during the simulations and
   correcting them according to predefined rules. We have added a Gaussian
-  plug-in to the custodian library, but similar to the pymatgen changes,
-  these changes have not been merged yet with the main custodian library.
-  Therefore, in order to use MISPR, you need to install the MolMD version
-  of custodian by running the following commands in your ``|CODES_DIR|``::
+  plug-in to the custodian library, and these changes have been merged with 
+  the main custodian library.
 
-    git clone https://github.com/molmd/custodian.git
-    cd custodian
-    python setup.py install
+.. note::
+   FireWorks and custodian will be automatically installed as dependencies when you 
+   install MISPR. You don't need to install them separately.
 
 MongoDB
 -------------------------
-Following the design decisions of the Materials Project, MISPR uses
-`MongoDB <https://docs.mongodb.com/manual/>`__ as the backend database.
+MISPR uses `MongoDB <https://docs.mongodb.com/manual/>`__ as the backend database.
 MongoDB is a NoSQL database that is designed to store and retrieve
 data in a highly efficient and scalable manner. It stores data in the
 form of documents represented in the JSON (JavaScript Object Notation)
