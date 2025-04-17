@@ -51,7 +51,7 @@ Computational chemistry software dependencies
 At the backend, MISPR uses:
 
 .. list-table:: 
-   :widths: 20 15 50 15
+   :widths: 20 25 40 15
    :header-rows: 1
 
    * - Software
@@ -62,9 +62,9 @@ At the backend, MISPR uses:
      - Commercial
      - Perform DFT calculations
      - License required
-   * - `AmberTools <https://ambermd.org/AmberTools.php>`_
+   * - `AmberTools24 <https://ambermd.org/AmberTools.php>`_
      - Open Source
-     - Generate GAFF parameter
+     - Generate GAFF parameters
      - Direct download
    * - `LAMMPS <https://www.lammps.org>`_
      - Open Source
@@ -76,7 +76,7 @@ At the backend, MISPR uses:
      - Follow `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
    * - `Schrödinger <https://www.schrodinger.com/>`_
      - Commercial (Academic license available)
-     - Generate OPLS2005 parameter (Optional)
+     - Generate OPLS2005 parameters (Optional)
      - License required
 
 Ensure that you have access to the executables of these software
