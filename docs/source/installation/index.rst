@@ -27,7 +27,7 @@ repository (good for developers).
 
 Installation Method 1: Using pip
 ================================
-To install, simply type:
+For most users, install directly from PyPI: 
 
 .. code-block:: bash
 
@@ -38,8 +38,7 @@ Installation Method 2: Development mode
 
 .. _codes-develop-mode:
 
-To make changes directly to the source and contribute to the development
-of MISPR, you can install MISPR in development mode.
+For developers or users who need to modify the source code, install MISPR in development mode. 
 
 .. note::
    If you had already installed MISPR via pip or conda, you
