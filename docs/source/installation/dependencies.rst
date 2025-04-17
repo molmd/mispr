@@ -43,68 +43,87 @@ To deactivate the enviornment, simply run::
 
     conda install pip setuptools
 
-Computational chemistry software
+Required Software
 ---------------------------------
 
+Computational chemistry software dependencies
+=============================================
 At the backend, MISPR uses:
 
-* `Gaussian <https://gaussian.com>`_ software to perform DFT calculations
-* `AmberTools <https://ambermd.org/AmberTools.php>`_  to generate GAFF parameters
-* `Schrödinger <https://www.schrodinger.com/>`_ (optional) to automatically generate 
-  OPLS2005 parameters 
-* `LAMMPS <https://www.lammps.org/#gsc.tab=0>`_ to run MD simulations
-* `Packmol <https://m3g.github.io/packmol/download.shtml>`_ to
-  create initial configurations for MD simulations. To install packmol,
-  follow their `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
+.. list-table:: 
+   :widths: 20 40 40 20
+   :header-rows: 1
+
+   * - Software
+     - License Type
+     - Purpose
+     - Installation
+   * - `Gaussian <https://gaussian.com>`_
+     - Commercial
+     - Perform DFT calculations
+     - License required
+   * - `AmberTools <https://ambermd.org/AmberTools.php>`_
+     - Open Source
+     - Generate GAFF parameter
+     - Direct download
+   * - `LAMMPS <https://www.lammps.org>`_
+     - Open Source
+     - Run MD simulations
+     - Direct download
+   * - `Packmol <https://m3g.github.io/packmol/download.shtml>`_
+     - Open Source
+     - Build initial MD configurations
+     - Follow `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
+   * - `Schrödinger <https://www.schrodinger.com/>`_
+     - Commercial (Academic license available)
+     - Generate OPLS2005 parameter (Optional)
+     - License required
 
 Ensure that you have access to the executables of these software
-before using MISPR. Gaussian is a commercial software
-that requires a license while AmberTools, LAMMPS, and Packmol are open source. 
-Schrödinger also requires a license, though academic licenses are available for university researchers.
-If Gaussian, AmberTools, Schrödinger and LAMMPS are already installed on HPC
+before using MISPR. If Gaussian, AmberTools, Schrödinger and LAMMPS are already installed on HPC
 machines, the user typically needs to load their corresponding modules
 before their use.
 
-Base Python libraries and dependencies
----------------------------------
-* `pymatgen <https://pymatgen.org>`_: MISPR uses pymatgen for handling
-  different molecule representations and i/o operations specific to
-  Gaussian and LAMMPS. We have made changes to the pymatgen library to
-  make it compatible with our needs in MISPR. These changes have not
-  been merged yet with the main pymatgen library. Therefore, in order
-  to use MISPR, you need to install the MolMD version of pymatgen by
-  running the following commands in your ``|CODES_DIR|``::
+Python package dependencies
+============================
+.. list-table::
+   :widths: 25 70 20
+   :header-rows: 1
 
-    pip3 install pymatgen@git+https://github.com/molmd/pymatgen@molmd_fix_3-9#egg=pymatgen
+   * - Package
+     - Purpose
+     - Installation Command
+   * - `pymatgen <https://pymatgen.org>`_
+     - Molecule handling and I/O operations
+     - ``pip3 install pymatgen@git+https://github.com/molmd/pymatgen@molmd_fix_3-9#egg=pymatgen``
+   * - `OpenBabel <https://openbabel.org>`_
+     - Used by pymatgen for molecule operations
+     - ``conda install -c conda-forge openbabel=3.1.1``
+   * - `FireWorks <https://materialsproject.github.io/fireworks/>`_
+     - Workflow management and execution
+     - Auto-installed with MISPR
+   * - `custodian <https://materialsproject.github.io/custodian/>`_
+     - Automatic Gaussian error handling and correction using predefined rules
+     - Auto-installed with MISPR
+   * - `MDPropTools <https://github.com/molmd/mdproptools>`_
+     - Standalone, in-house package for analyzing MD outputs and trajectories
+     - Auto-installed with MISPR
 
-* `FireWorks <https://materialsproject.github.io/fireworks/>`_: MISPR
-  uses FireWorks to design, manage, and execute workflows.
-
-  Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
-
-  .. note::
+.. important::
+   We have made changes to the pymatgen library to
+   make it compatible with our needs in MISPR. These changes have not
+   been merged yet with the main pymatgen library. Therefore, in order
+   to use MISPR, you need to install the MolMD version of pymatgen using
+   the installation command shown in the table above.
+   
+.. note::
    While FireWorks is used in MISPR for managing the DFT and MD
    workflows due to its many advantages, it takes some time to learn
-   and get used to it.
-
-* `custodian <https://materialsproject.github.io/custodian/>`_: MISPR uses
-  custodian for handling errors that occur during the simulations and
-  correcting them according to predefined rules. We have contributed a Gaussian
-  plug-in to the custodian library, and these changes have been merged with 
-  the main custodian library.
-
-* `OpenBabel <https://openbabel.org>`_ to handle molecule operations 
-  via pymatgen as an interface. You can install OpenBabel using conda::
-
-    conda install -c conda-forge openbabel=3.1.1
-
-* `MDPropTools <https://github.com/molmd/mdproptools>`_: MISPR uses mdproptools, which is a standalone 
-  Python package we developed for analyzing molecular dynamics trajectories and 
-  output files. 
+   and get used to it. Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
 
 .. note::
-   FireWorks, custodian, and MDPropTools will be automatically installed as dependencies when you 
-   install MISPR. You don't need to install them separately.
+   We have contributed a Gaussian plug-in to the custodian library, and these 
+   changes have been merged with the main custodian library.
 
 MongoDB
 -------------------------
