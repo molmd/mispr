@@ -51,7 +51,7 @@ Computational chemistry software dependencies
 At the backend, MISPR uses:
 
 .. list-table:: 
-   :widths: 20 40 40 20
+   :widths: 20 15 50 15
    :header-rows: 1
 
    * - Software
@@ -85,45 +85,45 @@ machines, the user typically needs to load their corresponding modules
 before their use.
 
 Python package dependencies
-============================
-.. list-table::
-   :widths: 25 70 20
-   :header-rows: 1
+=================================
+* `pymatgen <https://pymatgen.org>`_: MISPR uses pymatgen for handling
+  different molecule representations and i/o operations specific to
+  Gaussian and LAMMPS. We have made changes to the pymatgen library to
+  make it compatible with our needs in MISPR. These changes have not
+  been merged yet with the main pymatgen library. Therefore, in order
+  to use MISPR, you need to install the MolMD version of pymatgen by
+  running the following commands in your ``|CODES_DIR|``::
 
-   * - Package
-     - Purpose
-     - Installation Command
-   * - `pymatgen <https://pymatgen.org>`_
-     - Molecule handling and I/O operations
-     - ``pip3 install pymatgen@git+https://github.com/molmd/pymatgen@molmd_fix_3-9#egg=pymatgen``
-   * - `OpenBabel <https://openbabel.org>`_
-     - Used by pymatgen for molecule operations
-     - ``conda install -c conda-forge openbabel=3.1.1``
-   * - `FireWorks <https://materialsproject.github.io/fireworks/>`_
-     - Workflow management and execution
-     - Auto-installed with MISPR
-   * - `custodian <https://materialsproject.github.io/custodian/>`_
-     - Automatic Gaussian error handling and correction using predefined rules
-     - Auto-installed with MISPR
-   * - `MDPropTools <https://github.com/molmd/mdproptools>`_
-     - Standalone, in-house package for analyzing MD outputs and trajectories
-     - Auto-installed with MISPR
+    pip3 install pymatgen@git+https://github.com/molmd/pymatgen@molmd_fix_3-9#egg=pymatgen
 
-.. important::
-   We have made changes to the pymatgen library to
-   make it compatible with our needs in MISPR. These changes have not
-   been merged yet with the main pymatgen library. Therefore, in order
-   to use MISPR, you need to install the MolMD version of pymatgen using
-   the installation command shown in the table above.
-   
-.. note::
+* `FireWorks <https://materialsproject.github.io/fireworks/>`_: MISPR
+  uses FireWorks to design, manage, and execute workflows.
+
+  Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
+
+  .. note::
    While FireWorks is used in MISPR for managing the DFT and MD
    workflows due to its many advantages, it takes some time to learn
-   and get used to it. Further details can be found in the `FireWorks documentation  <https://materialsproject.github.io/fireworks/installation.html>`_.
+   and get used to it.
+
+* `custodian <https://materialsproject.github.io/custodian/>`_: MISPR uses
+  custodian for handling errors that occur during the simulations and
+  correcting them according to predefined rules. We have contributed a Gaussian
+  plug-in to the custodian library, and these changes have been merged with 
+  the main custodian library.
+
+* `OpenBabel <https://openbabel.org>`_ to handle molecule operations 
+  via pymatgen as an interface. You can install OpenBabel using conda::
+
+    conda install -c conda-forge openbabel=3.1.1
+
+* `MDPropTools <https://github.com/molmd/mdproptools>`_: MISPR uses mdproptools, which is a standalone 
+  Python package we developed for analyzing molecular dynamics trajectories and 
+  output files. 
 
 .. note::
-   We have contributed a Gaussian plug-in to the custodian library, and these 
-   changes have been merged with the main custodian library.
+   FireWorks, custodian, and MDPropTools will be automatically installed as dependencies when you 
+   install MISPR. You don't need to install them separately.
 
 MongoDB
 -------------------------
