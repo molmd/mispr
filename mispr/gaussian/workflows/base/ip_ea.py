@@ -386,7 +386,7 @@ def get_ip_ea(
                 {
                  lithium": {
                             "potential": 1.40,
-                            "ref": bibtex_parser("li_pot.bib", data_dir),
+                            "ref": "lib_pot.bib",
                         }
                 }
 
