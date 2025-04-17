@@ -2,7 +2,7 @@
 Prerequisites
 ===============================
 
-Virtual python environment
+Conda environment
 ------------------------------
 MISPR depends on a number of third party Python packages, and usually on
 specific versions of those packages. In order not to interfere with third
@@ -56,7 +56,7 @@ At the backend, MISPR uses:
 * `Packmol <https://m3g.github.io/packmol/download.shtml>`_ to
   create initial configurations for MD simulations. To install packmol,
   follow their `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
-* `OpenBabel <https://openbabel.org/wiki/Main_Page>`_ to handle molecule operations 
+* `OpenBabel <https://openbabel.org>`_ to handle molecule operations 
   via pymatgen as an interface. You can install OpenBabel using conda::
 
     conda install -c conda-forge openbabel=3.1.1
