@@ -46,6 +46,8 @@ To deactivate the enviornment, simply run::
 Required Software
 ---------------------------------
 
+.. _chem-software-deps:
+
 Computational chemistry software dependencies
 =============================================
 At the backend, MISPR uses:
@@ -83,6 +85,8 @@ Ensure that you have access to the executables of these software
 before using MISPR. If Gaussian, AmberTools, Schrödinger and LAMMPS are already installed on HPC
 machines, the user typically needs to load their corresponding modules
 before their use.
+
+.. _py-package-deps:
 
 Python package dependencies
 =================================
