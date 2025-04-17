@@ -30,9 +30,9 @@ To create and activate a new virtual environment, go to your
 This will create a directory in your ``|CODES_DIR|`` named ``mispr_env``,
 where all the packages will be installed. After activation, your prompt
 should have ``(mispr_env)`` in front of it, indicating that you are
-working inside the virtual environment. The activation script ensures
+working inside the conda environment. The activation script ensures
 that python programs have access only to packages installed inside the
-virtualenv.
+conda environment.
 To deactivate the enviornment, simply run::
 
     conda deactivate
@@ -50,26 +50,22 @@ At the backend, MISPR uses:
 
 * `Gaussian <https://gaussian.com>`_ software to perform DFT calculations
 * `AmberTools <https://ambermd.org/AmberTools.php>`_  to generate GAFF parameters
-* `Schrodinger <https://www.schrodinger.com/>`_ (optional) to automatically generate 
+* `Schrödinger <https://www.schrodinger.com/>`_ (optional) to automatically generate 
   OPLS2005 parameters 
 * `LAMMPS <https://www.lammps.org/#gsc.tab=0>`_ to run MD simulations
 * `Packmol <https://m3g.github.io/packmol/download.shtml>`_ to
   create initial configurations for MD simulations. To install packmol,
   follow their `user guide <https://m3g.github.io/packmol/userguide.shtml>`_
-* `OpenBabel <https://openbabel.org>`_ to handle molecule operations 
-  via pymatgen as an interface. You can install OpenBabel using conda::
-
-    conda install -c conda-forge openbabel=3.1.1
 
 Ensure that you have access to the executables of these software
 before using MISPR. Gaussian is a commercial software
 that requires a license while AmberTools, LAMMPS, and Packmol are open source. 
-Schrodinger also requires a license, though academic licenses are available for university researchers.
-If Gaussian, AmberTools, Schrodinger and LAMMPS are already installed on HPC
+Schrödinger also requires a license, though academic licenses are available for university researchers.
+If Gaussian, AmberTools, Schrödinger and LAMMPS are already installed on HPC
 machines, the user typically needs to load their corresponding modules
 before their use.
 
-Materials Project base libraries
+Base Python libraries and dependencies
 ---------------------------------
 * `pymatgen <https://pymatgen.org>`_: MISPR uses pymatgen for handling
   different molecule representations and i/o operations specific to
@@ -93,12 +89,21 @@ Materials Project base libraries
 
 * `custodian <https://materialsproject.github.io/custodian/>`_: MISPR uses
   custodian for handling errors that occur during the simulations and
-  correcting them according to predefined rules. We have added a Gaussian
+  correcting them according to predefined rules. We have contributed a Gaussian
   plug-in to the custodian library, and these changes have been merged with 
   the main custodian library.
 
+* `OpenBabel <https://openbabel.org>`_ to handle molecule operations 
+  via pymatgen as an interface. You can install OpenBabel using conda::
+
+    conda install -c conda-forge openbabel=3.1.1
+
+* `MDPropTools <https://github.com/molmd/mdproptools>`_: MISPR uses mdproptools, which is a standalone 
+  Python package we developed for analyzing molecular dynamics trajectories and 
+  output files. 
+
 .. note::
-   FireWorks and custodian will be automatically installed as dependencies when you 
+   FireWorks, custodian, and MDPropTools will be automatically installed as dependencies when you 
    install MISPR. You don't need to install them separately.
 
 MongoDB
