@@ -4,9 +4,9 @@ Installation
 Before installing MISPR, you need to follow the steps below in order:
 
 1. (Optional) Create a :ref:`installation/dependencies:Conda environment`
-2. Make sure you have access to the :ref:`installation/dependencies:Computational chemistry software`
+2. Make sure you have access to the :ref:`Required Software <installation/dependencies:Required Software>`
    needed to run the DFT and MD simulations
-3. Install :ref:`installation/dependencies:Base Python libraries and dependencies`
+3. Install :ref:`Required Software <installation/dependencies:Python package dependencies>`
 4. Set up :ref:`installation/dependencies:MongoDB` database
 5. :ref:`Install MISPR <installation/index:Installing MISPR>`
 6. Prepare the :doc:`configuration files <configuration>`
