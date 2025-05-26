@@ -53,6 +53,8 @@ utils = ["bibtexparser>=1.4.0"]
 [tool.setuptools.package-data]
 "mispr.gaussian.data" = ["*.bib"]
 "mispr.lammps.data" = ["*.json"]
+"mispr.lammps.templates" = ["*"]
+
 
 [project.urls]
 repository = "https://github.com/molmd/mispr"
