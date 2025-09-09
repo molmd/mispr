@@ -1,0 +1,9 @@
+{
+    "admin_user": "|ADMIN_USERNAME|",
+    "admin_password": "|ADMIN_PASSWORD|",
+    "aliases": {},
+    "collection": "|COLLECTION|",
+    "database": "|DB_NAME|",
+    "host": "|HOSTNAME|",
+    "port": "|PORT|"
+}
