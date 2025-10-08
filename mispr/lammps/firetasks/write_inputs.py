@@ -11,6 +11,7 @@ import numpy as np
 from pymatgen.core.structure import Molecule
 from pymatgen.io.lammps.data import LammpsData, LammpsDataWrapper
 from pymatgen.io.lammps.inputs import write_lammps_inputs
+from pymatgen.io.lammps.utils import PackmolRunner
 
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
@@ -22,6 +23,7 @@ from mispr.lammps.utilities.utilities import (
     process_run,
     add_ff_labels_to_dict,
     lammps_mass_to_element,
+    concat_slab,
 )
 from mispr.gaussian.utilities.metadata import get_chem_schema, get_mol_formula
 
@@ -89,6 +91,9 @@ class WriteDataFile(FiretaskBase):
         charge_scaling_factor (float): Factor by which to scale charges in the system.
             Only used if building a system from ``LammpsDataWrapper`` inputs and if
             ``scale_charges`` is ``True``.
+        length_increase (float, optional): Factor by which to increase the length of the
+            system box. This is to ensure that the atoms in the system are not too close
+            to the box boundaries. Only used if building a system from ``LammpsDataWrapper``
     """
     _fw_name = "Write Data File"
     required_params = []
@@ -105,6 +110,10 @@ class WriteDataFile(FiretaskBase):
         "system_mixture_data_type",
         "scale_charges",
         "charge_scaling_factor",
+        "system_molecule",
+        "system_molecule_type",
+        "sorted_mol_names",
+        "length_increase",
     ]
 
     def run_task(self, fw_spec):
@@ -192,18 +201,49 @@ class WriteDataFile(FiretaskBase):
                         force_fields[k]["Charges"] = [
                             i * scaling_factor for i in force_fields[k]["Charges"]
                         ]
-            box_data_type = self.get("system_box_data_type", "cubic")
             mixture_type = self.get("system_mixture_data_type",
                                     "concentration")
+            origin = self.get("origin", [0.0, 0.0, 0.0])
             seed = self.get("position_seed", 150)
+            packmol_runner_inputs = self.get("packmol_runner_inputs", {
+                "input_file": "pack.inp",
+                "tolerance": 2.0,
+                "filetype": "xyz",
+                "control_params": {"maxit": 20, "nloop": 600, "seed": 150},
+                "auto_box": False,
+                "output_file": "packed.xyz",
+                "bin": "packmol",
+                "copy_to_current_on_exit": False,
+                "site_property": None,
+            })
+            length_increase = self.get("length_increase", 0.0)
+            check_ff_duplicates = self.get("check_ff_duplicates", False)
+            box_data_type = self.get("system_box_data_type", "cubic")
+            system_molecule = fw_spec.get("interface_xyz",
+                                          self.get("system_molecule", None))
+            system_molecule_type = fw_spec.get("system_molecule_type",
+                                               self.get("system_molecule_type", None))
+            sorted_mol_names = self.get("sorted_mol_names", None)
+            print(length_increase)
+            print(system_molecule)
+
+            # if system_molecule is not None:
+            #     packmol_runner_inputs=None
+
             lammps_data_wrapper = LammpsDataWrapper(
                 system_force_fields=force_fields,
                 system_mixture_data=mixture,
                 box_data=box_data,
-                box_data_type=box_data_type,
                 mixture_data_type=mixture_type,
+                origin=origin,
                 seed=seed,
-                check_ff_duplicates=False,
+                packmolrunner_inputs=packmol_runner_inputs,
+                length_increase=length_increase,
+                check_ff_duplicates=check_ff_duplicates,
+                box_data_type=box_data_type,
+                system_molecule=system_molecule,
+                system_molecule_type=system_molecule_type,
+                sorted_mol_names=sorted_mol_names,
             )
 
         # Convert LammpsDataWrapper to LammpsData
@@ -595,3 +635,166 @@ class LabelFFDictFromDB(FiretaskBase):
         sys_ff_dict[label] = labeled_ff_dict
 
         return FWAction(update_spec={"system_force_field_dict": sys_ff_dict})
+    
+
+@explicit_serialize
+class RunPackmol(FiretaskBase):
+    """
+    
+    """
+    _fw_name = "Run Packmol"
+    required_params = ["molecule_files"]
+    optional_params = [
+        "molecule_dir",
+        "packmol_params",
+        "working_dir",
+        "output_file",
+        "box_dim",
+        "num_mols",
+        "mol_list",
+    ]
+
+    def run_task(self, fw_spec):
+        # Get required inputs
+        molecule_files = self.get("molecule_files")
+
+        # Get optional inputs
+        working_dir = self.get("working_dir", os.getcwd())
+        os.chdir(working_dir)
+
+        molecule_dir = self.get("molecule_dir", working_dir)
+        packmol_params = self.get("packmol_params", None)
+        output_file = self.get("output_file", "bulk.xyz")
+        box_dim = self.get("box_dim", None)
+        num_mols = self.get("num_mols", None)
+        mol_list = self.get("mol_list", [file.split(".")[0] for file in molecule_files])
+
+        molecules = [Molecule.from_file(os.path.join(molecule_dir, file)) for file in molecule_files]
+
+        if packmol_params is None:
+            if box_dim is None:
+                raise ValueError(
+                    "Either packmol_params or box_dim must be provided."
+                )
+            if num_mols is None:
+                raise ValueError(
+                    "num_mols must be provided if box_dim is provided."
+                )
+            
+            packmol_params = []
+            for i, mol in enumerate(mol_list):
+                packmol_params.append(
+                    {"number": num_mols[mol], "inside box": box_dim}
+                )
+
+        pmr = PackmolRunner(
+            molecules,
+            packmol_params,
+            auto_box=False,
+            output_file=output_file,
+            )
+        system_molecule = pmr.run()
+
+        sys_ff_dict = fw_spec.get(
+            "system_force_field_dict", self.get("system_force_field_dict", {})
+        )
+
+        return FWAction(update_spec={"bulk_xyz": os.path.join(working_dir, output_file),
+                                     "system_force_field_dict": sys_ff_dict})
+
+
+@explicit_serialize
+class AddSlabToXYZ(FiretaskBase):
+    """
+    Adds a slab to the bottom or top of a bulk xyz file. The slab is
+    assumed to be normal to the z direction. This function can be run
+    more than once to create a sandwich structure of slab-bulk-slab. See
+    the ``concat_slab`` function in ``mispr/lammps/utilities/utilities.py``
+    for more information.
+    """
+    _fw_name = "Add Slab to XYZ"
+    required_params = ["slab_file"]
+    optional_params = [
+        "bulk_file",
+        "interface_output_file",
+        "slab_location",
+        "origin",
+        "p_x",
+        "p_y",
+        "interfacial_separation",
+        "output_first_atoms",
+        "flip_slab",
+        "working_dir",
+        "sandwich",
+        "flip_sandwich",
+    ]
+
+    def run_task(self, fw_spec):
+        # Get required inputs
+        slab_file = self.get("slab_file")
+        bulk_file = fw_spec.get("bulk_xyz", self.get("bulk_file", None))
+        if bulk_file is None:
+            raise ValueError(
+                "bulk_file must be provided in the spec or by the user."
+            )
+
+        # Get optional inputs
+        output_file = self.get("interface_output_file", "interface.xyz")
+        slab_location = self.get("slab_location", "bottom")
+        origin = self.get("origin", [0.0, 0.0, 0.0])
+        p_x = self.get("p_x", 0.0)
+        p_y = self.get("p_y", 0.0)
+        interfacial_separation = self.get("interfacial_separation", 2.0)
+        output_first_atoms = self.get("output_first_atoms", "bulk")
+        flip_slab = self.get("flip_slab", False)
+        working_dir = self.get("working_dir", os.getcwd())
+        sandwich = self.get("sandwich", False)
+        flip_sandwich = self.get("flip_sandwich", True)
+
+        os.chdir(working_dir)
+
+        output_path = concat_slab(
+            slab_file,
+            bulk_file,
+            output_file=output_file,
+            slab_location=slab_location,
+            origin=origin,
+            p_x=p_x,
+            p_y=p_y,
+            interfacial_separation=interfacial_separation,
+            output_first_atoms=output_first_atoms,
+            flip_slab=flip_slab,
+            working_dir=working_dir,
+        )
+
+        if slab_location == "bottom":
+            new_slab_location = "top"
+        elif slab_location == "top":
+            new_slab_location = "bottom"
+        else:
+            raise ValueError(
+                "slab_location must be either 'top' or 'bottom'."
+            )
+
+        if sandwich:
+            output_path = concat_slab(
+                slab_file,
+                output_path,
+                output_file=output_file,
+                slab_location=new_slab_location,
+                origin=origin,
+                p_x=p_x,
+                p_y=p_y,
+                interfacial_separation=interfacial_separation,
+                output_first_atoms=output_first_atoms,
+                flip_slab=flip_sandwich,
+                working_dir=working_dir,
+            )
+
+        sys_ff_dict = fw_spec.get(
+            "system_force_field_dict", self.get("system_force_field_dict", {})
+        )
+
+        return FWAction(update_spec={"interface_xyz": output_path, 
+                                     "system_molecule_type": "xyz",
+                                     "system_force_field_dict": sys_ff_dict})

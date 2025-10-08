@@ -12,6 +12,7 @@ from scipy.signal import argrelmin, find_peaks
 
 from pymatgen.io.ambertools import PrmtopParser
 from pymatgen.core.structure import Molecule
+from pymatgen.io.lammps.outputs import parse_lammps_dumps
 
 from fireworks.core.firework import FWAction, FiretaskBase
 from fireworks.utilities.fw_utilities import explicit_serialize
@@ -40,6 +41,8 @@ from mispr.lammps.utilities.utilities import (
     get_db,
     process_ff_doc,
     add_ff_labels_to_dict,
+    unwrap_dump,
+    single_lammps_mass_to_element,
 )
 from mispr.gaussian.utilities.metadata import get_mol_formula
 
@@ -847,3 +850,77 @@ class ProcessAnalysis(FiretaskBase):
                 f.write(json.dumps(systems_dict, default=DATETIME_HANDLER))
 
         logger.info("Analysis calculations complete")
+
+
+@explicit_serialize
+class ProcessLammpsDumpToXYZ(FiretaskBase):
+    """
+    Process the LAMMPS dump file to extract the unwrapped atomic 
+    coordinates and save them to an xyz file. Meant to be used to create
+    one of the inputs for a new LAMMPS data file using PyMatGen.
+
+    Args:
+        dump_file_path (str): Path to the LAMMPS dump file.
+        mol_file_path_dict (dict): A dictionary containing the paths to
+            the molecule files used to create the data file. The keys
+            are the molecule labels and the values are the paths to the
+            molecule files.
+        num_mol_dict (dict, optional): A dictionary containing the
+            number of molecules of each type in the system. If not
+            provided, this information will be obtained from the
+            ``fw_spec``.
+        sorted_mol_labels (list, optional): A list containing the sorted
+            molecule labels based on the order they appear in the
+            original data file. If not provided, the molecule labels
+            will be obtained from the ``fw_spec``.
+        working_dir (str, optional): Path to the working directory. 
+            Defaults to the current working directory.
+        xyz_filename (str, optional): Name of the xyz file to save the
+            atomic coordinates to. Defaults to "dump.xyz".
+    """
+    _fw_name = "Process LAMMPS Dump to XYZ"
+    required_params = ["dump_file_path", "mol_file_path_dict"]
+    optional_params = ["num_mol_dict", "sorted_mol_labels", "working_dir", "xyz_filename"]
+
+    def run_task(self, fw_spec):
+        # Get required inputs
+        dump_file_path = self.get("dump_file_path")
+        mol_file_path_dict = self.get("mol_file_path_dict")
+
+        # Get optional inputs
+        num_mol_dict = self.get("num_mol_dict", fw_spec.get("nmols"))
+        if not num_mol_dict:
+            raise ValueError(
+                "The dictionary containing the number of molecules was not provided by the user nor found in fw_spec as 'nmols'"
+                )
+        sorted_mol_labels = self.get("sorted_mol_labels", fw_spec.get("smiles"))
+        if not sorted_mol_labels:
+            raise ValueError(
+                "The list containing the sorted molecule labels was not provided by the user nor found in fw_spec as 'smiles'"
+                )
+        working_dir = self.get("working_dir", os.getcwd())
+        xyz_filename = self.get("xyz_filename", "dump.xyz")
+
+        # Convert the dump file into a PyMatGen Dump object
+        dump = list(parse_lammps_dumps(dump_file_path))[-1]
+
+        # Unwrap the molecules in the dump object
+        unwrap_dump(dump, mol_file_path_dict, num_mol_dict, sorted_mol_labels)
+
+        # Add element information to the dump object if it is not already present
+        if "element" not in dump.df.columns:
+            dump.df["element"] = dump.df["mass"].apply(single_lammps_mass_to_element)
+
+        # Save the unwrapped atomic coordinates to an xyz file
+        xyz_dump_file_path = os.path.join(working_dir, xyz_filename)
+        dump.as_txt_file(xyz_dump_file_path, convert="xyz")
+
+        return FWAction(
+            update_spec={
+                "dump_file_path": dump_file_path,
+                "mol_file_path_dict": mol_file_path_dict,
+                "nmols": num_mol_dict,
+                "sorted_mol_labels_list": sorted_mol_labels,
+                "xyz_dump_file_path": xyz_dump_file_path,
+            }
+        )

@@ -19,7 +19,7 @@ kspace_style		$kspace_style $kspace_style_args
 read_restart		$restart_filename
 
 $group_definitions
-velocity			all create $temperature_initial $velocity_seed
+$velocity_logic velocity			all create $temperature_initial $velocity_seed
 $shake_logic fix	1 $shake_group shake 0.0001 20 0 $shake_topologies
 fix 				2 all nvt temp $temperature_initial $temperature_final $temp_damp
 thermo				$thermo
