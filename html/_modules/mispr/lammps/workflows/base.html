@@ -1,0 +1,1283 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.lammps.workflows.base - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/style.css" />
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="../../../../_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.lammps.workflows.base
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="../../../../_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mispr.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1>Source code for mispr.lammps.workflows.base</h1><div class="highlight"><pre>
+<span></span><code><span class="sd">&quot;&quot;&quot;Define standard lammps workflows.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">fireworks.core.firework</span> <span class="kn">import</span> <span class="n">Firework</span><span class="p">,</span> <span class="n">Workflow</span>
+
+<span class="kn">from</span> <span class="nn">mispr.lammps.defaults</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">NPT_SETTINGS</span><span class="p">,</span>
+    <span class="n">NVT_SETTINGS</span><span class="p">,</span>
+    <span class="n">EMIN_SETTINGS</span><span class="p">,</span>
+    <span class="n">LAMMPS_RECIPE</span><span class="p">,</span>
+    <span class="n">RECIPE_SETTINGS</span><span class="p">,</span>
+    <span class="n">GENERAL_QADAPTER</span><span class="p">,</span>
+    <span class="n">QADAPTER_RUN_LAMMPS_SPEC</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mispr.lammps.fireworks.core</span> <span class="kn">import</span> <span class="n">GetFFDictFW</span><span class="p">,</span> <span class="n">RunLammpsFW</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.files</span> <span class="kn">import</span> <span class="n">recursive_relative_to_absolute_path</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.workflows.base.core</span> <span class="kn">import</span> <span class="n">_process_mol_check</span>
+<span class="kn">from</span> <span class="nn">mispr.lammps.firetasks.write_inputs</span> <span class="kn">import</span> <span class="n">WriteDataFile</span>
+<span class="kn">from</span> <span class="nn">mispr.lammps.firetasks.parse_outputs</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CalcCN</span><span class="p">,</span>
+    <span class="n">GetRDF</span><span class="p">,</span>
+    <span class="n">CalcDiff</span><span class="p">,</span>
+    <span class="n">ExtractClusters</span><span class="p">,</span>
+    <span class="n">ProcessAnalysis</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Bliss&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Matthew Bliss&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;matthew.bliss@stonybrook.edu&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Apr 2020&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.4&quot;</span>
+
+
+<div class="viewcode-block" id="lammps_data_fws"><a class="viewcode-back" href="../../../../mispr.lammps.workflows.html#mispr.lammps.workflows.base.lammps_data_fws">[docs]</a><span class="k">def</span> <span class="nf">lammps_data_fws</span><span class="p">(</span>
+    <span class="n">system_species_data</span><span class="p">,</span>
+    <span class="n">system_mixture_type</span><span class="p">,</span>
+    <span class="n">box_data</span><span class="p">,</span>
+    <span class="n">box_data_type</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+    <span class="n">data_file_name</span><span class="o">=</span><span class="s2">&quot;complex.data&quot;</span><span class="p">,</span>
+    <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate FireWorks for writing LAMMPS data files.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system_species_data (dict): Dictionary containing species data. The keys are the</span>
+<span class="sd">            species labels and the values are dictionaries containing the following keys:</span>
+
+<span class="sd">            * molecule (Molecule, GaussianOutput, str, dict): Source of the molecule to</span>
+<span class="sd">              be processed. See ``process_mol`` in ``mispr/gaussian/utilities/mol.py``</span>
+<span class="sd">              for supported operations.</span>
+<span class="sd">            * molecule_operation_type (str): Type of molecule operation. Must match with</span>
+<span class="sd">              ``molecule`` value.</span>
+<span class="sd">            * ff_param_method (str): Method for obtaining force field parameters. Must</span>
+<span class="sd">              match with ``ff_param_data`` value. See available methods for ``GetFFDictFw``</span>
+<span class="sd">              in ``mispr/lammps/fireworks/core.py``.</span>
+<span class="sd">            * ff_param_data (str or dict): Data regarding necessary information to obtain</span>
+<span class="sd">              ff parameters. Must match with ``ff_param_method`` value.</span>
+<span class="sd">            * mol_mixture_type (str): Type of mixture data. Must be &quot;Solutes&quot; or &quot;Solvents&quot;.</span>
+<span class="sd">            * mixture_data (int or dict): Information regarding the number of molecules</span>
+<span class="sd">              of this type in the system. Depends on the ``system_mixture_type`` parameter.</span>
+
+<span class="sd">        system_mixture_type (str): Type of mixture data. Must be &quot;concentration&quot; or</span>
+<span class="sd">            &quot;number of molecules&quot;. See ``LammpsDataWrapper`` in</span>
+<span class="sd">            ``pymatgen/io/lammps/data.py`` for more information.</span>
+<span class="sd">        box_data (float, int, list (3,2), array (3,2), or LammpsBox): Definitions for</span>
+<span class="sd">            box size. See ``box_data_type`` for info how to define this parameter.</span>
+<span class="sd">        box_data_type (str, optional): Determines the value of the ``box_data`` parameter.</span>
+<span class="sd">            Can be one of the following: &#39;cubic&#39;, &#39;rectangular&#39;, or &#39;LammpsBox&#39;. If</span>
+<span class="sd">            &#39;cubic&#39;, ``box_data`` must be a float or int; if &#39;rectangular&#39;, ``box_data``</span>
+<span class="sd">            must be an array-like with size (3,2); if &#39;LammpsBox&#39;, ``box_data`` must be</span>
+<span class="sd">            a ``LammpsBox`` object. Defaults to &#39;cubic&#39;.</span>
+<span class="sd">        data_file_name (str, optional): Name of the data file to be written. Defaults to</span>
+<span class="sd">            &quot;complex.data&quot;.</span>
+<span class="sd">        working_dir (str, optional): Directory where the data files will be written.</span>
+<span class="sd">            Defaults to the current working directory.</span>
+<span class="sd">        db (str or dict, optional): Database credentials. Could be a string with the path</span>
+<span class="sd">            to the database file or a dictionary with the database credentials. If none</span>
+<span class="sd">            is provided, attempts to read the configuration files. Only used when</span>
+<span class="sd">            ``save_ff_to_db`` is ``True``.</span>
+<span class="sd">        tag (str, optional): Tag for the Fireworks. Defaults to &quot;unknown&quot;.</span>
+<span class="sd">        kwargs (keyword arguments): Additional keyword arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        fireworks (list): List of FireWorks for writing LAMMPS data files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">working_dir</span><span class="p">:</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="n">fireworks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">system_mixture_data</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">if</span> <span class="n">system_mixture_type</span> <span class="o">==</span> <span class="s2">&quot;concentration&quot;</span><span class="p">:</span>
+        <span class="n">system_mixture_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Solutes&quot;</span><span class="p">:</span> <span class="p">{},</span> <span class="s2">&quot;Solvents&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">ff_data</span> <span class="ow">in</span> <span class="n">system_species_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c1"># Generate ff files in separate directories</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">recursive_relative_to_absolute_path</span><span class="p">(</span><span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;molecule&quot;</span><span class="p">],</span> <span class="n">working_dir</span><span class="p">)</span>
+        <span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;ff_param_data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">recursive_relative_to_absolute_path</span><span class="p">(</span>
+            <span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;ff_param_data&quot;</span><span class="p">],</span> <span class="n">working_dir</span>
+        <span class="p">)</span>
+        <span class="n">mol_charge</span> <span class="o">=</span> <span class="n">ff_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;charge&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">mol_operation_type</span><span class="p">,</span> <span class="n">mol</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_process_mol_check</span><span class="p">(</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">mol_operation_type</span><span class="o">=</span><span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;molecule_operation_type&quot;</span><span class="p">],</span>
+            <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+            <span class="n">mol_name</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">charge</span><span class="o">=</span><span class="n">mol_charge</span><span class="p">,</span>
+            <span class="n">process_mol_func</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;process_mol_func&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="c1"># TODO: add logic for ensuring that directory name is legal or at \</span>
+        <span class="c1">#  least usable</span>
+        <span class="n">cur_species_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+
+        <span class="c1"># TODO: add logic for not setting file names that do not exist, \</span>
+        <span class="c1">#  but code should work as is</span>
+        <span class="n">mol2_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">.mol2&quot;</span>
+        <span class="n">frcmod_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">.frcmod&quot;</span>
+        <span class="n">prmtop_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">.prmtop&quot;</span>
+        <span class="n">inpcrd_filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">.inpcrd&quot;</span>
+
+        <span class="n">save_ff_to_db</span> <span class="o">=</span> <span class="n">ff_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_ff_to_db&quot;</span><span class="p">)</span>
+        <span class="n">save_ff_to_file</span> <span class="o">=</span> <span class="n">ff_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_ff_to_file&quot;</span><span class="p">)</span>
+
+        <span class="n">ff_fw</span> <span class="o">=</span> <span class="n">GetFFDictFW</span><span class="p">(</span>
+            <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+            <span class="n">mol_operation_type</span><span class="o">=</span><span class="n">mol_operation_type</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;ff_param_data&quot;</span><span class="p">],</span>
+            <span class="n">operation_type</span><span class="o">=</span><span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;ff_param_method&quot;</span><span class="p">],</span>
+            <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">cur_species_dir</span><span class="p">,</span>
+            <span class="n">output_filename_a</span><span class="o">=</span><span class="n">mol2_filename</span><span class="p">,</span>
+            <span class="n">input_filename_p</span><span class="o">=</span><span class="n">mol2_filename</span><span class="p">,</span>
+            <span class="n">output_filename_p</span><span class="o">=</span><span class="n">frcmod_filename</span><span class="p">,</span>
+            <span class="n">prmtop_filename</span><span class="o">=</span><span class="n">prmtop_filename</span><span class="p">,</span>
+            <span class="n">save_ff_to_db</span><span class="o">=</span><span class="n">save_ff_to_db</span><span class="p">,</span>
+            <span class="n">save_ff_to_file</span><span class="o">=</span><span class="n">save_ff_to_file</span><span class="p">,</span>
+            <span class="n">tleap_settings</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;mol2_file_path&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_species_dir</span><span class="p">,</span> <span class="n">mol2_filename</span><span class="p">),</span>
+                <span class="s2">&quot;frcmod_file_path&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_species_dir</span><span class="p">,</span> <span class="n">frcmod_filename</span><span class="p">),</span>
+                <span class="s2">&quot;prmtop_file_path&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_species_dir</span><span class="p">,</span> <span class="n">prmtop_filename</span><span class="p">),</span>
+                <span class="s2">&quot;inpcrd_file_path&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cur_species_dir</span><span class="p">,</span> <span class="n">inpcrd_filename</span><span class="p">),</span>
+            <span class="p">},</span>
+            <span class="n">charge</span><span class="o">=</span><span class="n">mol_charge</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ff_fw</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">system_mixture_type</span> <span class="o">==</span> <span class="s2">&quot;concentration&quot;</span><span class="p">:</span>
+            <span class="n">system_mixture_data</span><span class="p">[</span><span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;mol_mixture_type&quot;</span><span class="p">]][</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">ff_data</span><span class="p">[</span>
+                <span class="s2">&quot;mixture_data&quot;</span>
+            <span class="p">]</span>
+        <span class="k">elif</span> <span class="n">system_mixture_type</span> <span class="o">==</span> <span class="s2">&quot;number of molecules&quot;</span><span class="p">:</span>
+            <span class="n">system_mixture_data</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">ff_data</span><span class="p">[</span><span class="s2">&quot;mixture_data&quot;</span><span class="p">]</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="n">spec</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;tag&quot;</span><span class="p">:</span> <span class="n">tag</span><span class="p">,</span> <span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">working_dir</span><span class="p">})</span>
+    <span class="n">extra_data_file_name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;data_filename&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">data_fw</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">WriteDataFile</span><span class="p">(</span>
+                <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+                <span class="n">data_filename</span><span class="o">=</span><span class="n">data_file_name</span><span class="p">,</span>
+                <span class="n">system_mixture_data_type</span><span class="o">=</span><span class="n">system_mixture_type</span><span class="p">,</span>
+                <span class="n">system_mixture_data</span><span class="o">=</span><span class="n">system_mixture_data</span><span class="p">,</span>
+                <span class="n">system_box_data</span><span class="o">=</span><span class="n">box_data</span><span class="p">,</span>
+                <span class="n">system_box_data_type</span><span class="o">=</span><span class="n">box_data_type</span><span class="p">,</span>
+                <span class="o">**</span><span class="p">{</span>
+                    <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">i</span>
+                    <span class="ow">in</span> <span class="n">WriteDataFile</span><span class="o">.</span><span class="n">required_params</span> <span class="o">+</span> <span class="n">WriteDataFile</span><span class="o">.</span><span class="n">optional_params</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;write_data_file&quot;</span><span class="p">,</span>
+        <span class="n">parents</span><span class="o">=</span><span class="n">fireworks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">spec</span><span class="o">=</span><span class="n">spec</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data_fw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fireworks</span></div>
+
+
+<div class="viewcode-block" id="lammps_run_fws"><a class="viewcode-back" href="../../../../mispr.lammps.workflows.html#mispr.lammps.workflows.base.lammps_run_fws">[docs]</a><span class="k">def</span> <span class="nf">lammps_run_fws</span><span class="p">(</span>
+    <span class="n">recipe</span><span class="o">=</span><span class="n">LAMMPS_RECIPE</span><span class="p">,</span>
+    <span class="n">recipe_settings</span><span class="o">=</span><span class="n">RECIPE_SETTINGS</span><span class="p">,</span>
+    <span class="n">recipe_qadapter</span><span class="o">=</span><span class="n">QADAPTER_RUN_LAMMPS_SPEC</span><span class="p">,</span>
+    <span class="n">init_spec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">save_runs_to_db</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">save_runs_to_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate FireWorks for running LAMMPS simulations.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        recipe (list, optional): List of lists containing the name of the step and the</span>
+<span class="sd">            template filename or string for the LAMMPS input file. Defaults to</span>
+<span class="sd">            LAMMPS_RECIPE.</span>
+<span class="sd">        recipe_settings (list, optional): List of dictionaries containing the settings</span>
+<span class="sd">            for each step in the recipe. Defaults to RECIPE_SETTINGS.</span>
+<span class="sd">        recipe_qadapter (list, optional): List of dictionaries containing the settings</span>
+<span class="sd">            for the queue adapter for each step in the recipe. Defaults to</span>
+<span class="sd">            QADAPTER_RUN_LAMMPS_SPEC.</span>
+<span class="sd">        init_spec (dict, optional): Initial spec for the FireWorks. Defaults to ``None``.</span>
+<span class="sd">        db (str or dict, optional): Database credentials. Could be a string with the path</span>
+<span class="sd">            to the database file or a dictionary with the database credentials. If none</span>
+<span class="sd">            is provided, attempts to read the configuration files. Only used when</span>
+<span class="sd">            ``save_runs_to_db`` is ``True``.</span>
+<span class="sd">        working_dir (str, optional): Directory where the data files will be written.</span>
+<span class="sd">            Defaults to the current working directory.</span>
+<span class="sd">        save_runs_to_db (bool, optional): Whether to save the runs to the database.</span>
+<span class="sd">            Defaults to ``True``.</span>
+<span class="sd">        save_runs_to_file (bool, optional): Whether to save the runs to a file. Defaults</span>
+<span class="sd">            to ``False``.</span>
+<span class="sd">        kwargs (keyword arguments): Additional keyword arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        fireworks (list): List of FireWorks for running LAMMPS simulations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">working_dir</span><span class="p">:</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="n">fireworks</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">default_recipe_step_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="n">LAMMPS_RECIPE</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recipe</span><span class="p">):</span>
+        <span class="n">cur_step_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">lammpsin_key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">matching_default_step_index</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">default_recipe_step_names</span><span class="p">:</span>
+            <span class="n">matching_default_step_index</span> <span class="o">=</span> <span class="n">default_recipe_step_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">step</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">cur_qadapter_spec</span> <span class="o">=</span> <span class="n">QADAPTER_RUN_LAMMPS_SPEC</span><span class="p">[</span>
+                <span class="n">matching_default_step_index</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cur_qadapter_spec</span> <span class="o">=</span> <span class="n">GENERAL_QADAPTER</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cur_qadapter_spec</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">recipe_qadapter</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+        <span class="n">cur_spec_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">init_spec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cur_spec_dict</span> <span class="o">=</span> <span class="n">init_spec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cur_spec_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;_queueadapter&quot;</span><span class="p">:</span> <span class="n">cur_qadapter_spec</span><span class="p">})</span>
+
+        <span class="k">if</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;template_filename&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;emin_gaff&quot;</span> <span class="ow">or</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;emin&quot;</span><span class="p">:</span>
+                <span class="n">cur_setting</span> <span class="o">=</span> <span class="n">EMIN_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;npt&quot;</span><span class="p">:</span>
+                <span class="n">cur_setting</span> <span class="o">=</span> <span class="n">NPT_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;nvt&quot;</span><span class="p">:</span>
+                <span class="n">cur_setting</span> <span class="o">=</span> <span class="n">NVT_SETTINGS</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cur_setting</span> <span class="o">=</span> <span class="n">recipe_settings</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">cur_setting</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">recipe_settings</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+
+            <span class="n">cur_firework</span> <span class="o">=</span> <span class="n">RunLammpsFW</span><span class="p">(</span>
+                <span class="n">working_dir</span><span class="o">=</span><span class="n">cur_step_dir</span><span class="p">,</span>
+                <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">template_filename</span><span class="o">=</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">control_settings</span><span class="o">=</span><span class="n">cur_setting</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">=</span><span class="n">cur_spec_dict</span><span class="p">,</span>
+                <span class="n">save_run_to_db</span><span class="o">=</span><span class="n">save_runs_to_db</span><span class="p">,</span>
+                <span class="n">save_run_to_file</span><span class="o">=</span><span class="n">save_runs_to_file</span><span class="p">,</span>
+                <span class="n">lammpsin_key</span><span class="o">=</span><span class="n">lammpsin_key</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_firework</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;template_str&quot;</span><span class="p">:</span>
+            <span class="n">cur_setting</span> <span class="o">=</span> <span class="n">recipe_settings</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+            <span class="n">cur_firework</span> <span class="o">=</span> <span class="n">RunLammpsFW</span><span class="p">(</span>
+                <span class="n">working_dir</span><span class="o">=</span><span class="n">cur_step_dir</span><span class="p">,</span>
+                <span class="n">template_str</span><span class="o">=</span><span class="n">step</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                <span class="n">control_settings</span><span class="o">=</span><span class="n">cur_setting</span><span class="p">,</span>
+                <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+                <span class="n">lammpsin_key</span><span class="o">=</span><span class="n">lammpsin_key</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">=</span><span class="n">cur_spec_dict</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_firework</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fireworks</span></div>
+
+
+<div class="viewcode-block" id="lammps_analysis_fws"><a class="viewcode-back" href="../../../../mispr.lammps.workflows.html#mispr.lammps.workflows.base.lammps_analysis_fws">[docs]</a><span class="k">def</span> <span class="nf">lammps_analysis_fws</span><span class="p">(</span><span class="n">analysis_list</span><span class="p">,</span> <span class="n">analysis_settings</span><span class="p">,</span> <span class="n">working_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate FireWorks for running LAMMPS analysis.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        analysis_list (list): List of analysis types to perform. Supported types are:</span>
+<span class="sd">            &#39;diffusion&#39;, &#39;rdf&#39;, &#39;cn&#39;, and &#39;clusters&#39;.</span>
+<span class="sd">        analysis_settings (list): List of dictionaries containing the settings for each</span>
+<span class="sd">            analysis type.</span>
+<span class="sd">        working_dir (str): Directory where the data files will be written.</span>
+<span class="sd">        kwargs (keyword arguments): Additional keyword arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple:</span>
+<span class="sd">            - fireworks (list): List of FireWorks objects for running LAMMPS analysis.</span>
+<span class="sd">            - links_dict (dict): Dictionary containing the links between the FireWorks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fireworks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">links_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">analysis_fw_ids</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">analysis_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="s2">&quot;analysis&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">analysis_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">analysis_settings</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">analysis_list</span><span class="p">)</span><span class="si">}</span><span class="s2"> types of analysis are requested while &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">analysis_settings</span><span class="p">)</span><span class="si">}</span><span class="s2"> types of analysis settings are &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;provided&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">analysis</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">analysis_list</span><span class="p">):</span>
+        <span class="n">cur_settings</span> <span class="o">=</span> <span class="n">analysis_settings</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">analysis</span> <span class="o">==</span> <span class="s2">&quot;diffusion&quot;</span><span class="p">:</span>
+            <span class="n">diff_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">analysis_dir</span><span class="p">,</span> <span class="s2">&quot;diff&quot;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;diffusion_analysis&quot;</span>
+            <span class="n">cur_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;outputs_dir&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">diff_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;nvt&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">cur_firework</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+                <span class="n">CalcDiff</span><span class="p">(</span><span class="n">diff_settings</span><span class="o">=</span><span class="n">cur_settings</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">diff_dir</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">diff_dir</span><span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_firework</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">analysis</span> <span class="o">==</span> <span class="s2">&quot;rdf&quot;</span><span class="p">:</span>
+            <span class="n">rdf_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">analysis_dir</span><span class="p">,</span> <span class="s2">&quot;rdf&quot;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;rdf_analysis&quot;</span>
+            <span class="n">cur_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rdf_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;nvt&quot;</span><span class="p">,</span> <span class="s2">&quot;dump.nvt.*.dump&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">cur_firework</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+                <span class="n">GetRDF</span><span class="p">(</span><span class="n">rdf_settings</span><span class="o">=</span><span class="n">cur_settings</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">rdf_dir</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">rdf_dir</span><span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_firework</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">analysis</span> <span class="o">==</span> <span class="s2">&quot;cn&quot;</span><span class="p">:</span>
+            <span class="n">cn_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">analysis_dir</span><span class="p">,</span> <span class="s2">&quot;cn&quot;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;cn_analysis&quot;</span>
+            <span class="n">cur_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cn_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;nvt&quot;</span><span class="p">,</span> <span class="s2">&quot;dump.nvt.*.dump&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">cur_firework</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+                <span class="n">CalcCN</span><span class="p">(</span><span class="n">cn_settings</span><span class="o">=</span><span class="n">cur_settings</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">cn_dir</span><span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">cn_dir</span><span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_firework</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">analysis</span> <span class="o">==</span> <span class="s2">&quot;clusters&quot;</span><span class="p">:</span>
+            <span class="n">clusters_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">analysis_dir</span><span class="p">,</span> <span class="s2">&quot;clusters&quot;</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;cluster_analysis&quot;</span>
+            <span class="n">cur_settings</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">clusters_dir</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;nvt&quot;</span><span class="p">,</span> <span class="s2">&quot;dump.nvt.*.dump&quot;</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="n">cur_firework</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+                <span class="n">ExtractClusters</span><span class="p">(</span>
+                    <span class="n">cluster_settings</span><span class="o">=</span><span class="n">cur_settings</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">clusters_dir</span>
+                <span class="p">),</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">clusters_dir</span><span class="p">},</span>
+            <span class="p">)</span>
+            <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cur_firework</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported analysis type: </span><span class="si">{</span><span class="n">analysis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">analysis_fw_ids</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">cur_firework</span><span class="o">.</span><span class="n">fw_id</span><span class="p">,</span> <span class="n">cur_settings</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="s2">&quot;cn_analysis&quot;</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;r_cut&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">[</span><span class="s2">&quot;cn_analysis&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="s2">&quot;rdf_analysis&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cutoff distance required for calculating the CN is &quot;</span>
+                    <span class="s2">&quot;not found and cannot be computed without performing &quot;</span>
+                    <span class="s2">&quot;an RDF analysis&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">links_dict</span><span class="p">[</span><span class="n">analysis_fw_ids</span><span class="p">[</span><span class="s2">&quot;rdf_analysis&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">analysis_fw_ids</span><span class="p">[</span>
+                    <span class="s2">&quot;cn_analysis&quot;</span>
+                <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;cluster_analysis&quot;</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;r_cut&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">[</span><span class="s2">&quot;cluster_analysis&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="n">links_dict</span><span class="p">[</span><span class="n">analysis_fw_ids</span><span class="p">[</span><span class="s2">&quot;cn_analysis&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">analysis_fw_ids</span><span class="p">[</span>
+                    <span class="s2">&quot;cluster_analysis&quot;</span>
+                <span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="s2">&quot;cluster_analysis&quot;</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span> <span class="ow">and</span> <span class="s2">&quot;cn_analysis&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;r_cut&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">analysis_fw_ids</span><span class="p">[</span><span class="s2">&quot;cluster_analysis&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Cutoff distance required for extracting clusters is &quot;</span>
+                <span class="s2">&quot;not found and cannot be computed without performing &quot;</span>
+                <span class="s2">&quot;a CN analysis&quot;</span>
+            <span class="p">)</span>
+
+    <span class="n">final_analysis_fw</span> <span class="o">=</span> <span class="n">Firework</span><span class="p">(</span>
+        <span class="n">ProcessAnalysis</span><span class="p">(</span>
+            <span class="n">analysis_list</span><span class="o">=</span><span class="n">analysis_list</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">analysis_dir</span><span class="p">,</span>
+            <span class="o">**</span><span class="p">{</span>
+                <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">i</span>
+                <span class="ow">in</span> <span class="n">ProcessAnalysis</span><span class="o">.</span><span class="n">required_params</span> <span class="o">+</span> <span class="n">ProcessAnalysis</span><span class="o">.</span><span class="n">optional_params</span>
+            <span class="p">},</span>
+        <span class="p">),</span>
+        <span class="n">parents</span><span class="o">=</span><span class="n">fireworks</span><span class="p">[:],</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;analysis_postprocessing&quot;</span><span class="p">,</span>
+        <span class="n">spec</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;_launch_dir&quot;</span><span class="p">:</span> <span class="n">analysis_dir</span><span class="p">},</span>
+    <span class="p">)</span>
+    <span class="n">fireworks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">final_analysis_fw</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fireworks</span><span class="p">,</span> <span class="n">links_dict</span></div>
+
+
+<div class="viewcode-block" id="lammps_workflow"><a class="viewcode-back" href="../../../../mispr.lammps.workflows.html#mispr.lammps.workflows.base.lammps_workflow">[docs]</a><span class="k">def</span> <span class="nf">lammps_workflow</span><span class="p">(</span>
+    <span class="n">system_species_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">system_mixture_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">box_data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">box_data_type</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+    <span class="n">data_file_name</span><span class="o">=</span><span class="s2">&quot;data.mixture&quot;</span><span class="p">,</span>
+    <span class="n">recipe</span><span class="o">=</span><span class="n">LAMMPS_RECIPE</span><span class="p">,</span>
+    <span class="n">recipe_settings</span><span class="o">=</span><span class="n">RECIPE_SETTINGS</span><span class="p">,</span>
+    <span class="n">recipe_qadapter</span><span class="o">=</span><span class="n">QADAPTER_RUN_LAMMPS_SPEC</span><span class="p">,</span>
+    <span class="n">db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">working_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">analysis_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">analysis_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;lammps_workflow&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a LAMMPS workflow.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        system_species_data (dict, optional): Dictionary containing species data. Refer</span>
+<span class="sd">            to the ``lammps_data_fws`` function for more information. Defaults to</span>
+<span class="sd">            ``None``. If not provided, the workflow will not create any FireWorks for</span>
+<span class="sd">            writing LAMMPS data files.</span>
+<span class="sd">        system_mixture_type (str): Type of mixture data. Must be &quot;concentration&quot; or</span>
+<span class="sd">            &quot;number of molecules&quot;. See ``LammpsDataWrapper`` in</span>
+<span class="sd">            ``pymatgen/io/lammps/data.py`` for more information. Defaults to ``None``.</span>
+<span class="sd">            If not provided, the workflow will not create any FireWorks for writing</span>
+<span class="sd">            LAMMPS data files.</span>
+<span class="sd">        box_data (float, int, list (3,2), array (3,2), or LammpsBox): Definitions for</span>
+<span class="sd">            box size. See ``lammps_data_fws`` for info on how to define this parameter.</span>
+<span class="sd">            Defaults to ``None``. If not provided, the workflow will not create any</span>
+<span class="sd">            FireWorks for writing LAMMPS data files.</span>
+<span class="sd">        box_data_type (str, optional): Determines the value of the ``box_data``</span>
+<span class="sd">            parameter. Defaults to &#39;cubic&#39;.</span>
+<span class="sd">        data_file_name (str, optional): Name of the data file to be written. Defaults</span>
+<span class="sd">            to &#39;data.mixture&#39;.</span>
+<span class="sd">        recipe (list, optional): List of lists containing the name of the step and the</span>
+<span class="sd">            template filename or string for the LAMMPS input file. Defaults to</span>
+<span class="sd">            LAMMPS_RECIPE.</span>
+<span class="sd">        recipe_settings (list, optional): List of dictionaries containing the settings</span>
+<span class="sd">            for each step in the recipe. Defaults to RECIPE_SETTINGS.</span>
+<span class="sd">        recipe_qadapter (list, optional): List of dictionaries containing the settings</span>
+<span class="sd">            for the queue adapter for each step in the recipe. Defaults to</span>
+<span class="sd">            QADAPTER_RUN_LAMMPS_SPEC.</span>
+<span class="sd">        db (str or dict, optional): Database credentials. Could be a string with the</span>
+<span class="sd">            path to the database file or a dictionary with the database credentials.</span>
+<span class="sd">            If none is provided, attempts to read the configuration files. Only used when</span>
+<span class="sd">            ``save_runs_to_db`` is ``True``. Defaults to ``None``.</span>
+<span class="sd">        working_dir (str, optional): Directory where the data files will be written.</span>
+<span class="sd">            Defaults to the current working directory.</span>
+<span class="sd">        analysis_list (list, optional): List of analysis types to perform. Supported</span>
+<span class="sd">            types are: &#39;diffusion&#39;, &#39;rdf&#39;, &#39;cn&#39;, and &#39;clusters&#39;. Defaults to ``None``.</span>
+<span class="sd">            If not provided, the workflow will not create any FireWorks for running</span>
+<span class="sd">            LAMMPS analysis.</span>
+<span class="sd">        analysis_settings (list, optional): List of dictionaries containing the settings</span>
+<span class="sd">            for each analysis type. Defaults to ``None``. If not provided, the workflow</span>
+<span class="sd">            will not create any FireWorks for running LAMMPS analysis.</span>
+<span class="sd">        name (str, optional): Name of the workflow. Defaults to &#39;lammps_workflow&#39;.</span>
+<span class="sd">        kwargs (keyword arguments): Additional keyword arguments.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Workflow</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">working_dir</span><span class="p">:</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+    <span class="n">fireworks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">links_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">system_species_data</span><span class="p">,</span> <span class="n">system_mixture_type</span><span class="p">,</span> <span class="n">box_data</span><span class="p">]):</span>
+        <span class="n">data_fws</span> <span class="o">=</span> <span class="n">lammps_data_fws</span><span class="p">(</span>
+            <span class="n">system_species_data</span><span class="p">,</span>
+            <span class="n">system_mixture_type</span><span class="p">,</span>
+            <span class="n">box_data</span><span class="p">,</span>
+            <span class="n">box_data_type</span><span class="o">=</span><span class="n">box_data_type</span><span class="p">,</span>
+            <span class="n">data_file_name</span><span class="o">=</span><span class="n">data_file_name</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">fireworks</span> <span class="o">+=</span> <span class="n">data_fws</span>
+
+    <span class="n">run_fws</span> <span class="o">=</span> <span class="n">lammps_run_fws</span><span class="p">(</span>
+        <span class="n">recipe</span><span class="o">=</span><span class="n">recipe</span><span class="p">,</span>
+        <span class="n">recipe_settings</span><span class="o">=</span><span class="n">recipe_settings</span><span class="p">,</span>
+        <span class="n">recipe_qadapter</span><span class="o">=</span><span class="n">recipe_qadapter</span><span class="p">,</span>
+        <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+        <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fireworks</span> <span class="o">+=</span> <span class="n">run_fws</span>
+
+    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">fw</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">fireworks</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">links_dict</span><span class="p">[</span><span class="n">fw</span><span class="o">.</span><span class="n">fw_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">fireworks</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fw_id</span>
+
+    <span class="k">if</span> <span class="n">analysis_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">analysis_settings</span><span class="p">:</span>
+            <span class="n">analysis_settings</span> <span class="o">=</span> <span class="p">[{}]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">analysis_list</span><span class="p">)</span>
+        <span class="n">analysis_fws</span><span class="p">,</span> <span class="n">analysis_links_dict</span> <span class="o">=</span> <span class="n">lammps_analysis_fws</span><span class="p">(</span>
+            <span class="n">analysis_list</span><span class="p">,</span> <span class="n">analysis_settings</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">links_dict</span><span class="p">[</span><span class="n">fireworks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fw_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">fw_id</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">analysis_fws</span><span class="p">]</span>
+        <span class="n">fireworks</span> <span class="o">+=</span> <span class="n">analysis_fws</span>
+        <span class="n">links_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">analysis_links_dict</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Workflow</span><span class="p">(</span><span class="n">fireworks</span><span class="p">,</span> <span class="n">links_dict</span><span class="o">=</span><span class="n">links_dict</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span></div>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="../../../../_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script src="../../../../_static/tabs.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../../../_static/togglebutton.js"></script>
+        <script src="../../../../_static/design-tabs.js"></script>
+        <script src="../../../../_static/js/rtd_search_config.js"></script>
+        <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    
+  </body>
+</html>

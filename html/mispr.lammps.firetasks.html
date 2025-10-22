@@ -1,0 +1,2046 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.lammps.firetasks package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.lammps.firetasks package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.html"><span class="md-ellipsis">mispr</span></a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.common.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>common package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.hybrid.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>hybrid package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_4" type="checkbox" id="__nav_6_1_4" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.lammps.html"><span class="md-ellipsis">mispr.<wbr>lammps package</span></a>
+          
+            <label for="__nav_6_1_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.lammps package" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>lammps package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>firetasks package</span>
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.fireworks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>fireworks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.tests.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>tests package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.utilities.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>utilities package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.workflows.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>workflows package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-lammps-firetasks-package">mispr.lammps.firetasks package<a class="headerlink" href="#mispr-lammps-firetasks-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.lammps.firetasks.parse_outputs"><span id="mispr-lammps-firetasks-parse-outputs-module"></span>mispr.lammps.firetasks.parse_outputs module<a class="headerlink" href="#module-mispr.lammps.firetasks.parse_outputs" title="Permalink to this heading">¶</a></h2>
+<p>Define firetasks for reading output of Ambertools programs and LAMMPS.</p>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.CalcCN">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">CalcCN</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#CalcCN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcCN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Calculate the coordination number (CN) of a system. The CN is calculated for each
+atom type in the system and saved to a file. The CN can be calculated for atomic or
+molecular systems.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.CalcCN-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcCN-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">cn_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>A dictionary containing the settings for the CN
+calculation based on the <code class="docutils literal notranslate"><span class="pre">calc_atomic_cn</span></code> and <code class="docutils literal notranslate"><span class="pre">calc_molecular_cn</span></code>
+functions. Refer to the <code class="docutils literal notranslate"><span class="pre">mdproptools.structural.rdf_cn</span></code> module for more
+information.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.CalcCN.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.parse_outputs.CalcCN.run_task.fw_spec" title="mispr.lammps.firetasks.parse_outputs.CalcCN.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#CalcCN.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcCN.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.CalcCN.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcCN.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.parse_outputs.CalcCN.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcCN.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.parse_outputs.CalcCN.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcCN.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.CalcDiff">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">CalcDiff</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#CalcDiff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Calculate the diffusion coefficient of a system using the mean squared displacement
+(MSD) method. The MSD is either calculated from the trajectory dump files or read
+from the log file. The diffusion coefficient is then calculated from the MSD using
+the Einstein relation.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.CalcDiff-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">diff_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p><p>A dictionary containing the settings for the
+diffusion calculation based on the <code class="docutils literal notranslate"><span class="pre">Diffusion</span></code> object. Refer to the
+<code class="docutils literal notranslate"><span class="pre">mdproptools.dynamical.diffusion</span></code> module for more information. The
+dictionary might contain the following keys:</p>
+<ul class="simple">
+<li><p>timestep (float): The timestep used in the simulation.</p></li>
+<li><p>units (str): The unit type used in the LAMMPS simulations.</p></li>
+<li><p>msd_method (str): The method used to calculate the MSD. Supported methods
+are “from_dump” and “from_log”.</p></li>
+<li><p>num_mols (list, optional): A list containing the number of molecules of
+each type in the system. Required if the <code class="docutils literal notranslate"><span class="pre">msd_method</span></code> is “from_dump”.</p></li>
+<li><p>num_atoms_per_mol (list, optional): A list containing the number of atoms
+in each molecule. Required if the <code class="docutils literal notranslate"><span class="pre">msd_method</span></code> is “from_dump”.</p></li>
+<li><p>mass (list, optional): A list containing the masses of each LAMMPS atom
+type in the system. Required if the <code class="docutils literal notranslate"><span class="pre">msd_method</span></code> is “from_dump”.</p></li>
+<li><p>file_pattern (str, optional): The pattern used to match the dump files.
+Defaults to “dump.nvt.*.dump” if calculating from dump and “log.lammps*”
+if calculating from log.</p></li>
+<li><p>avg_interval (bool, optional): Whether to calculate the MSD for individual
+particles or not. If False, the MSD will be averaged for each particle
+type. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>. Only used if the <code class="docutils literal notranslate"><span class="pre">msd_method</span></code> is “from_dump”.</p></li>
+<li><p>diff_dist (bool, optional): Whether to calculate the diffusion distribution.
+Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>. Only used if the <code class="docutils literal notranslate"><span class="pre">msd_method</span></code> is “from_dump”.</p></li>
+<li><p>outputs_dir (str, optional): Path to the directory containing the dump
+files. Defaults to “working_dir/../../nvt”.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task.fw_spec" title="mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#CalcDiff.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.CalcDiff.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.parse_outputs.ExtractClusters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">ExtractClusters</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#ExtractClusters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Extract atomic clusters from a trajectory file. The clusters are extracted based
+on the cutoff radius and saved to separate files. The clusters can be extracted
+from the full trajectory or a single frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.ExtractClusters-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">cluster_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>A dictionary containing the settings for the
+cluster extraction based on the <code class="docutils literal notranslate"><span class="pre">get_clusters</span></code> and
+<code class="docutils literal notranslate"><span class="pre">get_unique_configurations</span></code> functions. Refer to the
+<code class="docutils literal notranslate"><span class="pre">mdproptools.structural.cluster_analysis</span></code> module for more information.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task.fw_spec" title="mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#ExtractClusters.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ExtractClusters.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.GetRDF">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">GetRDF</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#GetRDF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.GetRDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Calculate the radial distribution function (RDF) of a system. The RDF is calculated
+for each atom type in the system and saved to a file. The RDF can be calculated for
+atomic or molecular systems.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.GetRDF-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.GetRDF-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">rdf_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>A dictionary containing the settings for the
+RDF calculation based on the <code class="docutils literal notranslate"><span class="pre">calc_atomic_rdf</span></code> and <code class="docutils literal notranslate"><span class="pre">calc_molecular_rdf</span></code>
+functions. Refer to the <code class="docutils literal notranslate"><span class="pre">mdproptools.structural.rdf_cn</span></code> module for more
+information.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.GetRDF.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.parse_outputs.GetRDF.run_task.fw_spec" title="mispr.lammps.firetasks.parse_outputs.GetRDF.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#GetRDF.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.GetRDF.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.GetRDF.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.GetRDF.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.parse_outputs.GetRDF.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.GetRDF.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.parse_outputs.GetRDF.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.GetRDF.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">ProcessAnalysis</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#ProcessAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Process the analysis calculations and saves the results to the database and/or a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">analysis_list</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span></dt><dd><p>A list of the analysis calculations to process. Supported
+analysis calculations are “diffusion”, “rdf”, “cn”, and “clusters”.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The connection information of the database to save the
+analysis results to. If not provided, the connection information will be
+read from the db.json file.</p>
+</dd>
+<dt><span class="sig-name descname">save_analysis_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the analysis results to
+the database. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">save_analysis_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the analysis results to
+a file in the working_dir. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task.fw_spec" title="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#ProcessAnalysis.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessAnalysis.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.parse_outputs.</span></span><span class="sig-name descname"><span class="pre">ProcessPrmtop</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#ProcessPrmtop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Parse the prmtop file to extract force field parameters and saves them to a file
+and/or database in the format required by the <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> class in the
+<code class="docutils literal notranslate"><span class="pre">pymatgen.io.lammps.data</span></code> module.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">molecule</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>A pymatgen <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> object of the molecule.
+The order of the atoms in the <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> object should match the order
+of the atoms used when generating the prmtop file. If not provided, the
+molecule will be read from the previous calculation in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The connection information of the database to save the
+force field parameters to. If not provided, the connection information will
+be read from the db.json file.</p>
+</dd>
+<dt><span class="sig-name descname">prmtop_path</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the prmtop file. If not provided, will try
+to get the path based on the <code class="docutils literal notranslate"><span class="pre">prmtop_filename</span></code> and <code class="docutils literal notranslate"><span class="pre">prmtop_dir</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">prmtop_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of the prmtop file. Only read if the
+<code class="docutils literal notranslate"><span class="pre">prmtop_path</span></code> is not provided.</p>
+</dd>
+<dt><span class="sig-name descname">prmtop_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the directory containing the prmtop file.
+Only read if the <code class="docutils literal notranslate"><span class="pre">prmtop_path</span></code> is not provided. Defaults to <code class="docutils literal notranslate"><span class="pre">working_dir</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">unique_molecule_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>A unique name for the molecule. If not
+provided, the formula of the molecule will be used.</p>
+</dd>
+<dt><span class="sig-name descname">system_force_field_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>A dictionary containing the force
+field parameters for the system. Will be used as input for
+<code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code>. Only read if this dict is not already in the
+<code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>. Will be saved to the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> after processing the prmtop
+file. Defaults to an empty dict.</p>
+</dd>
+<dt><span class="sig-name descname">doi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Digital Object Identifier for the force field used.
+Defaults to the GAFF DOI.</p>
+</dd>
+<dt><span class="sig-name descname">save_ff_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the force field parameters to
+the database. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">save_ff_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the force field parameters to
+a file in the working_dir. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">ff_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of the file to save the force field parameters
+to. Defaults to “ff.json”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task.fw_spec" title="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/parse_outputs.html#ProcessPrmtop.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.parse_outputs.ProcessPrmtop.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.lammps.firetasks.run"><span id="mispr-lammps-firetasks-run-module"></span>mispr.lammps.firetasks.run module<a class="headerlink" href="#module-mispr.lammps.firetasks.run" title="Permalink to this heading">¶</a></h2>
+<p>Define firetasks for running LAMMPS simulations and AmberTools.</p>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunAntechamber">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.run.</span></span><span class="sig-name descname"><span class="pre">RunAntechamber</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunAntechamber"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunAntechamber" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run the Antechamber program. Intented to be used to generate the partial charges
+for the molecule in a mol2 file from a Gaussian ESP file. Refer to the AmberTools
+documentation for more information on this program:
+<a class="reference external" href="https://ambermd.org/AmberTools.php">https://ambermd.org/AmberTools.php</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunAntechamber-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunAntechamber-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The directory to run Antechamber in. Defaults to
+the current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">input_filename_a</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the input file. Defaults to
+“mol.esp”.</p>
+</dd>
+<dt><span class="sig-name descname">input_file_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The type of the input file. Defaults to “gesp”.</p>
+</dd>
+<dt><span class="sig-name descname">output_filename_a</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the output file. Defaults to
+“mol.mol2”.</p>
+</dd>
+<dt><span class="sig-name descname">output_file_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The type of the output file. Defaults to “mol2”.</p>
+</dd>
+<dt><span class="sig-name descname">charge_method</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The method to calculate the partial charges.
+Defaults to “resp”.</p>
+</dd>
+<dt><span class="sig-name descname">antechamber_cmd</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The command to run Antechamber. If not provided,
+the command will be read from the “config.ini” file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunAntechamber.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.run.RunAntechamber.run_task.fw_spec" title="mispr.lammps.firetasks.run.RunAntechamber.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunAntechamber.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunAntechamber.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunAntechamber.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunAntechamber.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.run.RunAntechamber.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunAntechamber.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.run.RunAntechamber.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunAntechamber.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunLammpsDirect">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.run.</span></span><span class="sig-name descname"><span class="pre">RunLammpsDirect</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunLammpsDirect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsDirect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run a LAMMPS simulation from a single control file.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunLammpsDirect-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsDirect-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The directory to run the simulation in. Defaults
+to the current working directory. file.</p>
+</dd>
+<dt><span class="sig-name descname">control_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of the LAMMPS control file. Defaults to
+“complex.lammpsin”.</p>
+</dd>
+<dt><span class="sig-name descname">lammps_cmd</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The command to run LAMMPS. If not provided, the
+command will attempt to read from the “config.ini” file.</p>
+</dd>
+<dt><span class="sig-name descname">net_ntasks</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>The number of processors to run the simulation on.
+If not provided, the number of processors will be read from the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>
+based on the number of nodes used and the number of tasks per node.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunLammpsDirect.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.run.RunLammpsDirect.run_task.fw_spec" title="mispr.lammps.firetasks.run.RunLammpsDirect.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunLammpsDirect.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsDirect.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunLammpsDirect.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsDirect.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.run.RunLammpsDirect.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsDirect.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.run.RunLammpsDirect.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsDirect.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunLammpsFake">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.run.</span></span><span class="sig-name descname"><span class="pre">RunLammpsFake</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunLammpsFake"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsFake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run a fake LAMMPS simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunLammpsFake-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsFake-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">ref_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>The directory containing the reference LAMMPS files.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The directory to run the fake simulation in.
+Defaults to the current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">control_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the LAMMPS control file. Defaults</p>
+</dd>
+<dt><span class="sig-name descname">&quot;complex.lammpsin&quot;.</span><span class="p"> : </span><span class="desctype"><span class="desctype">to</span></span></dt><dd><p></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunLammpsFake.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.run.RunLammpsFake.run_task.fw_spec" title="mispr.lammps.firetasks.run.RunLammpsFake.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunLammpsFake.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsFake.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunLammpsFake.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsFake.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.run.RunLammpsFake.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsFake.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.run.RunLammpsFake.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunLammpsFake.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunMaestro">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.run.</span></span><span class="sig-name descname"><span class="pre">RunMaestro</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunMaestro"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunMaestro" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run the Maestro program using the MaestroRunner class in the
+<code class="docutils literal notranslate"><span class="pre">mispr.lammps.utilities.opls</span></code> module to generate OPLS force field parameters for
+a molecule. After generating the parameters, add these parameters to the spec.
+Refer to the Maestro documentation for more information on this program:
+<a class="reference external" href="https://www.schrodinger.com/maestro">https://www.schrodinger.com/maestro</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunMaestro-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunMaestro-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">input_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>The path to the input file.</p>
+</dd>
+<dt><span class="sig-name descname">label</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The label for the molecule. Defaults to the molecule’s
+formula.</p>
+</dd>
+<dt><span class="sig-name descname">molecule</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>The molecule to generate force field parameters
+for. If not provided, the molecule will be read from the input file.</p>
+</dd>
+<dt><span class="sig-name descname">mae_cmd</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The command to run the structconvert utility program.
+If not provided, the command will be read from the “config.ini” file.</p>
+</dd>
+<dt><span class="sig-name descname">ffld_cmd</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The command to run the <code class="docutils literal notranslate"><span class="pre">ffld_server</span></code> utility program.
+If not provided, the command will be read from the “config.ini” file.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The directory to run Maestro in. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">maestro_cleanup</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to clean up the Maestro files after
+running. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The connection information of the database to save the force
+field parameters to. If not provided, the connection information will be
+read from the “db.json” file.</p>
+</dd>
+<dt><span class="sig-name descname">save_ff_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the force field parameters to a
+database. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">save_ff_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the force field parameters to
+a file. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">ff_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the file to save the force field
+parameters to. Defaults to “ff.json”.</p>
+</dd>
+<dt><span class="sig-name descname">system_force_field_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>A dictionary to store the force field
+parameters for multiple molecules. This is only needed if this dictionary
+is not already in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>. If this dict is not in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> or
+provided by the user, an empty dict will be created.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunMaestro.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.run.RunMaestro.run_task.fw_spec" title="mispr.lammps.firetasks.run.RunMaestro.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunMaestro.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunMaestro.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunMaestro.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunMaestro.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.run.RunMaestro.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunMaestro.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.run.RunMaestro.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunMaestro.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunParmchk">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.run.</span></span><span class="sig-name descname"><span class="pre">RunParmchk</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunParmchk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunParmchk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run the Parmchk program. Intended to be used to generate a frcmod file from a mol2
+file. Refer to the AmberTools documentation for more information on the Parmchk
+program: <a class="reference external" href="https://ambermd.org/AmberTools.php">https://ambermd.org/AmberTools.php</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunParmchk-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunParmchk-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The directory to run Parmchk in. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">input_filename_p</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the input file. Defaults to
+“mol.mol2”.</p>
+</dd>
+<dt><span class="sig-name descname">output_filename_p</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the output file. Defaults to
+“mol.frcmod”.</p>
+</dd>
+<dt><span class="sig-name descname">parmchk_cmd</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The command to run Parmchk. If not provided, the
+command will be read from the “config.ini” file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunParmchk.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.run.RunParmchk.run_task.fw_spec" title="mispr.lammps.firetasks.run.RunParmchk.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunParmchk.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunParmchk.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunParmchk.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunParmchk.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.run.RunParmchk.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunParmchk.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.run.RunParmchk.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunParmchk.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunTleap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.run.</span></span><span class="sig-name descname"><span class="pre">RunTleap</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunTleap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunTleap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Run the Tleap program. Intended to be used to generate the GAFF parameters for a
+single molecular species into a prmtop file from a mol2 file and a frcmod file.
+Refer to the AmberTools documentation for more information on this program:
+<a class="reference external" href="https://ambermd.org/AmberTools.php">https://ambermd.org/AmberTools.php</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunTleap-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunTleap-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The directory to run Tleap in. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">script_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The name of the script file. Defaults to
+“tleap.in”.</p>
+</dd>
+<dt><span class="sig-name descname">tleap_cmd</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>The command to run Tleap. If not provided, the
+command will be read from the “config.ini” file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.run.RunTleap.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.run.RunTleap.run_task.fw_spec" title="mispr.lammps.firetasks.run.RunTleap.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/run.html#RunTleap.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.run.RunTleap.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.run.RunTleap.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunTleap.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.run.RunTleap.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunTleap.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.run.RunTleap.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.run.RunTleap.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.lammps.firetasks.write_inputs"><span id="mispr-lammps-firetasks-write-inputs-module"></span>mispr.lammps.firetasks.write_inputs module<a class="headerlink" href="#module-mispr.lammps.firetasks.write_inputs" title="Permalink to this heading">¶</a></h2>
+<p>Define firetasks for writing LAMMPS input files.</p>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.write_inputs.LabelFFDict">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.write_inputs.</span></span><span class="sig-name descname"><span class="pre">LabelFFDict</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#LabelFFDict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Append molecule label to all atom labels in the force field dictionary. Ensures
+that no two molecules can share the same atom labels provided that each molecule
+has a unique label for the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.LabelFFDict-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, optional</span></span></dt><dd><p>pymatgen Molecule object; if not provided, the</p>
+</dd>
+<dt><span class="sig-name descname">used.</span><span class="p"> : </span><span class="desctype"><span class="desctype">prev_calc_molecule key from the fw_spec will be</span></span></dt><dd><p></p>
+</dd>
+<dt><span class="sig-name descname">unlabeled_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary containing the force field parameters
+for the molecule; ignored if the <code class="docutils literal notranslate"><span class="pre">ff_file</span></code> is provided.</p>
+</dd>
+<dt><span class="sig-name descname">ff_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the json file containing the force field
+parameters for the molecule.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to current
+working directory.</p>
+</dd>
+<dt><span class="sig-name descname">label</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Label for the molecule. Defaults to the molecular formula.</p>
+</dd>
+<dt><span class="sig-name descname">system_force_field_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary containing the force field
+parameters for the system that is used as the input for <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code>
+object; intended to be obtained from the spec; if present in the spec,
+this will be ignored.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task.fw_spec" title="mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#LabelFFDict.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDict.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.write_inputs.</span></span><span class="sig-name descname"><span class="pre">LabelFFDictFromDB</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#LabelFFDictFromDB"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Append molecule label to all atom labels in a force field dictionary obtained from
+the database. Ensures that no two molecules can share the same atom labels provided
+that each molecule has a unique label for the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">filter</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span></dt><dd><p>Dictionary containing the filter used to query the database.</p>
+</dd>
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict or str, optional</span></span></dt><dd><p>Information for connecting to the database as
+either a dictionary of credentials or a path to a json file containing the
+credentials; if not provided, the database specified in the env will be used.</p>
+</dd>
+<dt><span class="sig-name descname">label</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Label for the molecule. Defaults to the molecular formula.</p>
+</dd>
+<dt><span class="sig-name descname">system_force_field_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary containing the force field
+parameters for the system that is used as the input for <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code>
+object; intended to be obtained from the spec; if present in the spec, this
+will be ignored.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task.fw_spec" title="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#LabelFFDictFromDB.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.LabelFFDictFromDB.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.write_inputs.WriteControlFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.write_inputs.</span></span><span class="sig-name descname"><span class="pre">WriteControlFile</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#WriteControlFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Write a LAMMPS control file based on a template file or string.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.WriteControlFile-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to working directory. Default is current
+working directory.</p>
+</dd>
+<dt><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span></dt><dd><p>Connection information for the calc database; If
+<code class="docutils literal notranslate"><span class="pre">save_runs_to_db</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, then a document will be stored in the
+database. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">control_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of control file to be written. Default is
+“complex.lammpsin”.</p>
+</dd>
+<dt><span class="sig-name descname">template_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of template control file to be used.
+Is not used if <code class="docutils literal notranslate"><span class="pre">template_str</span></code> is provided. Can refer to a custom template
+or a template name from the <code class="docutils literal notranslate"><span class="pre">mispr/lammps/templates</span></code> directory.</p>
+</dd>
+<dt><span class="sig-name descname">template_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to directory containing template file. If the
+template is from <code class="docutils literal notranslate"><span class="pre">mispr/lammps/templates</span></code>, then this is not needed.</p>
+</dd>
+<dt><span class="sig-name descname">template_str</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>String containing template for control file.</p>
+</dd>
+<dt><span class="sig-name descname">control_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>Dictionary of settings to be used in the
+control file. If a mispr template is used, this dictionary will update the
+corresponding control_settings dictionary in the <code class="docutils literal notranslate"><span class="pre">mispr/lammps/defaults.py</span></code>
+file. Default is None.</p>
+</dd>
+<dt><span class="sig-name descname">save_runs_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the run info to the calc
+database. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">save_runs_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to save the run info to a file in
+the working directory. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">lammpsin_key</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Key in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> that corresponds with the
+<code class="docutils literal notranslate"><span class="pre">run_doc</span></code> information. Default is “lammpsin”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task.fw_spec" title="mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#WriteControlFile.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteControlFile.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.write_inputs.WriteDataFile">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.write_inputs.</span></span><span class="sig-name descname"><span class="pre">WriteDataFile</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#WriteDataFile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Write LAMMPS data file for a bulk system in the current working directory. User can
+provide a <code class="docutils literal notranslate"><span class="pre">LammpsData</span> <span class="pre">object</span></code>, a <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> object, or the inputs for
+instantiating a <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> object. See the <code class="docutils literal notranslate"><span class="pre">LammpsData</span></code> and
+<code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> classes in the <code class="docutils literal notranslate"><span class="pre">pymatgen.io.lammps.data</span></code> module for more
+information.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.WriteDataFile-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Path to the working directory. Defaults to the
+current working directory.</p>
+</dd>
+<dt><span class="sig-name descname">data_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Name of data file to be written. Defaults to
+“complex.data”.</p>
+</dd>
+<dt><span class="sig-name descname">lammps_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">LammpsData, optional</span></span></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">LammpsData</span></code> object to be written as
+the data file. Can be passed through the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> or input by the user.
+If both are provided, the one provided directly will be used.</p>
+</dd>
+<dt><span class="sig-name descname">lammps_data_wrapper</span><span class="p"> : </span><span class="desctype"><span class="desctype">LammpsDataWrapper, optional</span></span></dt><dd><p>The wrapper for the
+<code class="docutils literal notranslate"><span class="pre">LammpsData</span></code> object to be written as data file. Can be passed through
+<code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> or input by the user. If both are provided, the one provided
+directly will be used. Will be ignored if <code class="docutils literal notranslate"><span class="pre">lammps_data</span></code> is provided.</p>
+</dd>
+<dt><span class="sig-name descname">system_force_field_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>The force field parameters for the
+system. Used as input for <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code>. Intended to be created by
+the <code class="docutils literal notranslate"><span class="pre">GetForceField</span></code> task. Can be passed through <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> or input by
+the user. If both are provided, will take the one provided in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">system_mixture_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span></dt><dd><p>The information that will be used to
+calculate the number of molecules of each type in the system. Used as input
+for a <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> object. Can be read from <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> or input
+by the user; If both are provided, will use the one provided in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">system_box_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, int, list, ndarray, optional</span></span></dt><dd><p>Information about the
+system box; the value of this arg is determined by the
+<code class="docutils literal notranslate"><span class="pre">system_box_data_type</span></code>. Used as input for a <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> object.
+Can be passed through <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code> or input by the user. If both are provided,
+will take the one provided in the <code class="docutils literal notranslate"><span class="pre">fw_spec</span></code>.</p>
+</dd>
+<dt><span class="sig-name descname">system_box_data_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Determines the type for <code class="docutils literal notranslate"><span class="pre">system_box_data</span></code>.
+Used as input for a <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> object. Defaults to “cubic”.</p>
+</dd>
+<dt><span class="sig-name descname">position_seed</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span></dt><dd><p>Seed for randomizing the positions of atoms.
+Indirectly used as input for packmol through <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code>. Defaults
+to 150.</p>
+</dd>
+<dt><span class="sig-name descname">system_mixture_data_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span></dt><dd><p>Determines the content of
+<code class="docutils literal notranslate"><span class="pre">system_mixture_data</span></code>. Used as input for a <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> object.
+Defaults to “concentration”.</p>
+</dd>
+<dt><span class="sig-name descname">scale_charges</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span></dt><dd><p>Whether to scale the partial charges of all
+molecules that have a non-zero net charge in the system. Only used if
+building a system from <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> inputs.</p>
+</dd>
+<dt><span class="sig-name descname">charge_scaling_factor</span><span class="p"> : </span><span class="desctype"><span class="desctype">float</span></span></dt><dd><p>Factor by which to scale charges in the system.
+Only used if building a system from <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> inputs and if
+<code class="docutils literal notranslate"><span class="pre">scale_charges</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task.fw_spec" title="mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#WriteDataFile.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteDataFile.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.firetasks.write_inputs.WriteTleapScript">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.lammps.firetasks.write_inputs.</span></span><span class="sig-name descname"><span class="pre">WriteTleapScript</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#WriteTleapScript"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FiretaskBase</span></code></p>
+<p>Write a tleap script for generating a prmtop and inpcrd file for a molecule.
+Intended to be used to obtain the parameters from the GAFF force field.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.WriteTleapScript-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Path to the working directory. Defaults to current working
+directory.</p>
+</dd>
+<dt><span class="sig-name descname">script_string</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>String containing the tleap script. If not provided, the
+<code class="docutils literal notranslate"><span class="pre">template_filename</span></code> and <code class="docutils literal notranslate"><span class="pre">template_dir</span></code> must be provided.</p>
+</dd>
+<dt><span class="sig-name descname">template_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Name of the template file. Defaults to “gaff_tleap”.</p>
+</dd>
+<dt><span class="sig-name descname">template_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Path to the directory containing the template file. Defaults
+to the mispr/lammps/templates/ directory.</p>
+</dd>
+<dt><span class="sig-name descname">tleap_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span></dt><dd><p>Dictionary containing the settings for the tleap script.
+Used to update the <code class="docutils literal notranslate"><span class="pre">TLEAP_SETTINGS</span></code> dict in
+mispr/lammps/defaults.py file. Defaults to empty dict.</p>
+</dd>
+<dt><span class="sig-name descname">script_filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span></dt><dd><p>Name of the tleap script file. Defaults to “tleap.in”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task">
+<span class="sig-name descname"><span class="pre">run_task</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task.fw_spec" title="mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task.fw_spec (Python parameter) — A Firework spec. This comes from the master spec. In addition, this spec contains a special &quot;_fw_env&quot; key that contains the env settings of the FWorker calling this method. This provides for abstracting out certain commands or settings. For example, &quot;foo&quot; may be named &quot;foo1&quot; in resource 1 and &quot;foo2&quot; in resource 2. The FWorker env can specify { &quot;foo&quot;: &quot;foo1&quot;}, which maps an abstract variable &quot;foo&quot; to the relevant &quot;foo1&quot; or &quot;foo2&quot;. You can then write a task that uses fw_spec[&quot;_fw_env&quot;][&quot;foo&quot;] that will work across all these multiple resources."><span class="n"><span class="pre">fw_spec</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/firetasks/write_inputs.html#WriteTleapScript.run_task"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method gets called when the Firetask is run. It can take in a
+Firework spec, perform some task using that data, and then return an
+output in the form of a FWAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>A Firework spec. This comes from the master spec.
+In addition, this spec contains a special “_fw_env” key that
+contains the env settings of the FWorker calling this method.
+This provides for abstracting out certain commands or
+settings. For example, “foo” may be named “foo1” in resource
+1 and “foo2” in resource 2. The FWorker env can specify {
+“foo”: “foo1”}, which maps an abstract variable “foo” to the
+relevant “foo1” or “foo2”. You can then write a task that
+uses fw_spec[“_fw_env”][“foo”] that will work across all
+these multiple resources.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.firetasks.write_inputs.WriteTleapScript.run_task-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>(FWAction)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.lammps.firetasks"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.lammps.firetasks" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="mispr.lammps.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: mispr.lammps package" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mispr.lammps package
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="mispr.lammps.fireworks.html" class="md-footer__link md-footer__link--next" aria-label="Next: mispr.lammps.fireworks package" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              mispr.lammps.fireworks package
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>

@@ -1,0 +1,1739 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.gaussian.utilities package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.gaussian.utilities package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.html"><span class="md-ellipsis">mispr</span></a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.common.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>common package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_2" type="checkbox" id="__nav_6_1_2" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.gaussian.html"><span class="md-ellipsis">mispr.<wbr>gaussian package</span></a>
+          
+            <label for="__nav_6_1_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.gaussian package" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.firetasks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>firetasks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.fireworks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>fireworks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>utilities package</span>
+      </a>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.workflows.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>workflows package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.hybrid.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>hybrid package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-gaussian-utilities-package">mispr.gaussian.utilities package<a class="headerlink" href="#mispr-gaussian-utilities-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.gaussian.utilities.db_utilities"><span id="mispr-gaussian-utilities-db-utilities-module"></span>mispr.gaussian.utilities.db_utilities module<a class="headerlink" href="#module-mispr.gaussian.utilities.db_utilities" title="Permalink to this heading">¶</a></h2>
+<p>Define db utility functions.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.db_utilities.get_db">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.db_utilities.</span></span><span class="sig-name descname"><span class="pre">get_db</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.db_utilities.get_db.input_db" title="mispr.gaussian.utilities.db_utilities.get_db.input_db (Python parameter) — Path to db file or a dict containing db info."><span class="n"><span class="pre">input_db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/db_utilities.html#get_db"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.db_utilities.get_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to create a GaussianCalcDb instance from a file or a dict.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.db_utilities.get_db-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.db_utilities.get_db-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.db_utilities.get_db.input_db"><span class="sig-name descname">input_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.db_utilities.get_db.input_db" title="Permalink to this definition">¶</a></dt><dd><p>Path to db file or a dict containing db info.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.db_utilities.get_db-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.db_utilities.get_db-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>GaussianCalcDb.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.dbdoc"><span id="mispr-gaussian-utilities-dbdoc-module"></span>mispr.gaussian.utilities.dbdoc module<a class="headerlink" href="#module-mispr.gaussian.utilities.dbdoc" title="Permalink to this heading">¶</a></h2>
+<p>Define functions for cleaning up JSON documents.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.dbdoc.</span></span><span class="sig-name descname"><span class="pre">add_solvent_to_prop_dict</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.prop_dict" title="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.prop_dict (Python parameter) — Property dictionary."><span class="n"><span class="pre">prop_dict</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_gaussian_inputs" title="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model used in the Gaussian calculations, e.g. &quot;(Solvent=TetraHydroFuran)&quot;."><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_properties" title="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_properties (Python parameter) — Additional solvent input parameters used in the Gaussian calculations; e.g., {&quot;EPS&quot;:12}."><span class="n"><span class="pre">solvent_properties</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/dbdoc.html#add_solvent_to_prop_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add solvent properties to a property dictionary (e.g. BDE, BE, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.prop_dict"><span class="sig-name descname">prop_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.prop_dict" title="Permalink to this definition">¶</a></dt><dd><p>Property dictionary.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Gaussian input parameters corresponding to the
+implicit solvent model used in the Gaussian calculations, e.g.
+“(Solvent=TetraHydroFuran)”.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional solvent input parameters used in the
+Gaussian calculations; e.g., {“EPS”:12}.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Property dictionary with solvent properties added.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.files"><span id="mispr-gaussian-utilities-files-module"></span>mispr.gaussian.utilities.files module<a class="headerlink" href="#module-mispr.gaussian.utilities.files" title="Permalink to this heading">¶</a></h2>
+<p>Define utility functions for handling files and paths.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.files.bibtex_parser">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.files.</span></span><span class="sig-name descname"><span class="pre">bibtex_parser</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.files.bibtex_parser.bib_file" title="mispr.gaussian.utilities.files.bibtex_parser.bib_file (Python parameter) — Relative or absolute path to the bibtex file."><span class="n"><span class="pre">bib_file</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.files.bibtex_parser.working_dir" title="mispr.gaussian.utilities.files.bibtex_parser.working_dir (Python parameter) — Name of the working directory where the bibtex file is located if bib_file path is relative; else None."><span class="n"><span class="pre">working_dir</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/files.html#bibtex_parser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.files.bibtex_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a bibtex file and returns a dictionary of the entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.files.bibtex_parser-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.files.bibtex_parser-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.files.bibtex_parser.bib_file"><span class="sig-name descname">bib_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.files.bibtex_parser.bib_file" title="Permalink to this definition">¶</a></dt><dd><p>Relative or absolute path to the bibtex file.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.files.bibtex_parser.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.files.bibtex_parser.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Name of the working directory where the bibtex file is
+located if bib_file path is relative; else None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.files.bibtex_parser-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.files.bibtex_parser-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Dictionary of the entries in the bibtex file.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.files.bibtex_parser-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.files.bibtex_parser-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.files.</span></span><span class="sig-name descname"><span class="pre">recursive_relative_to_absolute_path</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.operand" title="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.operand (Python parameter) — File, list of files, or a dictionary where the values are the files; the file(s) path can be relative or absolute."><span class="n"><span class="pre">operand</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.working_dir" title="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.working_dir (Python parameter) — Name of the working directory where the file(s) is/are located if operand path is relative; else None."><span class="n"><span class="pre">working_dir</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/files.html#recursive_relative_to_absolute_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert recursively relative file paths to absolute file paths.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.operand"><span class="sig-name descname">operand</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, list, dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.operand" title="Permalink to this definition">¶</a></dt><dd><p>File, list of files, or a dictionary where the values
+are the files; the file(s) path can be relative or absolute.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Name of the working directory where the file(s) is/are
+located if operand path is relative; else None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>File, list of files, or dict where the values are the</dt><dd><p>absolute file paths.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>str or list or dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.fw_utilities"><span id="mispr-gaussian-utilities-fw-utilities-module"></span>mispr.gaussian.utilities.fw_utilities module<a class="headerlink" href="#module-mispr.gaussian.utilities.fw_utilities" title="Permalink to this heading">¶</a></h2>
+<p>Define utility functions for modifying workflow settings. Based on atomate powerups.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.fw_utilities.add_common_mods">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.fw_utilities.</span></span><span class="sig-name descname"><span class="pre">add_common_mods</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods.workflow" title="mispr.gaussian.utilities.fw_utilities.add_common_mods.workflow (Python parameter) — The workflow to modify."><span class="n"><span class="pre">workflow</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods.fw_mods" title="mispr.gaussian.utilities.fw_utilities.add_common_mods.fw_mods (Python parameter) — A dictionary of modifications to be applied to the workflow; supported ones are CONTROL_WORKER, MODIFY_QUEUE_PARAMETERS, REPLACE_RUNTASK, and RUN_FAKE_GAUSSIAN (see the docstring of each function for more details); values of the dictionary are the inputs to the corresponding function."><span class="n"><span class="pre">fw_mods</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/fw_utilities.html#add_common_mods"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper function to add common modifications to a workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.add_common_mods-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.fw_utilities.add_common_mods.workflow"><span class="sig-name descname">workflow</span><span class="p"> : </span><span class="desctype"><span class="desctype">Workflow</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods.workflow" title="Permalink to this definition">¶</a></dt><dd><p>The workflow to modify.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.add_common_mods.fw_mods"><span class="sig-name descname">fw_mods</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods.fw_mods" title="Permalink to this definition">¶</a></dt><dd><p>A dictionary of modifications to be applied to the
+workflow; supported ones are <code class="docutils literal notranslate"><span class="pre">CONTROL_WORKER</span></code>, <code class="docutils literal notranslate"><span class="pre">MODIFY_QUEUE_PARAMETERS</span></code>,
+<code class="docutils literal notranslate"><span class="pre">REPLACE_RUNTASK</span></code>, and <code class="docutils literal notranslate"><span class="pre">RUN_FAKE_GAUSSIAN</span></code> (see the docstring of each
+function for more details); values of the dictionary are the inputs to the
+corresponding function.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.fw_utilities.add_common_mods-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The modified workflow.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.add_common_mods-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.add_common_mods-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.fw_utilities.control_worker">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.fw_utilities.</span></span><span class="sig-name descname"><span class="pre">control_worker</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.control_worker.workflow" title="mispr.gaussian.utilities.fw_utilities.control_worker.workflow (Python parameter) — The workflow to control."><span class="n"><span class="pre">workflow</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.control_worker.firework_substring" title="mispr.gaussian.utilities.fw_utilities.control_worker.firework_substring (Python parameter) — A substring to search for in the Firework names to exclude certain fireworks."><span class="n"><span class="pre">firework_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.control_worker.task_substring" title="mispr.gaussian.utilities.fw_utilities.control_worker.task_substring (Python parameter) — A substring to search for in the Firetask names to exclude certain Firetasks."><span class="n"><span class="pre">task_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.control_worker.fworker" title="mispr.gaussian.utilities.fw_utilities.control_worker.fworker (Python parameter) — The name of the fworker to use for the Firework; should be consistent with the one specified in the FireWorker (my_fworker.yaml file)."><span class="n"><span class="pre">fworker</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.control_worker.category" title="mispr.gaussian.utilities.fw_utilities.control_worker.category (Python parameter) — The category to be assigned for the Firework; should be consistent with the one specified in the FireWorker (my_fworker.yaml file)."><span class="n"><span class="pre">category</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/fw_utilities.html#control_worker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the Firework’s fworker name and category in a workflow. Can be used when
+running workflows on multiple workers at the same time to specify which
+worker/machine to use.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.control_worker-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.fw_utilities.control_worker.workflow"><span class="sig-name descname">workflow</span><span class="p"> : </span><span class="desctype"><span class="desctype">Workflow</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker.workflow" title="Permalink to this definition">¶</a></dt><dd><p>The workflow to control.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.control_worker.firework_substring"><span class="sig-name descname">firework_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker.firework_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firework
+names to exclude certain fireworks.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.control_worker.task_substring"><span class="sig-name descname">task_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker.task_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firetask
+names to exclude certain Firetasks.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.control_worker.fworker"><span class="sig-name descname">fworker</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker.fworker" title="Permalink to this definition">¶</a></dt><dd><p>The name of the fworker to use for the Firework;
+should be consistent with the one specified in the FireWorker
+(my_fworker.yaml file).</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.control_worker.category"><span class="sig-name descname">category</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker.category" title="Permalink to this definition">¶</a></dt><dd><p>The category to be assigned for the Firework; should
+be consistent with the one specified in the FireWorker (my_fworker.yaml file).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.fw_utilities.control_worker-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The modified workflow with the specified fworker and/or category.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.control_worker-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.control_worker-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.fw_utilities.</span></span><span class="sig-name descname"><span class="pre">get_list_fireworks_and_tasks</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.workflow" title="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.workflow (Python parameter) — The workflow to search."><span class="n"><span class="pre">workflow</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.firework_substring" title="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.firework_substring (Python parameter) — A substring to search for in the Firework names to exclude certain fireworks."><span class="n"><span class="pre">firework_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.task_substring" title="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.task_substring (Python parameter) — A substring to search for in the Firetask names to exclude certain Firetasks."><span class="n"><span class="pre">task_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/fw_utilities.html#get_list_fireworks_and_tasks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of (firework_index, task_index) tuples for all fireworks and tasks in
+a workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.workflow"><span class="sig-name descname">workflow</span><span class="p"> : </span><span class="desctype"><span class="desctype">Workflow</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.workflow" title="Permalink to this definition">¶</a></dt><dd><p>The workflow to search.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.firework_substring"><span class="sig-name descname">firework_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.firework_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firework
+names to exclude certain fireworks.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.task_substring"><span class="sig-name descname">task_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks.task_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firetask
+names to exclude certain Firetasks.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A list of (firework_index, task_index) tuples.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.fw_utilities.</span></span><span class="sig-name descname"><span class="pre">modify_queue_parameters</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.workflow" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.workflow (Python parameter) — The workflow to modify."><span class="n"><span class="pre">workflow</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.ntasks_per_node" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.ntasks_per_node (Python parameter) — The number of tasks to run on each node."><span class="n"><span class="pre">ntasks_per_node</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.walltime" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.walltime (Python parameter) — The walltime for the job."><span class="n"><span class="pre">walltime</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.queue" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.queue (Python parameter) — The queue/partition to run the job on."><span class="n"><span class="pre">queue</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.pre_rocket" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.pre_rocket (Python parameter) — The pre-rocket command to run before the job."><span class="n"><span class="pre">pre_rocket</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.other_parameters" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.other_parameters (Python parameter) — Other parameters to be added to the queueadapter."><span class="n"><span class="pre">other_parameters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.firework_substring" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.firework_substring (Python parameter) — A substring to search for in the Firework names to exclude certain fireworks."><span class="n"><span class="pre">firework_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.task_substring" title="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.task_substring (Python parameter) — A substring to search for in the Firetask names to exclude certain Firetasks."><span class="n"><span class="pre">task_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/fw_utilities.html#modify_queue_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the default Firework’s queue parameters in a workflow. Default ones are
+specified in the my_qadapter.yaml file. Helpful when different workflows requires
+different computational resources (e.g. number of CPUs, memory, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.workflow"><span class="sig-name descname">workflow</span><span class="p"> : </span><span class="desctype"><span class="desctype">Workflow</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.workflow" title="Permalink to this definition">¶</a></dt><dd><p>The workflow to modify.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.ntasks_per_node"><span class="sig-name descname">ntasks_per_node</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.ntasks_per_node" title="Permalink to this definition">¶</a></dt><dd><p>The number of tasks to run on each node.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.walltime"><span class="sig-name descname">walltime</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.walltime" title="Permalink to this definition">¶</a></dt><dd><p>The walltime for the job.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.queue"><span class="sig-name descname">queue</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.queue" title="Permalink to this definition">¶</a></dt><dd><p>The queue/partition to run the job on.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.pre_rocket"><span class="sig-name descname">pre_rocket</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.pre_rocket" title="Permalink to this definition">¶</a></dt><dd><p>The pre-rocket command to run before the job.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.other_parameters"><span class="sig-name descname">other_parameters</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.other_parameters" title="Permalink to this definition">¶</a></dt><dd><p>Other parameters to be added to the
+queueadapter.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.firework_substring"><span class="sig-name descname">firework_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.firework_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firework
+names to exclude certain fireworks.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.task_substring"><span class="sig-name descname">task_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters.task_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firetask
+names to exclude certain Firetasks.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The modified workflow with the specified queue parameters.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.fw_utilities.replace_runtask">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.fw_utilities.</span></span><span class="sig-name descname"><span class="pre">replace_runtask</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.workflow" title="mispr.gaussian.utilities.fw_utilities.replace_runtask.workflow (Python parameter) — The workflow to modify."><span class="n"><span class="pre">workflow</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.firework_substring" title="mispr.gaussian.utilities.fw_utilities.replace_runtask.firework_substring (Python parameter) — A substring to search for in the Firework names to exclude certain fireworks."><span class="n"><span class="pre">firework_substring</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.operation" title="mispr.gaussian.utilities.fw_utilities.replace_runtask.operation (Python parameter) — The operation to perform on the Firetask; supported ones are remove_custodian and use_custodian."><span class="n"><span class="pre">operation</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;remove_custodian&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.additional_params" title="mispr.gaussian.utilities.fw_utilities.replace_runtask.additional_params (Python parameter) — Additional parameters to be added to the new Firetask that are not included in the original Firetask; refer to the corresponding Firetask documentation for supported parameters."><span class="n"><span class="pre">additional_params</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/fw_utilities.html#replace_runtask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace all tasks with <code class="docutils literal notranslate"><span class="pre">RunGaussian</span></code> (e.g. RunGaussianDirect) with
+RunGaussianCustodian or vice versa.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.replace_runtask-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.fw_utilities.replace_runtask.workflow"><span class="sig-name descname">workflow</span><span class="p"> : </span><span class="desctype"><span class="desctype">Workflow</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.workflow" title="Permalink to this definition">¶</a></dt><dd><p>The workflow to modify.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.replace_runtask.firework_substring"><span class="sig-name descname">firework_substring</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.firework_substring" title="Permalink to this definition">¶</a></dt><dd><p>A substring to search for in the Firework
+names to exclude certain fireworks.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.replace_runtask.operation"><span class="sig-name descname">operation</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.operation" title="Permalink to this definition">¶</a></dt><dd><p>The operation to perform on the Firetask; supported
+ones are <code class="docutils literal notranslate"><span class="pre">remove_custodian</span></code> and <code class="docutils literal notranslate"><span class="pre">use_custodian</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.replace_runtask.additional_params"><span class="sig-name descname">additional_params</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask.additional_params" title="Permalink to this definition">¶</a></dt><dd><p>Additional parameters to be added to the
+new Firetask that are not included in the original Firetask; refer to the
+corresponding Firetask documentation for supported parameters.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.fw_utilities.replace_runtask-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The workflow with the replaced run Firetasks.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.replace_runtask-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.replace_runtask-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.fw_utilities.</span></span><span class="sig-name descname"><span class="pre">run_fake_gaussian</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.workflow" title="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.workflow (Python parameter) — The workflow to modify."><span class="n"><span class="pre">workflow</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.ref_dirs" title="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.ref_dirs (Python parameter) — A list of directories containing the reference calculations for the fake Gaussian job (e.g. ['home/opt', 'home/freq'])."><span class="n"><span class="pre">ref_dirs</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.input_files" title="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.input_files (Python parameter) — A list of input files for the fake Gaussian job; order should match that in ref_dirs; e.g. [&quot;opt.com&quot;, &quot;freq.com&quot;]."><span class="n"><span class="pre">input_files</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.tolerance" title="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.tolerance (Python parameter) — The tolerance for the comparison of the provided input file with the existing one."><span class="n"><span class="pre">tolerance</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/fw_utilities.html#run_fake_gaussian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace all tasks with <code class="docutils literal notranslate"><span class="pre">RunGaussian</span></code> (i.e. RunGaussianDirect, RunGaussianCustodian)
+with RunGaussianFake that runs a fake Gaussian job. We do not actually run Gaussian
+but copy existing inputs and outputs. Useful for testing purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.workflow"><span class="sig-name descname">workflow</span><span class="p"> : </span><span class="desctype"><span class="desctype">Workflow</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.workflow" title="Permalink to this definition">¶</a></dt><dd><p>The workflow to modify.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.ref_dirs"><span class="sig-name descname">ref_dirs</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.ref_dirs" title="Permalink to this definition">¶</a></dt><dd><p>A list of directories containing the reference calculations
+for the fake Gaussian job (e.g. [‘home/opt’, ‘home/freq’]).</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.input_files"><span class="sig-name descname">input_files</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.input_files" title="Permalink to this definition">¶</a></dt><dd><p>A list of input files for the fake Gaussian job;
+order should match that in ref_dirs; e.g. [“opt.com”, “freq.com”].</p>
+</dd>
+<dt id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.tolerance"><span class="sig-name descname">tolerance</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian.tolerance" title="Permalink to this definition">¶</a></dt><dd><p>The tolerance for the comparison of the provided
+input file with the existing one.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The workflow with the replaced run Firetasks.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.gout"><span id="mispr-gaussian-utilities-gout-module"></span>mispr.gaussian.utilities.gout module<a class="headerlink" href="#module-mispr.gaussian.utilities.gout" title="Permalink to this heading">¶</a></h2>
+<p>Define functions for processing different gaussian output formats.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.gout.process_run">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.gout.</span></span><span class="sig-name descname"><span class="pre">process_run</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.gout.process_run.operation_type" title="mispr.gaussian.utilities.gout.process_run.operation_type (Python parameter) — Type of operation to be performed; supported ones are:"><span class="n"><span class="pre">operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.gout.process_run.run" title="mispr.gaussian.utilities.gout.process_run.run (Python parameter) — The actual Gaussian run; type depends on the operation_type."><span class="n"><span class="pre">run</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.gout.process_run.input_file" title="mispr.gaussian.utilities.gout.process_run.input_file (Python parameter) — The input file for the run; used for adding Gaussian input parameters to the final Gaussian dictionary; if not specified, will get these parameters from the run itself, but in this case, input_parameters usually specified at the end of the Gaussian input file will not be saved since they are not easily retrieved from the Gaussian output file."><span class="n"><span class="pre">input_file</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.utilities.gout.process_run.kwargs" title="mispr.gaussian.utilities.gout.process_run.kwargs (Python parameter) — Additional keyword arguments for the operation: namely, working_dir and db."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/gout.html#process_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process a Gaussian run and returns a dictionary of the results. Used for creating
+db documents and/or json files.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.gout.process_run-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.gout.process_run.operation_type"><span class="sig-name descname">operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run.operation_type" title="Permalink to this definition">¶</a></dt><dd><p><p>Type of operation to be performed; supported ones are:</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_gout</span></code>: Get data from a GaussianOutput object as defined in
+<code class="docutils literal notranslate"><span class="pre">pymatgen.io.gaussian</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_gout_file</span></code>: Get data from a Gaussian output file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_dict</span></code>: Get data from a Gaussian output dictionary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_id</span></code>: Retrieve data from dtabase using a run id,
+e.g. “5e3737d9da0b1cbbd5d556f7”.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_query</span></code>: Retrieve data from dtabase using query criteria,
+e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s2">&quot;smiles&quot;</span><span class="p">:</span> <span class="s2">&quot;COCCOC&quot;</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;freq&quot;</span><span class="p">,</span> <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+<span class="s2">&quot;basis&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31+G*&quot;</span><span class="p">,</span> <span class="s2">&quot;phase&quot;</span><span class="p">:</span> <span class="s2">&quot;gas&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+</ol>
+</p>
+</dd>
+<dt id="mispr.gaussian.utilities.gout.process_run.run"><span class="sig-name descname">run</span><span class="p"> : </span><span class="desctype"><span class="desctype">GaussianOutput, str, dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run.run" title="Permalink to this definition">¶</a></dt><dd><p>The actual Gaussian run; type depends on the
+<code class="docutils literal notranslate"><span class="pre">operation_type</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.gout.process_run.input_file"><span class="sig-name descname">input_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run.input_file" title="Permalink to this definition">¶</a></dt><dd><p>The input file for the run; used for adding Gaussian
+input parameters to the final Gaussian dictionary; if not specified, will
+get these parameters from the run itself, but in this case,
+<code class="docutils literal notranslate"><span class="pre">input_parameters</span></code> usually specified at the end of the Gaussian input file
+will not be saved since they are not easily retrieved from the Gaussian
+output file.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.gout.process_run.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional keyword arguments for the operation:
+namely, <code class="docutils literal notranslate"><span class="pre">working_dir</span></code> and <code class="docutils literal notranslate"><span class="pre">db</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.gout.process_run-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Cleaned up Gaussian output dictionary.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.gout.process_run-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.gout.process_run-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.inputs"><span id="mispr-gaussian-utilities-inputs-module"></span>mispr.gaussian.utilities.inputs module<a class="headerlink" href="#module-mispr.gaussian.utilities.inputs" title="Permalink to this heading">¶</a></h2>
+<p>Define functions for handling gaussian inputs.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.inputs.</span></span><span class="sig-name descname"><span class="pre">handle_gaussian_inputs</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs.gaussian_inputs" title="mispr.gaussian.utilities.inputs.handle_gaussian_inputs.gaussian_inputs (Python parameter) — Dictionary of dictionaries of Gaussian inputs, e.g."><span class="n"><span class="pre">gaussian_inputs</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_gaussian_inputs" title="mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_gaussian_inputs (Python parameter) — String of Gaussian inputs for the solvent, e.g."><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_properties" title="mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_properties (Python parameter) — Dictionary of solvent properties, e.g."><span class="n"><span class="pre">solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/inputs.html#handle_gaussian_inputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper function to cleanup/modify the Gaussian input parameters for one or more
+job in a workflow. Checks for implicit solvent parameters and adds missing keywords
+for a given job.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs.gaussian_inputs"><span class="sig-name descname">gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs.gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of dictionaries of Gaussian inputs, e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s2">&quot;opt&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">opt_gaussian_inputs</span><span class="p">},</span> <span class="s2">&quot;freq&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">freq_gaussian_inputs</span><span class="p">}}</span>
+</code></pre></div>
+</div>
+</p>
+</dd>
+<dt id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>String of Gaussian inputs for the
+solvent, e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=Generic, Read)&quot;</span>
+</code></pre></div>
+</div>
+</p>
+</dd>
+<dt id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of solvent properties, e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s2">&quot;Eps&quot;</span><span class="p">:</span> <span class="mf">4.33</span><span class="p">,</span> <span class="s2">&quot;EpsInf&quot;</span><span class="p">:</span> <span class="mf">1.69</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Dictionary of dictionaries of reformatted Gaussian inputs.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.inputs.handle_gaussian_inputs-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.inputs.handle_gaussian_inputs-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.metadata"><span id="mispr-gaussian-utilities-metadata-module"></span>mispr.gaussian.utilities.metadata module<a class="headerlink" href="#module-mispr.gaussian.utilities.metadata" title="Permalink to this heading">¶</a></h2>
+<p>Define functions for creating db schema.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.metadata.get_chem_schema">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.metadata.</span></span><span class="sig-name descname"><span class="pre">get_chem_schema</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.metadata.get_chem_schema.mol" title="mispr.gaussian.utilities.metadata.get_chem_schema.mol (Python parameter) — Molecule object."><span class="n"><span class="pre">mol</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/metadata.html#get_chem_schema"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_chem_schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary of chemical schema for a given molecule to use in building db
+documents or json file.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.metadata.get_chem_schema-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_chem_schema-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.metadata.get_chem_schema.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_chem_schema.mol" title="Permalink to this definition">¶</a></dt><dd><p>Molecule object.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.metadata.get_chem_schema-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_chem_schema-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Chemical schema.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.metadata.get_chem_schema-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_chem_schema-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.metadata.get_job_name">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.metadata.</span></span><span class="sig-name descname"><span class="pre">get_job_name</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.metadata.get_job_name.mol" title="mispr.gaussian.utilities.metadata.get_job_name.mol (Python parameter) — If a Molecule is provided, the appended label will be the molecular formula; otherwise the label will be the provided string."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.metadata.get_job_name.name" title="mispr.gaussian.utilities.metadata.get_job_name.name (Python parameter) — Original name of the workflow."><span class="n"><span class="pre">name</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/metadata.html#get_job_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_job_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a molecule label to the name of a workflow for easy monitoring and
+identification.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.metadata.get_job_name-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_job_name-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.metadata.get_job_name.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule or str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_job_name.mol" title="Permalink to this definition">¶</a></dt><dd><p>If a Molecule is provided, the appended label will be
+the molecular formula; otherwise the label will be the provided string.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.metadata.get_job_name.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_job_name.name" title="Permalink to this definition">¶</a></dt><dd><p>Original name of the workflow.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.metadata.get_job_name-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_job_name-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Job name with molecule label.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.metadata.get_job_name-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_job_name-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.metadata.get_mol_formula">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.metadata.</span></span><span class="sig-name descname"><span class="pre">get_mol_formula</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.metadata.get_mol_formula.mol" title="mispr.gaussian.utilities.metadata.get_mol_formula.mol (Python parameter) — Molecule object"><span class="n"><span class="pre">mol</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/metadata.html#get_mol_formula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_mol_formula" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the alphabetical molecular formula for a molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.metadata.get_mol_formula-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_mol_formula-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.metadata.get_mol_formula.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_mol_formula.mol" title="Permalink to this definition">¶</a></dt><dd><p>Molecule object</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.metadata.get_mol_formula-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_mol_formula-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Alphabetical molecular formula.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.metadata.get_mol_formula-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.metadata.get_mol_formula-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.misc"><span id="mispr-gaussian-utilities-misc-module"></span>mispr.gaussian.utilities.misc module<a class="headerlink" href="#module-mispr.gaussian.utilities.misc" title="Permalink to this heading">¶</a></h2>
+<p>Define miscellaneous functions useful in many of the mispr levels.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.misc.pass_gout_dict">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.misc.</span></span><span class="sig-name descname"><span class="pre">pass_gout_dict</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.pass_gout_dict.fw_spec" title="mispr.gaussian.utilities.misc.pass_gout_dict.fw_spec (Python parameter) — Firework spec dictionary."><span class="n"><span class="pre">fw_spec</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.pass_gout_dict.key" title="mispr.gaussian.utilities.misc.pass_gout_dict.key (Python parameter) — Unique key for the Gaussian output dictionary in fw_spec."><span class="n"><span class="pre">key</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/misc.html#pass_gout_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.misc.pass_gout_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function used in the Gaussian Fireworks to pass Gaussian output dictionaries
+from one task to the other, while checking that the criteria for starting the
+following task are met (e.g. normal termination of the previous job, lack of
+imaginary frequencies, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.misc.pass_gout_dict-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.pass_gout_dict-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.misc.pass_gout_dict.fw_spec"><span class="sig-name descname">fw_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.pass_gout_dict.fw_spec" title="Permalink to this definition">¶</a></dt><dd><p>Firework spec dictionary.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.misc.pass_gout_dict.key"><span class="sig-name descname">key</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.pass_gout_dict.key" title="Permalink to this definition">¶</a></dt><dd><p>Unique key for the Gaussian output dictionary in fw_spec.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.misc.pass_gout_dict-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.pass_gout_dict-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Gaussian output dictionary.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.misc.pass_gout_dict-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.pass_gout_dict-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.misc.recursive_compare_dicts">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.misc.</span></span><span class="sig-name descname"><span class="pre">recursive_compare_dicts</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1" title="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1 (Python parameter) — First dictionary to compare."><span class="n"><span class="pre">dict1</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2" title="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2 (Python parameter) — Second dictionary to compare."><span class="n"><span class="pre">dict2</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1_name" title="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1_name (Python parameter) — Name of the first dictionary (for messages on the differences)."><span class="n"><span class="pre">dict1_name</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2_name" title="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2_name (Python parameter) — Name of the second dictionary (for messages on the differences)."><span class="n"><span class="pre">dict2_name</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.path" title="mispr.gaussian.utilities.misc.recursive_compare_dicts.path (Python parameter) — Used internally to keep track of the keys in nested dicts, meant to be &quot;&quot; for the top level"><span class="n"><span class="pre">path</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;&#39;</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/misc.html#recursive_compare_dicts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare recursively two dictionaries and returns the differences.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.misc.recursive_compare_dicts-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1"><span class="sig-name descname">dict1</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1" title="Permalink to this definition">¶</a></dt><dd><p>First dictionary to compare.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2"><span class="sig-name descname">dict2</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2" title="Permalink to this definition">¶</a></dt><dd><p>Second dictionary to compare.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1_name"><span class="sig-name descname">dict1_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict1_name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the first dictionary (for messages on the differences).</p>
+</dd>
+<dt id="mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2_name"><span class="sig-name descname">dict2_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.dict2_name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the second dictionary (for messages on the differences).</p>
+</dd>
+<dt id="mispr.gaussian.utilities.misc.recursive_compare_dicts.path"><span class="sig-name descname">path</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts.path" title="Permalink to this definition">¶</a></dt><dd><p>Used internally to keep track of the keys in nested dicts,
+meant to be “” for the top level</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.misc.recursive_compare_dicts-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Differences between the two dictionaries (if any).</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.misc.recursive_compare_dicts-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_compare_dicts-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.misc.recursive_signature_remove">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.misc.</span></span><span class="sig-name descname"><span class="pre">recursive_signature_remove</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.misc.recursive_signature_remove.d" title="mispr.gaussian.utilities.misc.recursive_signature_remove.d (Python parameter) — Dictionary to remove the signature from."><span class="n"><span class="pre">d</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/misc.html#recursive_signature_remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_signature_remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove Recursively the signature “&#64;” from a dictionary (e.g. those in the name of
+a module). Used when processing Gaussian runs before saving them to the db.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.misc.recursive_signature_remove-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_signature_remove-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.misc.recursive_signature_remove.d"><span class="sig-name descname">d</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_signature_remove.d" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary to remove the signature from.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.misc.recursive_signature_remove-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_signature_remove-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Dictionary with the signature removed.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.misc.recursive_signature_remove-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.misc.recursive_signature_remove-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.mol"><span id="mispr-gaussian-utilities-mol-module"></span>mispr.gaussian.utilities.mol module<a class="headerlink" href="#module-mispr.gaussian.utilities.mol" title="Permalink to this heading">¶</a></h2>
+<p>Define functions for processing molecules.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.mol.get_bond_order_str">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.mol.</span></span><span class="sig-name descname"><span class="pre">get_bond_order_str</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.get_bond_order_str.mol" title="mispr.gaussian.utilities.mol.get_bond_order_str.mol (Python parameter) — pymatgen Molecule object."><span class="n"><span class="pre">mol</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/mol.html#get_bond_order_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.mol.get_bond_order_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find bond order as a string (“U”: unspecified, “S”, “D”: double, “T”: triple,
+“A”: aromatic) by iterating over bonds of a molecule. First convert pymatgen mol
+to openbabel mol to use openbabel in finding bond order.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.get_bond_order_str-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.get_bond_order_str-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.mol.get_bond_order_str.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.get_bond_order_str.mol" title="Permalink to this definition">¶</a></dt><dd><p>pymatgen Molecule object.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.mol.get_bond_order_str-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.get_bond_order_str-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Dictionary of bond orders with keys as tuples of atom indexes forming the</dt><dd><p>bond and values as bond order.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.get_bond_order_str-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.get_bond_order_str-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.mol.label_atoms">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.mol.</span></span><span class="sig-name descname"><span class="pre">label_atoms</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.label_atoms.mol" title="mispr.gaussian.utilities.mol.label_atoms.mol (Python parameter) — The molecule to be labeled."><span class="n"><span class="pre">mol</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/mol.html#label_atoms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.mol.label_atoms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the SMILES representation of a molecule and label the atoms that appear in the
+SMILES string with the atom indexes as they appear in the molecule.</p>
+<p>Helpful to know the atom indexes in the molecule without having to visualize it.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.label_atoms-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.label_atoms-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.mol.label_atoms.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.label_atoms.mol" title="Permalink to this definition">¶</a></dt><dd><p>The molecule to be labeled.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.mol.label_atoms-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.label_atoms-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>SMILES string followed by atom indexes.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.label_atoms-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.label_atoms-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.mol.perform_local_opt">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.mol.</span></span><span class="sig-name descname"><span class="pre">perform_local_opt</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.perform_local_opt.mol" title="mispr.gaussian.utilities.mol.perform_local_opt.mol (Python parameter) — The molecule to be optimized."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.perform_local_opt.force_field" title="mispr.gaussian.utilities.mol.perform_local_opt.force_field (Python parameter) — The force field to be used for the optimization; options include gaff, ghemical, mmff94, mmff94s, and uff; defaults to uff."><span class="n"><span class="pre">force_field</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;uff&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.perform_local_opt.steps" title="mispr.gaussian.utilities.mol.perform_local_opt.steps (Python parameter) — The number of steps to be performed in the local optimization; defaults to 200."><span class="n"><span class="pre">steps</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">200</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/mol.html#perform_local_opt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a local optimization on the molecule using OpenBabel.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.perform_local_opt-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.mol.perform_local_opt.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt.mol" title="Permalink to this definition">¶</a></dt><dd><p>The molecule to be optimized.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.mol.perform_local_opt.force_field"><span class="sig-name descname">force_field</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt.force_field" title="Permalink to this definition">¶</a></dt><dd><p>The force field to be used for the optimization;
+options include <code class="docutils literal notranslate"><span class="pre">gaff</span></code>, <code class="docutils literal notranslate"><span class="pre">ghemical</span></code>, <code class="docutils literal notranslate"><span class="pre">mmff94</span></code>, <code class="docutils literal notranslate"><span class="pre">mmff94s</span></code>, and <code class="docutils literal notranslate"><span class="pre">uff</span></code>;
+defaults to <code class="docutils literal notranslate"><span class="pre">uff</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.mol.perform_local_opt.steps"><span class="sig-name descname">steps</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt.steps" title="Permalink to this definition">¶</a></dt><dd><p>The number of steps to be performed in the local optimization;
+defaults to 200.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.mol.perform_local_opt-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>The optimized molecule.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.perform_local_opt-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.perform_local_opt-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Molecule</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.mol.process_mol">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.mol.</span></span><span class="sig-name descname"><span class="pre">process_mol</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.process_mol.operation_type" title="mispr.gaussian.utilities.mol.process_mol.operation_type (Python parameter) — Operation to perform for the molecule to process the input structure format. Supported commands:"><span class="n"><span class="pre">operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.process_mol.mol" title="mispr.gaussian.utilities.mol.process_mol.mol (Python parameter) — Sources of structure, e.g. file path if mol_operation_type is specified as get_from_file, InChI string if mol_operation_type is specified as get_from_mol_db, etc."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.mol.process_mol.local_opt" title="mispr.gaussian.utilities.mol.process_mol.local_opt (Python parameter) — Whether to perform local optimization on the input structure using OpenBabel; defaults to False."><span class="n"><span class="pre">local_opt</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.utilities.mol.process_mol.kwargs" title="mispr.gaussian.utilities.mol.process_mol.kwargs (Python parameter) — Keyword arguments:"><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/mol.html#process_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process a molecule. Used for handling different molecule formats provided to
+Gaussian workflows.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.process_mol-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.mol.process_mol.operation_type"><span class="sig-name descname">operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol.operation_type" title="Permalink to this definition">¶</a></dt><dd><p><p>Operation to perform for the molecule to process the input
+structure format. Supported commands:</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_mol</span></code>: If the input is a pymatgen Molecule object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_file</span></code>: If the input is any file format supported by Openabel
+and pymatgen.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_gout_file</span></code>: If the input is a Gaussian output file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_str</span></code>: If the input is a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_mol_db</span></code>: If the input is an InChI representation of the
+molecule to be used to query the database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_gout</span></code>: If the input is a pymatgen GaussianOutput object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_dict</span></code>: If the input is a GaussianOutput dictionary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_id</span></code>: If the input is a MongoDB document ID to be used
+to query the database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_query</span></code>: If the input is a dictionary with criteria to
+search the database: e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;inchi&#39;</span><span class="p">:</span> <span class="n">inchi</span><span class="p">,</span>
+ <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+ <span class="s1">&#39;functional&#39;</span><span class="p">:</span> <span class="n">func</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_pubchem</span></code>: If the input is a common name for the molecule
+to be used in searching the PubChem database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">derive_molecule</span></code>: Used for deriving a molecule by attaching a
+functional group at a site and the corresponding mol input should be a
+dictionary, e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;operation_type&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">mol_operation_type</span> <span class="k">for</span> <span class="n">the</span> <span class="n">base</span> <span class="n">structure</span><span class="o">&gt;</span><span class="p">,</span>
+ <span class="s1">&#39;mol&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">base_mol</span><span class="o">&gt;</span><span class="p">,</span>
+ <span class="s1">&#39;func_grp&#39;</span><span class="p">:</span> <span class="n">func_group_name</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">link_molecules</span></code>: Used for linking two structures by forming a bond
+at specific sites and the corresponding mol input should be a dictionary,
+e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;operation_type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;get_from_file&#39;</span><span class="p">,</span> <span class="s1">&#39;get_from_mol_db&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;mol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mol1.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;mol_inchi&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+ <span class="s1">&#39;bond_order&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+</ol>
+</p>
+</dd>
+<dt id="mispr.gaussian.utilities.mol.process_mol.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, str, GaussianOutput, dict</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol.mol" title="Permalink to this definition">¶</a></dt><dd><p>Sources of structure, e.g. file path
+if mol_operation_type is specified as <code class="docutils literal notranslate"><span class="pre">get_from_file</span></code>, InChI string if
+mol_operation_type is specified as <code class="docutils literal notranslate"><span class="pre">get_from_mol_db</span></code>, etc.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.mol.process_mol.local_opt"><span class="sig-name descname">local_opt</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol.local_opt" title="Permalink to this definition">¶</a></dt><dd><p>Whether to perform local optimization on the input
+structure using OpenBabel; defaults to False.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.mol.process_mol.kwargs"><span class="o">**</span><span class="n sig-name">kwargs</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol.kwargs" title="Permalink to this definition">¶</a></dt><dd><p><p>Keyword arguments:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">working_dir</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">db</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">str_type</span></code> (format of string if operation_type = <code class="docutils literal notranslate"><span class="pre">get_from_str</span></code>,
+e.g. <code class="docutils literal notranslate"><span class="pre">smi</span></code> or any other format supported by OpenBabel).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">force_field</span></code> (force field to use for local optimization if
+local_opt is True): <code class="docutils literal notranslate"><span class="pre">gaff</span></code>, <code class="docutils literal notranslate"><span class="pre">ghemical</span></code>, <code class="docutils literal notranslate"><span class="pre">mmff94</span></code>, <code class="docutils literal notranslate"><span class="pre">mmff94s</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">uff</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">steps</span></code> (number of steps for local optimization if local_opt is True).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">charge</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">abbreviation</span></code> (abbreviation to be used for the molecule when
+downloading it from the PubChem database; defaults to mol).</p></li>
+</ol>
+</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.mol.process_mol-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>pymatgen Molecule object.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.mol.process_mol-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.mol.process_mol-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Molecule</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities.rdkit"><span id="mispr-gaussian-utilities-rdkit-module"></span>mispr.gaussian.utilities.rdkit module<a class="headerlink" href="#module-mispr.gaussian.utilities.rdkit" title="Permalink to this heading">¶</a></h2>
+<p>Define functions for processing rdkit molecules.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.utilities.rdkit.calc_energy">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.rdkit.</span></span><span class="sig-name descname"><span class="pre">calc_energy</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.calc_energy.rdkit_mol" title="mispr.gaussian.utilities.rdkit.calc_energy.rdkit_mol (Python parameter) — RDKit Mol object."><span class="n"><span class="pre">rdkit_mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.calc_energy.maxIters" title="mispr.gaussian.utilities.rdkit.calc_energy.maxIters (Python parameter) — Maximum number of iterations to perform."><span class="n"><span class="pre">maxIters</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">200</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/rdkit.html#calc_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.calc_energy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform local optimization on rdkit Mol object and calculates its energy using UFF.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.rdkit.calc_energy-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.calc_energy-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.rdkit.calc_energy.rdkit_mol"><span class="sig-name descname">rdkit_mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Mol</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.calc_energy.rdkit_mol" title="Permalink to this definition">¶</a></dt><dd><p>RDKit Mol object.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.calc_energy.maxIters"><span class="sig-name descname">maxIters</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.calc_energy.maxIters" title="Permalink to this definition">¶</a></dt><dd><p>Maximum number of iterations to perform.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.rdkit.calc_energy-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.calc_energy-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Energy of the molecule.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.rdkit.calc_energy-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.calc_energy-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.rdkit.</span></span><span class="sig-name descname"><span class="pre">draw_rdkit_mol</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol.rdkit_mol" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol.rdkit_mol (Python parameter) — RDKit Mol object."><span class="n"><span class="pre">rdkit_mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol.filename" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol.filename (Python parameter) — Name of the file to save the image to; defaults to &quot;mol.png&quot;."><span class="n"><span class="pre">filename</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;mol.png&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol.working_dir" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol.working_dir (Python parameter) — Directory to save the image to; defaults to current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/rdkit.html#draw_rdkit_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the 2D structure of a molecule and saves it to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol.rdkit_mol"><span class="sig-name descname">rdkit_mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Mol</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol.rdkit_mol" title="Permalink to this definition">¶</a></dt><dd><p>RDKit Mol object.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol.filename"><span class="sig-name descname">filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol.filename" title="Permalink to this definition">¶</a></dt><dd><p>Name of the file to save the image to; defaults to
+“mol.png”.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Directory to save the image to; defaults to
+current working directory.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.rdkit.</span></span><span class="sig-name descname"><span class="pre">draw_rdkit_mol_with_highlighted_bonds</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.rdkit_mol" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.rdkit_mol (Python parameter) — RDKit Mol object."><span class="n"><span class="pre">rdkit_mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.bonds" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.bonds (Python parameter) — List of tuples of indexes of atoms forming a bond to highlight; e.g. [(3, 11), (5, 13)] to highlight the bonds between sites 3 and 11 and sites 5 and 13."><span class="n"><span class="pre">bonds</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.filename" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.filename (Python parameter) — Name of the file to save the image to; defaults to &quot;mol.png&quot;."><span class="n"><span class="pre">filename</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;mol.png&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.colors" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.colors (Python parameter) — List of colors to use for highlighting the bonds; colors should be provided in rgb format, e.g. (0.0, 0.0, 0.0) for black; if not provided or number of colors provided is less than number of bonds to highlight, will randomly generate colors."><span class="n"><span class="pre">colors</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.working_dir" title="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.working_dir (Python parameter) — Directory to save the image to; defaults to current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/rdkit.html#draw_rdkit_mol_with_highlighted_bonds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the 2D structure of a molecule and highlights the bonds specified by the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.rdkit_mol"><span class="sig-name descname">rdkit_mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Mol</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.rdkit_mol" title="Permalink to this definition">¶</a></dt><dd><p>RDKit Mol object.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.bonds"><span class="sig-name descname">bonds</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.bonds" title="Permalink to this definition">¶</a></dt><dd><p>List of tuples of indexes of atoms forming a bond to highlight;
+e.g. [(3, 11), (5, 13)] to highlight the bonds between sites 3 and 11 and
+sites 5 and 13.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.filename"><span class="sig-name descname">filename</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.filename" title="Permalink to this definition">¶</a></dt><dd><p>Name of the file to save the image to; defaults to
+“mol.png”.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.colors"><span class="sig-name descname">colors</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.colors" title="Permalink to this definition">¶</a></dt><dd><p>List of colors to use for highlighting the bonds;
+colors should be provided in rgb format, e.g. (0.0, 0.0, 0.0) for black;
+if not provided or number of colors provided is less than number of bonds to
+highlight, will randomly generate colors.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Directory to save the image to; defaults to
+current working directory.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.utilities.rdkit.get_rdkit_mol">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.utilities.rdkit.</span></span><span class="sig-name descname"><span class="pre">get_rdkit_mol</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol.mol" title="mispr.gaussian.utilities.rdkit.get_rdkit_mol.mol (Python parameter) — pymatgen Molecule object."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol.sanitize" title="mispr.gaussian.utilities.rdkit.get_rdkit_mol.sanitize (Python parameter) — Whether to sanitize the molecule."><span class="n"><span class="pre">sanitize</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol.remove_h" title="mispr.gaussian.utilities.rdkit.get_rdkit_mol.remove_h (Python parameter) — whether to remove hydrogens."><span class="n"><span class="pre">remove_h</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/utilities/rdkit.html#get_rdkit_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a pymatgen mol object to RDKit rdmol object. Uses RDKit to perform the
+conversion &lt;<a class="reference external" href="http://rdkit.org">http://rdkit.org</a>&gt;. Accounts for aromaticity.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.utilities.rdkit.get_rdkit_mol-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.utilities.rdkit.get_rdkit_mol.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol.mol" title="Permalink to this definition">¶</a></dt><dd><p>pymatgen Molecule object.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.get_rdkit_mol.sanitize"><span class="sig-name descname">sanitize</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol.sanitize" title="Permalink to this definition">¶</a></dt><dd><p>Whether to sanitize the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.utilities.rdkit.get_rdkit_mol.remove_h"><span class="sig-name descname">remove_h</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol.remove_h" title="Permalink to this definition">¶</a></dt><dd><p>whether to remove hydrogens.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.utilities.rdkit.get_rdkit_mol-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>RDKit Mol object.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.utilities.rdkit.get_rdkit_mol-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.utilities.rdkit.get_rdkit_mol-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Mol</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.utilities"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.gaussian.utilities" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="mispr.gaussian.fireworks.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: mispr.gaussian.fireworks package" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mispr.gaussian.fireworks package
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="mispr.gaussian.workflows.html" class="md-footer__link md-footer__link--next" aria-label="Next: mispr.gaussian.workflows package" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              mispr.gaussian.workflows package
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>

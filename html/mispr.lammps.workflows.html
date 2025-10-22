@@ -1,0 +1,1177 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.lammps.workflows package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.lammps.workflows package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.html"><span class="md-ellipsis">mispr</span></a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.common.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>common package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.hybrid.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>hybrid package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_4" type="checkbox" id="__nav_6_1_4" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.lammps.html"><span class="md-ellipsis">mispr.<wbr>lammps package</span></a>
+          
+            <label for="__nav_6_1_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.lammps package" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>lammps package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.firetasks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>firetasks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.fireworks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>fireworks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.tests.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>tests package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.utilities.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>utilities package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">mispr.<wbr>lammps.<wbr>workflows package</span>
+      </a>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-lammps-workflows-package">mispr.lammps.workflows package<a class="headerlink" href="#mispr-lammps-workflows-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.lammps.workflows.base"><span id="mispr-lammps-workflows-base-module"></span>mispr.lammps.workflows.base module<a class="headerlink" href="#module-mispr.lammps.workflows.base" title="Permalink to this heading">¶</a></h2>
+<p>Define standard lammps workflows.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.workflows.base.lammps_analysis_fws">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_analysis_fws</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_analysis_fws.analysis_list" title="mispr.lammps.workflows.base.lammps_analysis_fws.analysis_list (Python parameter) — List of analysis types to perform. Supported types are: 'diffusion', 'rdf', 'cn', and 'clusters'."><span class="n"><span class="pre">analysis_list</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_analysis_fws.analysis_settings" title="mispr.lammps.workflows.base.lammps_analysis_fws.analysis_settings (Python parameter) — List of dictionaries containing the settings for each analysis type."><span class="n"><span class="pre">analysis_settings</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_analysis_fws.working_dir" title="mispr.lammps.workflows.base.lammps_analysis_fws.working_dir (Python parameter) — Directory where the data files will be written."><span class="n"><span class="pre">working_dir</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_analysis_fws.kwargs" title="mispr.lammps.workflows.base.lammps_analysis_fws.kwargs (Python parameter) — Additional keyword arguments."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_analysis_fws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate FireWorks for running LAMMPS analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_analysis_fws-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.workflows.base.lammps_analysis_fws.analysis_list"><span class="sig-name descname">analysis_list</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws.analysis_list" title="Permalink to this definition">¶</a></dt><dd><p>List of analysis types to perform. Supported types are:
+‘diffusion’, ‘rdf’, ‘cn’, and ‘clusters’.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_analysis_fws.analysis_settings"><span class="sig-name descname">analysis_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws.analysis_settings" title="Permalink to this definition">¶</a></dt><dd><p>List of dictionaries containing the settings for each
+analysis type.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_analysis_fws.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Directory where the data files will be written.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_analysis_fws.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional keyword arguments.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.workflows.base.lammps_analysis_fws-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>fireworks (list): List of FireWorks objects for running LAMMPS analysis.</p></li>
+<li><p>links_dict (dict): Dictionary containing the links between the FireWorks.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_analysis_fws-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_analysis_fws-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.workflows.base.lammps_data_fws">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_data_fws</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.system_species_data" title="mispr.lammps.workflows.base.lammps_data_fws.system_species_data (Python parameter) — Dictionary containing species data. The keys are the species labels and the values are dictionaries containing the following keys:"><span class="n"><span class="pre">system_species_data</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.system_mixture_type" title="mispr.lammps.workflows.base.lammps_data_fws.system_mixture_type (Python parameter) — Type of mixture data. Must be &quot;concentration&quot; or &quot;number of molecules&quot;. See LammpsDataWrapper in pymatgen/io/lammps/data.py for more information."><span class="n"><span class="pre">system_mixture_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.box_data" title="mispr.lammps.workflows.base.lammps_data_fws.box_data (Python parameter) — Definitions for box size. See box_data_type for info how to define this parameter."><span class="n"><span class="pre">box_data</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.box_data_type" title="mispr.lammps.workflows.base.lammps_data_fws.box_data_type (Python parameter) — Determines the value of the box_data parameter. Can be one of the following: 'cubic', 'rectangular', or 'LammpsBox'. If 'cubic', box_data must be a float or int; if 'rectangular', box_data must be an array-like with size (3,2); if 'LammpsBox', box_data must be a LammpsBox object. Defaults to 'cubic'."><span class="n"><span class="pre">box_data_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;cubic&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.data_file_name" title="mispr.lammps.workflows.base.lammps_data_fws.data_file_name (Python parameter) — Name of the data file to be written. Defaults to &quot;complex.data&quot;."><span class="n"><span class="pre">data_file_name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;complex.data&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.working_dir" title="mispr.lammps.workflows.base.lammps_data_fws.working_dir (Python parameter) — Directory where the data files will be written. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.db" title="mispr.lammps.workflows.base.lammps_data_fws.db (Python parameter) — Database credentials. Could be a string with the path to the database file or a dictionary with the database credentials. If none is provided, attempts to read the configuration files. Only used when save_ff_to_db is True."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.tag" title="mispr.lammps.workflows.base.lammps_data_fws.tag (Python parameter) — Tag for the Fireworks. Defaults to &quot;unknown&quot;."><span class="n"><span class="pre">tag</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;unknown&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_data_fws.kwargs" title="mispr.lammps.workflows.base.lammps_data_fws.kwargs (Python parameter) — Additional keyword arguments."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_data_fws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate FireWorks for writing LAMMPS data files.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_data_fws-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.system_species_data"><span class="sig-name descname">system_species_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.system_species_data" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary containing species data. The keys are the
+species labels and the values are dictionaries containing the following keys:</p>
+<ul class="simple">
+<li><p>molecule (Molecule, GaussianOutput, str, dict): Source of the molecule to
+be processed. See <code class="docutils literal notranslate"><span class="pre">process_mol</span></code> in <code class="docutils literal notranslate"><span class="pre">mispr/gaussian/utilities/mol.py</span></code>
+for supported operations.</p></li>
+<li><p>molecule_operation_type (str): Type of molecule operation. Must match with
+<code class="docutils literal notranslate"><span class="pre">molecule</span></code> value.</p></li>
+<li><p>ff_param_method (str): Method for obtaining force field parameters. Must
+match with <code class="docutils literal notranslate"><span class="pre">ff_param_data</span></code> value. See available methods for <code class="docutils literal notranslate"><span class="pre">GetFFDictFw</span></code>
+in <code class="docutils literal notranslate"><span class="pre">mispr/lammps/fireworks/core.py</span></code>.</p></li>
+<li><p>ff_param_data (str or dict): Data regarding necessary information to obtain
+ff parameters. Must match with <code class="docutils literal notranslate"><span class="pre">ff_param_method</span></code> value.</p></li>
+<li><p>mol_mixture_type (str): Type of mixture data. Must be “Solutes” or “Solvents”.</p></li>
+<li><p>mixture_data (int or dict): Information regarding the number of molecules
+of this type in the system. Depends on the <code class="docutils literal notranslate"><span class="pre">system_mixture_type</span></code> parameter.</p></li>
+</ul>
+</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.system_mixture_type"><span class="sig-name descname">system_mixture_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.system_mixture_type" title="Permalink to this definition">¶</a></dt><dd><p>Type of mixture data. Must be “concentration” or
+“number of molecules”. See <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> in
+<code class="docutils literal notranslate"><span class="pre">pymatgen/io/lammps/data.py</span></code> for more information.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.box_data"><span class="sig-name descname">box_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, int, list (3,2), array (3,2), or LammpsBox</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.box_data" title="Permalink to this definition">¶</a></dt><dd><p>Definitions for
+box size. See <code class="docutils literal notranslate"><span class="pre">box_data_type</span></code> for info how to define this parameter.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.box_data_type"><span class="sig-name descname">box_data_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.box_data_type" title="Permalink to this definition">¶</a></dt><dd><p>Determines the value of the <code class="docutils literal notranslate"><span class="pre">box_data</span></code> parameter.
+Can be one of the following: ‘cubic’, ‘rectangular’, or ‘LammpsBox’. If
+‘cubic’, <code class="docutils literal notranslate"><span class="pre">box_data</span></code> must be a float or int; if ‘rectangular’, <code class="docutils literal notranslate"><span class="pre">box_data</span></code>
+must be an array-like with size (3,2); if ‘LammpsBox’, <code class="docutils literal notranslate"><span class="pre">box_data</span></code> must be
+a <code class="docutils literal notranslate"><span class="pre">LammpsBox</span></code> object. Defaults to ‘cubic’.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.data_file_name"><span class="sig-name descname">data_file_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.data_file_name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the data file to be written. Defaults to
+“complex.data”.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Directory where the data files will be written.
+Defaults to the current working directory.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials. Could be a string with the path
+to the database file or a dictionary with the database credentials. If none
+is provided, attempts to read the configuration files. Only used when
+<code class="docutils literal notranslate"><span class="pre">save_ff_to_db</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.tag"><span class="sig-name descname">tag</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.tag" title="Permalink to this definition">¶</a></dt><dd><p>Tag for the Fireworks. Defaults to “unknown”.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_data_fws.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional keyword arguments.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.workflows.base.lammps_data_fws-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>List of FireWorks for writing LAMMPS data files.</p>
+</dd>
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_data_fws-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_data_fws-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>fireworks (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.workflows.base.lammps_run_fws">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_run_fws</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.recipe" title="mispr.lammps.workflows.base.lammps_run_fws.recipe (Python parameter) — List of lists containing the name of the step and the template filename or string for the LAMMPS input file. Defaults to LAMMPS_RECIPE."><span class="n"><span class="pre">recipe</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">[[</span><span class="s1">&#39;emin&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;emin_gaff&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;npt&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;npt&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;melt&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;nvt&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;quench&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;nvt&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;nvt&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;nvt&#39;</span><span class="p">]]]</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.recipe_settings" title="mispr.lammps.workflows.base.lammps_run_fws.recipe_settings (Python parameter) — List of dictionaries containing the settings for each step in the recipe. Defaults to RECIPE_SETTINGS."><span class="n"><span class="pre">recipe_settings</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">[{</span><span class="s1">&#39;data_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../data.mixture&#39;</span><span class="p">,</span> <span class="s1">&#39;restart_finalname&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.emin&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../emin/restart.emin&#39;</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.npt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../npt/restart.npt&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_initial&#39;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;temperature_final&#39;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="mi">2000000</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.melt_500K&#39;</span><span class="p">,</span> <span class="s1">&#39;data_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;data.melt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../melt/restart.melt_500K&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_initial&#39;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;temperature_final&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="mi">3000000</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.quench_298K&#39;</span><span class="p">,</span> <span class="s1">&#39;data_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;data.quench_298K&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../quench/restart.quench_298K&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_initial&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;temperature_final&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.nvt_5ns&#39;</span><span class="p">,</span> <span class="s1">&#39;data_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;data.nvt_5ns&#39;</span><span class="p">}]</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.recipe_qadapter" title="mispr.lammps.workflows.base.lammps_run_fws.recipe_qadapter (Python parameter) — List of dictionaries containing the settings for the queue adapter for each step in the recipe. Defaults to QADAPTER_RUN_LAMMPS_SPEC."><span class="n"><span class="pre">recipe_qadapter</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">[{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;00:10:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;emin&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;08:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;npt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;08:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;melt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;12:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;quench&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;48:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;nvt&#39;</span><span class="p">}]</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.init_spec" title="mispr.lammps.workflows.base.lammps_run_fws.init_spec (Python parameter) — Initial spec for the FireWorks. Defaults to None."><span class="n"><span class="pre">init_spec</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.db" title="mispr.lammps.workflows.base.lammps_run_fws.db (Python parameter) — Database credentials. Could be a string with the path to the database file or a dictionary with the database credentials. If none is provided, attempts to read the configuration files. Only used when save_runs_to_db is True."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.working_dir" title="mispr.lammps.workflows.base.lammps_run_fws.working_dir (Python parameter) — Directory where the data files will be written. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_db" title="mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_db (Python parameter) — Whether to save the runs to the database. Defaults to True."><span class="n"><span class="pre">save_runs_to_db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_file" title="mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_file (Python parameter) — Whether to save the runs to a file. Defaults to False."><span class="n"><span class="pre">save_runs_to_file</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_run_fws.kwargs" title="mispr.lammps.workflows.base.lammps_run_fws.kwargs (Python parameter) — Additional keyword arguments."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_run_fws"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate FireWorks for running LAMMPS simulations.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_run_fws-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.recipe"><span class="sig-name descname">recipe</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.recipe" title="Permalink to this definition">¶</a></dt><dd><p>List of lists containing the name of the step and the
+template filename or string for the LAMMPS input file. Defaults to
+LAMMPS_RECIPE.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.recipe_settings"><span class="sig-name descname">recipe_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.recipe_settings" title="Permalink to this definition">¶</a></dt><dd><p>List of dictionaries containing the settings
+for each step in the recipe. Defaults to RECIPE_SETTINGS.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.recipe_qadapter"><span class="sig-name descname">recipe_qadapter</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.recipe_qadapter" title="Permalink to this definition">¶</a></dt><dd><p>List of dictionaries containing the settings
+for the queue adapter for each step in the recipe. Defaults to
+QADAPTER_RUN_LAMMPS_SPEC.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.init_spec"><span class="sig-name descname">init_spec</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.init_spec" title="Permalink to this definition">¶</a></dt><dd><p>Initial spec for the FireWorks. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials. Could be a string with the path
+to the database file or a dictionary with the database credentials. If none
+is provided, attempts to read the configuration files. Only used when
+<code class="docutils literal notranslate"><span class="pre">save_runs_to_db</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Directory where the data files will be written.
+Defaults to the current working directory.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_db"><span class="sig-name descname">save_runs_to_db</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_db" title="Permalink to this definition">¶</a></dt><dd><p>Whether to save the runs to the database.
+Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_file"><span class="sig-name descname">save_runs_to_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.save_runs_to_file" title="Permalink to this definition">¶</a></dt><dd><p>Whether to save the runs to a file. Defaults
+to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_run_fws.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional keyword arguments.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.workflows.base.lammps_run_fws-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>List of FireWorks for running LAMMPS simulations.</p>
+</dd>
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_run_fws-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_run_fws-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>fireworks (list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.lammps.workflows.base.lammps_workflow">
+<span class="sig-prename descclassname"><span class="pre">mispr.lammps.workflows.base.</span></span><span class="sig-name descname"><span class="pre">lammps_workflow</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.system_species_data" title="mispr.lammps.workflows.base.lammps_workflow.system_species_data (Python parameter) — Dictionary containing species data. Refer to the lammps_data_fws function for more information. Defaults to None. If not provided, the workflow will not create any FireWorks for writing LAMMPS data files."><span class="n"><span class="pre">system_species_data</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.system_mixture_type" title="mispr.lammps.workflows.base.lammps_workflow.system_mixture_type (Python parameter) — Type of mixture data. Must be &quot;concentration&quot; or &quot;number of molecules&quot;. See LammpsDataWrapper in pymatgen/io/lammps/data.py for more information. Defaults to None. If not provided, the workflow will not create any FireWorks for writing LAMMPS data files."><span class="n"><span class="pre">system_mixture_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.box_data" title="mispr.lammps.workflows.base.lammps_workflow.box_data (Python parameter) — Definitions for box size. See lammps_data_fws for info on how to define this parameter. Defaults to None. If not provided, the workflow will not create any FireWorks for writing LAMMPS data files."><span class="n"><span class="pre">box_data</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.box_data_type" title="mispr.lammps.workflows.base.lammps_workflow.box_data_type (Python parameter) — Determines the value of the box_data parameter. Defaults to 'cubic'."><span class="n"><span class="pre">box_data_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;cubic&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.data_file_name" title="mispr.lammps.workflows.base.lammps_workflow.data_file_name (Python parameter) — Name of the data file to be written. Defaults to 'data.mixture'."><span class="n"><span class="pre">data_file_name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;data.mixture&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.recipe" title="mispr.lammps.workflows.base.lammps_workflow.recipe (Python parameter) — List of lists containing the name of the step and the template filename or string for the LAMMPS input file. Defaults to LAMMPS_RECIPE."><span class="n"><span class="pre">recipe</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">[[</span><span class="s1">&#39;emin&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;emin_gaff&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;npt&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;npt&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;melt&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;nvt&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;quench&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;nvt&#39;</span><span class="p">]],</span> <span class="p">[</span><span class="s1">&#39;nvt&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;template_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;nvt&#39;</span><span class="p">]]]</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.recipe_settings" title="mispr.lammps.workflows.base.lammps_workflow.recipe_settings (Python parameter) — List of dictionaries containing the settings for each step in the recipe. Defaults to RECIPE_SETTINGS."><span class="n"><span class="pre">recipe_settings</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">[{</span><span class="s1">&#39;data_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../data.mixture&#39;</span><span class="p">,</span> <span class="s1">&#39;restart_finalname&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.emin&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../emin/restart.emin&#39;</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.npt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../npt/restart.npt&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_initial&#39;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;temperature_final&#39;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="mi">2000000</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.melt_500K&#39;</span><span class="p">,</span> <span class="s1">&#39;data_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;data.melt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../melt/restart.melt_500K&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_initial&#39;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span> <span class="s1">&#39;temperature_final&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="mi">3000000</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.quench_298K&#39;</span><span class="p">,</span> <span class="s1">&#39;data_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;data.quench_298K&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;restart_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;../quench/restart.quench_298K&#39;</span><span class="p">,</span> <span class="s1">&#39;temperature_initial&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;temperature_final&#39;</span><span class="p">:</span> <span class="mf">298.15</span><span class="p">,</span> <span class="s1">&#39;run&#39;</span><span class="p">:</span> <span class="mi">5000000</span><span class="p">,</span> <span class="s1">&#39;restart_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;restart.nvt_5ns&#39;</span><span class="p">,</span> <span class="s1">&#39;data_final_filename&#39;</span><span class="p">:</span> <span class="s1">&#39;data.nvt_5ns&#39;</span><span class="p">}]</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.recipe_qadapter" title="mispr.lammps.workflows.base.lammps_workflow.recipe_qadapter (Python parameter) — List of dictionaries containing the settings for the queue adapter for each step in the recipe. Defaults to QADAPTER_RUN_LAMMPS_SPEC."><span class="n"><span class="pre">recipe_qadapter</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="p">[{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;00:10:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;emin&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;08:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;npt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;08:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;melt&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;12:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;quench&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;walltime&#39;</span><span class="p">:</span> <span class="s1">&#39;48:00:00&#39;</span><span class="p">,</span> <span class="s1">&#39;job_name&#39;</span><span class="p">:</span> <span class="s1">&#39;nvt&#39;</span><span class="p">}]</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.db" title="mispr.lammps.workflows.base.lammps_workflow.db (Python parameter) — Database credentials. Could be a string with the path to the database file or a dictionary with the database credentials. If none is provided, attempts to read the configuration files. Only used when save_runs_to_db is True. Defaults to None."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.working_dir" title="mispr.lammps.workflows.base.lammps_workflow.working_dir (Python parameter) — Directory where the data files will be written. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.analysis_list" title="mispr.lammps.workflows.base.lammps_workflow.analysis_list (Python parameter) — List of analysis types to perform. Supported types are: 'diffusion', 'rdf', 'cn', and 'clusters'. Defaults to None. If not provided, the workflow will not create any FireWorks for running LAMMPS analysis."><span class="n"><span class="pre">analysis_list</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.analysis_settings" title="mispr.lammps.workflows.base.lammps_workflow.analysis_settings (Python parameter) — List of dictionaries containing the settings for each analysis type. Defaults to None. If not provided, the workflow will not create any FireWorks for running LAMMPS analysis."><span class="n"><span class="pre">analysis_settings</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.name" title="mispr.lammps.workflows.base.lammps_workflow.name (Python parameter) — Name of the workflow. Defaults to 'lammps_workflow'."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;lammps_workflow&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.lammps.workflows.base.lammps_workflow.kwargs" title="mispr.lammps.workflows.base.lammps_workflow.kwargs (Python parameter) — Additional keyword arguments."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/lammps/workflows/base.html#lammps_workflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a LAMMPS workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.lammps.workflows.base.lammps_workflow-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.lammps.workflows.base.lammps_workflow.system_species_data"><span class="sig-name descname">system_species_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.system_species_data" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary containing species data. Refer
+to the <code class="docutils literal notranslate"><span class="pre">lammps_data_fws</span></code> function for more information. Defaults to
+<code class="docutils literal notranslate"><span class="pre">None</span></code>. If not provided, the workflow will not create any FireWorks for
+writing LAMMPS data files.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.system_mixture_type"><span class="sig-name descname">system_mixture_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.system_mixture_type" title="Permalink to this definition">¶</a></dt><dd><p>Type of mixture data. Must be “concentration” or
+“number of molecules”. See <code class="docutils literal notranslate"><span class="pre">LammpsDataWrapper</span></code> in
+<code class="docutils literal notranslate"><span class="pre">pymatgen/io/lammps/data.py</span></code> for more information. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+If not provided, the workflow will not create any FireWorks for writing
+LAMMPS data files.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.box_data"><span class="sig-name descname">box_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, int, list (3,2), array (3,2), or LammpsBox</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.box_data" title="Permalink to this definition">¶</a></dt><dd><p>Definitions for
+box size. See <code class="docutils literal notranslate"><span class="pre">lammps_data_fws</span></code> for info on how to define this parameter.
+Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>. If not provided, the workflow will not create any
+FireWorks for writing LAMMPS data files.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.box_data_type"><span class="sig-name descname">box_data_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.box_data_type" title="Permalink to this definition">¶</a></dt><dd><p>Determines the value of the <code class="docutils literal notranslate"><span class="pre">box_data</span></code>
+parameter. Defaults to ‘cubic’.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.data_file_name"><span class="sig-name descname">data_file_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.data_file_name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the data file to be written. Defaults
+to ‘data.mixture’.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.recipe"><span class="sig-name descname">recipe</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.recipe" title="Permalink to this definition">¶</a></dt><dd><p>List of lists containing the name of the step and the
+template filename or string for the LAMMPS input file. Defaults to
+LAMMPS_RECIPE.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.recipe_settings"><span class="sig-name descname">recipe_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.recipe_settings" title="Permalink to this definition">¶</a></dt><dd><p>List of dictionaries containing the settings
+for each step in the recipe. Defaults to RECIPE_SETTINGS.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.recipe_qadapter"><span class="sig-name descname">recipe_qadapter</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.recipe_qadapter" title="Permalink to this definition">¶</a></dt><dd><p>List of dictionaries containing the settings
+for the queue adapter for each step in the recipe. Defaults to
+QADAPTER_RUN_LAMMPS_SPEC.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials. Could be a string with the
+path to the database file or a dictionary with the database credentials.
+If none is provided, attempts to read the configuration files. Only used when
+<code class="docutils literal notranslate"><span class="pre">save_runs_to_db</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Directory where the data files will be written.
+Defaults to the current working directory.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.analysis_list"><span class="sig-name descname">analysis_list</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.analysis_list" title="Permalink to this definition">¶</a></dt><dd><p>List of analysis types to perform. Supported
+types are: ‘diffusion’, ‘rdf’, ‘cn’, and ‘clusters’. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+If not provided, the workflow will not create any FireWorks for running
+LAMMPS analysis.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.analysis_settings"><span class="sig-name descname">analysis_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.analysis_settings" title="Permalink to this definition">¶</a></dt><dd><p>List of dictionaries containing the settings
+for each analysis type. Defaults to <code class="docutils literal notranslate"><span class="pre">None</span></code>. If not provided, the workflow
+will not create any FireWorks for running LAMMPS analysis.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the workflow. Defaults to ‘lammps_workflow’.</p>
+</dd>
+<dt id="mispr.lammps.workflows.base.lammps_workflow.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional keyword arguments.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.lammps.workflows.base.lammps_workflow-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.lammps.workflows.base.lammps_workflow-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.lammps.workflows"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.lammps.workflows" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="mispr.lammps.utilities.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: mispr.lammps.utilities package" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mispr.lammps.utilities package
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="changelog.html" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Changelog
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>

@@ -1,0 +1,1696 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.gaussian.workflows.base package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.gaussian.workflows.base package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.html"><span class="md-ellipsis">mispr</span></a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.common.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>common package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_2" type="checkbox" id="__nav_6_1_2" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.gaussian.html"><span class="md-ellipsis">mispr.<wbr>gaussian package</span></a>
+          
+            <label for="__nav_6_1_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.gaussian package" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.firetasks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>firetasks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.fireworks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>fireworks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.utilities.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>utilities package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_2_4" type="checkbox" id="__nav_6_1_2_4" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.gaussian.workflows.html"><span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>workflows package</span></a>
+          
+            <label for="__nav_6_1_2_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.gaussian.workflows package" data-md-level="4">
+        <label class="md-nav__title" for="__nav_6_1_2_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>workflows package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>workflows.<wbr>base package</span>
+      </a>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.hybrid.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>hybrid package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-gaussian-workflows-base-package">mispr.gaussian.workflows.base package<a class="headerlink" href="#mispr-gaussian-workflows-base-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.gaussian.workflows.base.bde"><span id="mispr-gaussian-workflows-base-bde-module"></span>mispr.gaussian.workflows.base.bde module<a class="headerlink" href="#module-mispr.gaussian.workflows.base.bde" title="Permalink to this heading">¶</a></h2>
+<p>Define the bond dissociation energy workflow.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.bde.get_bde">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.bde.</span></span><span class="sig-name descname"><span class="pre">get_bde</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.mol_operation_type" title="mispr.gaussian.workflows.base.bde.get_bde.mol_operation_type (Python parameter) — The type of molecule operation. See process_mol defined in mispr/gaussian/utilities/mol.py for supported operations."><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.mol" title="mispr.gaussian.workflows.base.bde.get_bde.mol (Python parameter) — Source of the molecule to be processed. Should match the mol_operation_type."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.ref_charge" title="mispr.gaussian.workflows.base.bde.get_bde.ref_charge (Python parameter) — Charge on the principle molecule. Defaults to 0."><span class="n"><span class="pre">ref_charge</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">0</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.fragment_charges" title="mispr.gaussian.workflows.base.bde.get_bde.fragment_charges (Python parameter) — List of additional charges to consider on the fragments besides the default ones. If ref_charge is -2, by default all fragments will be calculated with a charge of 0, -1, and -2. If the user provides fragment_charges is [-3], -3 and 1 will be additionally calculated. If the user provides fragment_charges is [-2], this will not cause any change since they are already calculated by the workflow. Defaults to None."><span class="n"><span class="pre">fragment_charges</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.bonds" title="mispr.gaussian.workflows.base.bde.get_bde.bonds (Python parameter) — List of tuples of the bonds to break; e.g. [(0, 1), (1, 2)] will break the bonds between atoms 0 and 1 and between atoms 1 and 2; if none is specified, will attempt to break all bonds. Defaults to None."><span class="n"><span class="pre">bonds</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.open_rings" title="mispr.gaussian.workflows.base.bde.get_bde.open_rings (Python parameter) — If True, will open rings encountered during fragmentation using OpenBabel's local opt. Defaults to False."><span class="n"><span class="pre">open_rings</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.db" title="mispr.gaussian.workflows.base.bde.get_bde.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if none is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.name" title="mispr.gaussian.workflows.base.bde.get_bde.name (Python parameter) — Name of the workflow. Defaults to &quot;bde_calculation&quot;."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;bde_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.working_dir" title="mispr.gaussian.workflows.base.bde.get_bde.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.opt_gaussian_inputs" title="mispr.gaussian.workflows.base.bde.get_bde.opt_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step; e.g.:"><span class="n"><span class="pre">opt_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.freq_gaussian_inputs" title="mispr.gaussian.workflows.base.bde.get_bde.freq_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step; default parameters will be used if not specified."><span class="n"><span class="pre">freq_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.solvent_gaussian_inputs" title="mispr.gaussian.workflows.base.bde.get_bde.solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the ESP calculations, if any; e.g.:"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.solvent_properties" title="mispr.gaussian.workflows.base.bde.get_bde.solvent_properties (Python parameter) — Additional input parameters to be used in the ESP calculations and relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}. Defaults to None."><span class="n"><span class="pre">solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.cart_coords" title="mispr.gaussian.workflows.base.bde.get_bde.cart_coords (Python parameter) — Uses cartesian coordinates in writing Gaussian input files if set to True,otherwise uses z-matrix. Defaults to True."><span class="n"><span class="pre">cart_coords</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.oxidation_states" title="mispr.gaussian.workflows.base.bde.get_bde.oxidation_states (Python parameter) — Dictionary of oxidation states that can be used in setting the charge and spin multiplicity of the molecule; e.g.: {&quot;Li&quot;:1, &quot;O&quot;:-2}. Defaults to None."><span class="n"><span class="pre">oxidation_states</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.skips" title="mispr.gaussian.workflows.base.bde.get_bde.skips (Python parameter) — List of jobs to skip; e.g.: [&quot;opt&quot;, &quot;freq&quot;]; only applicable to the principle molecule. Defaults to None."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.visualize" title="mispr.gaussian.workflows.base.bde.get_bde.visualize (Python parameter) — If True, will generate a summary plot of the 2D structure of the principle molecule with broken bonds highlighted in color, along with a bar plot of the corresponding BDEs; requires RDKit to be installed for bond highlighting; if RDKit is not found, will throw a warning and proceed normally."><span class="n"><span class="pre">visualize</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.workflows.base.bde.get_bde.kwargs" title="mispr.gaussian.workflows.base.bde.get_bde.kwargs (Python parameter) — Additional kwargs to be passed to the workflow."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/bde.html#get_bde"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a dynamic workflow for calculating the bond dissociation energy.</p>
+<ul class="simple">
+<li><p><strong>Firework 1</strong>: Optimize the principle molecule.</p></li>
+<li><p><strong>Firework 2</strong>: Run a frequency analysis.</p></li>
+<li><p><strong>Firework 3</strong>: Break the bonds in the molecule, find all unique fragments, and
+generate new optimization and frequency fireworks for each fragment.</p></li>
+<li><p><strong>Firework N</strong>: Run a BDE calculation for each fragment and create a summary BDE
+document/json file.</p></li>
+</ul>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Fireworks 1 and 2 are only present if user does not request to skip them.</p>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Charges on the fragments in this workflow are assigned as (following the method
+in the BDE analysis module in pymatgen):</p>
+<ol class="arabic simple">
+<li><p><strong>Neutral molecule</strong>: [(0, 0), (1, -1), (-1, 1)]</p></li>
+<li><p><strong>Molecule with charge -N</strong>: [(-N, 0), (-N+1, -N+2), (-N+2, -N+1), (0, -N)]</p></li>
+<li><p><strong>Molecule with charge +N</strong>: [(N, 0), (N-1, N-2), (N-2, N-1), (0, N)]</p></li>
+</ol>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>If multiple bonds are being broken but one fragment results in an error,
+the workflow will proceed normally and the final document will include all bonds
+except for the one involving the failed fragment.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.bde.get_bde-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>The type of molecule operation. See <code class="docutils literal notranslate"><span class="pre">process_mol</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">mispr/gaussian/utilities/mol.py</span></code> for supported operations.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, GaussianOutput, str, dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.mol" title="Permalink to this definition">¶</a></dt><dd><p>Source of the molecule to be
+processed. Should match the <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.ref_charge"><span class="sig-name descname">ref_charge</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.ref_charge" title="Permalink to this definition">¶</a></dt><dd><p>Charge on the principle molecule. Defaults to 0.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.fragment_charges"><span class="sig-name descname">fragment_charges</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.fragment_charges" title="Permalink to this definition">¶</a></dt><dd><p>List of additional charges to consider on
+the fragments besides the default ones. If <code class="docutils literal notranslate"><span class="pre">ref_charge</span></code> is -2, by default
+all fragments will be calculated with a charge of 0, -1, and -2. If the
+user provides <code class="docutils literal notranslate"><span class="pre">fragment_charges</span></code> is [-3], -3 and 1 will be additionally
+calculated. If the user provides <code class="docutils literal notranslate"><span class="pre">fragment_charges</span></code> is [-2], this will not
+cause any change since they are already calculated by the workflow.
+Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.bonds"><span class="sig-name descname">bonds</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.bonds" title="Permalink to this definition">¶</a></dt><dd><p>List of tuples of the bonds to break; e.g.
+[(0, 1), (1, 2)] will break the bonds between atoms 0 and 1
+and between atoms 1 and 2; if none is specified, will attempt to break all
+bonds. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.open_rings"><span class="sig-name descname">open_rings</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.open_rings" title="Permalink to this definition">¶</a></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will open rings encountered during
+fragmentation using OpenBabel’s local opt. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if none is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the workflow. Defaults to “bde_calculation”.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required
+input files can be found and output will be created. Defaults to the current
+working directory.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.opt_gaussian_inputs"><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.opt_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of Gaussian input parameters
+for the optimization step; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basis_set&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G(d)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="s2">&quot;link0_parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">hk&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint.chk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%mem&quot;</span><span class="p">:</span> <span class="s2">&quot;45GB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%NProcShared&quot;</span><span class="p">:</span> <span class="s2">&quot;24&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>The above default parameters will be used if not specified.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.freq_gaussian_inputs"><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.freq_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the frequency step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters corresponding
+to the implicit solvent model to be used in the ESP calculations, if any;
+e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_gaussian_inputs</span></code>). Defaults to None.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used in
+the ESP calculations and relevant to the solvent model, if any; e.g.,
+{“EPS”:12}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Uses cartesian coordinates in writing Gaussian
+input files if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>,otherwise uses z-matrix. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.oxidation_states"><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.oxidation_states" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of oxidation states that can be
+used in setting the charge and spin multiplicity of the molecule; e.g.:
+{“Li”:1, “O”:-2}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.skips" title="Permalink to this definition">¶</a></dt><dd><p>List of jobs to skip; e.g.: [“opt”, “freq”]; only
+applicable to the principle molecule. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.visualize"><span class="sig-name descname">visualize</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.visualize" title="Permalink to this definition">¶</a></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, will generate a summary plot of the
+2D structure of the principle molecule with broken bonds highlighted in
+color, along with a bar plot of the corresponding BDEs; requires RDKit to
+be installed for bond highlighting; if RDKit is not found, will throw a
+warning and proceed normally.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.bde.get_bde.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the workflow.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.workflows.base.bde.get_bde-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.bde.get_bde-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.workflows.base.binding_energy"><span id="mispr-gaussian-workflows-base-binding-energy-module"></span>mispr.gaussian.workflows.base.binding_energy module<a class="headerlink" href="#module-mispr.gaussian.workflows.base.binding_energy" title="Permalink to this heading">¶</a></h2>
+<p>Define the binding energy workflow.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.binding_energy.</span></span><span class="sig-name descname"><span class="pre">get_binding_energies</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol_operation_type" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol_operation_type (Python parameter) — List of strings of the type of molecule operations. See process_mol defined in Defines the binding energy workflow.mispr/gaussian/utilities/mol.py for supported operations; e.g. [&quot;get_from_mol&quot;, &quot;get_from_file&quot;] to get the first molecule from a Molecule object and the second molecule from a file."><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol (Python parameter) — List of the source of the two molecules to be processed. Should match the order in mol_operation_type; e.g. if mol_operation_type is [&quot;get_from_mol&quot;, &quot;get_from_file&quot;], mol should be [Molecule, path to molecule file]."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.index" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.index (Python parameter) — List of indices of the two sites in the molecules at which they are expected to bind; order should match that in mol_operation_type and mol."><span class="n"><span class="pre">index</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.bond_order" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.bond_order (Python parameter) — Bond order to calculate the bond length between the two sites. Defaults to 1."><span class="n"><span class="pre">bond_order</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">1</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.db" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if none is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.name" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.name (Python parameter) — name of the workflow; defaults to &quot;binding_energy_calculation&quot;."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;binding_energy_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.working_dir" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.opt_gaussian_inputs" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.opt_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step; e.g.:"><span class="n"><span class="pre">opt_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.freq_gaussian_inputs" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.freq_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step; default parameters will be used if not specified."><span class="n"><span class="pre">freq_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_gaussian_inputs" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the ESP calculations, if any; e.g.:"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_properties" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_properties (Python parameter) — Additional input parameters to be used in the ESP calculations and relevant to the solvent model, if any; for example, {&quot;EPS&quot;:12}. Defaults to None."><span class="n"><span class="pre">solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.cart_coords" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.cart_coords (Python parameter) — Uses cartesian coordinates in writing Gaussian input files if set to True, otherwise uses z-matrix. Defaults to True."><span class="n"><span class="pre">cart_coords</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.oxidation_states" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.oxidation_states (Python parameter) — Dictionary of oxidation states that can be used in setting the charge and spin multiplicity of the molecule; for example: {&quot;Li&quot;:1, &quot;O&quot;:-2}. Defaults to None."><span class="n"><span class="pre">oxidation_states</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.skips" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.skips (Python parameter) — List of lists of jobs to skip for each molecule; e.g.: [[&quot;opt&quot;, &quot;freq&quot;], [&quot;opt&quot;]]; order should be consistent with that in mol_operation_type and mol. Defaults to None."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.kwargs" title="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.kwargs (Python parameter) — Additional kwargs to be passed to the workflow."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/binding_energy.html#get_binding_energies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a workflow for calculating the binding energy between two molecules.</p>
+<ul class="simple">
+<li><p><strong>Fireworks 1 &amp; 2</strong>: Optimize the two molecules in parallel.</p></li>
+<li><p><strong>Firework 3 &amp; 4</strong>: Run a frequency calculation on each molecule.</p></li>
+<li><p><strong>Firework 5</strong>: Link the two optimized molecules at a binding site and optimize
+the geometry of the generated complex.</p></li>
+<li><p><strong>Firework 6</strong>: Run a frequency calculation on the optimized complex.</p></li>
+<li><p><strong>Firework 7</strong>: Calculate the binding energy of the complex and create BE
+document/json file.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>List of strings of the type of molecule operations.
+See process_mol defined in Defines the binding energy
+<code class="docutils literal notranslate"><span class="pre">workflow.mispr/gaussian/utilities/mol.py</span></code> for supported operations; e.g.
+[“get_from_mol”, “get_from_file”] to get the first molecule from a
+<code class="docutils literal notranslate"><span class="pre">Molecule</span></code> object and the second molecule from a file.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.mol" title="Permalink to this definition">¶</a></dt><dd><p>List of the source of the two molecules to be processed. Should
+match the order in <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>; e.g. if <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code> is
+[“get_from_mol”, “get_from_file”], <code class="docutils literal notranslate"><span class="pre">mol</span></code> should be
+[<code class="docutils literal notranslate"><span class="pre">Molecule</span></code>, path to molecule file].</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.index"><span class="sig-name descname">index</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.index" title="Permalink to this definition">¶</a></dt><dd><p>List of indices of the two sites in the molecules at which they
+are expected to bind; order should match that in <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>
+and <code class="docutils literal notranslate"><span class="pre">mol</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.bond_order"><span class="sig-name descname">bond_order</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.bond_order" title="Permalink to this definition">¶</a></dt><dd><p>Bond order to calculate the bond length between the
+two sites. Defaults to 1.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if none is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.name" title="Permalink to this definition">¶</a></dt><dd><p>name of the workflow; defaults to
+“binding_energy_calculation”.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required
+input files can be found and output will be created. Defaults to the current
+working directory.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.opt_gaussian_inputs"><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.opt_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of Gaussian input parameters
+for the optimization step; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basis_set&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G(d)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="s2">&quot;link0_parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">hk&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint.chk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%mem&quot;</span><span class="p">:</span> <span class="s2">&quot;45GB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%NProcShared&quot;</span><span class="p">:</span> <span class="s2">&quot;24&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>The above default parameters will be used if not specified.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.freq_gaussian_inputs"><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.freq_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the frequency step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters corresponding
+to the implicit solvent model to be used in the ESP calculations, if any;
+e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_gaussian_inputs</span></code>, etc.). Defaults to None.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used in
+the ESP calculations and relevant to the solvent model, if any; for example,
+{“EPS”:12}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Uses cartesian coordinates in writing Gaussian
+input files if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, otherwise uses z-matrix. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.oxidation_states"><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.oxidation_states" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of oxidation states that can be
+used in setting the charge and spin multiplicity of the molecule; for
+example: {“Li”:1, “O”:-2}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.skips" title="Permalink to this definition">¶</a></dt><dd><p>List of lists of jobs to skip for each molecule; e.g.:
+[[“opt”, “freq”], [“opt”]]; order should be consistent with that in
+<code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code> and <code class="docutils literal notranslate"><span class="pre">mol</span></code>. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the workflow.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.workflows.base.binding_energy.get_binding_energies-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.binding_energy.get_binding_energies-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.workflows.base.core"><span id="mispr-gaussian-workflows-base-core-module"></span>mispr.gaussian.workflows.base.core module<a class="headerlink" href="#module-mispr.gaussian.workflows.base.core" title="Permalink to this heading">¶</a></h2>
+<p>Define a list of common fireworks used in Gaussian workflows.</p>
+<dl class="py exception objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.workflows.base.core.GoutTypeError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.core.</span></span><span class="sig-name descname"><span class="pre">GoutTypeError</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">msg</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/core.html#GoutTypeError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.core.GoutTypeError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception that is thrown when no Gaussian output is provided.</p>
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.core.common_fw">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.core.</span></span><span class="sig-name descname"><span class="pre">common_fw</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.mol_operation_type" title="mispr.gaussian.workflows.base.core.common_fw.mol_operation_type (Python parameter) — The type of molecule operation. See process_mol defined in mispr/gaussian/utilities/mol.py for supported operations."><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.mol" title="mispr.gaussian.workflows.base.core.common_fw.mol (Python parameter) — Source of the molecule to be processed. Should match the mol_operation_type."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.working_dir" title="mispr.gaussian.workflows.base.core.common_fw.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created."><span class="n"><span class="pre">working_dir</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.opt_gaussian_inputs" title="mispr.gaussian.workflows.base.core.common_fw.opt_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step."><span class="n"><span class="pre">opt_gaussian_inputs</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.freq_gaussian_inputs" title="mispr.gaussian.workflows.base.core.common_fw.freq_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step."><span class="n"><span class="pre">freq_gaussian_inputs</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.cart_coords" title="mispr.gaussian.workflows.base.core.common_fw.cart_coords (Python parameter) — Whether to use cartesian coordinates in writing Gaussian input files."><span class="n"><span class="pre">cart_coords</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.oxidation_states" title="mispr.gaussian.workflows.base.core.common_fw.oxidation_states (Python parameter) — Dictionary of oxidation states that can be used in setting the charge and spin multiplicity of the molecule; e.g.: {&quot;Li&quot;:1, &quot;O&quot;:-2}."><span class="n"><span class="pre">oxidation_states</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.gout_key" title="mispr.gaussian.workflows.base.core.common_fw.gout_key (Python parameter) — Unique key for the Gaussian output dict; used to differentiate Gaussian output dictionaries generated in the same workflow; if None is provided, the key will be set &quot;mol&quot;."><span class="n"><span class="pre">gout_key</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.db" title="mispr.gaussian.workflows.base.core.common_fw.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if None is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.process_mol_func" title="mispr.gaussian.workflows.base.core.common_fw.process_mol_func (Python parameter) — Whether to process the molecule; if True, will use the molecular formula as the label. Defaults to True."><span class="n"><span class="pre">process_mol_func</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.mol_name" title="mispr.gaussian.workflows.base.core.common_fw.mol_name (Python parameter) — The name of the molecule; ignored if process_mol_func is set to True."><span class="n"><span class="pre">mol_name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.dir_head" title="mispr.gaussian.workflows.base.core.common_fw.dir_head (Python parameter) — The name of the head of the directory where the workflow corresponding to the molecule will be run."><span class="n"><span class="pre">dir_head</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.skips" title="mispr.gaussian.workflows.base.core.common_fw.skips (Python parameter) — List of jobs to skip; e.g.: [&quot;opt&quot;, &quot;freq&quot;]; defaults to None."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.check_result" title="mispr.gaussian.workflows.base.core.common_fw.check_result (Python parameter) — List of properties to check for in the output file when skipping jobs; ensures that properties required by the workflow are available via the molecule format provided as an input (e.g. Gaussian output dictionary)."><span class="n"><span class="pre">check_result</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.workflows.base.core.common_fw.kwargs" title="mispr.gaussian.workflows.base.core.common_fw.kwargs (Python parameter) — Additional kwargs to be passed to the Fireworks and Firetasks."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/core.html#common_fw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a list of Fireworks commonly used in Gaussian workflows.</p>
+<ul class="simple">
+<li><p><strong>Firework 1</strong>: Optimize the molecule.</p></li>
+<li><p><strong>Firework 2</strong>: Run a frequency analysis.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.core.common_fw-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.core.common_fw.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>The type of molecule operation. See <code class="docutils literal notranslate"><span class="pre">process_mol</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">mispr/gaussian/utilities/mol.py</span></code> for supported operations.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, GaussianOutput, str, dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.mol" title="Permalink to this definition">¶</a></dt><dd><p>Source of the molecule to be
+processed. Should match the <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required input files
+can be found and output will be created.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.opt_gaussian_inputs"><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.opt_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters for the
+optimization step.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.freq_gaussian_inputs"><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.freq_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters for the
+frequency step.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Whether to use cartesian coordinates in writing Gaussian
+input files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.oxidation_states"><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.oxidation_states" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of oxidation states that can be used in
+setting the charge and spin multiplicity of the molecule; e.g.:
+{“Li”:1, “O”:-2}.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.gout_key"><span class="sig-name descname">gout_key</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.gout_key" title="Permalink to this definition">¶</a></dt><dd><p>Unique key for the Gaussian output dict; used to
+differentiate Gaussian output dictionaries generated in the same workflow;
+if None is provided, the key will be set “mol”.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if None is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.process_mol_func"><span class="sig-name descname">process_mol_func</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.process_mol_func" title="Permalink to this definition">¶</a></dt><dd><p>Whether to process the molecule; if <code class="docutils literal notranslate"><span class="pre">True</span></code>,
+will use the molecular formula as the label. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.mol_name"><span class="sig-name descname">mol_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.mol_name" title="Permalink to this definition">¶</a></dt><dd><p>The name of the molecule; ignored if
+<code class="docutils literal notranslate"><span class="pre">process_mol_func</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.dir_head"><span class="sig-name descname">dir_head</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.dir_head" title="Permalink to this definition">¶</a></dt><dd><p>The name of the head of the directory where the
+workflow corresponding to the molecule will be run.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.skips" title="Permalink to this definition">¶</a></dt><dd><p>List of jobs to skip; e.g.: [“opt”, “freq”]; defaults
+to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.check_result"><span class="sig-name descname">check_result</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.check_result" title="Permalink to this definition">¶</a></dt><dd><p>List of properties to check for in the output
+file when skipping jobs; ensures that properties required by the workflow are
+available via the molecule format provided as an input (e.g. Gaussian
+output dictionary).</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.core.common_fw.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the Fireworks and
+Firetasks.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.workflows.base.core.common_fw-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Type varies based on the input mol and the</dt><dd><p>operations performed inside the function.</p>
+</dd>
+</dl>
+<p>str: Molecule label.
+list: List of Fireworks.</p>
+</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.workflows.base.core.common_fw-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.core.common_fw-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>Molecule, GaussianOutput, str, dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.workflows.base.esp"><span id="mispr-gaussian-workflows-base-esp-module"></span>mispr.gaussian.workflows.base.esp module<a class="headerlink" href="#module-mispr.gaussian.workflows.base.esp" title="Permalink to this heading">¶</a></h2>
+<p>Define the electrostatic partial charges workflow.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.esp.get_esp_charges">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.esp.</span></span><span class="sig-name descname"><span class="pre">get_esp_charges</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.mol_operation_type" title="mispr.gaussian.workflows.base.esp.get_esp_charges.mol_operation_type (Python parameter) — The type of molecule operation. See process_mol defined in mispr/gaussian/utilities/mol.py for supported operations."><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.mol" title="mispr.gaussian.workflows.base.esp.get_esp_charges.mol (Python parameter) — Source of the molecule to be processed. Should match the mol_operation_type."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.db" title="mispr.gaussian.workflows.base.esp.get_esp_charges.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if none is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.name" title="mispr.gaussian.workflows.base.esp.get_esp_charges.name (Python parameter) — Name of the workflow. Defaults to &quot;esp_charges_calculation&quot;."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;esp_charges_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.working_dir" title="mispr.gaussian.workflows.base.esp.get_esp_charges.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.opt_gaussian_inputs" title="mispr.gaussian.workflows.base.esp.get_esp_charges.opt_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step; e.g.:"><span class="n"><span class="pre">opt_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.freq_gaussian_inputs" title="mispr.gaussian.workflows.base.esp.get_esp_charges.freq_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step; default parameters will be used if not specified."><span class="n"><span class="pre">freq_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.esp_gaussian_inputs" title="mispr.gaussian.workflows.base.esp.get_esp_charges.esp_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the ESP step; default parameters will be used if not specified."><span class="n"><span class="pre">esp_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_gaussian_inputs" title="mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the ESP calculations, if any; e.g.:"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_properties" title="mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_properties (Python parameter) — Additional input parameters to be used in the ESP calculations and relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}. Defaults to None."><span class="n"><span class="pre">solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.cart_coords" title="mispr.gaussian.workflows.base.esp.get_esp_charges.cart_coords (Python parameter) — Uses cartesian coordinates in writing Gaussian input files if set to True, otherwise uses z-matrix. Defaults to True."><span class="n"><span class="pre">cart_coords</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.oxidation_states" title="mispr.gaussian.workflows.base.esp.get_esp_charges.oxidation_states (Python parameter) — Dictionary of oxidation states that can be used in setting the charge and spin multiplicity of the molecule; e.g.: {&quot;Li&quot;:1, &quot;O&quot;:-2}. Defaults to None."><span class="n"><span class="pre">oxidation_states</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.skips" title="mispr.gaussian.workflows.base.esp.get_esp_charges.skips (Python parameter) — List of jobs to skip; e.g.: [&quot;opt&quot;, &quot;freq&quot;]; defaults to None."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.kwargs" title="mispr.gaussian.workflows.base.esp.get_esp_charges.kwargs (Python parameter) — Additional kwargs to be passed to the workflow."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/esp.html#get_esp_charges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a workflow for calculating the electrostatic partial charges.</p>
+<ul class="simple">
+<li><p><strong>Firework 1</strong>: Optimize the molecule.</p></li>
+<li><p><strong>Firework 2</strong>: Run a frequency analysis.</p></li>
+<li><p><strong>Firework 3</strong>: Run an ESP calculation.</p></li>
+<li><p><strong>Firework 4</strong>: Create ESP document/json file.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.esp.get_esp_charges-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>The type of molecule operation. See <code class="docutils literal notranslate"><span class="pre">process_mol</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">mispr/gaussian/utilities/mol.py</span></code> for supported operations.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, GaussianOutput, str, dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.mol" title="Permalink to this definition">¶</a></dt><dd><p>Source of the molecule to be
+processed. Should match the <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if none is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the workflow. Defaults to “esp_charges_calculation”.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required
+input files can be found and output will be created. Defaults to the current
+working directory.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.opt_gaussian_inputs"><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.opt_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of Gaussian input parameters
+for the optimization step; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basis_set&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G(d)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="s2">&quot;link0_parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">hk&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint.chk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%mem&quot;</span><span class="p">:</span> <span class="s2">&quot;45GB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%NProcShared&quot;</span><span class="p">:</span> <span class="s2">&quot;24&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>The above default parameters will be used if not specified.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.freq_gaussian_inputs"><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.freq_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the frequency step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.esp_gaussian_inputs"><span class="sig-name descname">esp_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.esp_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the ESP step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters corresponding
+to the implicit solvent model to be used in the ESP calculations, if any;
+e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_gaussian_inputs</span></code>, etc.). Defaults to None.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used in
+the ESP calculations and relevant to the solvent model, if any; e.g.,
+{“EPS”:12}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Uses cartesian coordinates in writing Gaussian
+input files if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, otherwise uses z-matrix. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.oxidation_states"><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.oxidation_states" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of oxidation states that can be
+used in setting the charge and spin multiplicity of the molecule; e.g.:
+{“Li”:1, “O”:-2}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.skips" title="Permalink to this definition">¶</a></dt><dd><p>List of jobs to skip; e.g.: [“opt”, “freq”]; defaults
+to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.esp.get_esp_charges.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the workflow.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.workflows.base.esp.get_esp_charges-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>Workflow</p></li>
+<li><p>str: Label of the molecule (e.g. “H2O”, “water”, etc.).</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.workflows.base.esp.get_esp_charges-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.esp.get_esp_charges-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.workflows.base.ip_ea"><span id="mispr-gaussian-workflows-base-ip-ea-module"></span>mispr.gaussian.workflows.base.ip_ea module<a class="headerlink" href="#module-mispr.gaussian.workflows.base.ip_ea" title="Permalink to this heading">¶</a></h2>
+<p>Define the redox potentials workflow.</p>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.ip_ea.Node">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.ip_ea.</span></span><span class="sig-name descname"><span class="pre">Node</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.state" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.state (Python parameter) — Current state of the molecule: cation or anion."><span class="n"><span class="pre">state</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">str</span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.phase" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.phase (Python parameter) — Current phase of the molecule: gas or solution."><span class="n"><span class="pre">phase</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">str</span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.num_electrons" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.num_electrons (Python parameter) — Number of electrons to transfer."><span class="n"><span class="pre">num_electrons</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">int</span></span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol_operation_type" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol_operation_type (Python parameter) — Type of molecule operation; required for the parent node, i.e. initial molecule state, but not for the child nodes."><span class="n"><span class="pre">mol_operation_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol (Python parameter) — Molecule to be processed; required for the parent node, i.e. initial molecule state, but not for the child nodes since these are generated from the parent node."><span class="n"><span class="pre">mol</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.skips" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.skips (Python parameter) — List of jobs to skip; only relevant to the parent node, i.e. initial molecule state. Defaults to None."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.check_result" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.check_result (Python parameter) — List of properties to check for in the output file; only relevant when skipping jobs at the parent node;"><span class="n"><span class="pre">check_result</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.parent" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.parent (Python parameter) — Parent node of the current node; None if the node corresponds to the initial molecule state."><span class="n"><span class="pre">parent</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><a class="reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node" title="mispr.gaussian.workflows.base.ip_ea.Node (Python class) — Bases: object"><span class="pre">Node</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.ref_charge" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.ref_charge (Python parameter) — The initial charge on the molecule; only relevant to the parent node."><span class="n"><span class="pre">ref_charge</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.branch_cation_from_anion" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.branch_cation_from_anion (Python parameter) — Whether to add a hydrogen atom at the current node; relevant for PCET calculations."><span class="n"><span class="pre">branch_cation_from_anion</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">bool</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.h_index" title="mispr.gaussian.workflows.base.ip_ea.Node.__init__.h_index (Python parameter) — The site index in the molecule at which to attach the hydrogen atoms in the PCET calculations."><span class="n"><span class="pre">h_index</span></span></a><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="desctype"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/ip_ea.html#Node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Generate the fireworks corresponding to different molecule states in the IP/EA
+workflow. Each molecule state corresponds to a node in the tree. The node is a leaf
+if it is the last node in the tree, otherwise it is a branch. Not meant to be
+instantiated directly.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.ip_ea.Node-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.state"><span class="sig-name descname">state</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.state" title="Permalink to this definition">¶</a></dt><dd><p>Current state of the molecule: cation or anion.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.phase"><span class="sig-name descname">phase</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.phase" title="Permalink to this definition">¶</a></dt><dd><p>Current phase of the molecule: gas or solution.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.num_electrons"><span class="sig-name descname">num_electrons</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.num_electrons" title="Permalink to this definition">¶</a></dt><dd><p>Number of electrons to transfer.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>Type of molecule operation; required
+for the parent node, i.e. initial molecule state, but not for the child
+nodes.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, GaussianOutput, str, dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.mol" title="Permalink to this definition">¶</a></dt><dd><p>Molecule to be
+processed; required for the parent node, i.e. initial molecule state,
+but not for the child nodes since these are generated from the parent
+node.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.skips" title="Permalink to this definition">¶</a></dt><dd><p>List of jobs to skip; only relevant to the parent
+node, i.e. initial molecule state. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.check_result"><span class="sig-name descname">check_result</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.check_result" title="Permalink to this definition">¶</a></dt><dd><p><p>List of properties to check for in the
+output file; only relevant when skipping jobs at the parent node;</p>
+<blockquote>
+<div><p>currently checks for “final_energy” and “Gibbs Free Energy”, since
+these are used in calculating the redox potential.</p>
+</div></blockquote>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.parent"><span class="sig-name descname">parent</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.parent" title="Permalink to this definition">¶</a></dt><dd><p>Parent node of the current node; None if the node
+corresponds to the initial molecule state.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.ref_charge"><span class="sig-name descname">ref_charge</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.ref_charge" title="Permalink to this definition">¶</a></dt><dd><p>The initial charge on the molecule; only
+relevant to the parent node.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.branch_cation_from_anion"><span class="sig-name descname">branch_cation_from_anion</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.branch_cation_from_anion" title="Permalink to this definition">¶</a></dt><dd><p>Whether to add a hydrogen atom
+at the current node; relevant for PCET calculations.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.Node.__init__.h_index"><span class="sig-name descname">h_index</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.__init__.h_index" title="Permalink to this definition">¶</a></dt><dd><p>The site index in the molecule at which to attach
+the hydrogen atoms in the PCET calculations.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.ip_ea.Node.branch">
+<span class="sig-name descname"><span class="pre">branch</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">branching_states</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">branching_phases</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">num_of_electrons</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">branch_cation_from_anion</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">h_index</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">vertical</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/ip_ea.html#Node.branch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.branch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the children nodes of the current node in the tree representing the
+IP/EA workflow.</p>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.ip_ea.Node.create_fireworks">
+<span class="sig-name descname"><span class="pre">create_fireworks</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">opt_gaussian_inputs</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">freq_gaussian_inputs</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">solvent_properties</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">working_dir</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">db</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">cart_coords</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">branch_cation_from_anion</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/ip_ea.html#Node.create_fireworks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.Node.create_fireworks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the optimization and/or frequency fireworks corresponding to the
+current node.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.ip_ea.</span></span><span class="sig-name descname"><span class="pre">get_ip_ea</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol_operation_type" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol_operation_type (Python parameter) — The type of molecule operation. See process_mol defined in mispr/gaussian/utilities/mol.py for supported operations."><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol (Python parameter) — Source of the molecule to be processed. Should match the mol_operation_type."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_charge" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_charge (Python parameter) — The initial charge on the molecule."><span class="n"><span class="pre">ref_charge</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.single_step" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.single_step (Python parameter) — Whether to run the electron transfer in a single or multiple steps; e.g. if num_electrons is set to 2 and single_step is False, the workflow will run the electron transfer in two steps; defaults to False."><span class="n"><span class="pre">single_step</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.vertical" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.vertical (Python parameter) — Whether to run the vertical IP/EA calculations, in which optimization is performed only at the reference state at each phase specified, thereby skipping the optimization step at the charge states; defaults to False."><span class="n"><span class="pre">vertical</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.pcet" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.pcet (Python parameter) — Whether to run sequential proton-coupled electron transfer calculations; number of hydrogen transfer steps is assumed to be equal to the number of electron transfers. Defaults to False."><span class="n"><span class="pre">pcet</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.h_index" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.h_index (Python parameter) — The site index in the molecule at which to attach the hydrogen atoms in the PCET calculations. Defaults to None."><span class="n"><span class="pre">h_index</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.num_electrons" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.num_electrons (Python parameter) — The number of electrons to be transferred; defaults to 1."><span class="n"><span class="pre">num_electrons</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="mi">1</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.opt_gaussian_inputs" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.opt_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step; e.g.:"><span class="n"><span class="pre">opt_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.freq_gaussian_inputs" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.freq_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step; default parameters will be used if not specified."><span class="n"><span class="pre">freq_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_gaussian_inputs" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the redox potential calculations, if any; e.g.:"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_properties" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_properties (Python parameter) — Additional input parameters to be used in the ESP calculations and relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}. Defaults to None."><span class="n"><span class="pre">solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.states" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.states (Python parameter) — List of states to be calculated; e.g. [&quot;cation&quot;] for oxidation, [&quot;anion&quot;] for reduction, or [&quot;cation&quot;, &quot;anion&quot;] for oxidation and reduction calculations; runs both if None is specified."><span class="n"><span class="pre">states</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.phases" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.phases (Python parameter) — List of phases to be calculated; e.g. [&quot;solution&quot;] for liquid phase, [&quot;gas&quot;] for gas phase, or [&quot;gas&quot;, &quot;solution&quot;] for the full thermodynamic cycle; runs both if None is specified."><span class="n"><span class="pre">phases</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.electrode_potentials" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.electrode_potentials (Python parameter) — Dictionary of electrode potentials to be used in converting the absolute oxidation and reduction potentials to commonly used potential scales; e.g.:"><span class="n"><span class="pre">electrode_potentials</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_elec" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_elec (Python parameter) — The electron gibbs free energy in Hartree; defaults to -0.001378786."><span class="n"><span class="pre">gibbs_elec</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="o">-</span><span class="mf">0.001378786</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_h" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_h (Python parameter) — The hydrogen gibbs free energy in Hartree; defaults to -0.41816."><span class="n"><span class="pre">gibbs_h</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="o">-</span><span class="mf">0.41816</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.db" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if none is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.name" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.name (Python parameter) — Name of the workflow. Defaults to &quot;ip_ea_calculation&quot;."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;ip_ea_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.working_dir" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.cart_coords" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.cart_coords (Python parameter) — Uses cartesian coordinates in writing Gaussian input files if set to True, otherwise uses z-matrix. Defaults to True."><span class="n"><span class="pre">cart_coords</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_skips" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_skips (Python parameter) — List of jobs to skip; e.g.: [&quot;opt&quot;, &quot;freq&quot;]; only applies to the molecule in the reference state. Defaults to None."><span class="n"><span class="pre">ref_skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.kwargs" title="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.kwargs (Python parameter) — Additional kwargs to be passed to the workflow."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/ip_ea.html#get_ip_ea"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a workflow for calculating the ionization potential (IP) and electron affinity
+(EA) in eV. Supports multiple methods for calculating redox potentials in gas
+and/or solution:</p>
+<ul class="simple">
+<li><p><strong>Direct electron transfer</strong></p></li>
+<li><p><strong>Vertical calculation of IP and EA</strong></p></li>
+<li><p><strong>Adiabatic IP/EA</strong></p></li>
+<li><p><strong>Sequential PCET</strong></p></li>
+</ul>
+<p>Uses a tree structure to dynamically define the dependencies of the fireworks. The
+structure of the tree varies based on the inputs to the workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>The type of molecule operation. See <code class="docutils literal notranslate"><span class="pre">process_mol</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">mispr/gaussian/utilities/mol.py</span></code> for supported operations.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, GaussianOutput, str, dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.mol" title="Permalink to this definition">¶</a></dt><dd><p>Source of the molecule to be
+processed. Should match the <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_charge"><span class="sig-name descname">ref_charge</span><span class="p"> : </span><span class="desctype"><span class="desctype">int</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_charge" title="Permalink to this definition">¶</a></dt><dd><p>The initial charge on the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.single_step"><span class="sig-name descname">single_step</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.single_step" title="Permalink to this definition">¶</a></dt><dd><p>Whether to run the electron transfer in a single
+or multiple steps; e.g. if <code class="docutils literal notranslate"><span class="pre">num_electrons</span></code> is set to 2 and <code class="docutils literal notranslate"><span class="pre">single_step</span></code>
+is <code class="docutils literal notranslate"><span class="pre">False</span></code>, the workflow will run the electron transfer in two steps;
+defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.vertical"><span class="sig-name descname">vertical</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.vertical" title="Permalink to this definition">¶</a></dt><dd><p>Whether to run the vertical IP/EA calculations,
+in which optimization is performed only at the reference state at each
+phase specified, thereby skipping the optimization step at the charge states;
+defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.pcet"><span class="sig-name descname">pcet</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.pcet" title="Permalink to this definition">¶</a></dt><dd><p>Whether to run sequential proton-coupled electron
+transfer calculations; number of hydrogen transfer steps is assumed to be
+equal to the number of electron transfers. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.h_index"><span class="sig-name descname">h_index</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.h_index" title="Permalink to this definition">¶</a></dt><dd><p>The site index in the molecule at which to attach the
+hydrogen atoms in the PCET calculations. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.num_electrons"><span class="sig-name descname">num_electrons</span><span class="p"> : </span><span class="desctype"><span class="desctype">int, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.num_electrons" title="Permalink to this definition">¶</a></dt><dd><p>The number of electrons to be transferred;
+defaults to 1.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.opt_gaussian_inputs"><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.opt_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of Gaussian input parameters
+for the optimization step; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basis_set&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G(d)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="s2">&quot;link0_parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">hk&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint.chk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%mem&quot;</span><span class="p">:</span> <span class="s2">&quot;45GB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%NProcShared&quot;</span><span class="p">:</span> <span class="s2">&quot;24&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>The above default parameters will be used if not specified.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.freq_gaussian_inputs"><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.freq_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the frequency step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters corresponding
+to the implicit solvent model to be used in the redox potential calculations,
+if any; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_gaussian_inputs</span></code>). Defaults to None.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used in
+the ESP calculations and relevant to the solvent model, if any; e.g.,
+{“EPS”:12}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.states"><span class="sig-name descname">states</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.states" title="Permalink to this definition">¶</a></dt><dd><p>List of states to be calculated; e.g. [“cation”] for
+oxidation, [“anion”] for reduction, or [“cation”, “anion”] for oxidation
+and reduction calculations; runs both if None is specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.phases"><span class="sig-name descname">phases</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.phases" title="Permalink to this definition">¶</a></dt><dd><p>List of phases to be calculated; e.g. [“solution”] for
+liquid phase, [“gas”] for gas phase, or [“gas”, “solution”] for the full
+thermodynamic cycle; runs both if None is specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.electrode_potentials"><span class="sig-name descname">electrode_potentials</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.electrode_potentials" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of electrode potentials to be
+used in converting the absolute oxidation and reduction potentials to
+commonly used potential scales; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+ <span class="n">lithium</span><span class="s2">&quot;: {</span>
+            <span class="s2">&quot;potential&quot;</span><span class="p">:</span> <span class="mf">1.40</span><span class="p">,</span>
+            <span class="s2">&quot;ref&quot;</span><span class="p">:</span> <span class="s2">&quot;lib_pot.bib&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>Uses hydrogen, magnesium, and lithium if None is specified; overwrites the
+existing values if any of these are specified; if different potential scales
+are specified, computes the potential relative to the three default scales
+as well as the new ones specified.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_elec"><span class="sig-name descname">gibbs_elec</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_elec" title="Permalink to this definition">¶</a></dt><dd><p>The electron gibbs free energy in Hartree;
+defaults to -0.001378786.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_h"><span class="sig-name descname">gibbs_h</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.gibbs_h" title="Permalink to this definition">¶</a></dt><dd><p>The hydrogen gibbs free energy in Hartree;
+defaults to -0.41816.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if none is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the workflow. Defaults to “ip_ea_calculation”.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required
+input files can be found and output will be created. Defaults to the current
+working directory.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Uses cartesian coordinates in writing Gaussian
+input files if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, otherwise uses z-matrix. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_skips"><span class="sig-name descname">ref_skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.ref_skips" title="Permalink to this definition">¶</a></dt><dd><p>List of jobs to skip; e.g.: [“opt”, “freq”]; only
+applies to the molecule in the reference state. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the workflow.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.workflows.base.ip_ea.get_ip_ea-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.ip_ea.get_ip_ea-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.workflows.base.nmr"><span id="mispr-gaussian-workflows-base-nmr-module"></span>mispr.gaussian.workflows.base.nmr module<a class="headerlink" href="#module-mispr.gaussian.workflows.base.nmr" title="Permalink to this heading">¶</a></h2>
+<p>Define the nuclear magnetic resonance workflow.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors">
+<span class="sig-prename descclassname"><span class="pre">mispr.gaussian.workflows.base.nmr.</span></span><span class="sig-name descname"><span class="pre">get_nmr_tensors</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol_operation_type" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol_operation_type (Python parameter) — The type of molecule operation. See process_mol defined in mispr/gaussian/utilities/mol.py for supported operations."><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol (Python parameter) — Source of the molecule to be processed. Should match the mol_operation_type."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.db" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if none is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.name" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.name (Python parameter) — Name of the workflow. Defaults to &quot;nmr_tensor_calculation&quot;."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;nmr_tensor_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.working_dir" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created. Defaults to the current working directory."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.opt_gaussian_inputs" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.opt_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters; e.g.:"><span class="n"><span class="pre">opt_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.freq_gaussian_inputs" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.freq_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step; default parameters will be used if not specified."><span class="n"><span class="pre">freq_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.nmr_gaussian_inputs" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.nmr_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the NMR step; default parameters will be used if not specified."><span class="n"><span class="pre">nmr_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_gaussian_inputs" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the NMR calculations, if any; e.g.:"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_properties" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_properties (Python parameter) — Additional input parameters to be used in the NMR calculations and relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}. Defaults to None."><span class="n"><span class="pre">solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.cart_coords" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.cart_coords (Python parameter) — Uses cartesian coordinates in writing Gaussian input files if set to True, otherwise uses z-matrix. Defaults to True."><span class="n"><span class="pre">cart_coords</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.oxidation_states" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.oxidation_states (Python parameter) — Dictionary of oxidation states that can be used in setting the charge and spin multiplicity of the molecule; e.g.: {&quot;Li&quot;:1, &quot;O&quot;:-2}. Defaults to None."><span class="n"><span class="pre">oxidation_states</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.skips" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.skips (Python parameter) — List of jobs to skip; e.g.: [&quot;opt&quot;, &quot;freq&quot;]; defaults to None."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.kwargs" title="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.kwargs (Python parameter) — Additional kwargs to be passed to the workflow."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/workflows/base/nmr.html#get_nmr_tensors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a workflow for calculating the nuclear magnetic resonance tensors.</p>
+<ul class="simple">
+<li><p><strong>Firework 1</strong>: Optimize the molecule.</p></li>
+<li><p><strong>Firework 2</strong>: Calculate the frequencies.</p></li>
+<li><p><strong>Firework 3</strong>: Calculate the NMR tensors.</p></li>
+<li><p><strong>Firework 4</strong>: Create NMR document/json file.</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p>The type of molecule operation. See <code class="docutils literal notranslate"><span class="pre">process_mol</span></code>
+defined in <code class="docutils literal notranslate"><span class="pre">mispr/gaussian/utilities/mol.py</span></code> for supported operations.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule, GaussianOutput, str, dict</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.mol" title="Permalink to this definition">¶</a></dt><dd><p>Source of the molecule to be
+processed. Should match the <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if none is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the workflow. Defaults to “nmr_tensor_calculation”.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required
+input files can be found and output will be created. Defaults to the current
+working directory.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.opt_gaussian_inputs"><span class="sig-name descname">opt_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.opt_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of Gaussian input parameters;
+e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basis_set&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G(d)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="s2">&quot;link0_parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">hk&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint.chk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%mem&quot;</span><span class="p">:</span> <span class="s2">&quot;45GB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%NProcShared&quot;</span><span class="p">:</span> <span class="s2">&quot;24&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>The above default parameters will be used if not specified.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.freq_gaussian_inputs"><span class="sig-name descname">freq_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.freq_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the frequency step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.nmr_gaussian_inputs"><span class="sig-name descname">nmr_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.nmr_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the NMR step; default parameters will be used if not specified.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_gaussian_inputs"><span class="sig-name descname">solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters corresponding
+to the implicit solvent model to be used in the NMR calculations, if any;
+e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_gaussian_inputs</span></code>, etc.). Defaults to None.</p>
+</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_properties"><span class="sig-name descname">solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used in
+the NMR calculations and relevant to the solvent model, if any; e.g.,
+{“EPS”:12}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Uses cartesian coordinates in writing Gaussian
+input files if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, otherwise uses z-matrix. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.oxidation_states"><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.oxidation_states" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of oxidation states that can be
+used in setting the charge and spin multiplicity of the molecule; e.g.:
+{“Li”:1, “O”:-2}. Defaults to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list, optional</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.skips" title="Permalink to this definition">¶</a></dt><dd><p>List of jobs to skip; e.g.: [“opt”, “freq”]; defaults
+to None.</p>
+</dd>
+<dt id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the workflow.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.workflows.base.nmr.get_nmr_tensors-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.workflows.base.nmr.get_nmr_tensors-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.workflows.base"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.gaussian.workflows.base" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="mispr.gaussian.workflows.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: mispr.gaussian.workflows package" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mispr.gaussian.workflows package
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="mispr.hybrid.html" class="md-footer__link md-footer__link--next" aria-label="Next: mispr.hybrid package" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              mispr.hybrid package
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>

@@ -1,0 +1,1475 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.gaussian.firetasks.geo_transformation - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="../../../../_static/style.css" />
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="../../../../_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.gaussian.firetasks.geo_transformation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="../../../../_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mispr.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1>Source code for mispr.gaussian.firetasks.geo_transformation</h1><div class="highlight"><pre>
+<span></span><code><span class="sd">&quot;&quot;&quot;Define firetasks for performing various molecule transformations.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+<span class="kn">from</span> <span class="nn">pymatgen.core.structure</span> <span class="kn">import</span> <span class="n">Molecule</span>
+<span class="kn">from</span> <span class="nn">pymatgen.analysis.graphs</span> <span class="kn">import</span> <span class="n">MoleculeGraph</span>
+<span class="kn">from</span> <span class="nn">pymatgen.analysis.local_env</span> <span class="kn">import</span> <span class="n">OpenBabelNN</span>
+<span class="kn">from</span> <span class="nn">pymatgen.analysis.fragmenter</span> <span class="kn">import</span> <span class="n">open_ring</span>
+
+<span class="kn">from</span> <span class="nn">fireworks</span> <span class="kn">import</span> <span class="n">Workflow</span>
+<span class="kn">from</span> <span class="nn">fireworks.core.firework</span> <span class="kn">import</span> <span class="n">FWAction</span><span class="p">,</span> <span class="n">FiretaskBase</span>
+<span class="kn">from</span> <span class="nn">fireworks.utilities.fw_utilities</span> <span class="kn">import</span> <span class="n">explicit_serialize</span>
+
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.mol</span> <span class="kn">import</span> <span class="n">process_mol</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.metadata</span> <span class="kn">import</span> <span class="n">get_mol_formula</span>
+<span class="kn">from</span> <span class="nn">mispr.gaussian.utilities.db_utilities</span> <span class="kn">import</span> <span class="n">get_db</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Rasha Atwi&quot;</span>
+<span class="n">__maintainer__</span> <span class="o">=</span> <span class="s2">&quot;Rasha Atwi&quot;</span>
+<span class="n">__email__</span> <span class="o">=</span> <span class="s2">&quot;rasha.atwi@stonybrook.edu&quot;</span>
+<span class="n">__status__</span> <span class="o">=</span> <span class="s2">&quot;Development&quot;</span>
+<span class="n">__date__</span> <span class="o">=</span> <span class="s2">&quot;Jan 2021&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;0.0.4&quot;</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">DEFAULT_KEY</span> <span class="o">=</span> <span class="s2">&quot;gout_key&quot;</span>
+
+
+<div class="viewcode-block" id="ProcessMoleculeInput"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">ProcessMoleculeInput</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Process a molecule and generates a Molecule object. Used for handling different</span>
+<span class="sd">    molecule formats provided to Gaussian workflows.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol (Molecule, str, GaussianOutput, dict): Source of the structure; should</span>
+<span class="sd">            correspond to that of the ``operation_type``; see</span>
+<span class="sd">            ``mispr.gaussian.utilities.mol.process_mol`` for more details; besides the</span>
+<span class="sd">            formats supported by ``mispr.gaussian.utilities.mol.process_mol``, if the</span>
+<span class="sd">            molecule is to be obtained via ``fw_spec``, mol should be a string</span>
+<span class="sd">            corresponding to the key in ``fw_spec``.</span>
+<span class="sd">        operation_type (str, optional): Type of operation to perform. See</span>
+<span class="sd">            ``mispr.gaussian.utilities.mol.process_mol`` for details of supported types.</span>
+<span class="sd">        db (str or dict, optional): Database credentials; could be provided as</span>
+<span class="sd">            the path to the db.json file or in the form of a dictionary; if none is</span>
+<span class="sd">            provided, attempts to get it from the configuration files.</span>
+<span class="sd">        save_to_db (bool, optional): Whether to save the processed molecule to the</span>
+<span class="sd">            molecules collection in the db.</span>
+<span class="sd">        charge (int, optional): Charge of the molecule.</span>
+<span class="sd">        update_duplicates (bool, optional): Whether to update molecule document in the</span>
+<span class="sd">            db if it already exists.</span>
+<span class="sd">        save_to_file (bool, optional): Whether to save the processed molecule to a file.</span>
+<span class="sd">        fmt (str, optional): Molecule file format if save_to_file is True. Defaults to xyz.</span>
+<span class="sd">        filename (str, optional): Name of the file to save the molecule to if</span>
+<span class="sd">            ``save_to_file`` is True. Defaults to molecular formula.</span>
+<span class="sd">        from_fw_spec (bool, optional): Whether to get the molecule from the ``fw_spec``;</span>
+<span class="sd">            mol in this case is the key to the dict in ``fw_spec``.</span>
+<span class="sd">        local_opt (bool, optional): Whether to perform local optimization on the</span>
+<span class="sd">            molecule.</span>
+<span class="sd">        force_field (str, optional): Force field to use for local optimization; see</span>
+<span class="sd">            ``mispr.gaussian.utilities.mol.process_mol`` for supported force field types.</span>
+<span class="sd">        steps (int, optional): Number of steps to perform local optimization.</span>
+<span class="sd">        str_type (str, optional): format of string if operation_type is ``get_from_str``;</span>
+<span class="sd">            e.g. ``smi`` or any other format supported by OpenBabel).</span>
+<span class="sd">        working_dir (str, optional): Working directory to save the molecule file to or</span>
+<span class="sd">            read input files from.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;operation_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;charge&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_to_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fmt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filename&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;from_fw_spec&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;local_opt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;force_field&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;steps&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;str_type&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;working_dir&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_run_to_mol_object</span><span class="p">(</span><span class="n">run</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">run</span><span class="p">[</span><span class="s2">&quot;output&quot;</span><span class="p">][</span><span class="s2">&quot;output&quot;</span><span class="p">][</span><span class="s2">&quot;molecule&quot;</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_from_fw_spec</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="c1"># mol = key in this case</span>
+        <span class="n">available_runs</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;gaussian_output&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="n">available_runs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">mol</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">mol</span><span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">mol</span><span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">ProcessMoleculeInput</span><span class="o">.</span><span class="n">_from_fw_spec</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mol</span><span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">]</span>
+                <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mol</span><span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ProcessMoleculeInput</span><span class="o">.</span><span class="n">_from_fw_spec</span><span class="p">(</span><span class="n">mol</span><span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">],</span> <span class="n">fw_spec</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mol</span>
+
+<div class="viewcode-block" id="ProcessMoleculeInput.run_task"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;mol&quot;</span><span class="p">]</span>
+        <span class="n">operation_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;operation_type&quot;</span><span class="p">,</span> <span class="s2">&quot;get_from_mol&quot;</span><span class="p">)</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;from_fw_spec&quot;</span><span class="p">):</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_from_fw_spec</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">)</span>
+
+        <span class="n">output_mol</span> <span class="o">=</span> <span class="n">process_mol</span><span class="p">(</span>
+            <span class="n">operation_type</span><span class="o">=</span><span class="n">operation_type</span><span class="p">,</span>
+            <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">local_opt</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;local_opt&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">force_field</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;force_field&quot;</span><span class="p">),</span>
+            <span class="n">steps</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;steps&quot;</span><span class="p">),</span>
+            <span class="n">charge</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;charge&quot;</span><span class="p">),</span>
+            <span class="n">str_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;str_type&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_db&quot;</span><span class="p">):</span>
+            <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="n">db</span><span class="p">)</span> <span class="k">if</span> <span class="n">db</span> <span class="k">else</span> <span class="n">get_db</span><span class="p">()</span>
+            <span class="n">update_duplicates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">insert_molecule</span><span class="p">(</span><span class="n">output_mol</span><span class="p">,</span> <span class="n">update_duplicates</span><span class="o">=</span><span class="n">update_duplicates</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_file&quot;</span><span class="p">):</span>
+            <span class="n">fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="n">get_mol_formula</span><span class="p">(</span><span class="n">output_mol</span><span class="p">))</span>
+            <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">fmt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">output_mol</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_mol</span>  <span class="c1"># Note: This should ideally</span></div></div>
+        <span class="c1"># be part of FWaction, however because mpi doesn&#39;t support pymatgen, we</span>
+        <span class="c1"># should be careful about what is being passed to the next firework</span>
+
+
+<div class="viewcode-block" id="ConvertToMoleculeObject"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">ConvertToMoleculeObject</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read a molecule from a file, converts it to a Molecule object, and saves it as</span>
+<span class="sd">    dict to mongodb.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol_file (str): Molecule file; supported file formats include</span>
+<span class="sd">            xyz|pdb|mol|mdl|sdf|sd|ml2|sy2|mol2|cml|mrv,</span>
+<span class="sd">            gaussian input (gjf|g03|g09|com|inp),</span>
+<span class="sd">            Gaussian output (.out), and pymatgen&#39;s JSON serialized molecules.</span>
+<span class="sd">        db (str or dict, optional): Database credentials.</span>
+<span class="sd">        save_to_db (bool, optional): Whether to save the processed molecule to db.</span>
+<span class="sd">        update_duplicates (bool, optional): Whether to update molecule document in db</span>
+<span class="sd">            if it already exists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;mol_file&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">,</span> <span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span> <span class="s2">&quot;update_duplicates&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="ConvertToMoleculeObject.run_task"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+        <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;mol_file&quot;</span><span class="p">]</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">process_mol</span><span class="p">(</span>
+            <span class="n">operation_type</span><span class="o">=</span><span class="s2">&quot;get_from_file&quot;</span><span class="p">,</span> <span class="n">mol</span><span class="o">=</span><span class="n">file_name</span><span class="p">,</span> <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">mol_db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">))</span>
+            <span class="n">mol_db</span><span class="o">.</span><span class="n">insert_molecule</span><span class="p">(</span>
+                <span class="n">mol</span><span class="p">,</span> <span class="n">update_duplicates</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mol</span>  <span class="c1"># Note: This should ideally be</span></div></div>
+        <span class="c1"># part of FWaction, however because mpi doesn&#39;t support pymatgen, we</span>
+        <span class="c1"># should be careful about what is being passed to the next firework</span>
+
+
+<div class="viewcode-block" id="RetrieveMoleculeObject"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">RetrieveMoleculeObject</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Retrieve a molecule object from the database using InChI as an identifier and add</span>
+<span class="sd">    it to the ``fw_spec``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        inchi (str): InChI string.</span>
+<span class="sd">        db (str or dict, optional): Database credentials.</span>
+<span class="sd">        save_mol_file (bool, optional): Whether to save the retrieved molecule to file.</span>
+<span class="sd">        fmt (str, optional): Format of the molecule file to create if save_mol_file is</span>
+<span class="sd">            True. Defaults to xyz.</span>
+<span class="sd">        filename (str): Name of the molecule file to create if ``save_mol_file`` is True;</span>
+<span class="sd">            will use molecular formula if not specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;inchi&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;db&quot;</span><span class="p">,</span> <span class="s2">&quot;save_mol_file&quot;</span><span class="p">,</span> <span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;filename&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="RetrieveMoleculeObject.run_task"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">inchi</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;inchi&quot;</span><span class="p">]</span>
+        <span class="n">mol</span> <span class="o">=</span> <span class="n">process_mol</span><span class="p">(</span><span class="s2">&quot;get_from_mol_db&quot;</span><span class="p">,</span> <span class="n">inchi</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">mol</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_mol_file&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;filename.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)),</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">get_mol_formula</span><span class="p">(</span><span class="n">mol</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)),</span>
+            <span class="p">)</span>
+            <span class="n">mol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+            <span class="n">mol</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">),</span> <span class="n">mol_file</span><span class="p">)</span>
+        <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mol</span></div></div>
+
+
+<div class="viewcode-block" id="AttachFunctionalGroup"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">AttachFunctionalGroup</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Attach a functional group to a molecule and adds it to fw_spec.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        func_grp (str): Name of the functional group (e.g. carboxyl).</span>
+<span class="sd">        index (int): Site index in the molecule at which to attach the functional group.</span>
+<span class="sd">        db (str or dict, optional): Database credentials.</span>
+<span class="sd">        molecule (Molecule, optional): Molecule to attach the functional group to;</span>
+<span class="sd">            either provided directly or taken from a previous calculation through</span>
+<span class="sd">            ``fw_spec``; priority is given to the latter.</span>
+<span class="sd">        bond_order (int, optional): Bond order to calculate the bond length between</span>
+<span class="sd">            the two sites. Defaults to 1.</span>
+<span class="sd">        save_to_db (bool, optional): Whether to save the derived molecule to db.</span>
+<span class="sd">        update_duplicates (bool, optional): Whether to update molecule document in</span>
+<span class="sd">            db if it already exists.</span>
+<span class="sd">        save_mol_file (bool, optional): Whether to save the derived molecule to file</span>
+<span class="sd">            (xyz, pdb, etc.).</span>
+<span class="sd">        fmt (str, optional): Format of the molecule file to create if ``save_mol_file`` is</span>
+<span class="sd">            True; uses xyz if not specified.</span>
+<span class="sd">        filename (str, optional): Name of the molecule file to create if ``save_mol_file``</span>
+<span class="sd">            is True; will use molecular formula if not specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;func_grp&quot;</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;molecule&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bond_order&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_mol_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fmt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filename&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="AttachFunctionalGroup.run_task"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">):</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">):</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">)</span>
+        <span class="n">func_grp_dict</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">retrieve_fg</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="s2">&quot;func_grp&quot;</span><span class="p">])</span>
+        <span class="n">func_grp</span> <span class="o">=</span> <span class="n">Molecule</span><span class="p">(</span><span class="n">func_grp_dict</span><span class="p">[</span><span class="s2">&quot;species&quot;</span><span class="p">],</span> <span class="n">func_grp_dict</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">])</span>
+        <span class="n">derived_mol</span> <span class="o">=</span> <span class="n">Molecule</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+        <span class="n">derived_mol</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span>
+            <span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="p">[</span><span class="s2">&quot;index&quot;</span><span class="p">],</span> <span class="n">func_grp</span><span class="o">=</span><span class="n">func_grp</span><span class="p">,</span> <span class="n">bond_order</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bond_order&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">insert_derived_mol</span><span class="p">(</span>
+                <span class="n">derived_mol</span><span class="p">,</span> <span class="n">update_duplicates</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_mol_file&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filename&quot;</span><span class="p">,</span> <span class="n">get_mol_formula</span><span class="p">(</span><span class="n">derived_mol</span><span class="p">))</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)),)</span>
+            <span class="n">derived_mol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+            <span class="n">derived_mol</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">),</span> <span class="n">derived_mol_file</span><span class="p">)</span>
+        <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">derived_mol</span></div></div>
+
+
+<div class="viewcode-block" id="LinkMolecules"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.LinkMolecules">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">LinkMolecules</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Link two molecules using one site from the first and another site from the second</span>
+<span class="sd">    molecule and adds the resulting molecule to ``fw_spec``.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        index1 (int): site index in the first molecule at which to link the two molecules.</span>
+<span class="sd">        index2 (int): site index in the second molecule at which to link the two molecules.</span>
+<span class="sd">        db (str or dict, optional): Database credentials.</span>
+<span class="sd">        mol1 (Molecule, optional): First molecule; can be provided directly or taken</span>
+<span class="sd">            from a previous calculation; priority is given to the latter.</span>
+<span class="sd">        mol2 (Molecule, optional): Second molecule; can be provided directly or taken</span>
+<span class="sd">            from a previous calculation; priority is given to the latter.</span>
+<span class="sd">        bond_order (int, optional): Bond order to calculate the bond length between the</span>
+<span class="sd">            two sites. Defaults to 1.</span>
+<span class="sd">        save_to_db (bool, optional): Whether to save the derived molecule to db.</span>
+<span class="sd">        update_duplicates (bool, optional): Whether to update molecule document in db</span>
+<span class="sd">            if it already exists.</span>
+<span class="sd">        save_mol_file (bool, optional): Whether to save the derived molecule to file</span>
+<span class="sd">            (xyz, pdb, etc.).</span>
+<span class="sd">        fmt (str, optional): Format of the molecule file to create if ``save_mol_file``</span>
+<span class="sd">            is True; uses xyz if not specified.</span>
+<span class="sd">        filename (str, optional): Name of the molecule file to create if ``save_mol_file``</span>
+<span class="sd">            is True; will use molecular formula if not specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;index1&quot;</span><span class="p">,</span> <span class="s2">&quot;index2&quot;</span><span class="p">]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mol1&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;mol2&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bond_order&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_mol_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fmt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;filename&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="LinkMolecules.run_task"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">))</span>
+        <span class="n">mol1</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mol1&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mol1&quot;</span><span class="p">))</span>
+        <span class="n">mol2</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mol2&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mol2&quot;</span><span class="p">))</span>
+        <span class="n">linked_mol</span> <span class="o">=</span> <span class="n">mol1</span><span class="o">.</span><span class="n">link</span><span class="p">(</span>
+            <span class="n">mol2</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;index1&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">[</span><span class="s2">&quot;index2&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">[</span><span class="s2">&quot;bond_order&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">insert_derived_mol</span><span class="p">(</span>
+                <span class="n">linked_mol</span><span class="p">,</span> <span class="n">update_duplicates</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_mol_file&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+            <span class="n">working_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s2">&quot;filename.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)),</span>
+                <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">get_mol_formula</span><span class="p">(</span><span class="n">linked_mol</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)),</span>
+            <span class="p">)</span>
+            <span class="n">linked_mol_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span>
+            <span class="n">linked_mol</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">),</span> <span class="n">linked_mol_file</span><span class="p">)</span>
+        <span class="n">fw_spec</span><span class="p">[</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">linked_mol</span></div></div>
+
+
+<div class="viewcode-block" id="BreakMolecule"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.BreakMolecule">[docs]</a><span class="nd">@explicit_serialize</span>
+<span class="k">class</span> <span class="nc">BreakMolecule</span><span class="p">(</span><span class="n">FiretaskBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Break a molecule into unique fragments (uniqueness is in terms of structure and</span>
+<span class="sd">    assigned charge) and creates optimization and frequency Fireworks for each fragment</span>
+<span class="sd">    (optional).</span>
+
+<span class="sd">    credits: Samuel Blau</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mol (Molecule, optional): Molecule to break into fragments; can be provided</span>
+<span class="sd">            directly or taken from a previous calculation; priority is given to the latter.</span>
+<span class="sd">        bonds (list, optional): List of tuples of the bonds to break; e.g.</span>
+<span class="sd">            [(0, 1), (1, 2)] will break the bonds between atoms 0 and 1 and between</span>
+<span class="sd">            atoms 1 and 2; if none is specified, will attempt to break all bonds;</span>
+<span class="sd">            defaults to None.</span>
+<span class="sd">        ref_charge (int, optional): Charge on the principle molecule; if not provided,</span>
+<span class="sd">            charge on Molecule will be used.</span>
+<span class="sd">        fragment_charges (list, optional): List of charges to assign to the fragments</span>
+<span class="sd">            in addition to the ones already assigned.</span>
+
+<span class="sd">            .. note::</span>
+<span class="sd">                The following charges will be used:</span>
+<span class="sd">                    1. **Neutral molecule**: each fragment will have charges of 0, 1, and -1</span>
+<span class="sd">                    2. **Molecule with charge -N**: each fragment will have charges of</span>
+<span class="sd">                        0, -N, -N+1, -N+2</span>
+<span class="sd">                    3. **Molecule with charge +N**: each fragment will have charges of</span>
+<span class="sd">                        0, N, N-1, N-2</span>
+<span class="sd">                If charges different from the above are provided via ``fragment_charges``,</span>
+<span class="sd">                additional fragments with these charges will be created.</span>
+
+<span class="sd">        open_rings (bool, optional): Whether to open rings; if set to True, will</span>
+<span class="sd">            perform local optimization to get a good initial guess for the structure;</span>
+<span class="sd">            defaults to False.</span>
+<span class="sd">        opt_steps (int, optional): Number of optimization steps to perform when opening</span>
+<span class="sd">            the rings; uses 10000 if not specified.</span>
+<span class="sd">        working_dir (str, optional): Working directory to use for saving any files or</span>
+<span class="sd">            running the calculations.</span>
+<span class="sd">        db (str or dict, optional): Database credentials</span>
+<span class="sd">        opt_gaussian_inputs (dict, optional): Dictionary of parameters to use for</span>
+<span class="sd">            optimizing the fragments if ``calc_frags`` is True.</span>
+<span class="sd">        freq_gaussian_inputs (dict, optional): Dictionary of parameters to use for</span>
+<span class="sd">            performing a frequency analysis if ``calc_frags`` is True.</span>
+<span class="sd">        cart_coords (bool, optional): Whether to use cartesian coordinates in writing</span>
+<span class="sd">            Gaussian input files if ``calc_frags`` is True.</span>
+<span class="sd">        oxidation_states (dict, optional): Dictionary of oxidation states that can be</span>
+<span class="sd">            used in setting the charge and spin multiplicity of the molecule;</span>
+<span class="sd">            e.g.: {&quot;Li&quot;:1, &quot;O&quot;:-2}.</span>
+<span class="sd">        calc_frags (bool, optional): Whether to create optimization and frequency</span>
+<span class="sd">            Fireworks for the generated fragments and add them as children via FWAction.</span>
+<span class="sd">        save_to_db (bool, optional): Whether to save the generated fragments to db.</span>
+<span class="sd">        save_to_file (bool, optional): Whether to save the generated fragments to file.</span>
+<span class="sd">        fmt (str, optional): Format of the molecule file to create if ``save_to_file`` is</span>
+<span class="sd">            True (e.g. xyz, pdb, etc.).</span>
+<span class="sd">        update_duplicates (bool, optional): Whether to update fragment document in</span>
+<span class="sd">            the db if it already exists; works only if ``save_to_db`` is True.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">required_params</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">optional_params</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;mol&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bonds&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;ref_charge&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fragment_charges&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;open_rings&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;opt_steps&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;working_dir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;opt_gaussian_inputs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;freq_gaussian_inputs&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;cart_coords&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;oxidation_states&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;calc_frags&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_to_db&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;save_to_file&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;fmt&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;additional_kwargs&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_define_charges</span><span class="p">(</span><span class="n">ref_charge</span><span class="p">,</span> <span class="n">fragment_charges</span><span class="p">):</span>
+        <span class="c1"># TODO: check charges on metal atoms so as to not violate valence rule</span>
+        <span class="c1"># get a list of possible charges that each fragment can take</span>
+        <span class="n">possible_charges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">ref_charge</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">possible_charges</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">ref_charge</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ref_charge</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">possible_charges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref_charge</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ref_charge</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+                <span class="n">possible_charges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref_charge</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+        <span class="c1"># add additional charges to the list of possible charges</span>
+        <span class="k">if</span> <span class="n">fragment_charges</span><span class="p">:</span>
+            <span class="n">fragment_charges</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ref_charge</span> <span class="o">-</span> <span class="n">charge</span> <span class="k">for</span> <span class="n">charge</span> <span class="ow">in</span> <span class="n">fragment_charges</span><span class="p">]</span>
+            <span class="n">possible_charges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                <span class="n">charge</span> <span class="k">for</span> <span class="n">charge</span> <span class="ow">in</span> <span class="n">fragment_charges</span> <span class="k">if</span> <span class="n">charge</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">possible_charges</span>
+            <span class="p">)</span>
+        <span class="c1"># find possible charge pairs upon breaking a bond; sum = ref_charge</span>
+        <span class="n">charge_pairs</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">pair</span>
+            <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">possible_charges</span><span class="p">,</span> <span class="n">repeat</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span> <span class="o">==</span> <span class="n">ref_charge</span>
+        <span class="p">]</span>
+
+        <span class="n">charge_ind_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">j</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">possible_charges</span><span class="p">)}</span>
+        <span class="k">return</span> <span class="n">possible_charges</span><span class="p">,</span> <span class="n">charge_pairs</span><span class="p">,</span> <span class="n">charge_ind_map</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_find_unique_fragments</span><span class="p">(</span><span class="n">fragments_list</span><span class="p">):</span>
+        <span class="c1"># get unique fragments from the list of all fragments</span>
+        <span class="c1"># for each bond, store the new indexes of the unique fragments formed</span>
+        <span class="c1"># upon splitting the molecule (can be used for analysis purposes later)</span>
+        <span class="n">unique_fragments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fragments_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fragment</span> <span class="ow">in</span> <span class="n">fragments_list</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fragment</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_fragments</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">isomorphic_to</span><span class="p">(</span><span class="n">j</span><span class="p">):</span>
+                        <span class="n">flag</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="n">flag</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_fragments</span><span class="p">))</span>
+                    <span class="n">unique_fragments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">fragments_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unique_fragments</span><span class="p">,</span> <span class="n">fragments_indices</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_find_unique_molecules</span><span class="p">(</span>
+        <span class="n">unique_fragments</span><span class="p">,</span>
+        <span class="n">fragment_charges</span><span class="p">,</span>
+        <span class="n">db</span><span class="p">,</span>
+        <span class="n">working_dir</span><span class="p">,</span>
+        <span class="n">save_to_db</span><span class="p">,</span>
+        <span class="n">update_duplicates</span><span class="p">,</span>
+        <span class="n">save_to_file</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="p">,</span>
+        <span class="n">calc_frags</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># create molecule objects from the unique fragments and set the charge</span>
+        <span class="c1"># of each molecule</span>
+        <span class="n">molecules</span> <span class="o">=</span> <span class="p">[</span><span class="n">fragment</span><span class="o">.</span><span class="n">molecule</span> <span class="k">for</span> <span class="n">fragment</span> <span class="ow">in</span> <span class="n">unique_fragments</span><span class="p">]</span>
+        <span class="n">unique_molecules</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">calc_frags</span><span class="p">:</span>
+            <span class="c1"># only saving if frags will not be calculated; otherwise saving</span>
+            <span class="c1"># will be handled via the dynamically created fireworks; done to</span>
+            <span class="c1"># avoid double saving</span>
+            <span class="k">if</span> <span class="n">save_to_db</span><span class="p">:</span>
+                <span class="n">db</span> <span class="o">=</span> <span class="n">get_db</span><span class="p">(</span><span class="n">db</span><span class="p">)</span> <span class="k">if</span> <span class="n">db</span> <span class="k">else</span> <span class="n">get_db</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>
+                    <span class="n">db</span><span class="o">.</span><span class="n">insert_molecule</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">update_duplicates</span><span class="o">=</span><span class="n">update_duplicates</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">save_to_file</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>
+                    <span class="n">mol_formula</span> <span class="o">=</span> <span class="n">get_mol_formula</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+                    <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">working_dir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mol_formula</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">fmt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">mol</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">mol</span> <span class="ow">in</span> <span class="n">molecules</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">charge</span> <span class="ow">in</span> <span class="n">fragment_charges</span><span class="p">:</span>
+                <span class="n">mol_copy</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+                <span class="n">mol_copy</span><span class="o">.</span><span class="n">set_charge_and_spin</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
+                <span class="n">unique_molecules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mol_copy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">unique_molecules</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_find_molecule_indices</span><span class="p">(</span>
+        <span class="n">fragments_indices</span><span class="p">,</span> <span class="n">fragment_charges</span><span class="p">,</span> <span class="n">charge_ind_map</span><span class="p">,</span> <span class="n">charge_pairs</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">):</span>
+        <span class="n">num_charges</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fragment_charges</span><span class="p">)</span>
+        <span class="n">molecule_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">fragment</span> <span class="ow">in</span> <span class="n">fragments_indices</span><span class="p">:</span>
+            <span class="n">split_possibilities</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">charge_pair</span> <span class="ow">in</span> <span class="n">charge_pairs</span><span class="p">:</span>
+                <span class="n">split_possibility</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">offset</span> <span class="o">+</span> <span class="n">fragment</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">num_charges</span> <span class="o">+</span> <span class="n">charge_ind_map</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">charge_pair</span><span class="p">)</span>
+                <span class="p">]</span>
+                <span class="n">split_possibilities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_possibility</span><span class="p">)</span>
+            <span class="n">molecule_indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">split_possibilities</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">molecule_indices</span>
+
+    <span class="k">def</span> <span class="nf">_cleanup_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">additional_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;additional_kwargs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">i</span><span class="p">:</span> <span class="n">j</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">additional_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">i</span>
+            <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_params</span>
+            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">optional_params</span>
+            <span class="o">+</span> <span class="p">[</span>
+                <span class="s2">&quot;mol_operation_type&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dir_structure&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;process_mol_func&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;mol_name&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;from_fw_spec&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;skips&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">kwargs</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_workflow</span><span class="p">(</span>
+        <span class="n">mol</span><span class="p">,</span>
+        <span class="n">gout_key</span><span class="p">,</span>
+        <span class="n">working_dir</span><span class="p">,</span>
+        <span class="n">db</span><span class="p">,</span>
+        <span class="n">opt_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">freq_gaussian_inputs</span><span class="p">,</span>
+        <span class="n">cart_coords</span><span class="p">,</span>
+        <span class="n">oxidation_states</span><span class="p">,</span>
+        <span class="n">save_to_db</span><span class="p">,</span>
+        <span class="n">save_to_file</span><span class="p">,</span>
+        <span class="n">fmt</span><span class="p">,</span>
+        <span class="n">update_duplicates</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">mispr.gaussian.workflows.base.core</span> <span class="kn">import</span> <span class="n">common_fw</span><span class="p">,</span> <span class="n">WORKFLOW_KWARGS</span>
+
+        <span class="n">dir_structure</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;charge_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">mol</span><span class="o">.</span><span class="n">charge</span><span class="p">))]</span>
+        <span class="n">mol_formula</span> <span class="o">=</span> <span class="n">get_mol_formula</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">skips</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;opt&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">skips</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">job_name</span> <span class="o">=</span> <span class="s2">&quot;opt_freq&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">frag_fws</span> <span class="o">=</span> <span class="n">common_fw</span><span class="p">(</span>
+            <span class="n">mol_operation_type</span><span class="o">=</span><span class="s2">&quot;get_from_mol&quot;</span><span class="p">,</span>
+            <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+            <span class="n">working_dir</span><span class="o">=</span><span class="n">working_dir</span><span class="p">,</span>
+            <span class="n">dir_structure</span><span class="o">=</span><span class="n">dir_structure</span><span class="p">,</span>
+            <span class="n">db</span><span class="o">=</span><span class="n">db</span><span class="p">,</span>
+            <span class="n">opt_gaussian_inputs</span><span class="o">=</span><span class="n">opt_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">freq_gaussian_inputs</span><span class="o">=</span><span class="n">freq_gaussian_inputs</span><span class="p">,</span>
+            <span class="n">cart_coords</span><span class="o">=</span><span class="n">cart_coords</span><span class="p">,</span>
+            <span class="n">oxidation_states</span><span class="o">=</span><span class="n">oxidation_states</span><span class="p">,</span>
+            <span class="n">process_mol_func</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">mol_name</span><span class="o">=</span><span class="n">mol_formula</span><span class="p">,</span>
+            <span class="n">from_fw_spec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">skips</span><span class="o">=</span><span class="n">skips</span><span class="p">,</span>
+            <span class="n">gout_key</span><span class="o">=</span><span class="n">gout_key</span><span class="p">,</span>
+            <span class="n">save_to_db</span><span class="o">=</span><span class="n">save_to_db</span><span class="p">,</span>
+            <span class="n">save_to_file</span><span class="o">=</span><span class="n">save_to_file</span><span class="p">,</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span>
+            <span class="n">update_duplicates</span><span class="o">=</span><span class="n">update_duplicates</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Workflow</span><span class="p">(</span>
+            <span class="n">frag_fws</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mol_formula</span><span class="p">,</span> <span class="n">job_name</span><span class="p">),</span>
+            <span class="o">**</span><span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">WORKFLOW_KWARGS</span><span class="p">},</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="BreakMolecule.run_task"><a class="viewcode-back" href="../../../../mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task">[docs]</a>    <span class="k">def</span> <span class="nf">run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fw_spec</span><span class="p">):</span>
+        <span class="c1"># get principle molecule from fw_spec or user input</span>
+        <span class="k">if</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">):</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="n">fw_spec</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;prev_calc_molecule&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">):</span>
+            <span class="n">mol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;molecule&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                <span class="s2">&quot;No molecule present, add as an optional param or check fw_spec&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">ref_charge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ref_charge&quot;</span><span class="p">,</span> <span class="n">mol</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+        <span class="n">db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;db&quot;</span><span class="p">)</span>
+        <span class="n">working_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;working_dir&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+        <span class="n">calc_frags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;calc_frags&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">save_to_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_file&quot;</span><span class="p">)</span>
+        <span class="n">save_to_db</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;save_to_db&quot;</span><span class="p">)</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fmt&quot;</span><span class="p">,</span> <span class="s2">&quot;xyz&quot;</span><span class="p">)</span>
+        <span class="n">update_duplicates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;update_duplicates&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># break the bonds: either those specified by the user inputs or all</span>
+        <span class="c1"># the bonds in the molecule; only supports breaking bonds or opening</span>
+        <span class="c1"># ring in the principle molecule</span>
+        <span class="n">mol_graph</span> <span class="o">=</span> <span class="n">MoleculeGraph</span><span class="o">.</span><span class="n">with_local_env_strategy</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">OpenBabelNN</span><span class="p">())</span>
+        <span class="n">all_bonds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;bonds&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">all_bonds</span><span class="p">:</span>
+            <span class="n">all_bonds</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">]))</span> <span class="k">for</span> <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">mol_graph</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span>
+            <span class="p">]</span>
+
+        <span class="n">fragments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">bonds</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ring_fragments</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ring_bonds</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># get fragments by splitting the molecule at each bond</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">bond</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_bonds</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">fragments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">mol_graph</span><span class="o">.</span><span class="n">split_molecule_subgraphs</span><span class="p">([</span><span class="n">bond</span><span class="p">],</span> <span class="n">allow_reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">bonds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;open_rings&quot;</span><span class="p">):</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;opening ring by breaking bond between &quot;</span>
+                        <span class="s2">&quot;site </span><span class="si">{}</span><span class="s2"> and site </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">bond</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">str</span><span class="p">(</span><span class="n">bond</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                    <span class="p">)</span>
+                    <span class="n">ring_fragments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                        <span class="p">[</span><span class="n">open_ring</span><span class="p">(</span><span class="n">mol_graph</span><span class="p">,</span> <span class="p">[</span><span class="n">bond</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;opt_steps&quot;</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))]</span>
+                    <span class="p">)</span>
+                    <span class="n">ring_bonds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bond</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                        <span class="s2">&quot;encountered a ring bond; should set open_ring &quot;</span>
+                        <span class="s2">&quot;to True to open the ring&quot;</span>
+                    <span class="p">)</span>
+
+        <span class="n">unique_molecules</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">molecule_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">fragments</span><span class="p">:</span>
+            <span class="n">fragment_charges</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;fragment_charges&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">possible_charges</span><span class="p">,</span> <span class="n">charge_pairs</span><span class="p">,</span> <span class="n">charge_ind_map</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_define_charges</span><span class="p">(</span>
+                <span class="n">ref_charge</span><span class="p">,</span> <span class="n">fragment_charges</span>
+            <span class="p">)</span>
+            <span class="n">unique_fragments</span><span class="p">,</span> <span class="n">fragments_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_unique_fragments</span><span class="p">(</span><span class="n">fragments</span><span class="p">)</span>
+            <span class="n">unique_molecules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_unique_molecules</span><span class="p">(</span>
+                <span class="n">unique_fragments</span><span class="p">,</span>
+                <span class="n">possible_charges</span><span class="p">,</span>
+                <span class="n">db</span><span class="p">,</span>
+                <span class="n">working_dir</span><span class="p">,</span>
+                <span class="n">save_to_db</span><span class="p">,</span>
+                <span class="n">update_duplicates</span><span class="p">,</span>
+                <span class="n">save_to_file</span><span class="p">,</span>
+                <span class="n">fmt</span><span class="p">,</span>
+                <span class="n">calc_frags</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">molecule_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_molecule_indices</span><span class="p">(</span>
+                <span class="n">fragments_indices</span><span class="p">,</span> <span class="n">possible_charges</span><span class="p">,</span> <span class="n">charge_ind_map</span><span class="p">,</span> <span class="n">charge_pairs</span>
+            <span class="p">)</span>
+        <span class="n">ring_unique_molecules</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ring_molecule_indices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">ring_fragments</span><span class="p">:</span>
+            <span class="n">ring_unique_fragments</span><span class="p">,</span> <span class="n">ring_fragments_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_unique_fragments</span><span class="p">(</span>
+                <span class="n">ring_fragments</span>
+            <span class="p">)</span>
+            <span class="n">ring_unique_molecules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_unique_molecules</span><span class="p">(</span>
+                <span class="n">ring_unique_fragments</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">ref_charge</span><span class="p">],</span>
+                <span class="n">db</span><span class="p">,</span>
+                <span class="n">working_dir</span><span class="p">,</span>
+                <span class="n">save_to_db</span><span class="p">,</span>
+                <span class="n">update_duplicates</span><span class="p">,</span>
+                <span class="n">save_to_file</span><span class="p">,</span>
+                <span class="n">fmt</span><span class="p">,</span>
+                <span class="n">calc_frags</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">charge_pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ref_charge</span><span class="p">,)]</span>
+            <span class="n">charge_ind_map</span> <span class="o">=</span> <span class="p">{</span><span class="n">ref_charge</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+            <span class="n">ring_molecule_indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_find_molecule_indices</span><span class="p">(</span>
+                <span class="n">ring_fragments_indices</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">ref_charge</span><span class="p">],</span>
+                <span class="n">charge_ind_map</span><span class="p">,</span>
+                <span class="n">charge_pairs</span><span class="p">,</span>
+                <span class="nb">len</span><span class="p">(</span><span class="n">unique_molecules</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="n">all_molecules</span> <span class="o">=</span> <span class="n">unique_molecules</span> <span class="o">+</span> <span class="n">ring_unique_molecules</span>
+
+        <span class="n">update_spec</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;bonds&quot;</span><span class="p">:</span> <span class="n">bonds</span> <span class="o">+</span> <span class="n">ring_bonds</span><span class="p">,</span>
+            <span class="s2">&quot;fragments&quot;</span><span class="p">:</span> <span class="n">all_molecules</span><span class="p">,</span>
+            <span class="s2">&quot;molecule_indices&quot;</span><span class="p">:</span> <span class="n">molecule_indices</span> <span class="o">+</span> <span class="n">ring_molecule_indices</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">calc_frags</span><span class="p">:</span>
+            <span class="n">wfs</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">frag_keys</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">opt_gaussian_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;opt_gaussian_inputs&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">freq_gaussian_inputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;freq_gaussian_inputs&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+            <span class="n">cart_coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cart_coords&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="n">oxidation_states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;oxidation_states&quot;</span><span class="p">)</span>
+            <span class="n">additional_kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cleanup_kwargs</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">mol_ind</span><span class="p">,</span> <span class="n">mol</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">all_molecules</span><span class="p">):</span>
+                <span class="n">gout_key</span> <span class="o">=</span> <span class="s2">&quot;frag_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mol_ind</span><span class="p">)</span>
+                <span class="n">frag_wf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workflow</span><span class="p">(</span>
+                    <span class="n">mol</span><span class="p">,</span>
+                    <span class="n">gout_key</span><span class="p">,</span>
+                    <span class="n">working_dir</span><span class="p">,</span>
+                    <span class="n">db</span><span class="p">,</span>
+                    <span class="n">opt_gaussian_inputs</span><span class="p">,</span>
+                    <span class="n">freq_gaussian_inputs</span><span class="p">,</span>
+                    <span class="n">cart_coords</span><span class="p">,</span>
+                    <span class="n">oxidation_states</span><span class="p">,</span>
+                    <span class="n">save_to_db</span><span class="p">,</span>
+                    <span class="n">save_to_file</span><span class="p">,</span>
+                    <span class="n">fmt</span><span class="p">,</span>
+                    <span class="n">update_duplicates</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">additional_kwargs</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">wfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frag_wf</span><span class="p">)</span>
+                <span class="n">frag_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gout_key</span><span class="p">)</span>
+            <span class="n">update_spec</span><span class="p">[</span><span class="s2">&quot;frag_keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frag_keys</span>
+            <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span><span class="n">update_spec</span><span class="o">=</span><span class="n">update_spec</span><span class="p">,</span> <span class="n">detours</span><span class="o">=</span><span class="n">wfs</span><span class="p">,</span> <span class="n">propagate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FWAction</span><span class="p">(</span><span class="n">update_spec</span><span class="o">=</span><span class="n">update_spec</span><span class="p">)</span></div></div>
+</code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="../../../../_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script src="../../../../_static/tabs.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="../../../../_static/togglebutton.js"></script>
+        <script src="../../../../_static/design-tabs.js"></script>
+        <script src="../../../../_static/js/rtd_search_config.js"></script>
+        <script src="../../../../_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+        <script src="https://unpkg.com/mermaid@10.2.0/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    
+  </body>
+</html>

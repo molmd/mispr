@@ -1,0 +1,1163 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.hybrid.workflows package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.hybrid.workflows package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.html"><span class="md-ellipsis">mispr</span></a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.common.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>common package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_3" type="checkbox" id="__nav_6_1_3" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.hybrid.html"><span class="md-ellipsis">mispr.<wbr>hybrid package</span></a>
+          
+            <label for="__nav_6_1_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.hybrid package" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>hybrid package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.hybrid.firetasks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>hybrid.<wbr>firetasks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">mispr.<wbr>hybrid.<wbr>workflows package</span>
+      </a>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-hybrid-workflows-package">mispr.hybrid.workflows package<a class="headerlink" href="#mispr-hybrid-workflows-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.hybrid.workflows.core"><span id="mispr-hybrid-workflows-core-module"></span>mispr.hybrid.workflows.core module<a class="headerlink" href="#module-mispr.hybrid.workflows.core" title="Permalink to this heading">¶</a></h2>
+<p>Define the DFT-MD hybrid workflow.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.hybrid.workflows.core.run_hybrid_calcs">
+<span class="sig-prename descclassname"><span class="pre">mispr.hybrid.workflows.core.</span></span><span class="sig-name descname"><span class="pre">run_hybrid_calcs</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">mol_operation_type</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">mol</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">mol_type</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">mol_data</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">box_data</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">ff_method</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">ff_params</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">mixture_type</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;number of molecules&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">db</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;hybrid_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">working_dir</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">opt_gaussian_inputs</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">freq_gaussian_inputs</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">esp_gaussian_inputs</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">solvent_gaussian_inputs</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">solvent_properties</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">cart_coords</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">oxidation_states</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">skips</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">box_data_type</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;cubic&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">data_file_name</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;data.mixture&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">analysis_list</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">analysis_settings</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/hybrid/workflows/core.html#run_hybrid_calcs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.hybrid.workflows.core.run_hybrid_calcs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<h2 id="module-mispr.hybrid.workflows.nmr"><span id="mispr-hybrid-workflows-nmr-module"></span>mispr.hybrid.workflows.nmr module<a class="headerlink" href="#module-mispr.hybrid.workflows.nmr" title="Permalink to this heading">¶</a></h2>
+<p>Define the DFT-MD workflow that extracts solvation structures and computes their
+nuclear magnetic resonances.</p>
+<dl class="py function objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr">
+<span class="sig-prename descclassname"><span class="pre">mispr.hybrid.workflows.nmr.</span></span><span class="sig-name descname"><span class="pre">get_solvation_structures_nmr</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_operation_type" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_operation_type (Python parameter) — Operation to perform for each molecule composing the liquid solution in order to process the input structure format. Length should correspond to the number of molecules/species composing the liquid solution. Supported commands:"><span class="n"><span class="pre">mol_operation_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol (Python parameter) — Sources of structures making up the liquid solution, e.g. file path if mol_operation_type is specified as &quot;get_from_file&quot;, InChI string if mol_operation_type is specified as &quot;get_from_mol_db&quot;, etc."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_type" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_type (Python parameter) — Type of each structure composing the liquid solution. Supported types: &quot;Solvents&quot;, &quot;Solutes&quot;. Used for calculating the number of molecules of each type if this information is not provided."><span class="n"><span class="pre">mol_type</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_data" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_data (Python parameter) — Format depends on mixture_type input. If mixture_type is &quot;number of molecules&quot;, mol_data should be a list of the number of molecules of each type. If mixture_type is &quot;concentration&quot;, mol_data should be a list of dict, where each dictionary should follow the format:"><span class="n"><span class="pre">mol_data</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data (Python parameter) — Definitions for box size. See box_data_type for info how to define this parameter."><span class="n"><span class="pre">box_data</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_method" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_method (Python parameter) — Operation to perform for each molecule composing the liquid solution in order to process the force field parameters. Can be &quot;get_from_esp&quot;, &quot;get_from_prmtop&quot;, &quot;get_from_dict&quot;, &quot;get_from_opls&quot;. Defaults to &quot;get_from_esp&quot; for all molecules."><span class="n"><span class="pre">ff_method</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_params" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_params (Python parameter) — Sources of the force field parameters for each molecule type; type depends on what is specified in the ff_method input; if &quot;get_from_esp&quot; is used, the corresponding ff_param should be an empty dictionary since the path to the ESP file is automatically detected from the ESP calculations that is performed at the beginning of the workflow; if &quot;get_from_prmtop&quot; is used, the corresponding ff_param should be the path to the prmtop file; if &quot;get_from_dict&quot; is used, the corresponding ff_param should be a dictionary, e.g.:"><span class="n"><span class="pre">ff_params</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mixture_type" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mixture_type (Python parameter) — &quot;concentration&quot; or &quot;number of molecules&quot;; defaults to &quot;number of molecules&quot;."><span class="n"><span class="pre">mixture_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;number of molecules&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.db" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.db (Python parameter) — Database credentials; could be provided as the path to the &quot;db.json&quot; file or in the form of a dictionary; if none is provided, attempts to get it from the configuration files."><span class="n"><span class="pre">db</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.name" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.name (Python parameter) — Name of the workflow. Defaults to &quot;hybrid_calculation&quot;."><span class="n"><span class="pre">name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;hybrid_calculation&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.working_dir" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.working_dir (Python parameter) — Path of the working directory where any required input files can be found and output will be created."><span class="n"><span class="pre">working_dir</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_esp_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_esp_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step of the ESP workflow; e.g.:"><span class="n"><span class="pre">opt_esp_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_esp_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_esp_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step of the ESP workflow; default parameters will be used if not specified."><span class="n"><span class="pre">freq_esp_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_gaussian_inputs (Python parameter) — Sictionary of Gaussian input parameters for the ESP step of the ESP workflow; default parameters will be used if not specified."><span class="n"><span class="pre">esp_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_nmr_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_nmr_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the optimization step of the NMR workflow; default parameters will be used if not specified."><span class="n"><span class="pre">opt_nmr_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_nmr_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_nmr_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the frequency step of the NMR workflow; default parameters will be used if not specified."><span class="n"><span class="pre">freq_nmr_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_gaussian_inputs (Python parameter) — Dictionary of Gaussian input parameters for the NMR step of the NMR workflow; default parameters will be used if not specified."><span class="n"><span class="pre">nmr_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the ESP calculations, if any; e.g.:"><span class="n"><span class="pre">esp_solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_properties" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_properties (Python parameter) — Additional input parameters to be used in the ESP calculations and relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}."><span class="n"><span class="pre">esp_solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_gaussian_inputs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_gaussian_inputs (Python parameter) — Gaussian input parameters corresponding to the implicit solvent model to be used in the NMR calculations, if any; e.g.:"><span class="n"><span class="pre">nmr_solvent_gaussian_inputs</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_properties" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_properties (Python parameter) — Additional input parameters to be used in the NMR calculations and relevant to the solvent model, if any; e.g., {&quot;EPS&quot;:12}."><span class="n"><span class="pre">nmr_solvent_properties</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.cart_coords" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.cart_coords (Python parameter) — Uses cartesian coordinates in writing Gaussian input files if set to True, otherwise uses z-matrix. Defaults to True."><span class="n"><span class="pre">cart_coords</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.oxidation_states" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.oxidation_states (Python parameter) — Dictionary of oxidation states that can be used in setting the charge and spin multiplicity of the clusters extracted from MD simulations to be used in the NMR workflow."><span class="n"><span class="pre">oxidation_states</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.skips" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.skips (Python parameter) — Type of DFT calculation to skip in the ESP workflow for each molecule; e.g. [&quot;opt&quot;, &quot;freq&quot;], [&quot;opt&quot;], [&quot;freq&quot;], or []."><span class="n"><span class="pre">skips</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data_type" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data_type (Python parameter) — Can be one of the following: &quot;cubic&quot;, &quot;rectangular&quot;, or &quot;LammpsBox&quot;. If &quot;cubic&quot;, box_data must be a float or int; if &quot;rectangular&quot;, box_data must be an array-like with size (3,2); if &quot;LammpsBox&quot;, box_data must be a pymatgen.io.lammps.data.LammpsBox object. Defaults to &quot;cubic&quot;."><span class="n"><span class="pre">box_data_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;cubic&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.data_file_name" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.data_file_name (Python parameter) — Name of the LAMMPS data file to create and use; defaults to &quot;data.mixture&quot;."><span class="n"><span class="pre">data_file_name</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="s1">&#39;data.mixture&#39;</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_list" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_list (Python parameter) — Type of MD analysis to perform after the MD simulations are finished; e.g.: [&quot;diffusion&quot;, &quot;rdf&quot;, &quot;cn&quot;, &quot;clusters&quot;] if user wants to perform diffusion, RDF, coordination number, and cluster analysis."><span class="n"><span class="pre">analysis_list</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_settings" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_settings (Python parameter) — Settings of the MD analysis steps; please refer to the mdproptools documentation for details of inputs used in the analysis functions; order of settings should correspond to the order used in analysis_list."><span class="n"><span class="pre">analysis_settings</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.kwargs" title="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.kwargs (Python parameter) — Additional kwargs to be passed to the workflow; e.g.: lammps recipe and recipe_settings; the defaults for these inputs are specified in the mispr/lammps/defaults.py."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/hybrid/workflows/nmr.html#get_solvation_structures_nmr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a workflow to run hybrid DFT/MD calculations, extract categorize atomic
+clusters around a particle of interest, and run the NMR calculations for the
+clusters that have the highest frequency of occurrence in solution.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_operation_type"><span class="sig-name descname">mol_operation_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of str</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_operation_type" title="Permalink to this definition">¶</a></dt><dd><p><p>Operation to perform for each molecule
+composing the liquid solution in order to process the input structure
+format. Length should correspond to the number of molecules/species
+composing the liquid solution. Supported commands:</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_mol</span></code>: If the input is a pymatgen Molecule object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_file</span></code>: If the input is any file format supported by Openabel
+and pymatgen.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_gout_file</span></code>: If the input is a Gaussian output file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_str</span></code>: If the input is a string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_mol_db</span></code>: If the input is an InChI representation of the
+molecule to be used to query the database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_gout</span></code>: If the input is a pymatgen <code class="docutils literal notranslate"><span class="pre">GaussianOutput</span></code> object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_dict</span></code>: If the input is a <code class="docutils literal notranslate"><span class="pre">GaussianOutput</span></code> dictionary.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_id</span></code>: If the input is a MongoDB document ID to be used to
+query the database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_run_query</span></code>: If the input is a dictionary with criteria to
+search the database: e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;inchi&#39;</span><span class="p">:</span> <span class="n">inchi</span><span class="p">,</span>
+ <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span>
+ <span class="s1">&#39;functional&#39;</span><span class="p">:</span> <span class="n">func</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_from_pubchem</span></code>: If the input is a common name for the molecule
+to be used in searching the PubChem database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">derive_molecule</span></code>: Used for deriving a molecule by attaching a
+functional group at a site and the corresponding mol input should be a
+dictionary, e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;operation_type&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">mol_operation_type</span> <span class="k">for</span> <span class="n">the</span> <span class="n">base</span> <span class="n">structure</span><span class="o">&gt;</span><span class="p">,</span>
+ <span class="s1">&#39;mol&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">base_mol</span><span class="o">&gt;</span><span class="p">,</span>
+ <span class="s1">&#39;func_grp&#39;</span><span class="p">:</span> <span class="n">func_group_name</span><span class="p">,</span> <span class="o">...</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">link_molecules</span></code>: Used for linking two structures by forming a bond
+at specific sites and the corresponding mol input should be a dictionary,
+e.g.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;operation_type&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;get_from_file&#39;</span><span class="p">,</span> <span class="s1">&#39;get_from_mol_db&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;mol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;mol1.xyz&#39;</span><span class="p">,</span> <span class="s1">&#39;mol_inchi&#39;</span><span class="p">],</span>
+ <span class="s1">&#39;index&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+ <span class="s1">&#39;bond_order&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</code></pre></div>
+</div>
+</li>
+</ol>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">list</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol" title="Permalink to this definition">¶</a></dt><dd><p><p>Sources of structures making up the liquid solution, e.g. file path
+if <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code> is specified as “get_from_file”, InChI string if
+<code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code> is specified as “get_from_mol_db”, etc.</p>
+<div class="important admonition">
+<p class="admonition-title">Important</p>
+<p>Order should  match that in <code class="docutils literal notranslate"><span class="pre">mol_operation_type</span></code>.</p>
+</div>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_type"><span class="sig-name descname">mol_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of str</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_type" title="Permalink to this definition">¶</a></dt><dd><p>Type of each structure composing the liquid solution.
+Supported types: “Solvents”, “Solutes”. Used for calculating the number of
+molecules of each type if this information is not provided.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_data"><span class="sig-name descname">mol_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of int or list of dict</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mol_data" title="Permalink to this definition">¶</a></dt><dd><p><p>Format depends on <code class="docutils literal notranslate"><span class="pre">mixture_type</span></code>
+input. If <code class="docutils literal notranslate"><span class="pre">mixture_type</span></code> is “number of molecules”, <code class="docutils literal notranslate"><span class="pre">mol_data</span></code> should be
+a list of the number of molecules of each type. If <code class="docutils literal notranslate"><span class="pre">mixture_type</span></code> is
+“concentration”, <code class="docutils literal notranslate"><span class="pre">mol_data</span></code> should be a list of dict, where each
+dictionary should follow the format:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s1">&#39;Initial Molarity&#39;</span><span class="p">:</span> <span class="n">molarity_i</span><span class="p">,</span>
+ <span class="s1">&#39;Final Molarity&#39;</span><span class="p">:</span> <span class="n">molarity_f</span><span class="p">,</span>
+ <span class="s1">&#39;Density&#39;</span><span class="p">:</span> <span class="n">density</span><span class="p">,</span>
+ <span class="s1">&#39;Molar Weight&#39;</span><span class="p">:</span> <span class="n">molar_weight</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data"><span class="sig-name descname">box_data</span><span class="p"> : </span><span class="desctype"><span class="desctype">float, int, list (3,2), array (3,2), or LammpsBox</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data" title="Permalink to this definition">¶</a></dt><dd><p>Definitions for
+box size. See <code class="docutils literal notranslate"><span class="pre">box_data_type</span></code> for info how to define this parameter.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_method"><span class="sig-name descname">ff_method</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_method" title="Permalink to this definition">¶</a></dt><dd><p>Operation to perform for each molecule
+composing the liquid solution in order to process the force field parameters.
+Can be “get_from_esp”, “get_from_prmtop”, “get_from_dict”, “get_from_opls”.
+Defaults to “get_from_esp” for all molecules.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_params"><span class="sig-name descname">ff_params</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of str or dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.ff_params" title="Permalink to this definition">¶</a></dt><dd><p><p>Sources of the force field parameters
+for each molecule type; type depends on what is specified in the
+<code class="docutils literal notranslate"><span class="pre">ff_method</span></code> input; if “get_from_esp” is used, the corresponding
+<code class="docutils literal notranslate"><span class="pre">ff_param</span></code> should be an empty dictionary since the path to the ESP file is
+automatically detected from the ESP calculations that is performed at the
+beginning of the workflow; if “get_from_prmtop” is used, the corresponding
+<code class="docutils literal notranslate"><span class="pre">ff_param</span></code> should be the path to the prmtop file; if “get_from_dict” is
+used, the corresponding <code class="docutils literal notranslate"><span class="pre">ff_param</span></code> should be a dictionary, e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;Labels&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;mg&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;Masses&quot;</span><span class="p">:</span> <span class="n">OrderedDict</span><span class="p">({</span><span class="s2">&quot;mg&quot;</span><span class="p">:</span> <span class="mf">24.305</span><span class="p">}),</span>
+    <span class="s2">&quot;Nonbond&quot;</span><span class="p">:</span> <span class="p">[[</span><span class="mf">0.8947000005260684</span><span class="p">,</span> <span class="mf">1.412252647723565</span><span class="p">]],</span>
+    <span class="s2">&quot;Bonds&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;Angles&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;Dihedrals&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;Impropers&quot;</span><span class="p">:</span> <span class="p">[],</span>
+    <span class="s2">&quot;Improper Topologies&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s2">&quot;Charges&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">2.0</span><span class="p">]),</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>If “get_from_opls” is used, the corresponding <code class="docutils literal notranslate"><span class="pre">ff_param</span></code> should be the
+path to the molecule PDB file.</p>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mixture_type"><span class="sig-name descname">mixture_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.mixture_type" title="Permalink to this definition">¶</a></dt><dd><p>“concentration” or “number of molecules”;
+defaults to “number of molecules”.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.db"><span class="sig-name descname">db</span><span class="p"> : </span><span class="desctype"><span class="desctype">str or dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.db" title="Permalink to this definition">¶</a></dt><dd><p>Database credentials; could be provided as the path
+to the “db.json” file or in the form of a dictionary; if none is provided,
+attempts to get it from the configuration files.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the workflow. Defaults to “hybrid_calculation”.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.working_dir"><span class="sig-name descname">working_dir</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.working_dir" title="Permalink to this definition">¶</a></dt><dd><p>Path of the working directory where any required
+input files can be found and output will be created.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_esp_gaussian_inputs"><span class="sig-name descname">opt_esp_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_esp_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Dictionary of Gaussian input
+parameters for the optimization step of the ESP workflow; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="s2">&quot;functional&quot;</span><span class="p">:</span> <span class="s2">&quot;B3LYP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;basis_set&quot;</span><span class="p">:</span> <span class="s2">&quot;6-31G(d)&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;route_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;Opt&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="s2">&quot;link0_parameters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;</span><span class="si">%c</span><span class="s2">hk&quot;</span><span class="p">:</span> <span class="s2">&quot;checkpoint.chk&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%mem&quot;</span><span class="p">:</span> <span class="s2">&quot;45GB&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;%NProcShared&quot;</span><span class="p">:</span> <span class="s2">&quot;24&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<p>The above default parameters will be used if not specified.</p>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_esp_gaussian_inputs"><span class="sig-name descname">freq_esp_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_esp_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input
+parameters for the frequency step of the ESP workflow; default parameters
+will be used if not specified.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_gaussian_inputs"><span class="sig-name descname">esp_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Sictionary of Gaussian input parameters
+for the ESP step of the ESP workflow; default parameters will be used if not
+specified.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_nmr_gaussian_inputs"><span class="sig-name descname">opt_nmr_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optioanl</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.opt_nmr_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input
+parameters for the optimization step of the NMR workflow; default parameters
+will be used if not specified.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_nmr_gaussian_inputs"><span class="sig-name descname">freq_nmr_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.freq_nmr_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input
+parameters for the frequency step of the NMR workflow; default parameters
+will be used if not specified.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_gaussian_inputs"><span class="sig-name descname">nmr_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of Gaussian input parameters
+for the NMR step of the NMR workflow; default parameters will be used if not
+specified.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_gaussian_inputs"><span class="sig-name descname">esp_solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters
+corresponding to the implicit solvent model to be used in the ESP
+calculations, if any; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_esp_gaussian_inputs</span></code>, etc.).</p>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_properties"><span class="sig-name descname">esp_solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.esp_solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used
+in the ESP calculations and relevant to the solvent model, if any; e.g.,
+{“EPS”:12}.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_gaussian_inputs"><span class="sig-name descname">nmr_solvent_gaussian_inputs</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_gaussian_inputs" title="Permalink to this definition">¶</a></dt><dd><p><p>Gaussian input parameters
+corresponding to the implicit solvent model to be used in the NMR
+calculations, if any; e.g.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="s2">&quot;(Solvent=TetraHydroFuran)&quot;</span>
+</code></pre></div>
+</div>
+<p>These parameters should only be specified here and not included in the main
+gaussian_inputs dictionary for each job (i.e. <code class="docutils literal notranslate"><span class="pre">opt_nmr_gaussian_inputs</span></code>,
+<code class="docutils literal notranslate"><span class="pre">freq_nmr_gaussian_inputs</span></code>, etc.).</p>
+</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_properties"><span class="sig-name descname">nmr_solvent_properties</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.nmr_solvent_properties" title="Permalink to this definition">¶</a></dt><dd><p>Additional input parameters to be used
+in the NMR calculations and relevant to the solvent model, if any; e.g.,
+{“EPS”:12}.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.cart_coords"><span class="sig-name descname">cart_coords</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.cart_coords" title="Permalink to this definition">¶</a></dt><dd><p>Uses cartesian coordinates in writing Gaussian
+input files if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, otherwise uses z-matrix. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.oxidation_states"><span class="sig-name descname">oxidation_states</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.oxidation_states" title="Permalink to this definition">¶</a></dt><dd><p>Dictionary of oxidation states that can be
+used in setting the charge and spin multiplicity of the clusters extracted
+from MD simulations to be used in the NMR workflow.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.skips"><span class="sig-name descname">skips</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of lists, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.skips" title="Permalink to this definition">¶</a></dt><dd><p>Type of DFT calculation to skip in the ESP
+workflow for each molecule; e.g. [“opt”, “freq”], [“opt”], [“freq”], or [].</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data_type"><span class="sig-name descname">box_data_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.box_data_type" title="Permalink to this definition">¶</a></dt><dd><p>Can be one of the following: “cubic”,
+“rectangular”, or “LammpsBox”. If “cubic”, <code class="docutils literal notranslate"><span class="pre">box_data</span></code> must be a float or
+int; if “rectangular”, <code class="docutils literal notranslate"><span class="pre">box_data</span></code> must be an array-like with size (3,2);
+if “LammpsBox”, <code class="docutils literal notranslate"><span class="pre">box_data</span></code> must be a <code class="docutils literal notranslate"><span class="pre">pymatgen.io.lammps.data.LammpsBox</span></code>
+object. Defaults to “cubic”.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.data_file_name"><span class="sig-name descname">data_file_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.data_file_name" title="Permalink to this definition">¶</a></dt><dd><p>Name of the LAMMPS data file to create and use;
+defaults to “data.mixture”.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_list"><span class="sig-name descname">analysis_list</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of str, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_list" title="Permalink to this definition">¶</a></dt><dd><p>Type of MD analysis to perform after the
+MD simulations are finished; e.g.: [“diffusion”, “rdf”, “cn”, “clusters”]
+if user wants to perform diffusion, RDF, coordination number, and cluster
+analysis.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_settings"><span class="sig-name descname">analysis_settings</span><span class="p"> : </span><span class="desctype"><span class="desctype">list of dict, optional</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.analysis_settings" title="Permalink to this definition">¶</a></dt><dd><p>Settings of the MD analysis steps;
+please refer to the mdproptools documentation for details of inputs used in
+the analysis functions; order of settings should correspond to the order
+used in <code class="docutils literal notranslate"><span class="pre">analysis_list</span></code>.</p>
+</dd>
+<dt id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.kwargs"><span class="sig-name descname">kwargs</span><span class="p"> : </span><span class="desctype"><span class="desctype">keyword arguments</span></span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to be passed to the workflow; e.g.:
+lammps <code class="docutils literal notranslate"><span class="pre">recipe</span></code> and <code class="docutils literal notranslate"><span class="pre">recipe_settings</span></code>; the defaults for these inputs are
+specified in the <code class="docutils literal notranslate"><span class="pre">mispr/lammps/defaults.py</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.hybrid.workflows.nmr.get_solvation_structures_nmr-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.hybrid.workflows.nmr.get_solvation_structures_nmr-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>Workflow</p>
+</dd>
+</dl>
+</dd></dl>
+
+<h2 id="module-mispr.hybrid.workflows"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.hybrid.workflows" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="mispr.hybrid.firetasks.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: mispr.hybrid.firetasks package" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mispr.hybrid.firetasks package
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="mispr.lammps.html" class="md-footer__link md-footer__link--next" aria-label="Next: mispr.lammps package" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              mispr.lammps package
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>

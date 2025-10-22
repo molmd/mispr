@@ -1,0 +1,1653 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>mispr.gaussian package - Materials informatics for structure-property relationships</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.1fbe08d9a12ad949f.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+        <link rel="stylesheet" type="text/css" href="_static/tabs.css" />
+        <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/css/rtd_sphinx_search.min.css" />
+        <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-header__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Materials informatics for structure-property relationships
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mispr.gaussian package
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Materials informatics for structure-property relationships" class="md-nav__button md-logo" aria-label="Materials informatics for structure-property relationships" data-md-component="logo">
+      <img src="_static/logo.png" alt="logo">
+    </a>
+    Materials informatics for structure-property relationships
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="overview.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="keywords.html" class="md-nav__link">
+        <span class="md-ellipsis">Keywords</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          <span class="md-ellipsis">Installation 🔧</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Installation 🔧" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Installation 🔧</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/index.html" class="md-nav__link">
+        <span class="md-ellipsis">Overview</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/dependencies.html" class="md-nav__link">
+        <span class="md-ellipsis">Prerequisites</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/configuration.html" class="md-nav__link">
+        <span class="md-ellipsis">Configuration Files</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/test.html" class="md-nav__link">
+        <span class="md-ellipsis">Running a Test Workflow</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          <span class="md-ellipsis">Workflows 🔀</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workflows 🔀" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Workflows 🔀</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/basics.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Basics</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/supported.html" class="md-nav__link">
+        <span class="md-ellipsis">Supported Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/tutorials.html" class="md-nav__link">
+        <span class="md-ellipsis">Workflow Tutorials</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/custom.html" class="md-nav__link">
+        <span class="md-ellipsis">Creating Custom Workflows</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          <span class="md-ellipsis">Resources 🖇️</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Resources 🖇️" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Resources 🖇️</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/faq.html" class="md-nav__link">
+        <span class="md-ellipsis">FAQ</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="resources/resources.html" class="md-nav__link">
+        <span class="md-ellipsis">Helpful Links</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          <span class="md-ellipsis">Code Documentation 📚</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Code Documentation 📚" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Code Documentation 📚</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1" type="checkbox" id="__nav_6_1" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="mispr.html"><span class="md-ellipsis">mispr</span></a>
+          
+            <label for="__nav_6_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr" data-md-level="2">
+        <label class="md-nav__title" for="__nav_6_1">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.common.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>common package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+    
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__current-nested md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6_1_2" type="checkbox" id="__nav_6_1_2" checked>
+      
+      
+      
+        
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="#"><span class="md-ellipsis">mispr.<wbr>gaussian package</span></a>
+          
+            <label for="__nav_6_1_2">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="mispr.gaussian package" data-md-level="3">
+        <label class="md-nav__title" for="__nav_6_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.firetasks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>firetasks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.fireworks.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>fireworks package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.utilities.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>utilities package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.gaussian.workflows.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>workflows package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+      
+    <li class="md-nav__item md-nav__item--active md-nav__current-toc">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">mispr.<wbr>gaussian package</span>
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="mispr.gaussian.firetasks.html" class="md-nav__link">
+    <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>firetasks package</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="mispr.gaussian.fireworks.html" class="md-nav__link">
+    <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>fireworks package</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="mispr.gaussian.utilities.html" class="md-nav__link">
+    <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>utilities package</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="mispr.gaussian.workflows.html" class="md-nav__link">
+    <span class="md-ellipsis">mispr.<wbr>gaussian.<wbr>workflows package</span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.hybrid.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>hybrid package</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="mispr.lammps.html" class="md-nav__link">
+        <span class="md-ellipsis">mispr.<wbr>lammps package</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          <span class="md-ellipsis">Development 💻</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Development 💻" data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          <span class="md-ellipsis">Development 💻</span>
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Changelog</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="citing.html" class="md-nav__link">
+        <span class="md-ellipsis">Citing MISPR</span>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="license.html" class="md-nav__link">
+        <span class="md-ellipsis">License</span>
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="mispr-gaussian-package">mispr.gaussian package<a class="headerlink" href="#mispr-gaussian-package" title="Permalink to this heading">¶</a></h1>
+<h2 id="subpackages">Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mispr.gaussian.firetasks.html">mispr.gaussian.firetasks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.firetasks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.firetasks.html#module-mispr.gaussian.firetasks.geo_transformation">mispr.gaussian.firetasks.geo_transformation module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup">mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.AttachFunctionalGroup.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.BreakMolecule">mispr.gaussian.firetasks.geo_transformation.BreakMolecule</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.BreakMolecule-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.BreakMolecule.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject">mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ConvertToMoleculeObject.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.LinkMolecules">mispr.gaussian.firetasks.geo_transformation.LinkMolecules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.LinkMolecules-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.LinkMolecules.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput">mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.ProcessMoleculeInput.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject">mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.geo_transformation.RetrieveMoleculeObject.run_task">run_task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.firetasks.html#module-mispr.gaussian.firetasks.parse_outputs">mispr.gaussian.firetasks.parse_outputs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.BDEtoDB">mispr.gaussian.firetasks.parse_outputs.BDEtoDB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.BDEtoDB-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.BDEtoDB.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB">mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.BindingEnergytoDB.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.ESPtoDB">mispr.gaussian.firetasks.parse_outputs.ESPtoDB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.ESPtoDB-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.ESPtoDB.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB">mispr.gaussian.firetasks.parse_outputs.IPEAtoDB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.IPEAtoDB.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.NMRtoDB">mispr.gaussian.firetasks.parse_outputs.NMRtoDB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.NMRtoDB-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.NMRtoDB.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.ProcessRun">mispr.gaussian.firetasks.parse_outputs.ProcessRun</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.ProcessRun-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.ProcessRun.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput">mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.parse_outputs.RetrieveGaussianOutput.run_task">run_task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.firetasks.html#module-mispr.gaussian.firetasks.run_calc">mispr.gaussian.firetasks.run_calc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian">mispr.gaussian.firetasks.run_calc.RunGaussianCustodian</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianCustodian.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianDirect">mispr.gaussian.firetasks.run_calc.RunGaussianDirect</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianDirect-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianDirect.run_task">run_task</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianFake">mispr.gaussian.firetasks.run_calc.RunGaussianFake</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianFake-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.run_calc.RunGaussianFake.run_task">run_task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.firetasks.html#module-mispr.gaussian.firetasks.write_inputs">mispr.gaussian.firetasks.write_inputs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.write_inputs.WriteInput">mispr.gaussian.firetasks.write_inputs.WriteInput</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.write_inputs.WriteInput-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.firetasks.html#mispr.gaussian.firetasks.write_inputs.WriteInput.run_task">run_task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.firetasks.html#module-mispr.gaussian.firetasks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mispr.gaussian.fireworks.html">mispr.gaussian.fireworks package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.fireworks.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.fireworks.html#module-mispr.gaussian.fireworks.break_mol">mispr.gaussian.fireworks.break_mol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.break_mol.BreakMolFW">mispr.gaussian.fireworks.break_mol.BreakMolFW</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.break_mol.BreakMolFW-parameters">Parameters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.fireworks.html#module-mispr.gaussian.fireworks.core">mispr.gaussian.fireworks.core module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.CalcFromMolFW">mispr.gaussian.fireworks.core.CalcFromMolFW</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.CalcFromMolFW-parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.CalcFromRunsDBFW">mispr.gaussian.fireworks.core.CalcFromRunsDBFW</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.CalcFromRunsDBFW-parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.common_tasks">mispr.gaussian.fireworks.core.common_tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.common_tasks-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.fireworks.html#mispr.gaussian.fireworks.core.common_tasks-returns">Returns</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.fireworks.html#module-mispr.gaussian.fireworks">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mispr.gaussian.utilities.html">mispr.gaussian.utilities package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.db_utilities">mispr.gaussian.utilities.db_utilities module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.db_utilities.get_db">mispr.gaussian.utilities.db_utilities.get_db</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.db_utilities.get_db-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.db_utilities.get_db-returns">Returns</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.dbdoc">mispr.gaussian.utilities.dbdoc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict">mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.dbdoc.add_solvent_to_prop_dict-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.files">mispr.gaussian.utilities.files module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.bibtex_parser">mispr.gaussian.utilities.files.bibtex_parser</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.bibtex_parser-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.bibtex_parser-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.bibtex_parser-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path">mispr.gaussian.utilities.files.recursive_relative_to_absolute_path</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.files.recursive_relative_to_absolute_path-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.fw_utilities">mispr.gaussian.utilities.fw_utilities module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.add_common_mods">mispr.gaussian.utilities.fw_utilities.add_common_mods</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.add_common_mods-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.add_common_mods-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.add_common_mods-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.control_worker">mispr.gaussian.utilities.fw_utilities.control_worker</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.control_worker-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.control_worker-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.control_worker-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks">mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.get_list_fireworks_and_tasks-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters">mispr.gaussian.utilities.fw_utilities.modify_queue_parameters</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.modify_queue_parameters-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.replace_runtask">mispr.gaussian.utilities.fw_utilities.replace_runtask</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.replace_runtask-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.replace_runtask-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.replace_runtask-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian">mispr.gaussian.utilities.fw_utilities.run_fake_gaussian</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.fw_utilities.run_fake_gaussian-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.gout">mispr.gaussian.utilities.gout module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.gout.process_run">mispr.gaussian.utilities.gout.process_run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.gout.process_run-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.gout.process_run-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.gout.process_run-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.inputs">mispr.gaussian.utilities.inputs module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.inputs.handle_gaussian_inputs">mispr.gaussian.utilities.inputs.handle_gaussian_inputs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.inputs.handle_gaussian_inputs-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.inputs.handle_gaussian_inputs-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.inputs.handle_gaussian_inputs-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.metadata">mispr.gaussian.utilities.metadata module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_chem_schema">mispr.gaussian.utilities.metadata.get_chem_schema</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_chem_schema-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_chem_schema-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_chem_schema-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_job_name">mispr.gaussian.utilities.metadata.get_job_name</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_job_name-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_job_name-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_job_name-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_mol_formula">mispr.gaussian.utilities.metadata.get_mol_formula</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_mol_formula-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_mol_formula-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.metadata.get_mol_formula-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.misc">mispr.gaussian.utilities.misc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.pass_gout_dict">mispr.gaussian.utilities.misc.pass_gout_dict</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.pass_gout_dict-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.pass_gout_dict-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.pass_gout_dict-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_compare_dicts">mispr.gaussian.utilities.misc.recursive_compare_dicts</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_compare_dicts-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_compare_dicts-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_compare_dicts-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_signature_remove">mispr.gaussian.utilities.misc.recursive_signature_remove</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_signature_remove-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_signature_remove-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.misc.recursive_signature_remove-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.mol">mispr.gaussian.utilities.mol module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.get_bond_order_str">mispr.gaussian.utilities.mol.get_bond_order_str</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.get_bond_order_str-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.get_bond_order_str-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.get_bond_order_str-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.label_atoms">mispr.gaussian.utilities.mol.label_atoms</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.label_atoms-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.label_atoms-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.label_atoms-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.perform_local_opt">mispr.gaussian.utilities.mol.perform_local_opt</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.perform_local_opt-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.perform_local_opt-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.perform_local_opt-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.process_mol">mispr.gaussian.utilities.mol.process_mol</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.process_mol-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.process_mol-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.mol.process_mol-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities.rdkit">mispr.gaussian.utilities.rdkit module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.calc_energy">mispr.gaussian.utilities.rdkit.calc_energy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.calc_energy-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.calc_energy-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.calc_energy-return-type">Return type</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.draw_rdkit_mol">mispr.gaussian.utilities.rdkit.draw_rdkit_mol</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.draw_rdkit_mol-parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds">mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.draw_rdkit_mol_with_highlighted_bonds-parameters">Parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.get_rdkit_mol">mispr.gaussian.utilities.rdkit.get_rdkit_mol</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.get_rdkit_mol-parameters">Parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.get_rdkit_mol-returns">Returns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.utilities.html#mispr.gaussian.utilities.rdkit.get_rdkit_mol-return-type">Return type</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.utilities.html#module-mispr.gaussian.utilities">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mispr.gaussian.workflows.html">mispr.gaussian.workflows package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.workflows.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="mispr.gaussian.workflows.base.html">mispr.gaussian.workflows.base package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base.bde">mispr.gaussian.workflows.base.bde module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base.binding_energy">mispr.gaussian.workflows.base.binding_energy module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base.core">mispr.gaussian.workflows.base.core module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base.esp">mispr.gaussian.workflows.base.esp module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base.ip_ea">mispr.gaussian.workflows.base.ip_ea module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base.nmr">mispr.gaussian.workflows.base.nmr module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mispr.gaussian.workflows.base.html#module-mispr.gaussian.workflows.base">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mispr.gaussian.workflows.html#module-mispr.gaussian.workflows">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="submodules">Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.gaussian.database"><span id="mispr-gaussian-database-module"></span>mispr.gaussian.database module<a class="headerlink" href="#module-mispr.gaussian.database" title="Permalink to this heading">¶</a></h2>
+<p>Define the Gaussian database class.</p>
+<dl class="py class objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.database.GaussianCalcDb">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">mispr.gaussian.database.</span></span><span class="sig-name descname"><span class="pre">GaussianCalcDb</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">host</span></span></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">username</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="n"><span class="pre">uri_mode</span></span><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to help manage database insertions of molecules and Gaussian calculations.</p>
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.build_indexes">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">build_indexes</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.build_indexes.background" title="mispr.gaussian.database.GaussianCalcDb.build_indexes.background (Python parameter) — If True, this index should be created."><span class="n"><span class="pre">background</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.build_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.build_indexes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build indexes for the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.build_indexes-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.build_indexes-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.build_indexes.background"><span class="sig-name descname">background</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.build_indexes.background" title="Permalink to this definition">¶</a></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, this index should be created.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.delete_molecule">
+<span class="sig-name descname"><span class="pre">delete_molecule</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.delete_molecule.inchi" title="mispr.gaussian.database.GaussianCalcDb.delete_molecule.inchi (Python parameter) — The inchi representation of the molecule to delete."><span class="n"><span class="pre">inchi</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.delete_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.delete_molecule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a molecule from the molecules collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.delete_molecule-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.delete_molecule-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.delete_molecule.inchi"><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.delete_molecule.inchi" title="Permalink to this definition">¶</a></dt><dd><p>The inchi representation of the molecule to delete.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.from_db_file">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_db_file</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file.db_file" title="mispr.gaussian.database.GaussianCalcDb.from_db_file.db_file (Python parameter) — The path to the database file."><span class="n"><span class="pre">db_file</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file.admin" title="mispr.gaussian.database.GaussianCalcDb.from_db_file.admin (Python parameter) — Whether to use admin credentials; defaults to True."><span class="n"><span class="pre">admin</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">True</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.from_db_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new database object from a database file.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.from_db_file-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.from_db_file.db_file"><span class="sig-name descname">db_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file.db_file" title="Permalink to this definition">¶</a></dt><dd><p>The path to the database file.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.from_db_file.admin"><span class="sig-name descname">admin</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file.admin" title="Permalink to this definition">¶</a></dt><dd><p>Whether to use admin credentials; defaults to
+<code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.database.GaussianCalcDb.from_db_file-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.from_db_file-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>GaussianCalcDb.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.insert_derived_mol">
+<span class="sig-name descname"><span class="pre">insert_derived_mol</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.derived_mol" title="mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.derived_mol (Python parameter) — pymatgen.Molecule object."><span class="n"><span class="pre">derived_mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.update_duplicates" title="mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.update_duplicates (Python parameter) — Whether to update duplicates if the molecule already exists."><span class="n"><span class="pre">update_duplicates</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_derived_mol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a derived molecule into the derived_molecules collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.insert_derived_mol-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.derived_mol"><span class="sig-name descname">derived_mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.derived_mol" title="Permalink to this definition">¶</a></dt><dd><p><code class="docutils literal notranslate"><span class="pre">pymatgen.Molecule</span></code> object.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.update_duplicates"><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_derived_mol.update_duplicates" title="Permalink to this definition">¶</a></dt><dd><p>Whether to update duplicates if the molecule
+already exists.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.insert_fg">
+<span class="sig-name descname"><span class="pre">insert_fg</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_fg.fg_file" title="mispr.gaussian.database.GaussianCalcDb.insert_fg.fg_file (Python parameter) — The path to the json file."><span class="n"><span class="pre">fg_file</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_fg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_fg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert functional groups into their collection using a json file. The file can
+contain one or more functional groups.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.insert_fg-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_fg-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_fg.fg_file"><span class="sig-name descname">fg_file</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_fg.fg_file" title="Permalink to this definition">¶</a></dt><dd><p>The path to the json file.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.insert_molecule">
+<span class="sig-name descname"><span class="pre">insert_molecule</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule.mol" title="mispr.gaussian.database.GaussianCalcDb.insert_molecule.mol (Python parameter) — A pymatgen Molecule object to insert."><span class="n"><span class="pre">mol</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule.update_duplicates" title="mispr.gaussian.database.GaussianCalcDb.insert_molecule.update_duplicates (Python parameter) — If True, update the existing molecule in the db with the new one. Defaults to False."><span class="n"><span class="pre">update_duplicates</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">False</span></code></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a molecule into the molecules collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.insert_molecule-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_molecule.mol"><span class="sig-name descname">mol</span><span class="p"> : </span><span class="desctype"><span class="desctype">Molecule</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule.mol" title="Permalink to this definition">¶</a></dt><dd><p>A pymatgen <code class="docutils literal notranslate"><span class="pre">Molecule</span></code> object to insert.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_molecule.update_duplicates"><span class="sig-name descname">update_duplicates</span><span class="p"> : </span><span class="desctype"><span class="desctype">bool, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_molecule.update_duplicates" title="Permalink to this definition">¶</a></dt><dd><p>If <code class="docutils literal notranslate"><span class="pre">True</span></code>, update the existing
+molecule in the db with the new one. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.insert_property">
+<span class="sig-name descname"><span class="pre">insert_property</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.collection_name" title="mispr.gaussian.database.GaussianCalcDb.insert_property.collection_name (Python parameter) — The name of the collection to insert the property into; e.g. bde, binding_energy, etc."><span class="n"><span class="pre">collection_name</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.property_dict" title="mispr.gaussian.database.GaussianCalcDb.insert_property.property_dict (Python parameter) — The property dictionary to insert."><span class="n"><span class="pre">property_dict</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.index" title="mispr.gaussian.database.GaussianCalcDb.insert_property.index (Python parameter) — The indexes to use for fast lookup."><span class="n"><span class="pre">index</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.kwargs" title="mispr.gaussian.database.GaussianCalcDb.insert_property.kwargs (Python parameter) — Additional kwargs to pass to pymongo.collection.create_index."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_property"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_property" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a document into a property collection in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.insert_property-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_property-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_property.collection_name"><span class="sig-name descname">collection_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.collection_name" title="Permalink to this definition">¶</a></dt><dd><p>The name of the collection to insert the property
+into; e.g. bde, binding_energy, etc.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_property.property_dict"><span class="sig-name descname">property_dict</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.property_dict" title="Permalink to this definition">¶</a></dt><dd><p>The property dictionary to insert.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_property.index"><span class="sig-name descname">index</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, list[tuple]</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.index" title="Permalink to this definition">¶</a></dt><dd><p>The indexes to use for fast lookup.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_property.kwargs"><span class="o">**</span><span class="n sig-name">kwargs</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_property.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Additional kwargs to pass to <code class="docutils literal notranslate"><span class="pre">pymongo.collection.create_index</span></code>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.insert_run">
+<span class="sig-name descname"><span class="pre">insert_run</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.insert_run.grun" title="mispr.gaussian.database.GaussianCalcDb.insert_run.grun (Python parameter) — A dictionary containing the Gaussian run."><span class="n"><span class="pre">grun</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.insert_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert a Gaussian run into the runs collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.insert_run-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_run-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.insert_run.grun"><span class="sig-name descname">grun</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.insert_run.grun" title="Permalink to this definition">¶</a></dt><dd><p>A dictionary containing the Gaussian run.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.database.GaussianCalcDb.move_runs">
+<span class="sig-name descname"><span class="pre">move_runs</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.new_collection" title="mispr.gaussian.database.GaussianCalcDb.move_runs.new_collection (Python parameter) — The name of the collection to move the runs to."><span class="n"><span class="pre">new_collection</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.inchi" title="mispr.gaussian.database.GaussianCalcDb.move_runs.inchi (Python parameter) — The inchi representation of the molecule."><span class="n"><span class="pre">inchi</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.smiles" title="mispr.gaussian.database.GaussianCalcDb.move_runs.smiles (Python parameter) — The smiles representation of the molecule."><span class="n"><span class="pre">smiles</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.functional" title="mispr.gaussian.database.GaussianCalcDb.move_runs.functional (Python parameter) — The name of the density functional."><span class="n"><span class="pre">functional</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.basis" title="mispr.gaussian.database.GaussianCalcDb.move_runs.basis (Python parameter) — The name of the basis set."><span class="n"><span class="pre">basis</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.kwargs" title="mispr.gaussian.database.GaussianCalcDb.move_runs.kwargs (Python parameter) — Other kwargs that can be used to query the collection."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.move_runs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move documents from the runs collection to another collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.move_runs-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.move_runs.new_collection"><span class="sig-name descname">new_collection</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.new_collection" title="Permalink to this definition">¶</a></dt><dd><p>The name of the collection to move the runs to.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.move_runs.inchi"><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.inchi" title="Permalink to this definition">¶</a></dt><dd><p>The inchi representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.move_runs.smiles"><span class="sig-name descname">smiles</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.smiles" title="Permalink to this definition">¶</a></dt><dd><p>The smiles representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.move_runs.functional"><span class="sig-name descname">functional</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.functional" title="Permalink to this definition">¶</a></dt><dd><p>The name of the density functional.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.move_runs.basis"><span class="sig-name descname">basis</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.basis" title="Permalink to this definition">¶</a></dt><dd><p>The name of the basis set.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.move_runs.kwargs"><span class="o">**</span><span class="n sig-name">kwargs</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.move_runs.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Other kwargs that can be used to query the collection.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.query_molecules">
+<span class="sig-name descname"><span class="pre">query_molecules</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules.query" title="mispr.gaussian.database.GaussianCalcDb.query_molecules.query (Python parameter) — A query document that selects which documents to include in the result set; e.g. keys can be inchi, smiles, chemsys, etc."><span class="n"><span class="pre">query</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.query_molecules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query the molecules collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.query_molecules-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.query_molecules.query"><span class="sig-name descname">query</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules.query" title="Permalink to this definition">¶</a></dt><dd><p>A query document that selects which documents to include in
+the result set; e.g. keys can be inchi, smiles, chemsys, etc.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.database.GaussianCalcDb.query_molecules-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A dataframe of documents that match the query.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.query_molecules-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.query_molecules-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc">
+<span class="sig-name descname"><span class="pre">retrieve_doc</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.collection_name" title="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.collection_name (Python parameter) — The name of the collection, e.g. bde, molecules, runs, etc."><span class="n"><span class="pre">collection_name</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.inchi" title="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.inchi (Python parameter) — The inchi representation of the molecule."><span class="n"><span class="pre">inchi</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.smiles" title="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.smiles (Python parameter) — The smiles representation of the molecule."><span class="n"><span class="pre">smiles</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.functional" title="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.functional (Python parameter) — The name of the density functional."><span class="n"><span class="pre">functional</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.basis" title="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.basis (Python parameter) — The name of the basis set."><span class="n"><span class="pre">basis</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.kwargs" title="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.kwargs (Python parameter) — Other kwargs that can be used to query the collection."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a document from any collection of the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.collection_name"><span class="sig-name descname">collection_name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.collection_name" title="Permalink to this definition">¶</a></dt><dd><p>The name of the collection, e.g. bde, molecules,
+runs, etc.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.inchi"><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.inchi" title="Permalink to this definition">¶</a></dt><dd><p>The inchi representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.smiles"><span class="sig-name descname">smiles</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.smiles" title="Permalink to this definition">¶</a></dt><dd><p>The smiles representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.functional"><span class="sig-name descname">functional</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.functional" title="Permalink to this definition">¶</a></dt><dd><p>The name of the density functional.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.basis"><span class="sig-name descname">basis</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.basis" title="Permalink to this definition">¶</a></dt><dd><p>The name of the basis set.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc.kwargs"><span class="o">**</span><span class="n sig-name">kwargs</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Other kwargs that can be used to query the collection.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A list of documents that match the query</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.retrieve_doc-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_doc-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.retrieve_fg">
+<span class="sig-name descname"><span class="pre">retrieve_fg</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_fg.name" title="mispr.gaussian.database.GaussianCalcDb.retrieve_fg.name (Python parameter) — The name of the functional group to retrieve."><span class="n"><span class="pre">name</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_fg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_fg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a functional group from the functional_groups collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.retrieve_fg-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_fg-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_fg.name"><span class="sig-name descname">name</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_fg.name" title="Permalink to this definition">¶</a></dt><dd><p>The name of the functional group to retrieve.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.database.GaussianCalcDb.retrieve_fg-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_fg-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight py" id="mispr.gaussian.database.GaussianCalcDb.retrieve_molecule">
+<span class="sig-name descname"><span class="pre">retrieve_molecule</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_molecule.inchi" title="mispr.gaussian.database.GaussianCalcDb.retrieve_molecule.inchi (Python parameter) — The inchi representation of the molecule."><span class="n"><span class="pre">inchi</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_molecule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_molecule" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a molecule from the molecules collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.retrieve_molecule-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_molecule-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_molecule.inchi"><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_molecule.inchi" title="Permalink to this definition">¶</a></dt><dd><p>The inchi representation of the molecule.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.database.GaussianCalcDb.retrieve_molecule-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_molecule-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.database.GaussianCalcDb.retrieve_run">
+<span class="sig-name descname"><span class="pre">retrieve_run</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.inchi" title="mispr.gaussian.database.GaussianCalcDb.retrieve_run.inchi (Python parameter) — The inchi representation of the molecule."><span class="n"><span class="pre">inchi</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.smiles" title="mispr.gaussian.database.GaussianCalcDb.retrieve_run.smiles (Python parameter) — The smiles representation of the molecule."><span class="n"><span class="pre">smiles</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.functional" title="mispr.gaussian.database.GaussianCalcDb.retrieve_run.functional (Python parameter) — The name of the density functional."><span class="n"><span class="pre">functional</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.basis" title="mispr.gaussian.database.GaussianCalcDb.retrieve_run.basis (Python parameter) — The name of the basis set."><span class="n"><span class="pre">basis</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.kwargs" title="mispr.gaussian.database.GaussianCalcDb.retrieve_run.kwargs (Python parameter) — Other kwargs that can be used to query the collection."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.retrieve_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a run from the runs collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.retrieve_run-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_run.inchi"><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.inchi" title="Permalink to this definition">¶</a></dt><dd><p>The inchi representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_run.smiles"><span class="sig-name descname">smiles</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.smiles" title="Permalink to this definition">¶</a></dt><dd><p>The smiles representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_run.functional"><span class="sig-name descname">functional</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.functional" title="Permalink to this definition">¶</a></dt><dd><p>The name of the density functional.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_run.basis"><span class="sig-name descname">basis</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.basis" title="Permalink to this definition">¶</a></dt><dd><p>The name of the basis set.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.retrieve_run.kwargs"><span class="o">**</span><span class="n sig-name">kwargs</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Other kwargs that can be used to query the collection.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even" id="mispr.gaussian.database.GaussianCalcDb.retrieve_run-returns">Returns<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run-returns" title="Permalink to this headline">¶</a></dt>
+<dd class="field-even"><p>A list of documents that match the query.</p>
+</dd>
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.retrieve_run-return-type">Return type<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.retrieve_run-return-type" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method objdesc">
+<dt class="sig sig-object highlight sig-wrap py" id="mispr.gaussian.database.GaussianCalcDb.update_run">
+<span class="sig-name descname"><span class="pre">update_run</span></span><span class="sig-paren">(</span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.new_values" title="mispr.gaussian.database.GaussianCalcDb.update_run.new_values (Python parameter) — The new output values to update the document with, e.g."><span class="n"><span class="pre">new_values</span></span></a></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.inchi" title="mispr.gaussian.database.GaussianCalcDb.update_run.inchi (Python parameter) — The inchi representation of the molecule."><span class="n"><span class="pre">inchi</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.smiles" title="mispr.gaussian.database.GaussianCalcDb.update_run.smiles (Python parameter) — The smiles representation of the molecule."><span class="n"><span class="pre">smiles</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.job_type" title="mispr.gaussian.database.GaussianCalcDb.update_run.job_type (Python parameter) — The type of job, e.g. &quot;opt&quot;, &quot;freq&quot;."><span class="n"><span class="pre">job_type</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.functional" title="mispr.gaussian.database.GaussianCalcDb.update_run.functional (Python parameter) — The name of the density functional."><span class="n"><span class="pre">functional</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.basis" title="mispr.gaussian.database.GaussianCalcDb.update_run.basis (Python parameter) — The name of the basis set."><span class="n"><span class="pre">basis</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.phase" title="mispr.gaussian.database.GaussianCalcDb.update_run.phase (Python parameter) — The phase of the job, e.g. &quot;gas&quot;, &quot;solution&quot;."><span class="n"><span class="pre">phase</span></span></a><span class="o"><span class="pre">=</span></span><code class="code python default_value docutils literal highlight highlight-python"><span class="kc">None</span></code></em>, </span><span class="sig-param-decl"><em class="sig-param"><span class="o"><span class="pre">**</span></span><a class="n reference internal" href="#mispr.gaussian.database.GaussianCalcDb.update_run.kwargs" title="mispr.gaussian.database.GaussianCalcDb.update_run.kwargs (Python parameter) — Other kwargs that can be used to query the collection."><span class="n"><span class="pre">kwargs</span></span></a></em></span><span class="sig-paren">)</span><a class="reference internal" href="_modules/mispr/gaussian/database.html#GaussianCalcDb.update_run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a document in the runs collection. If multiple documents match the query
+criteria, will select the first one.</p>
+<dl class="field-list simple">
+<dt class="field-odd" id="mispr.gaussian.database.GaussianCalcDb.update_run-parameters">Parameters<span class="colon">:</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run-parameters" title="Permalink to this headline">¶</a></dt>
+<dd class="field-odd"><dl class="simple api-field highlight">
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.new_values"><span class="sig-name descname">new_values</span><span class="p"> : </span><span class="desctype"><span class="desctype">dict</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.new_values" title="Permalink to this definition">¶</a></dt><dd><p>The new output values to update the document with, e.g.</p>
+</dd>
+<dt><span class="sig-name descname">code-block:</span><span class="p"> : </span><span class="desctype"><span class="desctype">..</span></span></dt><dd><p>python: {“polarizability”: 3.5}</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.inchi"><span class="sig-name descname">inchi</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.inchi" title="Permalink to this definition">¶</a></dt><dd><p>The inchi representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.smiles"><span class="sig-name descname">smiles</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.smiles" title="Permalink to this definition">¶</a></dt><dd><p>The smiles representation of the molecule.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.job_type"><span class="sig-name descname">job_type</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.job_type" title="Permalink to this definition">¶</a></dt><dd><p>The type of job, e.g. “opt”, “freq”.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.functional"><span class="sig-name descname">functional</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.functional" title="Permalink to this definition">¶</a></dt><dd><p>The name of the density functional.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.basis"><span class="sig-name descname">basis</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.basis" title="Permalink to this definition">¶</a></dt><dd><p>The name of the basis set.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.phase"><span class="sig-name descname">phase</span><span class="p"> : </span><span class="desctype"><span class="desctype">str, optional</span></span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.phase" title="Permalink to this definition">¶</a></dt><dd><p>The phase of the job, e.g. “gas”, “solution”.</p>
+</dd>
+<dt id="mispr.gaussian.database.GaussianCalcDb.update_run.kwargs"><span class="o">**</span><span class="n sig-name">kwargs</span><a class="headerlink" href="#mispr.gaussian.database.GaussianCalcDb.update_run.kwargs" title="Permalink to this definition">¶</a></dt><dd><p>Other kwargs that can be used to query the collection.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<h2 id="module-mispr.gaussian.defaults"><span id="mispr-gaussian-defaults-module"></span>mispr.gaussian.defaults module<a class="headerlink" href="#module-mispr.gaussian.defaults" title="Permalink to this heading">¶</a></h2>
+<h2 id="module-mispr.gaussian"><span id="module-contents"></span>Module contents<a class="headerlink" href="#module-mispr.gaussian" title="Permalink to this heading">¶</a></h2>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="mispr.common.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: mispr.common package" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mispr.common package
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="mispr.gaussian.firetasks.html" class="md-footer__link md-footer__link--next" aria-label="Next: mispr.gaussian.firetasks package" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              mispr.gaussian.firetasks package
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2022, MolMD Group.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    5.1.1.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://github.com/molmd/mispr" target="_blank" rel="noopener" title="Source on github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/molmd_group" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate", "navigation.expand", "navigation.sections"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script>let toggleHintShow = 'Click to show';</script>
+        <script>let toggleHintHide = 'Click to hide';</script>
+        <script>let toggleOpenOnPrint = 'true';</script>
+        <script src="_static/togglebutton.js"></script>
+        <script src="_static/design-tabs.js"></script>
+        <script src="_static/js/rtd_search_config.js"></script>
+        <script src="_static/js/rtd_sphinx_search.min.js"></script>
+        <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    
+  </body>
+</html>
