@@ -1,0 +1,12 @@
+_fw_name: CommonAdapter
+_fw_q_type: SLURM
+rocket_launch: rlaunch -w |CODES_DIR|/config singleshot
+nodes: 1
+walltime: 24:00:00
+queue: null
+account: null
+job_name: null
+pre_rocket: null
+post_rocket: null
+logdir: |CODES_DIR|/logs
+

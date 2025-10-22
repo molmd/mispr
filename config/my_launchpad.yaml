@@ -1,0 +1,13 @@
+host: |HOSTNAME|
+port: |PORT|
+name: |LAUNCHPAD_NAME|
+username: |ADMIN_USERNAME|
+password: |ADMIN_PASSWORD|
+logdir: null
+strm_lvl: INFO
+user_indices: []
+wf_user_indices: []
+authsource: null
+uri_mode: |URI_MODE|
+mongoclient_kwargs: {}
+

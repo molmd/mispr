@@ -1,0 +1,6 @@
+name: |WORKER_NAME|
+category: ''
+query: '{}'
+env:
+    db_file: |CODES_DIR|/config/db.json
+    scratch_dir: null
