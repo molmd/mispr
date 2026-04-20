@@ -1,0 +1,24 @@
+SYSTEM = system
+ISTART = 0
+NPAR =4 
+ISMEAR = -5
+SIGMA = 0.05
+IBRION = 2
+ICHARG = 2
+NSW  = 99
+NELM = 100
+PREC = Accurate
+ALGO = Fast
+GGA = PE
+ISIF = 3
+ENCUT = 520
+EDIFF = 1E-6
+ISPIN = 2
+LREAL = A
+KPOINTS_BSE = -1,0,0,0
+
+#---------------save memory--------------
+LWAVE = F
+LCHARG = F
+LORBIT = 11
+#----------------------------------------
