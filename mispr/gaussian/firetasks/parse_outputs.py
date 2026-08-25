@@ -336,20 +336,12 @@ class ESPtoDB(FiretaskBase):
         # include opt fireworks in the list of gout_dict to calculate run time
         full_gout_dict = gout_dict + [pass_gout_dict(fw_spec, i + "_opt") for i in keys]
         full_gout_dict = [i for i in full_gout_dict if i is not None]
-
-        # look up each step's gout_dict by its actual key ("mol", "mol_esp", ...)
-        # rather than by position in the list -- keeps this working correctly even
-        # if a caller ever changes the order/length of "keys"
-        gout_by_key = dict(zip(keys, gout_dict))
-        esp_gout = gout_by_key["mol_esp"]
-        freq_gout = gout_by_key["mol"]
-
         molecule = process_mol(
-            "get_from_run_dict", esp_gout, charge=esp_gout["input"]["charge"]
+            "get_from_run_dict", gout_dict[-1], charge=gout_dict[-1]["input"]["charge"]
         )
 
         mol_schema = get_chem_schema(molecule)
-        phase = esp_gout["phase"]
+        phase = gout_dict[-1]["phase"]
 
         # if one calculation is skipped, wall time is considered zero
         run_time = sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
@@ -360,26 +352,17 @@ class ESPtoDB(FiretaskBase):
             "inchi": mol_schema["inchi"],
             "formula_alphabetical": mol_schema["formula_alphabetical"],
             "chemsys": mol_schema["chemsys"],
-            "energy": esp_gout["output"]["output"]["final_energy"],
-            "esp": esp_gout["output"]["output"]["ESP_charges"],
-            # same charges as "esp" above, but labeled by element+atom-index (e.g.
-            # "O0", "H1", "H2") instead of bare list position, so results are
-            # readable directly from the database without cross-referencing
-            # "molecule" to figure out which atom each entry belongs to
-            "esp_by_atom": {
-                f"{site.specie.symbol}{i}": charge
-                for i, (site, charge) in enumerate(
-                    zip(molecule, esp_gout["output"]["output"]["ESP_charges"])
-                )
-            },
-            "functional": esp_gout["functional"],
-            "basis": esp_gout["basis"],
+            "energy": gout_dict[-1]["output"]["output"]["final_energy"],
+            "esp": gout_dict[-1]["output"]["output"]["ESP_charges"],
+            "dipole_moment": gout_dict[-1]["output"]["output"]["dipole_moment"],
+            "functional": gout_dict[-1]["functional"],
+            "basis": gout_dict[-1]["basis"],
             "phase": phase,
-            "tag": esp_gout["tag"],
+            "tag": gout_dict[-1]["tag"],
             "state": "successful",
             "wall_time (s)": run_time,
             "version": mispr_version,
-            "gauss_version": esp_gout["gauss_version"],
+            "gauss_version": gout_dict[-1]["gauss_version"],
             "last_updated": datetime.datetime.utcnow(),
         }
 
@@ -390,14 +373,9 @@ class ESPtoDB(FiretaskBase):
                 esp_dict, solvent_gaussian_inputs, solvent_properties
             )
 
-        # dipole moment comes from the frequency calc; the ESP calc itself never
-        # computes one -- ESP.run_task's output_block has no dipole moment logic
-        if "dipole_moment" in freq_gout["output"]["output"]:
-            esp_dict["dipole_moment"] = freq_gout["output"]["output"]["dipole_moment"]
-
         # check if polarizability is available (from freq calc of esp workflow)
-        if "polarizability" in freq_gout["output"]["output"]:
-            esp_dict["polarizability"] = freq_gout["output"]["output"][
+        if "polarizability" in gout_dict[-2]["output"]["output"]:
+            esp_dict["polarizability"] = gout_dict[-2]["output"]["output"][
                 "polarizability"
             ]
 
@@ -635,12 +613,6 @@ class BindingEnergytoDB(FiretaskBase):
             "gauss_version": gout_dict[-1]["gauss_version"],
             "last_updated": datetime.datetime.utcnow(),
         }
-
-        # optional: a counterpoise (BSSE) correction, if a prior Firetask
-        # computed one and left it in fw_spec; absent for workflows that
-        # don't request it
-        if fw_spec.get("be_eV_cp_corrected") is not None:
-            be_dict["be_eV_cp_corrected"] = fw_spec["be_eV_cp_corrected"]
 
         if phase == "solution":
             solvent_gaussian_inputs = self.get("solvent_gaussian_inputs")
@@ -1046,34 +1018,22 @@ class BDEtoDB(FiretaskBase):
             charge=gout_dict[principle_mol_key]["input"]["charge"],
         )
         phase = gout_dict[principle_mol_key]["phase"]
-        # a fragment calculation may have failed (e.g. an unphysical/non-convergent
-        # species produced by breaking a bond), in which case pass_gout_dict returns
-        # None for its key; skip those here so a single failed fragment doesn't take
-        # down the whole BDE analysis, per this Firetask's documented behavior
-        valid_gout_dict = {i: j for i, j in gout_dict.items() if j is not None}
-        if principle_mol_key not in valid_gout_dict:
-            raise ValueError(
-                "Calculation for the principle molecule failed; cannot compute BDEs"
-            )
-        for failed_key in gout_dict.keys() - valid_gout_dict.keys():
-            logger.warning(f"Calculation failed for fragment {failed_key}; skipping it")
         final_energies = {
-            i: j["output"]["output"]["final_energy"]
-            for i, j in valid_gout_dict.items()
+            i: j["output"]["output"]["final_energy"] for i, j in gout_dict.items()
         }
         enthalpy_corrections = {
             i: j["output"]["output"]["corrections"]["Enthalpy"]
-            for i, j in valid_gout_dict.items()
+            for i, j in gout_dict.items()
         }
         enthalpies = {
             key: final_energies[key] + enthalpy_corrections[key]
-            for key in valid_gout_dict.keys()
+            for key in gout_dict.keys()
         }
 
         run_time = sum([gout.get("wall_time (s)", 0) for gout in full_gout_dict])
 
         fragments = {}
-        for gout_key, gout in valid_gout_dict.items():
+        for gout_key, gout in gout_dict.items():
             if gout_key != principle_mol_key:
                 frag = process_mol(
                     "get_from_run_dict", gout, charge=gout["input"]["charge"]
@@ -1105,18 +1065,9 @@ class BDEtoDB(FiretaskBase):
                     fragment_energies_sum = sum(
                         [enthalpies[frag] for frag in frag_tuple]
                     )
-                    # label with each fragment's formula and charge (rather than the
-                    # raw frag_ind/charge_ind_map bookkeeping indices) so the stored
-                    # key is readable directly from the database, without needing to
-                    # replay _find_molecule_indices' index arithmetic by hand
-                    frag_label = "+".join(
-                        f"{fragments[frag]['formula_alphabetical']}"
-                        f"(q={gout_dict[frag]['input']['charge']})"
-                        for frag in frag_tuple
-                    )
                     frag_pairs.update(
                         {
-                            frag_label: (
+                            str(frag_ind): (
                                 fragment_energies_sum - enthalpies[principle_mol_key]
                             )
                             * HARTREE_TO_EV

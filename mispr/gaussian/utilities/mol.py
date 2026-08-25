@@ -8,12 +8,9 @@ from bson import ObjectId
 from openbabel import pybel as pb
 from openbabel import OBMolBondIter
 
-import numpy as np
-
 from pymatgen.io.babel import BabelMolAdaptor
 from pymatgen.io.gaussian import GaussianOutput
 from pymatgen.core.structure import Molecule
-from pymatgen.core.periodic_table import Element
 
 from mispr.common.pubchem import PubChemRunner
 from mispr.gaussian.utilities.db_utilities import get_db
@@ -26,59 +23,6 @@ __date__ = "Jan 2021"
 __version__ = "0.0.4"
 
 logger = logging.getLogger(__name__)
-
-
-def link_molecules(mol1, index1, mol2, index2, bond_order=1):
-    """Join two molecules into one by forming a bond between a site in each, without removing or modifying any existing atoms in either molecule (unlike ``Molecule.substitute``, which is meant for swapping out a single atom for a functional group).
-
-    Replaces a previous implementation that called a ``Molecule.link`` method
-    that no longer exists in current pymatgen versions.
-
-    ``mol2`` is rigidly translated so that the site at ``index2`` sits at an
-    estimated bond distance (sum of covalent/atomic radii, roughly adjusted for
-    ``bond_order``) from the site at ``index1`` in ``mol1``, along the direction
-    pointing away from ``mol1``'s center of mass (so the two molecules don't
-    overlap); the exact geometry is only a starting guess for a subsequent
-    optimization, not expected to be physically precise on its own.
-
-    Args:
-        mol1 (Molecule): First molecule (its geometry is left unchanged).
-        index1 (int): Site index in ``mol1`` to bond from.
-        mol2 (Molecule): Second molecule (translated to attach to ``mol1``).
-        index2 (int): Site index in ``mol2`` to bond from.
-        bond_order (int, optional): Bond order, used to shrink the estimated bond
-            length for higher-order bonds; defaults to 1.
-
-    Returns:
-        Molecule: The combined molecule (charge = sum of the two input charges).
-
-    """
-    site1 = mol1[index1]
-    site2 = mol2[index2]
-
-    radius1 = Element(site1.specie.symbol).atomic_radius or 0.75
-    radius2 = Element(site2.specie.symbol).atomic_radius or 0.75
-    # higher bond orders pull atoms closer together; ~0.1 Angstrom per extra order
-    # is a rough, commonly-used rule of thumb, good enough for an initial guess
-    bond_length = float(radius1 + radius2) - 0.1 * (bond_order - 1)
-
-    if len(mol1) > 1:
-        direction = site1.coords - mol1.center_of_mass
-    else:
-        direction = np.array([0.0, 0.0, 0.0])
-    if np.linalg.norm(direction) < 1e-6:
-        direction = np.array([1.0, 0.0, 0.0])
-    direction = direction / np.linalg.norm(direction)
-
-    target_position = site1.coords + direction * bond_length
-    translation = target_position - site2.coords
-
-    mol2_shifted = mol2.copy()
-    mol2_shifted.translate_sites(range(len(mol2_shifted)), translation)
-
-    combined = Molecule.from_sites(list(mol1.sites) + list(mol2_shifted.sites))
-    combined.set_charge_and_spin(mol1.charge + mol2.charge)
-    return combined
 
 
 def process_mol(operation_type, mol, local_opt=False, **kwargs):
@@ -292,9 +236,8 @@ def process_mol(operation_type, mol, local_opt=False, **kwargs):
         linked_mol = process_mol(
             operation_type=mol["operation_type"][1], mol=mol["mol"][1], **kwargs
         )
-        output_mol = link_molecules(
-            linking_mol, mol["index"][0], linked_mol, mol["index"][1],
-            mol["bond_order"],
+        output_mol = linking_mol.link(
+            linked_mol, mol["index"][0], mol["index"][1], mol["bond_order"]
         )
 
     else:

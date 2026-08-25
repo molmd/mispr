@@ -11,7 +11,6 @@ Subpackages
    mispr.gaussian
    mispr.hybrid
    mispr.lammps
-   mispr.orca
 
 Module contents
 ---------------

@@ -8,14 +8,6 @@ structure of a molecule. Later in :doc:`Workflow Tutorials <../workflows/tutoria
 we will show how to run more complex workflows.
 
 .. note::
-   The test workflow below uses the Gaussian backend. If you are using MISPR
-   with ORCA instead (no Gaussian license), skip this page and run
-   the ORCA backend's complete example from
-   :doc:`Workflow Tutorials <../workflows/tutorials>` as your test -- it
-   exercises the same infrastructure (database connection, configuration
-   files, FireWorks launching) end to end.
-
-.. note::
     ``lpad`` and ``qlaunch`` that are used in this tutorial are part of
     FireWorks software. You can refer to FireWorks documentation if you
     need additional information.
