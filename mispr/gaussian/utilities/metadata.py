@@ -18,15 +18,14 @@ logger = logging.getLogger(__name__)
 
 
 def get_chem_schema(mol):
-    """
-    Return a dictionary of chemical schema for a given molecule to use in building db
-    documents or json file.
+    """Return a dictionary of chemical schema for a given molecule to use in building db documents or json file.
 
     Args:
         mol (Molecule): Molecule object.
 
     Returns:
         dict: Chemical schema.
+
     """
     mol_dict = mol.as_dict()
     comp = mol.composition

@@ -18,14 +18,14 @@ logger = logging.getLogger(__name__)
 
 
 def get_db(input_db=None):
-    """
-    Helper function to create a GaussianCalcDb instance from a file or a dict.
+    """Create a GaussianCalcDb instance from a file or a dict.
 
     Args:
         input_db (str or dict, optional): Path to db file or a dict containing db info.
 
     Returns:
         GaussianCalcDb.
+
     """
     if not input_db:
         input_db = f"{CONFIG_FILE_DIR}/db.json"

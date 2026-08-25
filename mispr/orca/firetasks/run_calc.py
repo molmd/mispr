@@ -66,8 +66,7 @@ STANDARD_P = 101325.0  # Pa
 
 
 def _json_default(o):
-    """``json.dumps`` fallback for numpy scalars/arrays left over in a gout_dict;
-    anything else is stringified."""
+    """``json.dumps`` fallback for numpy scalars/arrays left over in a gout_dict; anything else is stringified."""
     if isinstance(o, np.bool_):
         return bool(o)
     if isinstance(o, np.integer):
@@ -93,6 +92,7 @@ def _atomic_thermo_corrections(mass_amu, multiplicity, t=STANDARD_T, p=STANDARD_
         dict: "Zero-point correction", "Enthalpy", and "Gibbs Free Energy"
             corrections, in Hartree, using the same additive convention as
             mispr.gaussian (i.e. to be added to the raw electronic energy).
+
     """
     mass_kg = mass_amu * AMU_TO_KG
     q_trans = (2 * np.pi * mass_kg * BOLTZMANN * t / PLANCK**2) ** 1.5 * (
@@ -115,28 +115,31 @@ def _atomic_thermo_corrections(mass_amu, multiplicity, t=STANDARD_T, p=STANDARD_
 
 
 def _resolve_orca_cmd(task):
-    """Resolve the ORCA executable: the task's "orca_cmd" param, then the
-    ORCA_CMD environment variable, then a bare "orca" (PATH lookup). Parallel
-    runs (num_cores > 1) require the full absolute path -- an ORCA/OpenMPI
-    requirement."""
+    """Resolve the ORCA executable: the task's "orca_cmd" param, then the ORCA_CMD environment variable, then a bare "orca" (PATH lookup).
+
+    Parallel runs (num_cores > 1) require the full absolute path -- an
+    ORCA/OpenMPI requirement.
+    """
     return task.get("orca_cmd") or os.environ.get("ORCA_CMD") or "orca"
 
 
 def _run_orca(orca_cmd, input_path, output_path):
-    """Run ORCA on input_path, streaming its stdout (where ORCA writes all its
-    results) into output_path."""
+    """Run ORCA on input_path, streaming its stdout (where ORCA writes all its results) into output_path."""
     with open(output_path, "w") as f:
+        # orca_cmd/input_path come from local job config, not untrusted input;
+        # args are passed as a list (no shell) so there is no shell-injection
+        # vector regardless.
         subprocess.run(
             [orca_cmd, input_path],
             stdout=f,
             stderr=subprocess.STDOUT,
             cwd=os.path.dirname(os.path.abspath(input_path)),
+            shell=False,
         )
 
 
 def _error_tail(output_path, n_lines=20):
-    """Last n_lines of the output file, for error reporting on abnormal
-    termination (ORCA prints its abort reason at the very end)."""
+    """Last n_lines of the output file, for error reporting on abnormal termination (ORCA prints its abort reason at the very end)."""
     try:
         with open(output_path) as f:
             return "\n".join(f.read().splitlines()[-n_lines:])
@@ -146,10 +149,7 @@ def _error_tail(output_path, n_lines=20):
 
 @explicit_serialize
 class RunOrca(FiretaskBase):
-    """
-    Run an ORCA calculation (single point, geometry optimization, and/or
-    frequency analysis) and store the result under fw_spec["gaussian_output"]
-    using the same dictionary schema mispr uses for Gaussian runs.
+    """Run an ORCA calculation (single point, geometry optimization, and/or frequency analysis) and store the result under fw_spec["gaussian_output"] using the same dictionary schema mispr uses for Gaussian runs.
 
     Args:
         molecule (Molecule, optional): pymatgen Molecule to run the calculation
@@ -196,6 +196,7 @@ class RunOrca(FiretaskBase):
             fw_spec["gaussian_output"]; the run is always additionally stored
             under the default key "gout_key" (as with Gaussian runs).
         tag (str, optional): Tag stored in the db documents for easy retrieval.
+
     """
 
     required_params = []
@@ -223,22 +224,14 @@ class RunOrca(FiretaskBase):
     ]
 
     def _charge_from_oxidation_states(self, mol):
-        """
-        Calculate the charge of a molecule/cluster from the oxidation state of
-        its individual elements (e.g. {"Li": 1, "O": -2}); mirrors
-        mispr.gaussian.firetasks.write_inputs.WriteInput._update_charge, since
-        this is plain pymatgen bookkeeping with no dependency on the QM engine.
-        """
+        """Calculate the charge of a molecule/cluster from the oxidation state of its individual elements (e.g. {"Li": 1, "O": -2}); mirrors mispr.gaussian.firetasks.write_inputs.WriteInput._update_charge, since this is plain pymatgen bookkeeping with no dependency on the QM engine."""
         mol_copy = deepcopy(mol)
         mol_copy.add_oxidation_state_by_element(self["oxidation_states"])
         mol_copy.set_charge_and_spin(super(IMolecule, mol_copy).charge)
         return int(mol_copy.charge)
 
     def _get_molecule(self, fw_spec):
-        """Resolve the input molecule from (in priority order) the explicit
-        "molecule" param, a previous run's optimized geometry via
-        "prev_calc_key", or a linked molecule left in fw_spec by an earlier
-        Firetask in the same Firework; raises KeyError if none is found."""
+        """Resolve the input molecule from (in priority order) the explicit "molecule" param, a previous run's optimized geometry via "prev_calc_key", or a linked molecule left in fw_spec by an earlier Firetask in the same Firework; raises KeyError if none is found."""
         mol = self.get("molecule")
         if mol is not None:
             if not isinstance(mol, Molecule):
@@ -266,13 +259,8 @@ class RunOrca(FiretaskBase):
             "check fw_spec"
         )
 
-    def run_task(self, fw_spec):
-        """Write the ORCA input file, run ORCA, parse its output, and store the
-        result under fw_spec["gaussian_output"] for downstream Firetasks (e.g.
-        ``mispr.gaussian.firetasks.parse_outputs.ESPtoDB``) to consume."""
-        working_dir = os.getcwd()
-        mol = self._get_molecule(fw_spec)
-
+    def _resolve_charge_multiplicity(self, mol):
+        """Resolve (charge, multiplicity) from the task params, falling back to mol's own values."""
         if self.get("oxidation_states"):
             charge = self._charge_from_oxidation_states(mol)
         else:
@@ -288,13 +276,10 @@ class RunOrca(FiretaskBase):
             mol_for_mult = deepcopy(mol)
             mol_for_mult.set_charge_and_spin(charge)
             multiplicity = mol_for_mult.spin_multiplicity
+        return charge, multiplicity
 
-        if self.get("cart_coords") is False:
-            raise NotImplementedError(
-                "The ORCA backend only writes cartesian-coordinate inputs; "
-                "z-matrix input (cart_coords=False) is not supported"
-            )
-
+    def _build_job_spec(self, mol, charge):
+        """Resolve the ORCA route keywords and opt/freq/PCM job flags from the task params."""
         functional = self.get("functional", DEFAULT_FUNCTIONAL)
         basis_set = self.get("basis_set", DEFAULT_BASIS_SET)
         route_parameters = self.get("route_parameters") or {}
@@ -332,11 +317,56 @@ class RunOrca(FiretaskBase):
         if is_pcm:
             keywords.append(f"CPCM({solvent.get('solvent', 'water')})")
 
-        input_file = self.get("input_file", "mol.inp")
-        input_path = os.path.join(working_dir, input_file)
-        output_path = os.path.splitext(input_path)[0] + ".out"
+        return {
+            "functional": functional,
+            "basis_set": basis_set,
+            "route_parameters": route_parameters,
+            "job_types": job_types,
+            "keywords": keywords,
+            "run_opt": run_opt,
+            "run_freq": run_freq,
+            "is_pcm": is_pcm,
+            "bare_nucleus": bare_nucleus,
+            "atomic_freq": atomic_freq,
+        }
 
-        st = timer()
+    def _extract_success_result(self, mol, charge, multiplicity, job_spec, parsed):
+        """Pull energy/geometry/frequency/dipole/corrections out of a normally-terminated, converged ORCA run."""
+        run_opt = job_spec["run_opt"]
+        run_freq = job_spec["run_freq"]
+        corrections = {}
+        final_mol = mol
+        frequencies = None
+
+        energy = parsed["final_energy"]
+        if run_opt and parsed["coords"]:
+            final_mol = Molecule(parsed["species"], parsed["coords"])
+            final_mol.set_charge_and_spin(charge, multiplicity)
+        if run_freq:
+            frequencies = parsed["frequencies"]
+            # ORCA's thermochemistry section reports enthalpy/Gibbs as totals
+            # (electronic energy + correction); mispr expects the correction
+            # alone in all three cases, to be added back to final_energy
+            # downstream (see BDEtoDB/IPEAtoDB)
+            if parsed["zpe"] is not None:
+                corrections["Zero-point correction"] = parsed["zpe"]
+            if parsed["total_enthalpy"] is not None:
+                corrections["Enthalpy"] = parsed["total_enthalpy"] - energy
+            if parsed["gibbs_free_energy"] is not None:
+                corrections["Gibbs Free Energy"] = (
+                    parsed["gibbs_free_energy"] - energy
+                )
+        if job_spec["atomic_freq"]:
+            corrections.update(
+                _atomic_thermo_corrections(mol.species[0].atomic_mass, multiplicity)
+            )
+        dipole = parsed["dipole_moment"]
+
+        return energy, final_mol, frequencies, corrections, dipole
+
+    def _run_and_parse(self, mol, charge, multiplicity, job_spec, input_path, output_path):
+        """Run ORCA (unless bare_nucleus) and collect the energy/geometry/frequency/error results."""
+        run_opt = job_spec["run_opt"]
         corrections = {}
         has_completed = True
         error_msg = None
@@ -346,9 +376,9 @@ class RunOrca(FiretaskBase):
         frequencies = None
         orca_version = None
 
-        if bare_nucleus:
+        if job_spec["bare_nucleus"]:
             energy = 0.0
-            if atomic_freq:
+            if job_spec["atomic_freq"]:
                 corrections.update(
                     {
                         "Zero-point correction": 0.0,
@@ -363,7 +393,7 @@ class RunOrca(FiretaskBase):
                         mol,
                         charge,
                         multiplicity,
-                        keywords,
+                        job_spec["keywords"],
                         memory_mb=self.get("memory", DEFAULT_MEMORY_MB),
                         num_cores=self.get("num_cores", DEFAULT_NUM_CORES),
                     )
@@ -382,67 +412,58 @@ class RunOrca(FiretaskBase):
                 has_completed = False
                 error_msg = "ORCA geometry optimization did not converge"
             else:
-                energy = parsed["final_energy"]
-                if run_opt and parsed["coords"]:
-                    final_mol = Molecule(parsed["species"], parsed["coords"])
-                    final_mol.set_charge_and_spin(charge, multiplicity)
-                if run_freq:
-                    frequencies = parsed["frequencies"]
-                    # ORCA's thermochemistry section reports enthalpy/Gibbs as
-                    # totals (electronic energy + correction); mispr expects the
-                    # correction alone in all three cases, to be added back to
-                    # final_energy downstream (see BDEtoDB/IPEAtoDB)
-                    if parsed["zpe"] is not None:
-                        corrections["Zero-point correction"] = parsed["zpe"]
-                    if parsed["total_enthalpy"] is not None:
-                        corrections["Enthalpy"] = parsed["total_enthalpy"] - energy
-                    if parsed["gibbs_free_energy"] is not None:
-                        corrections["Gibbs Free Energy"] = (
-                            parsed["gibbs_free_energy"] - energy
-                        )
-                if atomic_freq:
-                    corrections.update(
-                        _atomic_thermo_corrections(
-                            mol.species[0].atomic_mass, multiplicity
-                        )
+                energy, final_mol, frequencies, corrections, dipole = (
+                    self._extract_success_result(
+                        mol, charge, multiplicity, job_spec, parsed
                     )
-                dipole = parsed["dipole_moment"]
+                )
 
-        run_time = timer() - st
-        fw_spec["run_time"] = run_time
-
-        output_block = {
-            "final_energy": energy,
-            "molecule": final_mol.as_dict(),
+        return {
+            "energy": energy,
+            "final_mol": final_mol,
+            "dipole": dipole,
+            "frequencies": frequencies,
+            "corrections": corrections,
+            "has_completed": has_completed,
+            "error_msg": error_msg,
+            "orca_version": orca_version,
         }
-        if corrections:
-            output_block["corrections"] = corrections
-        if frequencies:
-            output_block["frequencies"] = frequencies
-        if dipole:
-            output_block["dipole_moment"] = dipole
-        if error_msg:
-            output_block["error_message"] = error_msg
 
+    def _build_gout_dict(self, mol, charge, multiplicity, job_spec, run_result, fw_spec, run_time):
+        """Assemble the final gaussian_output-schema dict from the job spec and run result."""
+        output_block = {
+            "final_energy": run_result["energy"],
+            "molecule": run_result["final_mol"].as_dict(),
+        }
+        if run_result["corrections"]:
+            output_block["corrections"] = run_result["corrections"]
+        if run_result["frequencies"]:
+            output_block["frequencies"] = run_result["frequencies"]
+        if run_result["dipole"]:
+            output_block["dipole_moment"] = run_result["dipole"]
+        if run_result["error_msg"]:
+            output_block["error_message"] = run_result["error_msg"]
+
+        orca_version = run_result["orca_version"]
         gout_dict = {
             "input": {
-                "functional": functional,
-                "basis_set": basis_set,
-                "route_parameters": route_parameters,
+                "functional": job_spec["functional"],
+                "basis_set": job_spec["basis_set"],
+                "route_parameters": job_spec["route_parameters"],
                 "charge": charge,
                 "spin_multiplicity": multiplicity,
                 "molecule": mol.as_dict(),
             },
             "output": {
                 "output": output_block,
-                "has_gaussian_completed": has_completed,
-                "is_pcm": is_pcm,
+                "has_gaussian_completed": run_result["has_completed"],
+                "is_pcm": job_spec["is_pcm"],
             },
-            "functional": functional,
-            "basis": basis_set,
-            "phase": "solution" if is_pcm else "gas",
-            "type": ";".join(job_types),
-            **get_chem_schema(final_mol),
+            "functional": job_spec["functional"],
+            "basis": job_spec["basis_set"],
+            "phase": "solution" if job_spec["is_pcm"] else "gas",
+            "type": ";".join(job_spec["job_types"]),
+            **get_chem_schema(run_result["final_mol"]),
             "gauss_version": f"orca-{orca_version}" if orca_version else "orca",
         }
         gout_dict = {
@@ -454,11 +475,10 @@ class RunOrca(FiretaskBase):
             gout_dict["tag"] = fw_spec["tag"]
         gout_dict["wall_time (s)"] = run_time
         gout_dict = json.loads(json.dumps(gout_dict, default=_json_default))
-        gout_dict = recursive_signature_remove(gout_dict)
+        return recursive_signature_remove(gout_dict)
 
-        if not has_completed:
-            raise ValueError(f"ORCA did not complete normally: {error_msg}")
-
+    def _persist_result(self, working_dir, gout_dict):
+        """Save gout_dict to db/file as requested and build the FWAction that stores it under fw_spec["gaussian_output"]."""
         run_list = {}
         db = self.get("db")
         if self.get("save_to_db"):
@@ -484,17 +504,48 @@ class RunOrca(FiretaskBase):
             mod_dict.update({"_push": run_list})
         return FWAction(mod_spec=mod_dict, propagate=True)
 
+    def run_task(self, fw_spec):
+        """Write the ORCA input file, run ORCA, parse its output, and store the result under fw_spec["gaussian_output"] for downstream Firetasks (e.g. ``mispr.gaussian.firetasks.parse_outputs.ESPtoDB``) to consume."""
+        working_dir = os.getcwd()
+        mol = self._get_molecule(fw_spec)
+        charge, multiplicity = self._resolve_charge_multiplicity(mol)
+
+        if self.get("cart_coords") is False:
+            raise NotImplementedError(
+                "The ORCA backend only writes cartesian-coordinate inputs; "
+                "z-matrix input (cart_coords=False) is not supported"
+            )
+
+        job_spec = self._build_job_spec(mol, charge)
+
+        input_file = self.get("input_file", "mol.inp")
+        input_path = os.path.join(working_dir, input_file)
+        output_path = os.path.splitext(input_path)[0] + ".out"
+
+        st = timer()
+        run_result = self._run_and_parse(
+            mol, charge, multiplicity, job_spec, input_path, output_path
+        )
+        run_time = timer() - st
+        fw_spec["run_time"] = run_time
+
+        gout_dict = self._build_gout_dict(
+            mol, charge, multiplicity, job_spec, run_result, fw_spec, run_time
+        )
+
+        if not run_result["has_completed"]:
+            raise ValueError(f"ORCA did not complete normally: {run_result['error_msg']}")
+
+        return self._persist_result(working_dir, gout_dict)
+
 
 @explicit_serialize
 class ESP(FiretaskBase):
-    """
-    Compute ESP-fitted atomic partial charges for a molecule via ORCA's CHELPG
-    scheme (grid-based ESP fitting -- ORCA's counterpart to the Merz-Singh-
-    Kollman fit the Gaussian backend uses; both fit atomic charges to the
-    molecular electrostatic potential, differing in grid
-    construction/restraints). Always runs a single-point calculation --
-    callers are expected to have already optimized the molecule (e.g. via a
-    preceding ``RunOrca`` Firework) and pass it in through ``prev_calc_key``.
+    """Compute ESP-fitted atomic partial charges for a molecule via ORCA's CHELPG scheme (grid-based ESP fitting -- ORCA's counterpart to the Merz-Singh-Kollman fit the Gaussian backend uses; both fit atomic charges to the molecular electrostatic potential, differing in grid construction/restraints).
+
+    Always runs a single-point calculation -- callers are expected to have
+    already optimized the molecule (e.g. via a preceding ``RunOrca``
+    Firework) and pass it in through ``prev_calc_key``.
 
     Args:
         molecule (Molecule, optional): pymatgen Molecule to run the ESP
@@ -526,6 +577,7 @@ class ESP(FiretaskBase):
             fw_spec["gaussian_output"]; the run is always additionally stored
             under the default key "gout_key" (as with Gaussian runs).
         tag (str, optional): Tag stored in the db documents for easy retrieval.
+
     """
 
     required_params = []
@@ -549,9 +601,7 @@ class ESP(FiretaskBase):
     ]
 
     def run_task(self, fw_spec):
-        """Run the CHELPG ESP single-point calculation, then store the result
-        under fw_spec["gaussian_output"] for a downstream
-        ``mispr.gaussian.firetasks.parse_outputs.ESPtoDB`` to consume."""
+        """Run the CHELPG ESP single-point calculation, then store the result under fw_spec["gaussian_output"] for a downstream ``mispr.gaussian.firetasks.parse_outputs.ESPtoDB`` to consume."""
         working_dir = os.getcwd()
         mol = self.get("molecule")
         if mol is not None:

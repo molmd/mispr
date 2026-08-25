@@ -52,11 +52,9 @@ logger = logging.getLogger(__name__)
 
 
 def _to_orca_solvent(solvent_gaussian_inputs):
-    """
-    Translate the Gaussian-style solvent string (e.g. "(Solvent=Water)") into
-    the dict RunOrca expects (e.g. {"solvent": "water"}); returns None for gas
-    phase. Same translation used in
-    ``mispr.orca.workflows.base.binding_energy``.
+    """Translate the Gaussian-style solvent string (e.g. "(Solvent=Water)") into the dict RunOrca expects (e.g. {"solvent": "water"}); returns None for gas phase.
+
+    Same translation used in ``mispr.orca.workflows.base.binding_energy``.
     """
     if not solvent_gaussian_inputs:
         return None
@@ -70,11 +68,11 @@ def _to_orca_solvent(solvent_gaussian_inputs):
 
 
 class Node:
-    """
-    Generate the Fireworks corresponding to different molecule states in the
-    IP/EA workflow. Each molecule state corresponds to a node in the tree. The
-    node is a leaf if it is the last node in the tree, otherwise it is a
-    branch. Not meant to be instantiated directly. Mirrors
+    """Generate the Fireworks corresponding to different molecule states in the IP/EA workflow.
+
+    Each molecule state corresponds to a node in the tree. The node is a leaf
+    if it is the last node in the tree, otherwise it is a branch. Not meant to
+    be instantiated directly. Mirrors
     ``mispr.gaussian.workflows.base.ip_ea.Node``.
     """
 
@@ -90,7 +88,8 @@ class Node:
         branch_cation_from_anion: bool = False,
         h_index: list = None,
     ):
-        """
+        """Set up this node's charge/electron/hydrogen bookkeeping relative to its parent.
+
         Args:
             state (str): Current state of the molecule: cation or anion.
             phase (str): Current phase of the molecule: gas or solution.
@@ -111,6 +110,7 @@ class Node:
                 calculations.
             h_index (list, optional): Site indices in the molecule at which to
                 attach the hydrogen atoms in the PCET calculations.
+
         """
         self.phase = phase
         self.state = state
@@ -141,7 +141,8 @@ class Node:
         self.mol_name = None
 
         if parent is None:
-            assert mol is not None, "if parent is None, mol should be given"
+            if mol is None:
+                raise ValueError("if parent is None, mol should be given")
             self.mol = mol
             self.link_mol = None
         else:
@@ -179,10 +180,7 @@ class Node:
         orca_settings,
         **kwargs,
     ):
-        """
-        Generate the optimization and/or frequency Fireworks corresponding to
-        the current node.
-        """
+        """Generate the optimization and/or frequency Fireworks corresponding to the current node."""
         if "mol_name" in kwargs:
             self.mol_name = kwargs.pop("mol_name")
             self.dir_head = self.mol_name
@@ -302,10 +300,7 @@ class Node:
         h_index,
         vertical,
     ):
-        """
-        Generate the children nodes of the current node in the tree
-        representing the IP/EA workflow.
-        """
+        """Generate the children nodes of the current node in the tree representing the IP/EA workflow."""
         if self.state == "cation":
             branching_states = [i for i in branching_states if i != "anion"]
         if self.state == "anion":
@@ -347,6 +342,127 @@ class Node:
         return self.children_nodes
 
 
+def _validate_ip_ea_inputs(ref_charge, opt_orca_inputs, states, phases, pcet, h_index, num_electrons):
+    """Resolve states/phases defaults and validate the ip_ea input combination; raises on any inconsistency."""
+    if ref_charge != opt_orca_inputs.get("charge", ref_charge):
+        raise Exception(
+            "The provided reference charge is not consistent with "
+            "the one found in the orca input parameters."
+        )
+
+    if states is None:
+        states = ["cation", "anion"]
+    if phases is None:
+        phases = ["gas", "solution"]
+
+    if not states:
+        raise ValueError("states list is empty")
+    for state in states:
+        if state.lower() not in ["cation", "anion"]:
+            raise ValueError(
+                "The provided states are not supported. Supported"
+                " ones are reference, cation, and/or anion."
+            )
+    if not phases:
+        raise ValueError("phases list is empty")
+    for phase in phases:
+        if phase.lower() not in ["gas", "solution"]:
+            raise ValueError(
+                "The provided phases are not supported. Supported"
+                " ones are gas and/or solution."
+            )
+
+    if pcet:
+        if h_index is None:
+            raise ValueError(
+                "index at which to attach hydrogen atom should be provided as "
+                "input"
+            )
+        if len(h_index) != num_electrons:
+            raise ValueError(
+                "number of indices at which to attach hydrogen atoms should be "
+                "consistent with number of transfer steps"
+            )
+
+    return states, phases
+
+
+def _normalize_electrode_potentials(electrode_potentials, working_dir):
+    """Lower-case the electrode_potentials keys and resolve each entry's "ref" bibtex key to its full citation."""
+    if not electrode_potentials:
+        return electrode_potentials
+
+    electrode_potentials = {
+        k.lower(): {i.lower(): j for i, j in v.items()}
+        if isinstance(v, dict)
+        else v
+        for k, v in electrode_potentials.items()
+    }
+    for k, v in electrode_potentials.items():
+        if type(v) != dict or "potential" and "ref" not in v:
+            raise KeyError(
+                "Standard electrode potential dict should "
+                "contain potential and ref keys."
+            )
+        electrode_potentials[k]["ref"] = bibtex_parser(v["ref"], working_dir)
+    return electrode_potentials
+
+
+def _build_orca_settings(orca_cmd, num_cores, memory):
+    """Collect the non-default engine-level ORCA settings into the kwargs dict RunOrca/OrcaFW expect."""
+    orca_settings = {}
+    if orca_cmd:
+        orca_settings["orca_cmd"] = orca_cmd
+    if num_cores:
+        orca_settings["num_cores"] = num_cores
+    if memory:
+        orca_settings["memory"] = memory
+    return orca_settings
+
+
+def _branch_from_node(current_node, states, phases, pcet, h_index, num_electrons, single_step, vertical):
+    """Compute the branching states/phases for current_node's children and create them, per the tree-growth rules."""
+    if single_step:
+        addition_electrons = num_electrons
+    else:
+        addition_electrons = 1
+
+    if not (
+        abs(current_node.added_e) <= num_electrons
+        or abs(current_node.added_h) <= num_electrons
+    ):
+        return []
+
+    if "gas" in phases:
+        if current_node.phase == "solution":
+            branching_phases = []
+            branching_states = []
+        else:
+            branching_phases = ["solution"]
+            branching_states = deepcopy(states)
+    else:
+        branching_phases = []
+        branching_states = deepcopy(states)
+
+    if abs(current_node.added_e) == num_electrons:
+        if pcet and current_node.added_h < num_electrons:
+            branching_states = [i for i in branching_states if i == "cation"]
+        else:
+            branching_states = []
+    if abs(current_node.added_h) == num_electrons:
+        branching_states = []
+
+    branching_phases = [i for i in branching_phases if i in phases]
+    return current_node.branch(
+        branching_states,
+        branching_phases,
+        addition_electrons,
+        pcet,
+        h_index,
+        vertical,
+    )
+
+
 def get_ip_ea(
     mol_operation_type,
     mol,
@@ -374,9 +490,9 @@ def get_ip_ea(
     ref_skips=None,
     **kwargs,
 ):
-    """
-    Define a workflow for calculating the ionization potential (IP) and
-    electron affinity (EA) in eV, using ORCA. Supports the same methods as
+    """Define a workflow for calculating the ionization potential (IP) and electron affinity (EA) in eV, using ORCA.
+
+    Supports the same methods as
     ``mispr.gaussian.workflows.base.ip_ea.get_ip_ea``:
 
     * **Direct electron transfer**
@@ -434,6 +550,7 @@ def get_ip_ea(
 
     Returns:
         Workflow
+
     """
     fws = []
     fireworks_dict = {}
@@ -453,67 +570,19 @@ def get_ip_ea(
         "route_parameters": {"Freq": None},
     }
 
-    if ref_charge != opt_orca_inputs.get("charge", ref_charge):
-        raise Exception(
-            "The provided reference charge is not consistent with "
-            "the one found in the orca input parameters."
-        )
-
-    if states is None:
-        states = ["cation", "anion"]
-    if phases is None:
-        phases = ["gas", "solution"]
-
-    for state in states:
-        assert states, "states list is empty"
-        if state.lower() not in ["cation", "anion"]:
-            raise ValueError(
-                "The provided states are not supported. Supported"
-                " ones are reference, cation, and/or anion."
-            )
-    for phase in phases:
-        assert phases, "phases list is empty"
-        if phase.lower() not in ["gas", "solution"]:
-            raise ValueError(
-                "The provided phases are not supported. Supported"
-                " ones are gas and/or solution."
-            )
-
-    if pcet:
-        assert (
-            h_index is not None
-        ), "index at which to attach hydrogen atom should be provided as input"
-        assert len(h_index) == num_electrons, (
-            "number of indices at which to attach hydrogen atoms should be "
-            "consistent with number of transfer steps"
-        )
+    states, phases = _validate_ip_ea_inputs(
+        ref_charge, opt_orca_inputs, states, phases, pcet, h_index, num_electrons
+    )
 
     if "solution" in phases and not solvent_gaussian_inputs:
         solvent_gaussian_inputs = "(PCM, Solvent=Water)"
     solvent = _to_orca_solvent(solvent_gaussian_inputs)
 
-    if electrode_potentials:
-        electrode_potentials = {
-            k.lower(): {i.lower(): j for i, j in v.items()}
-            if isinstance(v, dict)
-            else v
-            for k, v in electrode_potentials.items()
-        }
-        for k, v in electrode_potentials.items():
-            if type(v) != dict or "potential" and "ref" not in v:
-                raise KeyError(
-                    "Standard electrode potential dict should "
-                    "contain potential and ref keys."
-                )
-            electrode_potentials[k]["ref"] = bibtex_parser(v["ref"], working_dir)
+    electrode_potentials = _normalize_electrode_potentials(
+        electrode_potentials, working_dir
+    )
 
-    orca_settings = {}
-    if orca_cmd:
-        orca_settings["orca_cmd"] = orca_cmd
-    if num_cores:
-        orca_settings["num_cores"] = num_cores
-    if memory:
-        orca_settings["memory"] = memory
+    orca_settings = _build_orca_settings(orca_cmd, num_cores, memory)
     tag = kwargs.get("tag", "unknown")
 
     root_mol = process_mol(mol_operation_type, mol, db=db)
@@ -550,44 +619,11 @@ def get_ip_ea(
             ) + [current_node.fireworks[0]]
             parents_dict[current_node.gout_key] = current_node.parent.gout_key
 
-        if single_step:
-            addition_electrons = num_electrons
-        else:
-            addition_electrons = 1
-        if (
-            abs(current_node.added_e) <= num_electrons
-            or abs(current_node.added_h) <= num_electrons
-        ):
-            if "gas" in phases:
-                if current_node.phase == "solution":
-                    branching_phases = []
-                    branching_states = []
-                else:
-                    branching_phases = ["solution"]
-                    branching_states = deepcopy(states)
-            else:
-                branching_phases = []
-                branching_states = deepcopy(states)
-
-            if abs(current_node.added_e) == num_electrons:
-                if pcet and current_node.added_h < num_electrons:
-                    branching_states = [i for i in branching_states if i == "cation"]
-                else:
-                    branching_states = []
-            if abs(current_node.added_h) == num_electrons:
-                branching_states = []
-
-            branching_phases = [i for i in branching_phases if i in phases]
-            children = current_node.branch(
-                branching_states,
-                branching_phases,
-                addition_electrons,
-                pcet,
-                h_index,
-                vertical,
-            )
-            for child in children:
-                active_nodes.put(child)
+        children = _branch_from_node(
+            current_node, states, phases, pcet, h_index, num_electrons, single_step, vertical
+        )
+        for child in children:
+            active_nodes.put(child)
         solved_nodes.append(current_node)
 
     gout_keys = [i.gout_key for i in solved_nodes]

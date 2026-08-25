@@ -139,7 +139,7 @@ def get_binding_energies(
     )
     opt_gaussian_inputs = gaussian_inputs["opt"]
     freq_gaussian_inputs = gaussian_inputs["freq"]
-    
+
     if skips is None:
         skips = [None, None]
     check_result = []
@@ -160,9 +160,8 @@ def get_binding_energies(
             kwargs.pop("mol_name", [None, None]),
         )
     ):
-        
         _, label, opt_freq_init_fws = common_fw(
-            mol_operation_type=operation, 
+            mol_operation_type=operation,
             mol=molecule,
             working_dir=working_dir,
             db=db,

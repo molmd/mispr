@@ -34,11 +34,7 @@ __version__ = "0.0.5"
 
 
 def _to_orca_solvent(solvent_gaussian_inputs):
-    """
-    Translate the Gaussian-style solvent string (e.g. "(Solvent=Water)") into
-    the dict RunOrca expects (e.g. {"solvent": "water"}); returns None for gas
-    phase.
-    """
+    """Translate the Gaussian-style solvent string (e.g. "(Solvent=Water)") into the dict RunOrca expects (e.g. {"solvent": "water"}); returns None for gas phase."""
     if not solvent_gaussian_inputs:
         return None
     solvent_inputs = [
@@ -70,13 +66,10 @@ def get_binding_energies(
     memory=None,
     **kwargs,
 ):
-    """
-    Define a workflow for calculating the binding energy between two molecules
-    using ORCA: optimize + frequency each of the two molecules separately, link
-    them together at the given atom indices and optimize the resulting complex,
-    run its frequency, then compute the binding energy. Mirrors
-    ``mispr.gaussian.workflows.base.binding_energy.get_binding_energies``, which
-    has the same overall structure and arguments.
+    """Define a workflow for calculating the binding energy between two molecules using ORCA: optimize + frequency each of the two molecules separately, link them together at the given atom indices and optimize the resulting complex, run its frequency, then compute the binding energy.
+
+    Mirrors ``mispr.gaussian.workflows.base.binding_energy.get_binding_energies``,
+    which has the same overall structure and arguments.
 
     ``opt_gaussian_inputs``/``freq_gaussian_inputs`` use the same keys as the
     Gaussian workflow (e.g. {"functional": "B3LYP", "basis_set": "6-31G(d)",
@@ -132,6 +125,7 @@ def get_binding_energies(
 
     Returns:
         Workflow
+
     """
     working_dir = working_dir or os.getcwd()
     tag = kwargs.get("tag", "unknown")

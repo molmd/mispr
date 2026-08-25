@@ -42,14 +42,11 @@ def get_bde(
     memory=None,
     **kwargs,
 ):
-    """
-    Define a dynamic workflow for calculating the bond dissociation energy using
-    ORCA: optimize + frequency the principle molecule, break it into fragments
-    (trying several charge splits per bond), optimize + frequency each fragment,
-    then compute the BDE for every bond/charge-split combination. Mirrors
-    ``mispr.gaussian.workflows.base.bde.get_bde``, which has the same overall
-    structure and arguments; see that function's docstring for more background
-    on the fragment charge-enumeration behavior.
+    """Define a dynamic workflow for calculating the bond dissociation energy using ORCA: optimize + frequency the principle molecule, break it into fragments (trying several charge splits per bond), optimize + frequency each fragment, then compute the BDE for every bond/charge-split combination.
+
+    Mirrors ``mispr.gaussian.workflows.base.bde.get_bde``, which has the same
+    overall structure and arguments; see that function's docstring for more
+    background on the fragment charge-enumeration behavior.
 
     ``opt_gaussian_inputs``/``freq_gaussian_inputs`` use the same keys as the
     Gaussian workflow (e.g. {"functional": "B3LYP", "basis_set": "6-31G(d)",
@@ -98,6 +95,7 @@ def get_bde(
 
     Returns:
         Workflow
+
     """
     fws = []
     working_dir = working_dir or os.getcwd()

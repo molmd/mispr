@@ -58,6 +58,7 @@ def get_orca_input_string(
 
     Returns:
         str: The full ORCA input file content.
+
     """
     lines = ["! " + " ".join(str(k) for k in keywords)]
     lines.append(f"%maxcore {int(memory_mb)}")

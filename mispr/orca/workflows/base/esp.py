@@ -1,5 +1,4 @@
-"""Define the electrostatic partial charge (ESP/CHELPG) workflow, using ORCA
-instead of Gaussian.
+"""Define the electrostatic partial charge (ESP/CHELPG) workflow, using ORCA instead of Gaussian.
 
 Mirrors ``mispr.gaussian.workflows.base.esp.get_esp_charges``: optimize +
 frequency the molecule, run a CHELPG ESP single-point on the optimized
@@ -39,9 +38,7 @@ def get_esp_charges(
     memory=None,
     **kwargs,
 ):
-    """
-    Define a workflow for calculating the electrostatic partial charges with
-    ORCA.
+    """Define a workflow for calculating the electrostatic partial charges with ORCA.
 
     * **Firework 1**: Optimize the molecule.
     * **Firework 2**: Run a frequency analysis.
@@ -97,6 +94,7 @@ def get_esp_charges(
         tuple:
             - Workflow
             - str: Label of the molecule (e.g. "H2O", "water", etc.).
+
     """
     working_dir = working_dir or os.getcwd()
     processed_mol = process_mol(mol_operation_type, mol, db=db)

@@ -19,15 +19,12 @@ FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
 
 class OrcaFW(Firework):
-    """
-    Run a single ORCA calculation (single point, optimization, or frequency
-    analysis, depending on ``gaussian_input_params["route_parameters"]``) and
-    store the result.
+    """Run a single ORCA calculation (single point, optimization, or frequency analysis, depending on ``gaussian_input_params["route_parameters"]``) and store the result.
 
     Reuses the "gaussian_input_params" naming convention from the Gaussian
     workflows (e.g. {"functional": "B3LYP", "basis_set": "6-31G(d)",
-    "route_parameters": {"Opt": None}}) so that the same input dictionaries used
-    to configure Gaussian jobs can be passed to an ORCA job unmodified
+    "route_parameters": {"Opt": None}}) so that the same input dictionaries
+    used to configure Gaussian jobs can be passed to an ORCA job unmodified
     (irrelevant Gaussian-only keys, e.g. "link0_parameters", are simply
     ignored). Note that basis set names must be ones ORCA recognizes.
     """
@@ -45,7 +42,8 @@ class OrcaFW(Firework):
         gout_key=None,
         **kwargs,
     ):
-        """
+        """Build the ``RunOrca`` Firetask for this calculation and wrap it in a Firework.
+
         Args:
             molecule (Molecule, optional): pymatgen Molecule to run the
                 calculation on; required unless ``prev_calc_key`` is given.
@@ -65,6 +63,7 @@ class OrcaFW(Firework):
                 fw_spec["gaussian_output"].
             kwargs: other kwargs passed to Firework.__init__ and RunOrca (e.g.
                 ``orca_cmd``, ``num_cores``, ``memory``).
+
         """
         working_dir = working_dir or os.getcwd()
         if not os.path.exists(working_dir):
@@ -97,13 +96,11 @@ class OrcaFW(Firework):
 
 
 class LinkedMolOrcaFW(Firework):
-    """
-    Combine two previously-computed molecules into one (forming a bond at given
-    sites) and immediately optimize the resulting complex with ORCA.
+    """Combine two previously-computed molecules into one (forming a bond at given sites) and immediately optimize the resulting complex with ORCA.
 
-    ``ProcessMoleculeInput`` (reused unmodified from the Gaussian firetasks -- it
-    is plain geometry bookkeeping, not tied to any QM engine) does the linking,
-    using the ``mol_operation_type="link_molecules"`` mode of
+    ``ProcessMoleculeInput`` (reused unmodified from the Gaussian firetasks --
+    it is plain geometry bookkeeping, not tied to any QM engine) does the
+    linking, using the ``mol_operation_type="link_molecules"`` mode of
     ``mispr.gaussian.utilities.mol.process_mol``: it reads the two molecules'
     optimized geometries from ``fw_spec["gaussian_output"]`` (set by the two
     prior optimization/frequency Fireworks) and joins them at ``index`` with a
@@ -128,7 +125,8 @@ class LinkedMolOrcaFW(Firework):
         filename=None,
         **kwargs,
     ):
-        """
+        """Build the link and optimize Firetasks and wrap them in a Firework.
+
         Args:
             gout_keys (list): The two keys in fw_spec["gaussian_output"] (from
                 the two molecules' own optimization/frequency Fireworks) to
@@ -151,6 +149,7 @@ class LinkedMolOrcaFW(Firework):
                 if ``save_to_file``/``save_to_db`` is requested.
             kwargs: other kwargs passed to Firework.__init__ and RunOrca (e.g.
                 ``orca_cmd``, ``num_cores``, ``memory``).
+
         """
         working_dir = working_dir or os.getcwd()
         if not os.path.exists(working_dir):

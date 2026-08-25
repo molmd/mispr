@@ -34,11 +34,10 @@ ORCA_ENGINE_KWARGS = ("orca_cmd", "num_cores", "memory")
 
 @explicit_serialize
 class BreakMolecule(GaussianBreakMolecule):
-    """
-    ORCA counterpart of
-    ``mispr.gaussian.firetasks.geo_transformation.BreakMolecule``; identical
-    fragmentation logic, but generates ORCA optimization/frequency Fireworks for
-    each fragment instead of Gaussian ones.
+    """ORCA counterpart of ``mispr.gaussian.firetasks.geo_transformation.BreakMolecule``.
+
+    Identical fragmentation logic, but generates ORCA optimization/frequency
+    Fireworks for each fragment instead of Gaussian ones.
     """
 
     @staticmethod
@@ -57,17 +56,18 @@ class BreakMolecule(GaussianBreakMolecule):
         update_duplicates,
         **kwargs,
     ):
-        """
-        Build the ORCA opt/freq Fireworks for one already-charged/spin-set
-        fragment molecule. All arguments match the base class's abstract
-        ``_workflow`` signature (see
-        ``mispr.gaussian.firetasks.geo_transformation.BreakMolecule`` for what
-        each one means) -- only the body differs here, building ORCA Fireworks
-        via ``common_fw`` instead of Gaussian ones. Single-atom fragments have
-        their "opt" job skipped (a lone atom has no geometry to optimize).
+        """Build the ORCA opt/freq Fireworks for one already-charged/spin-set fragment molecule.
+
+        All arguments match the base class's abstract ``_workflow`` signature
+        (see ``mispr.gaussian.firetasks.geo_transformation.BreakMolecule`` for
+        what each one means) -- only the body differs here, building ORCA
+        Fireworks via ``common_fw`` instead of Gaussian ones. Single-atom
+        fragments have their "opt" job skipped (a lone atom has no geometry to
+        optimize).
 
         Returns:
             Workflow
+
         """
         from mispr.orca.workflows.base.core import common_fw, WORKFLOW_KWARGS
 

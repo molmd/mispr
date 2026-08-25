@@ -43,9 +43,7 @@ _CHELPG_LINE_RE = re.compile(r"^\s*\d+\s+[A-Za-z]{1,2}\s*:\s+(-?\d+\.\d+)")
 
 
 def _parse_last_coord_block(lines):
-    """Return (species, coords) from the last "CARTESIAN COORDINATES (ANGSTROEM)"
-    block in the output -- for an optimization that is the converged geometry,
-    since ORCA reprints the block after every step."""
+    """Return (species, coords) from the last "CARTESIAN COORDINATES (ANGSTROEM)" block in the output -- for an optimization that is the converged geometry, since ORCA reprints the block after every step."""
     last_start = None
     for i, line in enumerate(lines):
         if _COORD_HEADER in line:
@@ -67,10 +65,7 @@ def _parse_last_coord_block(lines):
 
 
 def _parse_frequencies(lines):
-    """Return the frequency list (cm**-1) from the last "VIBRATIONAL FREQUENCIES"
-    section, including the leading zero entries ORCA prints for the
-    translational/rotational modes (callers filter those out; imaginary modes
-    appear as negative values)."""
+    """Return the frequency list (cm**-1) from the last "VIBRATIONAL FREQUENCIES" section, including the leading zero entries ORCA prints for the translational/rotational modes (callers filter those out; imaginary modes appear as negative values)."""
     last_start = None
     for i, line in enumerate(lines):
         if "VIBRATIONAL FREQUENCIES" in line:
@@ -148,6 +143,7 @@ def parse_orca_output(file_path):
             * "chelpg_charges" (list of float or None): CHELPG per-atom charges.
             * "dipole_moment" (list of float or None): Total dipole moment
               [x, y, z], in atomic units.
+
     """
     with open(file_path) as f:
         text = f.read()

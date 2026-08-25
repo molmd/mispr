@@ -35,10 +35,10 @@ def common_fw(
     solvent=None,
     **kwargs,
 ):
-    """
-    Define a list of Fireworks commonly used in ORCA workflows: optimize a
-    molecule, then run a frequency analysis on the optimized structure. Mirrors
-    the Gaussian original, swapping the engine Firework for ``OrcaFW``.
+    """Define a list of Fireworks commonly used in ORCA workflows: optimize a molecule, then run a frequency analysis on the optimized structure.
+
+    Mirrors the Gaussian original, swapping the engine Firework for
+    ``OrcaFW``.
 
     Args:
         mol (Molecule, optional): pymatgen Molecule to run the calculations on;
@@ -63,6 +63,12 @@ def common_fw(
             ``dir_head``.
         skips (list, optional): List of jobs to skip; e.g. ["opt"] or ["freq"].
         tag (str, optional): Tag stored in the db documents.
+        cart_coords (bool, optional): Accepted for interface parity; the ORCA
+            backend only supports cartesian-coordinate inputs (``True``).
+        oxidation_states (dict, optional): Oxidation states used to derive the
+            molecule's charge in the optimization step (e.g. {"Li": 1, "O": -2}).
+        solvent (dict, optional): Implicit solvent options forwarded to
+            ``OrcaFW`` (e.g. {"solvent": "water"}); if not provided, gas phase.
         kwargs: Additional kwargs passed through to ``OrcaFW`` (e.g.
             ``orca_cmd``, ``num_cores``); unrecognized ones are ignored
             (accepted for interface parity with the Gaussian ``common_fw``).
@@ -70,6 +76,7 @@ def common_fw(
     Returns:
         Molecule, str, list: The input molecule, a label, and a list of
         Fireworks.
+
     """
     fws = []
     if not gout_key:

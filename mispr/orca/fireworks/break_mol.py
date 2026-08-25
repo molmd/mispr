@@ -19,15 +19,16 @@ FIREWORK_KWARGS = Firework.__init__.__code__.co_varnames
 
 
 class BreakMolFW(Firework):
-    """
-    ORCA counterpart of ``mispr.gaussian.fireworks.break_mol.BreakMolFW``.
-    Process a molecule input, break it into unique fragments, and generate a set
-    of ORCA optimization and frequency calculations for each fragment (optional).
+    """ORCA counterpart of ``mispr.gaussian.fireworks.break_mol.BreakMolFW``.
 
-    ``ProcessMoleculeInput`` (molecule-format handling) is reused unmodified from
-    the Gaussian firetasks since it has no dependency on the QM engine used
-    downstream; only ``BreakMolecule`` (which decides what Fireworks to spawn per
-    fragment) is ORCA-specific.
+    Process a molecule input, break it into unique fragments, and generate a
+    set of ORCA optimization and frequency calculations for each fragment
+    (optional).
+
+    ``ProcessMoleculeInput`` (molecule-format handling) is reused unmodified
+    from the Gaussian firetasks since it has no dependency on the QM engine
+    used downstream; only ``BreakMolecule`` (which decides what Fireworks to
+    spawn per fragment) is ORCA-specific.
     """
 
     def __init__(
@@ -46,11 +47,10 @@ class BreakMolFW(Firework):
         tag="unknown",
         **kwargs,
     ):
-        """
-        Args: see ``mispr.gaussian.fireworks.break_mol.BreakMolFW`` for the full
-            list of arguments; identical signature and semantics. Engine-level
-            ORCA settings (``orca_cmd``, ``num_cores``, ``memory``) passed via
-            kwargs are forwarded to the per-fragment Fireworks.
+        """See ``mispr.gaussian.fireworks.break_mol.BreakMolFW`` for the full list of arguments; identical signature and semantics.
+
+        Engine-level ORCA settings (``orca_cmd``, ``num_cores``, ``memory``)
+        passed via kwargs are forwarded to the per-fragment Fireworks.
         """
         t = []
         working_dir = working_dir or os.getcwd()

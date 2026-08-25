@@ -400,11 +400,7 @@ class GaussianCalcDb:
 
     @classmethod
     def from_dict(cls, creds, admin=True):
-        """
-        Create a new database object from a dict of credentials (e.g. as loaded from
-        a db.json file), translating its keys ("database", "admin_user",
-        "admin_password", ...) into this class's constructor parameter names ("name",
-        "username", "password", ...).
+        """Create a new database object from a dict of credentials (e.g. as loaded from a db.json file), translating its keys ("database", "admin_user", "admin_password", ...) into this class's constructor parameter names ("name", "username", "password", ...).
 
         Args:
             creds (dict): Database credentials.
@@ -413,6 +409,7 @@ class GaussianCalcDb:
 
         Returns:
             GaussianCalcDb.
+
         """
         kwargs = creds.get(
             "mongoclient_kwargs", {}

@@ -29,12 +29,10 @@ logger = logging.getLogger(__name__)
 
 
 def link_molecules(mol1, index1, mol2, index2, bond_order=1):
-    """
-    Join two molecules into one by forming a bond between a site in each, without
-    removing or modifying any existing atoms in either molecule (unlike
-    ``Molecule.substitute``, which is meant for swapping out a single atom for a
-    functional group). Replaces a previous implementation that called a
-    ``Molecule.link`` method that no longer exists in current pymatgen versions.
+    """Join two molecules into one by forming a bond between a site in each, without removing or modifying any existing atoms in either molecule (unlike ``Molecule.substitute``, which is meant for swapping out a single atom for a functional group).
+
+    Replaces a previous implementation that called a ``Molecule.link`` method
+    that no longer exists in current pymatgen versions.
 
     ``mol2`` is rigidly translated so that the site at ``index2`` sits at an
     estimated bond distance (sum of covalent/atomic radii, roughly adjusted for
@@ -53,6 +51,7 @@ def link_molecules(mol1, index1, mol2, index2, bond_order=1):
 
     Returns:
         Molecule: The combined molecule (charge = sum of the two input charges).
+
     """
     site1 = mol1[index1]
     site2 = mol2[index2]
