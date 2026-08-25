@@ -60,22 +60,18 @@ class GaussianCalcDb:
                 ]  # parse URI to extract dbname
                 self.db = self.connection[dbname]
             else:
-                mongo_client_kwargs = {
-                    "ssl": kwargs.get("ssl", False),
-                    "ssl_ca_certs": kwargs.get("ssl_ca_certs"),
-                    "ssl_certfile": kwargs.get("ssl_certfile"),
-                    "ssl_keyfile": kwargs.get("ssl_keyfile"),
-                    "ssl_pem_passphrase": kwargs.get("ssl_pem_passphrase"),
-                    "ssl_cert_reqs": kwargs.get("ssl_cert_reqs", ssl.CERT_NONE),
-                    "username": username,
-                    "password": password,
-                }
-                # pymongo rejects authsource=None if explicitly passed; only
-                # include it when an actual value was provided
-                if kwargs.get("authsource") is not None:
-                    mongo_client_kwargs["authsource"] = kwargs["authsource"]
                 self.connection = MongoClient(
-                    self.host, self.port, **mongo_client_kwargs
+                    self.host,
+                    self.port,
+                    ssl=kwargs.get("ssl", False),
+                    ssl_ca_certs=kwargs.get("ssl_ca_certs"),
+                    ssl_certfile=kwargs.get("ssl_certfile"),
+                    ssl_keyfile=kwargs.get("ssl_keyfile"),
+                    ssl_pem_passphrase=kwargs.get("ssl_pem_passphrase"),
+                    ssl_cert_reqs=kwargs.get("ssl_cert_reqs", ssl.CERT_NONE),
+                    username=username,
+                    password=password,
+                    authsource=kwargs.get("authsource"),
                 )
                 self.db = self.connection[self.db_name]
         except:
@@ -396,21 +392,7 @@ class GaussianCalcDb:
             GaussianCalcDb.
         """
         creds = loadfn(db_file)
-        return cls.from_dict(creds, admin=admin)
 
-    @classmethod
-    def from_dict(cls, creds, admin=True):
-        """Create a new database object from a dict of credentials (e.g. as loaded from a db.json file), translating its keys ("database", "admin_user", "admin_password", ...) into this class's constructor parameter names ("name", "username", "password", ...).
-
-        Args:
-            creds (dict): Database credentials.
-            admin (bool, optional): Whether to use admin credentials; defaults to
-                ``True``.
-
-        Returns:
-            GaussianCalcDb.
-
-        """
         kwargs = creds.get(
             "mongoclient_kwargs", {}
         )  # any other MongoClient kwargs can go here ...

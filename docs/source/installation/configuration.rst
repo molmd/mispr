@@ -13,13 +13,6 @@ creating the following set of configuration files.
    Here, we will only discuss the basic configuration options which are
    sufficient for using MISPR as in this tutorial.
 
-.. note::
-   In all the examples below, ``|CODES_DIR|`` is a placeholder for the
-   absolute path of the directory where you keep your code checkouts and
-   configuration files (e.g. ``/home/username/codes``, or a scratch/project
-   path on HPC clusters with small home quotas) -- replace it with your
-   actual path.
-
 
 Writing the Configuration Files
 ------------------------------------
@@ -45,16 +38,6 @@ Writing the Configuration Files
                 "host": "|HOSTNAME|",
                 "port": |PORT|,
             }
-
-        .. note::
-           **Using MongoDB Atlas?** Use URI mode instead of the
-           host/port/user fields above: set ``"uri_mode": true`` and put
-           the full ``mongodb+srv://...`` connection string (with the
-           database name in its path) in ``"host"`` -- the other credential
-           fields are then ignored. A complete Atlas walkthrough, including
-           the firewall (IP whitelist) setup that HPC clusters need, is in
-           :ref:`installation/dependencies:Setting up MongoDB Atlas for an
-           HPC cluster, step by step`.
 
     .. tab-item:: my_fworker.yaml
 
@@ -226,22 +209,6 @@ Writing the Configuration Files
         * ``tcmd``: the command to run tleap
 
         .. note::
-            The ORCA backend does **not** read this file. ORCA is
-            located through the ``orca_cmd`` workflow argument or the
-            ``ORCA_CMD`` environment variable -- see
-            :doc:`Prerequisites <dependencies>`. If you only use that
-            backend, ``gcmd``/``formchkcmd`` can be left unset.
-
-        .. note::
-            Each section is only read when a Firetask that needs it
-            actually runs (e.g. ``[LammpsRunCalc]`` is only read by a
-            LAMMPS Firetask). If you are not running MD (``[LammpsRunCalc]``,
-            ``[AmbertoolsRunCalc]``) or using Maestro/Schrodinger
-            (``[MaestroCalc]``), you can simply omit those sections from
-            ``config.ini`` entirely -- there is no need to fill them in
-            with placeholder values.
-
-        .. note::
             Anything between two dollar signs ($ $) is a placeholder for
             a variable and should not be changed.
 
@@ -267,11 +234,10 @@ Writing the Configuration Files
 Configuring Bash Profile
 ------------------------------
 After creating the above six configuration files and replacing the
-placeholders with your specific settings, create a directory called
-``config`` (a common choice is next to your code checkouts, e.g.
-``~/codes/config`` -- on HPC clusters with small home quotas, a scratch or
-project filesystem also works) and move the above configuration files into
-it. The ``config`` directory should look like:
+placeholders with your specific settings, create a directory in
+your ``|CODES_DIR|`` (see :doc:`Definition <../keywords>`) called ``config``
+and move the above configuration files into it. The ``|CODES_DIR|/config``
+should look like:
 
 ::
 

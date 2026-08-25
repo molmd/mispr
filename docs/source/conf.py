@@ -24,16 +24,12 @@ sys.path.insert(0, os.path.abspath("../.."))
 project = "MISPR"
 copyright = "2022, MolMD Group"
 author = "MolMD Group"
-
-import mispr
-
-release = mispr.__version__  # read from mispr/__init__.py, so this never drifts
+release = "0.0.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.githubpages",
     "sphinx.ext.napoleon",
     "sphinx.ext.autodoc",
     "sphinxcontrib.mermaid",
