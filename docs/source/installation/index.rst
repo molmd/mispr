@@ -13,6 +13,15 @@ Before installing MISPR, you need to follow the steps below in order:
 7. :doc:`Run a test workflow <test>`
 
 .. note::
+   For the DFT engine (step 2), a Gaussian license is **not** the only
+   option: the ESP, bond dissociation energy, binding energy, and redox
+   potential workflows can alternatively run through
+   `ORCA <https://www.faccts.de/orca/>`_ (free for academic use). See the
+   corresponding section in :doc:`Prerequisites <dependencies>` for how to
+   install it, and :doc:`Workflow Tutorials <../workflows/tutorials>` for
+   usage.
+
+.. note::
    Throughout the installation instructions, it is assumed that you are
    familiar with Python and with basic Linux shell commands. If not,
    `Linux Journey <https://linuxjourney.com/lesson/the-shell>`_ and
@@ -27,11 +36,16 @@ repository (good for developers).
 
 Installation Method 1: Using pip
 ================================
-For most users, install directly from PyPI: 
+For most users, install directly from this repository:
 
 .. code-block:: bash
 
-    pip install mispr
+    pip install git+https://github.com/RuiqiLuo/mispr-psi4.git
+
+.. warning::
+   Do not use ``pip install mispr`` (the PyPI package) with this
+   documentation: the PyPI release is the upstream version and does **not**
+   include the ORCA backend described here.
 
 Installation Method 2: Development mode
 =======================================
@@ -50,16 +64,19 @@ The steps for installing the package in development mode are below.
 
 1. Activate your conda environment or virtual environment
 
-2. Create a ``codes`` directory in ``|CODES_DIR|``
+2. Create a ``codes`` directory wherever you keep your projects
+   (e.g. ``~/codes``; on HPC clusters with small home quotas, a
+   scratch/project filesystem is a better choice)
 
-3. ``cd`` to your newly created ``|CODES_DIR|/codes`` directory
+3. ``cd`` into your newly created ``codes`` directory
 
 4. Clone the package you want to install in development mode using git::
 
-    git clone https://github.com/molmd/mispr.git
+    git clone https://github.com/RuiqiLuo/mispr-psi4.git
 
-   Now you should have mispr directory in your ``codes``
-   directory.
+   (This fork contains the ORCA backend documented here; the
+   upstream repository is `molmd/mispr <https://github.com/molmd/mispr>`_.)
+   Now you should have the repository directory in your ``codes`` directory.
 
 5. ``cd`` into the mispr directory and run
    ``pip install -e .`` or use the ``conda`` equivalent. Once installed,
@@ -68,10 +85,22 @@ The steps for installing the package in development mode are below.
 
 Post-installation
 -------------------------
-1. Before you go any further, confirm your package installations are correct.
-   First start IPython by typing ``ipython`` in your terminal, then confirm that
-   the command ``import mispr`` executes without any errors
+1. Before you go any further, confirm your package installations are correct::
 
-2. To update the mispr code later on, execute ``git pull`` followed by
-   ``pip install -e .`` or the ``conda`` equivalent in the mispr directory. 
-   If you installed via pip, you can simply execute ``pip install --upgrade mispr``.
+    ipython -c "import mispr; print('mispr', mispr.__version__)"
+
+   This should print the version number without any errors. For a fuller
+   check (openbabel, pymatgen, FireWorks, and -- for ORCA users -- the
+   ORCA binary itself) plus the exact package versions this documentation
+   was validated against, see
+   :ref:`installation/dependencies:Verifying the environment`.
+
+2. To update the mispr code later on: in development mode, execute
+   ``git pull`` in the repository directory (with ``pip install -e .`` the
+   changes take effect immediately -- but running Jupyter kernels must be
+   restarted to pick them up). If you installed via pip from the repository
+   URL, re-run
+   ``pip install --force-reinstall --no-deps git+https://github.com/RuiqiLuo/mispr-psi4.git``.
+   Do **not** use ``pip install --upgrade mispr`` -- that pulls the PyPI
+   release, which would replace this version with one lacking the ORCA
+   backend.

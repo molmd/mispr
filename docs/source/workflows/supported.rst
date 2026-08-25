@@ -1,7 +1,7 @@
 ====================
 Supported Workflows
 ====================
-Some of the workflows available as of July 2022 are:
+The available preset workflows are:
 
 * DFT:
    * Electrostatic partial charges (ESP)
@@ -22,10 +22,19 @@ Some of the workflows available as of July 2022 are:
    * NMR: deriving NMR chemicals for stable solvation structures
      extracted from MD simulations
 
+The DFT workflows run with `Gaussian <https://gaussian.com>`_ by default. As
+of version 0.0.5, the ESP, bond dissociation energy, and binding energy
+workflows are additionally available with an
+`ORCA <https://www.faccts.de/orca/>`_ backend
+(``mispr/orca/workflows/base``); the workflow functions keep the same names
+and arguments across both engines, so switching engine is an import-path
+change, not a code change. See
+:doc:`Workflow Tutorials <tutorials>` for per-backend setup and examples.
+
 One can customize any of the above workflows or create their own by reusing
-the building blocks provided by MISPR. The above preset workflows are in
-``mispr/gaussian/workflows/base``, ``mispr/lammps/workflows/base``, and
-``mispr/hybrid/workflows``.
+the building blocks provided by MISPR. The preset workflows are in
+``mispr/gaussian/workflows/base``, ``mispr/orca/workflows/base``,
+``mispr/lammps/workflows/base``, and ``mispr/hybrid/workflows``.
 
 .. note::
     Other types of force field parameters can be provided as

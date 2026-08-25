@@ -19,49 +19,36 @@ is an in-house package for analyzing MD output and trajectory files.
 
 **Features of MISPR include**:
 
-* Automation of DFT and MD simulations and all their underlying tasks
-  from file management and job submission to supercomputing resources,
-  to output parsing and data analytics; a task that can be done to a
-  single molecule/system or to a large number of systems in parallel
+* Automates DFT and MD simulations end-to-end -- file management, job
+  submission, output parsing, data analytics -- for a single molecule
+  or thousands of systems in parallel
 
-* Creation of computational databases of force field parameters and DFT
-  and MD derived properties of molecular systems for establishing
-  structure-property relations and maintaining data provenance and
+* Builds computational databases of force-field parameters and
+  DFT/MD-derived properties for structure-property analysis and
   reproducibility
 
-* Detection of the inevitable errors that occur during the simulations
-  and their on-the-fly correction based on template responses that have
-  been designed relying on human intuition coupled with extensive
-  experience to significantly improve the success rate of high-throughput
-  simulations while eliminating human intervention
+* Detects and auto-corrects common simulation errors on the fly,
+  reducing manual intervention in high-throughput runs
 
-* Support for flexible and well-tested DFT workflows that compute various
-  properties of individual molecular species or complexes such as bond
-  dissociation energy, binding energy, redox potential, and nuclear
-  magnetic resonance (NMR) tensors
+* Provides tested DFT workflows for electrostatic partial charges (ESP),
+  bond dissociation energy, binding energy, redox potential, and nuclear
+  magnetic resonance (NMR) tensors -- runnable with
+  `Gaussian <https://gaussian.com>`_ or, for all but NMR,
+  `ORCA <https://www.faccts.de/orca/>`_ (free for academic use,
+  registration required) behind the same workflow interface, producing
+  directly comparable results -- see
+  :doc:`Workflow Tutorials <workflows/tutorials>` for how to use the
+  ORCA backend
 
-* Derivation of many molecular ensemble properties such as radial
-  distribution functions, diffusion coefficients, viscosity, and
-  conductivity of liquid solutions, which are critical to understanding
-  complex inter- and intra-atomic interactions controlling the performance
-  of solutions within various chemistry, biology, and materials science
-  applications
+* Derives ensemble properties -- radial distribution functions,
+  diffusion coefficients, viscosity, conductivity -- from MD
+  trajectories of liquid solutions
 
-* Seamless integration of DFT and MD simulations through hybrid
-  workflows that enable force field generation and information flow
-  between the two length scales to allow exploring wide chemical and
-  parameter spaces (e.g., temperature, pressure, concentration, etc.),
-  a task that can be infeasible experimentally and challenging using
-  manual calculations
+* Links DFT and MD through hybrid workflows: force-field generation and
+  data flow between the two length scales, across chemical and
+  parameter spaces (temperature, pressure, concentration, etc.) that
+  would be infeasible to explore manually
 
-* Automatic extraction of hundreds of thousands of solvation structures
-  from MD ensembles and their use in DFT workflows to accurately represent
-  the electronic environment, which is crucial to derive reliable energetics
-  and other properties such as NMR chemical shifts and redox potentials
-  and match them to experimental data
-
-.. note::
-   MISPR is primarily built to work with `Gaussian <https://gaussian.com>`_
-   electronic structure software for DFT calculation and
-   `LAMMPS <https://www.lammps.org/#gsc.tab=0>`_
-   open-source software for MD simulations.
+* Extracts solvation structures from MD ensembles for use in DFT
+  workflows, improving the accuracy of energetics, NMR chemical shifts,
+  and redox potentials against experimental data

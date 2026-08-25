@@ -9,3 +9,4 @@
 **/__pycache__
 **/.DS_Store
 docs/build/
+examples/run_output/

@@ -1,5 +1,5 @@
-mispr package
-=============
+mispr.orca.workflows package
+============================
 
 Subpackages
 -----------
@@ -7,16 +7,12 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   mispr.common
-   mispr.gaussian
-   mispr.hybrid
-   mispr.lammps
-   mispr.orca
+   mispr.orca.workflows.base
 
 Module contents
 ---------------
 
-.. automodule:: mispr
+.. automodule:: mispr.orca.workflows
    :members:
    :undoc-members:
    :show-inheritance:
